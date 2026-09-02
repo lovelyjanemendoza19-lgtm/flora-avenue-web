@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Details | Flora Avenue</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <main class="product-details-page">
+
+        <div class="product-header">
+            <a href="products.html" class="back-button">←</a>
+
+            <h1>Product Details</h1>
+        </div>
+
+
+        <img
+            src="images/eternal-rose.png"
+            alt="Eternal Glittered Rose"
+            class="product-details-image"
+        >
+
+
+        <section class="product-info">
+
+            <h2>Eternal Glittered Rose</h2>
+
+            <p class="product-price">
+                From ₱749
+            </p>
+
+            <p class="product-description">
+                Glittered satin rose bouquet with free printed message card.
+            </p>
+
+
+            <div class="product-tags">
+                <span>Handmade</span>
+                <span>Customizable</span>
+            </div>
+
+
+            <div class="product-option">
+
+                <label for="bouquetSize">
+                    Choose Size / Stems
+                </label>
+
+                <select id="bouquetSize">
+
+                    <option value="749">
+                        7 stems - Medium - ₱749
+                    </option>
+
+                    <option value="1199">
+                        12 stems - Big - ₱1,199
+                    </option>
+
+                    <option value="1299">
+                        15 stems - Big - ₱1,299
+                    </option>
+
+                    <option value="1499">
+                        18 stems - Big - ₱1,499
+                    </option>
+
+                    <option value="1999">
+                        20 stems - Big - ₱1,999
+                    </option>
+
+                    <option value="2399">
+                        21-25 stems - Big - ₱2,399
+                    </option>
+
+                    <option value="2799">
+                        30 stems - Big - ₱2,799
+                    </option>
+
+                    <option value="2849">
+                        35 stems - Big - ₱2,849
+                    </option>
+
+                    <option value="3299">
+                        40 stems - Big - ₱3,299
+                    </option>
+
+                    <option value="4299">
+                        50 stems - Big - ₱4,299
+                    </option>
+
+                    <option value="7999">
+                        100 stems - Big - ₱7,999
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="color-section">
+
+                <p>Choose Color</p>
+
+                <div class="color-options">
+
+                    <button
+                        class="color-button red"
+                        data-color="Red"
+                    ></button>
+
+                    <button
+                        class="color-button blue"
+                        data-color="Blue"
+                    ></button>
+
+                    <button
+                        class="color-button purple"
+                        data-color="Purple"
+                    ></button>
+
+                    <button
+                        class="color-button pink"
+                        data-color="Pink"
+                    ></button>
+
+                </div>
+
+                <p id="selectedColor">
+                    Selected: Red
+                </p>
+
+            </div>
+
+
+            <div class="quantity-section">
+
+                <p>Quantity</p>
+
+                <div class="quantity-control">
+
+                    <button id="minusButton">
+                        −
+                    </button>
+
+                    <span id="quantity">
+                        1
+                    </span>
+
+                    <button id="plusButton">
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="selected-price">
+
+                Total:
+
+                <strong id="totalPrice">
+                    ₱749
+                </strong>
+
+            </div>
+
+
+            <div class="product-buttons">
+
+                <a
+                    href="customization.html"
+                    class="customize-button"
+                >
+                    Customize
+                </a>
+
+                <a
+                    href="order.html"
+                    class="order-button"
+                >
+                    Order Now
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/product-details.js"></script>
+
+</body>
+
+</html>
