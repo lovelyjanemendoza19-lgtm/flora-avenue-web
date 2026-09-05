@@ -22,3 +22,27 @@ Technologies Used
 - Git
 - GitHub
 - Figma
+
+
+Current Progress
+The following parts of the frontend have already been started:
+
+- Homepage
+- Product catalog
+- Product details page
+- Side navigation menu
+- Product cards
+- Back button
+- Responsive layout
+
+Some product information, images, navigation links, and other pages are still under development.
+
+
+Setup Instructions
+
+1. Clone or download the repository.
+2. Open the project folder in Visual Studio Code.
+3. Open `index.html`.
+4. Run the project using a browser or the Live Server extension in Visual Studio Code.
+
+No additional installation is required because the project currently uses HTML, CSS, and JavaScript only.
