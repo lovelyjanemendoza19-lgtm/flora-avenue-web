@@ -7,197 +7,148 @@
 
     <title>Product Details | Flora Avenue</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap"
-          rel="stylesheet">
-
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <main class="product-details-page">
+    <main class="product-details">
 
+        <!-- HEADER -->
         <div class="product-header">
-            <a href="products.html" class="back-button">←</a>
+
+            <a href="products.html" class="back-button">
+                ← 
+            </a>
 
             <h1>Product Details</h1>
+
         </div>
 
 
-        <img
-            src="images/eternal-rose.png"
-            alt="Eternal Glittered Rose"
-            class="product-details-image"
-        >
+        <!-- PRODUCT CONTENT -->
+        <div class="product-content">
 
 
-        <section class="product-info">
+            <!-- LEFT SIDE -->
+            <div class="product-image-box">
 
-            <h2>Eternal Glittered Rose</h2>
-
-            <p class="product-price">
-                From ₱749
-            </p>
-
-            <p class="product-description">
-                Glittered satin rose bouquet with free printed message card.
-            </p>
-
-
-            <div class="product-tags">
-                <span>Handmade</span>
-                <span>Customizable</span>
-            </div>
-
-
-            <div class="product-option">
-
-                <label for="bouquetSize">
-                    Choose Size / Stems
-                </label>
-
-                <select id="bouquetSize">
-
-                    <option value="749">
-                        7 stems - Medium - ₱749
-                    </option>
-
-                    <option value="1199">
-                        12 stems - Big - ₱1,199
-                    </option>
-
-                    <option value="1299">
-                        15 stems - Big - ₱1,299
-                    </option>
-
-                    <option value="1499">
-                        18 stems - Big - ₱1,499
-                    </option>
-
-                    <option value="1999">
-                        20 stems - Big - ₱1,999
-                    </option>
-
-                    <option value="2399">
-                        21-25 stems - Big - ₱2,399
-                    </option>
-
-                    <option value="2799">
-                        30 stems - Big - ₱2,799
-                    </option>
-
-                    <option value="2849">
-                        35 stems - Big - ₱2,849
-                    </option>
-
-                    <option value="3299">
-                        40 stems - Big - ₱3,299
-                    </option>
-
-                    <option value="4299">
-                        50 stems - Big - ₱4,299
-                    </option>
-
-                    <option value="7999">
-                        100 stems - Big - ₱7,999
-                    </option>
-
-                </select>
+                <img
+                    id="productImage"
+                    src="images/no-image.png"
+                    alt="Product"
+                >
 
             </div>
 
 
-            <div class="color-section">
+            <!-- RIGHT SIDE -->
+            <div class="product-info">
 
-                <p>Choose Color</p>
+                <h2 id="productName">
+                    Product Name
+                </h2>
 
-                <div class="color-options">
 
-                    <button
-                        class="color-button red"
-                        data-color="Red"
-                    ></button>
-
-                    <button
-                        class="color-button blue"
-                        data-color="Blue"
-                    ></button>
-
-                    <button
-                        class="color-button purple"
-                        data-color="Purple"
-                    ></button>
-
-                    <button
-                        class="color-button pink"
-                        data-color="Pink"
-                    ></button>
-
-                </div>
-
-                <p id="selectedColor">
-                    Selected: Red
+                <p id="productDescription" class="product-description">
+                    Product description
                 </p>
 
-            </div>
+
+                <!-- VARIATION -->
+                <div class="option-group" id="variationGroup">
+
+                    <label for="variationSelect">
+                        Choose Option
+                    </label>
+
+                    <select id="variationSelect">
+                    </select>
+
+                </div>
 
 
-            <div class="quantity-section">
+                <!-- COLOR -->
+                <div class="option-group" id="colorGroup">
 
-                <p>Quantity</p>
+                    <label for="colorSelect">
+                        Choose Color
+                    </label>
 
-                <div class="quantity-control">
+                    <select id="colorSelect">
+                    </select>
 
-                    <button id="minusButton">
-                        −
+                </div>
+
+
+                <!-- PRICE -->
+                <div class="product-price">
+
+                    <span>Price</span>
+
+                    <h2 id="productPrice">
+                        ₱0
+                    </h2>
+
+                </div>
+
+
+                <!-- ADD ONS -->
+                <div class="addons">
+
+                    <h3>Add-Ons</h3>
+
+                    <label>
+                        <input type="checkbox" value="5">
+                        Butterfly + ₱5
+                    </label>
+
+                    <label>
+                        <input type="checkbox" value="80">
+                        Crown + ₱80
+                    </label>
+
+                    <label>
+                        <input type="checkbox" value="20">
+                        Fairy Lights + ₱20
+                    </label>
+
+                    <label>
+                        <input type="checkbox" value="10">
+                        Printed Message Card + ₱10
+                    </label>
+
+                </div>
+
+
+                <!-- TOTAL -->
+                <div class="total-price">
+
+                    <span>Total</span>
+
+                    <strong id="totalPrice">
+                        ₱0
+                    </strong>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+                <div class="product-actions">
+
+                    <button class="inquire-button">
+                        Inquire
                     </button>
 
-                    <span id="quantity">
-                        1
-                    </span>
-
-                    <button id="plusButton">
-                        +
+                    <button class="order-button">
+                        Order
                     </button>
 
                 </div>
 
             </div>
 
-
-            <div class="selected-price">
-
-                Total:
-
-                <strong id="totalPrice">
-                    ₱749
-                </strong>
-
-            </div>
-
-
-            <div class="product-buttons">
-
-                <a
-                    href="customization.html"
-                    class="customize-button"
-                >
-                    Customize
-                </a>
-
-                <a
-                    href="order.html"
-                    class="order-button"
-                >
-                    Order Now
-                </a>
-
-            </div>
-
-        </section>
+        </div>
 
     </main>
 
