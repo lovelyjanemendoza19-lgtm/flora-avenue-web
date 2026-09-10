@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Submitted</title>
+
+    <link rel="stylesheet" href="payment.css">
+</head>
+
+<body>
+
+    <div class="payment-card">  
+
+        <div class="success-icon">
+            <div class="check"></div>
+        </div>
+
+        <h1>Payment Submitted!</h1>
+
+        <p class="message">
+            Thank you! Your payment proof<br>
+            has been received. We will verify<br>
+            it  shortly.
+        </p>
+
+        <div class="order-box">
+            <div class="order-label">Order Reference</div>
+            <div class="order-number">ORD-2024-0521-0001</div>
+        </div>
+
+        <p class="notice">
+            You will be notified once your<br>
+            payment has been confirmed.
+        </p>
+
+        <button class="payment-button" onclick="proceedToPayment()">
+            PROCEED TO PAYMENT
+        </button>
+
+        <button class="home-button" onclick="goHome()">
+            BACK TO HOME
+        </button>
+
+    </div>
+
+    <script>
+        function proceedToPayment() {
+            alert("Proceeding to payment...");
+            // window.location.href = "payment.html";
+        }
+
+        function goHome() {
+            window.location.href = "index.html";
+        }
+    </script>
+
+</body>
+</html>
+
