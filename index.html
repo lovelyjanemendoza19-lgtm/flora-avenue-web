@@ -15,10 +15,11 @@
           rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="public/css/home.css">
 </head>
 
-<body>
+<body data-navigation-base="">
 
     <!-- MENU OVERLAY -->
     <div class="menu-overlay" id="menuOverlay"></div>
@@ -59,7 +60,7 @@
             </a>
 
             <!-- PRODUCTS -->
-            <a href="products.html" class="menu-link">
+            <a href="pages/products/products.html" class="menu-link">
                 <span class="menu-icon">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 24 24"
@@ -235,7 +236,7 @@
             </button>
 
             <div class="logo">
-                <img src="images/logo.png"
+                <img src="public/images/logo.png"
                      alt="Flora Avenue Logo">
             </div>
 
@@ -265,7 +266,7 @@
                         and souvenirs.
                     </p>
 
-                    <a href="products.html">
+                    <a href="pages/products/products.html">
                         Browse Products
                     </a>
 
@@ -282,7 +283,7 @@
                         Featured Product
                     </h1>
 
-                    <a href="products.html">
+                    <a href="pages/products/products.html">
                         See All
                     </a>
 
@@ -291,8 +292,9 @@
                 <div class="product-list">
 
                     <!-- SATIN ROSE -->
-                    <a href="products.html"
-                       class="product-card">
+                    <a href="pages/products/products.html"
+                              class="product-card"
+                              data-product-id="satin-rose">
 
                         <img src="images/satin-rose.png"
                              alt="Satin Rose">
@@ -310,8 +312,9 @@
                     </a>
 
                     <!-- ETERNAL ROSE -->
-                    <a href="products.html"
-                       class="product-card">
+                    <a href="pages/products/products.html"
+                              class="product-card"
+                              data-product-id="eternal-rose">
 
                         <img src="images/eternal-rose.png"
                              alt="Eternal Glittered Rose">
@@ -329,8 +332,9 @@
                     </a>
 
                                         <!-- SATIN ROSE -->
-                    <a href="products.html"
-                       class="product-card">
+                    <a href="pages/products/products.html"
+                              class="product-card"
+                              data-product-id="satin-rose">
 
                         <img src="images/satin-rose.png"
                              alt="Satin Rose">
@@ -348,8 +352,49 @@
                     </a>
 
                     <!-- ETERNAL ROSE -->
-                    <a href="products.html"
-                       class="product-card">
+                    <a href="pages/products/products.html"
+                              class="product-card"
+                              data-product-id="eternal-rose">
+
+                        <img src="images/eternal-rose.png"
+                             alt="Eternal Glittered Rose">
+
+                        <div class="product-text">
+
+                            <p>Eternal Glittered Rose</p>
+
+                            <span>
+                                From ₱749
+                            </span>
+
+                        </div>
+
+                    </a>
+
+                     <!-- SATIN ROSE -->
+                    <a href="pages/products/products.html"
+                              class="product-card"
+                              data-product-id="satin-rose">
+
+                        <img src="images/satin-rose.png"
+                             alt="Satin Rose">
+
+                        <div class="product-text">
+
+                            <p>Satin Rose</p>
+
+                            <span>
+                                From ₱69
+                            </span>
+
+                        </div>
+
+                    </a>
+
+                    <!-- ETERNAL ROSE -->
+                    <a href="pages/products/products.html"
+                              class="product-card"
+                              data-product-id="eternal-rose">
 
                         <img src="images/eternal-rose.png"
                              alt="Eternal Glittered Rose">
@@ -367,8 +412,9 @@
                     </a>
 
                                         <!-- SATIN ROSE -->
-                    <a href="products.html"
-                       class="product-card">
+                    <a href="pages/products/products.html"
+                              class="product-card"
+                              data-product-id="satin-rose">
 
                         <img src="images/satin-rose.png"
                              alt="Satin Rose">
@@ -386,46 +432,9 @@
                     </a>
 
                     <!-- ETERNAL ROSE -->
-                    <a href="products.html"
-                       class="product-card">
-
-                        <img src="images/eternal-rose.png"
-                             alt="Eternal Glittered Rose">
-
-                        <div class="product-text">
-
-                            <p>Eternal Glittered Rose</p>
-
-                            <span>
-                                From ₱749
-                            </span>
-
-                        </div>
-
-                    </a>
-
-                                        <!-- SATIN ROSE -->
-                    <a href="products.html"
-                       class="product-card">
-
-                        <img src="images/satin-rose.png"
-                             alt="Satin Rose">
-
-                        <div class="product-text">
-
-                            <p>Satin Rose</p>
-
-                            <span>
-                                From ₱69
-                            </span>
-
-                        </div>
-
-                    </a>
-
-                    <!-- ETERNAL ROSE -->
-                    <a href="products.html"
-                       class="product-card">
+                    <a href="pages/products/products.html"
+                              class="product-card"
+                              data-product-id="eternal-rose">
 
                         <img src="images/eternal-rose.png"
                              alt="Eternal Glittered Rose">
@@ -442,8 +451,9 @@
 
                     </a>
                     
-                     <a href="products.html"
-                       class="product-card">
+                     <a href="pages/products/products.html"
+                                             class="product-card"
+                                             data-product-id="eternal-rose">
 
                         <img src="images/eternal-rose.png"
                              alt="Eternal Glittered Rose">
@@ -469,7 +479,20 @@
 
     </div>
 
-    <script src="js/script.js"></script>
+    <script src="pages/products/products-data.js"></script>
+    <script>
+        document.querySelectorAll(".product-card").forEach(function (card) {
+            const productId = card.dataset.productId;
+
+            if (window.products[productId]) {
+                card.href =
+                    "pages/products/product-details.html?id=" + productId;
+            }
+        });
+    </script>
+    <script src="public/js/navigation.js"></script>
+    <script src="public/js/script.js"></script>
+    <script src="public/js/image-fallback.js"></script>
 
 </body>
 </html>

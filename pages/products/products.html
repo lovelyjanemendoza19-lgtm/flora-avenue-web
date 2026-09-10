@@ -13,10 +13,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <link rel="stylesheet" href="../../public/css/products.css">
 </head>
 
-<body>
+<body data-navigation-base="../../">
 
     <div class="website">
 
@@ -251,7 +252,7 @@
             </button>
 
             <div class="logo">
-                <img src="images/logo.png"
+                <img src="../../public/images/logo.png"
                      alt="Flora Avenue Logo">
             </div>
 
@@ -588,6 +589,12 @@
 
 </section>
 
+</main>
+
+</div>
+
+    <script src="products-data.js"></script>
+
     <script>
 
         /* PRODUCT FILTER */
@@ -599,6 +606,20 @@
 
         const searchBox =
             document.getElementById("searchProduct");
+
+        document.querySelectorAll(".catalog-card").forEach(function (card) {
+            const productId =
+                new URL(card.href).searchParams.get("id");
+
+            const product =
+                window.products[productId];
+
+            if (product) {
+                const image = card.querySelector("img");
+                image.src = product.image;
+                image.alt = product.name;
+            }
+        });
 
         let selectedCategory = "all";
 
@@ -656,7 +677,9 @@
         searchBox.oninput = filterProducts;
     </script>
 
-    <script src="js/script.js"></script>
+    <script src="../../public/js/navigation.js"></script>
+    <script src="../../public/js/script.js"></script>
+    <script src="../../public/js/image-fallback.js"></script>
 
 </body>
 </html>

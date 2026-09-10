@@ -35,19 +35,16 @@ const menuLinks = document.querySelectorAll(
     ".menu-link:not(#logoutButton)"
 );
 
-const currentPage =
-    window.location.pathname.split("/").pop() || "index.html";
+const currentPath =
+    window.location.pathname.replace(/\\/g, "/");
 
 menuLinks.forEach(function (link) {
-    const linkPage = link.getAttribute("href");
+    const linkPath =
+        new URL(link.href, window.location.href).pathname
+            .replace(/\\/g, "/");
 
-    if (linkPage === currentPage) {
+    if (linkPath === currentPath) {
         link.classList.add("active");
     }
 });
 
-if (category === "all") {
-    document.querySelector(".catalog-page").classList.add("show-all");
-} else {
-    document.querySelector(".catalog-page").classList.remove("show-all");
-}

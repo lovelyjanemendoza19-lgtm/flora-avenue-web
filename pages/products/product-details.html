@@ -7,18 +7,21 @@
 
     <title>Product Details | Flora Avenue</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <link rel="stylesheet" href="../../public/css/product-details.css">
 </head>
 
-<body>
+<body data-navigation-base="../../">
 
     <main class="product-details">
 
         <!-- HEADER -->
         <div class="product-header">
 
+
+
             <a href="products.html" class="back-button">
-                ← 
+                ←
             </a>
 
             <h1>Product Details</h1>
@@ -33,11 +36,7 @@
             <!-- LEFT SIDE -->
             <div class="product-image-box">
 
-                <img
-                    id="productImage"
-                    src="images/no-image.png"
-                    alt="Product"
-                >
+                <img id="productImage" src="../../public/images/rose.jpg" alt="Product">
 
             </div>
 
@@ -153,7 +152,11 @@
     </main>
 
 
-    <script src="js/product-details.js"></script>
+    <script src="products-data.js"></script>
+    <!-- <script src="../../public/js/navigation.js"></script> -->
+    <script src="../../public/js/script.js"></script>
+    <script src="product-details.js"></script>
+    <script src="../../public/js/image-fallback.js"></script>
 
 </body>
 
