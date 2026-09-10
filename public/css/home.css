@@ -1,12 +1,13 @@
 .banner {
     width: 100%;
-    height: 320px;
-    padding: 30px 16px;
+    min-height: clamp(220px, 34vw, 300px);
+    height: auto;
+    padding: clamp(28px, 6vw, 48px) clamp(16px, 8vw, 8%);
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
-    background-color: #E6D4D7;
+    background-color: #eee3e4;
 }
 
 .banner::after {
@@ -14,17 +15,17 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 60%;
+    width: min(56%, 680px);
     height: 100%;
-    background-image: linear-gradient(to right, #E6D4D7 0%, rgba(230, 212, 215, 0.85) 20%, rgba(230, 212, 215, 0.55) 40%, rgba(230, 212, 215, 0.20) 65%, rgba(230, 212, 215, 0) 100%), url("../images/banner-flower.png");
+    background-image: linear-gradient(to right, #eee3e4 0%, rgba(238, 227, 228, 0.9) 24%, rgba(238, 227, 228, 0.38) 62%, rgba(238, 227, 228, 0) 100%), url("../images/banner-flower.png");
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: right center;
     z-index: 0;
 }
 
 .banner-text {
-    width: 58%;
+    width: min(58%, 560px);
     max-width: 560px;
     position: relative;
     z-index: 1;
@@ -38,10 +39,10 @@
 }
 
 .banner-text h1 {
-    margin: 8px 0;
+    margin: 6px 0 10px;
     color: #332d2f;
     font-family: "Playfair Display", serif;
-    font-size: 27px;
+    font-size: clamp(25px, 4vw, 42px);
     line-height: 1.15;
 }
 
@@ -53,9 +54,9 @@
 
 .banner-text a {
     display: inline-block;
-    margin-top: 14px;
-    padding: 10px 14px;
-    border-radius: 7px;
+    margin-top: 16px;
+    padding: 9px 15px;
+    border-radius: 4px;
     background-color: #7c4a4f;
     color: #ffffff;
     font-size: 11px;
@@ -64,7 +65,9 @@
 }
 
 .featured {
-    padding: 16px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 28px 16px 42px;
 }
 
 .featured-heading {
@@ -75,21 +78,26 @@
 
 .featured-heading h1 {
     font-family: "Playfair Display", serif;
-    font-size: 20px;
+    font-size: clamp(19px, 2.4vw, 26px);
+    font-weight: 600;
 }
 
 .featured-heading a {
     color: #916269;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     text-decoration: none;
 }
 
 .product-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 110px));
-    justify-content: center;
-    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    max-width: 360px;
+    margin-right: auto;
+    margin-left: auto;
     margin-top: 18px;
 }
 
@@ -100,10 +108,24 @@
     overflow: hidden;
     border-radius: 8px;
     background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.20);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
     color: #332d2f;
     text-decoration: none;
     cursor: pointer;
+}
+
+.featured-product-card {
+    min-width: 0;
+}
+
+.featured-image-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #eee3e4;
+}
+
+.featured-product-card .product-text {
+    justify-content: center;
 }
 
 .product-card img {
@@ -121,10 +143,10 @@
 }
 
 .product-text p {
-    min-height: 24px;
+    min-height: 26px;
     color: #332d2f;
     font-size: 9px;
-    line-height: 12px;
+    line-height: 11px;
 }
 
 .product-text span {
@@ -135,8 +157,8 @@
 
 @media (min-width: 600px) {
     .banner {
-        height: 380px;
-        padding: 40px 48px;
+        min-height: 280px;
+        padding: 40px clamp(32px, 7vw, 48px);
     }
 
     .banner-text {
@@ -162,7 +184,7 @@
     }
 
     .featured {
-        padding: 28px 48px;
+        padding: 34px clamp(16px, 5vw, 56px) 42px;
     }
 
     .featured-heading h1 {
@@ -170,18 +192,21 @@
     }
 
     .product-list {
-        grid-template-columns: repeat(auto-fill, minmax(105px, 125px));
+        grid-template-columns: repeat(3, minmax(105px, 125px));
         gap: 14px;
+        max-width: none;
+        margin-right: 0;
+        margin-left: 0;
     }
 
-    .product-card img {
-        height: 105px;
+    .featured-image-placeholder {
+        aspect-ratio: 1 / 1;
     }
 
     .product-text p {
-        min-height: 30px;
+        min-height: 32px;
         font-size: 11px;
-        line-height: 15px;
+        line-height: 14px;
     }
 
     .product-text span {
@@ -191,7 +216,7 @@
 
 @media (min-width: 900px) {
     .banner {
-        height: 380px;
+        min-height: 300px;
         padding: 44px 7%;
     }
 
@@ -207,10 +232,6 @@
         font-size: 15px;
     }
 
-    .banner-text h1 {
-        font-size: 48px;
-    }
-
     .banner-text p {
         font-size: 16px;
         line-height: 1.6;
@@ -223,7 +244,7 @@
     }
 
     .featured {
-        padding: 20px 48px;
+        padding-top: 38px;
     }
 
     .featured-heading h1 {
@@ -231,22 +252,22 @@
     }
 
     .product-list {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 140px));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 16px;
     }
 
-    .product-card img {
-        height: 120px;
+    .featured-image-placeholder {
+        aspect-ratio: 1 / 1;
     }
 
     .product-text {
-        padding: 9px;
+        padding: 10px;
     }
 
     .product-text p {
-        min-height: 32px;
-        font-size: 12px;
-        line-height: 16px;
+        min-height: 34px;
+        font-size: 11px;
+        line-height: 14px;
     }
 
     .product-text span {
@@ -256,7 +277,7 @@
 
 @media (min-width: 1200px) {
     .banner {
-        height: 400px;
+        min-height: 320px;
         padding: 48px 8%;
     }
 
@@ -264,34 +285,30 @@
         width: 42%;
     }
 
-    .banner-text h1 {
-        font-size: 52px;
-    }
-
     .banner-text p {
         font-size: 17px;
     }
 
     .featured {
-        padding: 22px 70px;
+        padding-top: 42px;
     }
 
     .product-list {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 150px));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 18px;
     }
 
-    .product-card img {
-        height: 130px;
+    .featured-image-placeholder {
+        aspect-ratio: 1 / 1;
     }
 
     .product-text {
-        padding: 10px;
+        padding: 11px;
     }
 
     .product-text p {
-        min-height: 32px;
-        font-size: 12px;
+        min-height: 34px;
+        font-size: 11px;
     }
 
     .product-text span {
