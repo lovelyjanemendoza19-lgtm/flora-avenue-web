@@ -57,20 +57,19 @@
 }
 
 .catalog-section {
-    margin-bottom: 30px;
+    margin-bottom: 0;
 }
 
 .catalog-section h2 {
-    margin-bottom: 14px;
-    font-family: "Playfair Display", serif;
-    font-size: 18px;
+    display: none;
 }
 
 .catalog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(90px, 110px));
-    justify-content: center;
+    justify-content: start;
     gap: 12px;
+    margin-bottom: 12px;
 }
 
 .catalog-card {
@@ -148,7 +147,8 @@
     }
 
     .catalog-grid {
-        grid-template-columns: repeat(auto-fill, minmax(105px, 125px));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        justify-content: space-between;
         gap: 14px;
     }
 
@@ -184,7 +184,8 @@
     }
 
     .catalog-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 140px));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        justify-content: space-between;
         gap: 16px;
     }
 
@@ -215,7 +216,8 @@
     }
 
     .catalog-grid {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 150px));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        justify-content: space-between;
         gap: 18px;
     }
 
@@ -233,4 +235,8 @@
         min-height: 18px;
         font-size: 11px;
     }
+}
+
+.catalog-grid-all {
+    justify-content: start;
 }

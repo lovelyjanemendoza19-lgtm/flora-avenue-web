@@ -98,6 +98,20 @@ body.persistent-sidebar .menu-button {
 }
 
 @media (max-width: 599px) {
+    header {
+        height: 64px;
+    }
+
+    .menu-button {
+        left: 12px;
+        font-size: 24px;
+    }
+
+    .logo img {
+        width: 32px;
+        height: 32px;
+    }
+
     body.persistent-sidebar .website {
         width: 100%;
         margin-left: 0;

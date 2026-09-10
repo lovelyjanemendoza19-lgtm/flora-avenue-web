@@ -389,7 +389,7 @@
                 new URL(card.href).searchParams.get("id");
 
             const product =
-                window.products[productId];
+                window.products && window.products[productId];
 
             if (product) {
                 const image = card.querySelector("img");
@@ -398,11 +398,44 @@
             }
         });
 
+        const allGrid = document.createElement("div");
+        allGrid.className = "catalog-grid catalog-grid-all";
+
+        sections.forEach(function (section) {
+            section.querySelectorAll(".catalog-card").forEach(function (card) {
+                allGrid.appendChild(card.cloneNode(true));
+            });
+        });
+
+        sections[0].parentNode.insertBefore(allGrid, sections[0]);
+
         let selectedCategory = "all";
 
         function filterProducts() {
             const searchText =
                 searchBox.value.toLowerCase();
+
+            if (selectedCategory === "all") {
+                allGrid.style.display = "grid";
+
+                allGrid.querySelectorAll(".catalog-card").forEach(function (card) {
+                    const name =
+                        card.querySelector("h3")
+                            .textContent
+                            .toLowerCase();
+
+                    card.style.display =
+                        name.includes(searchText) ? "flex" : "none";
+                });
+
+                sections.forEach(function (section) {
+                    section.style.display = "none";
+                });
+
+                return;
+            }
+
+            allGrid.style.display = "none";
 
             sections.forEach(function (section) {
                 const category = section.dataset.category;
@@ -452,6 +485,7 @@
         });
 
         searchBox.oninput = filterProducts;
+        filterProducts();
     </script>
 
     <script src="../../public/js/navigation.js"></script>

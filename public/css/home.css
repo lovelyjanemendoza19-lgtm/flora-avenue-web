@@ -1,13 +1,12 @@
 .banner {
     width: 100%;
-    min-height: clamp(220px, 34vw, 300px);
-    height: auto;
-    padding: clamp(28px, 6vw, 48px) clamp(16px, 8vw, 8%);
+    height: 320px;
+    padding: 30px 16px;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
-    background-color: #eee3e4;
+    background-color: #E6D4D7;
 }
 
 .banner::after {
@@ -15,17 +14,17 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: min(56%, 680px);
+    width: 60%;
     height: 100%;
-    background-image: linear-gradient(to right, #eee3e4 0%, rgba(238, 227, 228, 0.9) 24%, rgba(238, 227, 228, 0.38) 62%, rgba(238, 227, 228, 0) 100%), url("../images/banner-flower.png");
+    background-image: linear-gradient(to right, #E6D4D7 0%, rgba(230, 212, 215, 0.85) 20%, rgba(230, 212, 215, 0.55) 40%, rgba(230, 212, 215, 0.20) 65%, rgba(230, 212, 215, 0) 100%), url("../images/banner-flower.png");
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: right center;
+    background-position: center;
     z-index: 0;
 }
 
 .banner-text {
-    width: min(58%, 560px);
+    width: 58%;
     max-width: 560px;
     position: relative;
     z-index: 1;
@@ -39,10 +38,10 @@
 }
 
 .banner-text h1 {
-    margin: 6px 0 10px;
+    margin: 8px 0;
     color: #332d2f;
     font-family: "Playfair Display", serif;
-    font-size: clamp(25px, 4vw, 42px);
+    font-size: 27px;
     line-height: 1.15;
 }
 
@@ -54,9 +53,9 @@
 
 .banner-text a {
     display: inline-block;
-    margin-top: 16px;
-    padding: 9px 15px;
-    border-radius: 4px;
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-radius: 7px;
     background-color: #7c4a4f;
     color: #ffffff;
     font-size: 11px;
@@ -157,8 +156,8 @@
 
 @media (min-width: 600px) {
     .banner {
-        min-height: 280px;
-        padding: 40px clamp(32px, 7vw, 48px);
+        height: 320px;
+        padding: 40px 48px;
     }
 
     .banner-text {
@@ -192,7 +191,7 @@
     }
 
     .product-list {
-        grid-template-columns: repeat(3, minmax(105px, 125px));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
         gap: 14px;
         max-width: none;
         margin-right: 0;
@@ -214,9 +213,16 @@
     }
 }
 
+@media (max-width: 599px) {
+    .banner {
+        height: 320px;
+        padding: 30px 16px;
+    }
+}
+
 @media (min-width: 900px) {
     .banner {
-        min-height: 300px;
+        height: 300px;
         padding: 44px 7%;
     }
 
@@ -252,7 +258,7 @@
     }
 
     .product-list {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
         gap: 16px;
     }
 
@@ -277,7 +283,7 @@
 
 @media (min-width: 1200px) {
     .banner {
-        min-height: 320px;
+        height: 320px;
         padding: 48px 8%;
     }
 
@@ -294,7 +300,7 @@
     }
 
     .product-list {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
         gap: 18px;
     }
 
