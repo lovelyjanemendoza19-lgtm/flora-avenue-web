@@ -14,7 +14,7 @@
     width: 100%;
     height: 42px;
     padding: 0 14px;
-    border: 1px solid #EDD0D8;
+    border: 1px solid #7c4a4f;
     border-radius: 10px;
     background-color: #ffffff;
     color: #332d2f;
@@ -28,7 +28,7 @@
 }
 
 .search-box:focus {
-    border-color: #A77F8B;
+    border-color: #7c4a4f;
 }
 
 .category-list {
@@ -40,7 +40,7 @@
 .category-button {
     height: 36px;
     padding: 0 14px;
-    border: 1px solid #EDD0D8;
+    border: 1px solid #7c4a4f;
     border-radius: 20px;
     background-color: #ffffff;
     color: #332d2f;
@@ -68,13 +68,14 @@
 
 .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(105px, 125px));
+    grid-template-columns: repeat(auto-fill, minmax(90px, 110px));
     justify-content: center;
-    gap: 16px;
+    gap: 12px;
 }
 
 .catalog-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     overflow: hidden;
     border-radius: 8px;
@@ -88,12 +89,13 @@
 .catalog-card img {
     display: block;
     width: 100%;
-    height: 105px;
+    height: 90px;
     object-fit: cover;
 }
 
 .catalog-card h3 {
-    padding: 8px 8px 2px;
+    padding: 7px 7px 2px;
+    min-height: 28px;
     color: #332d2f;
     font-size: 10px;
     font-weight: 500;
@@ -101,7 +103,9 @@
 }
 
 .catalog-card p {
-    padding: 0 8px 8px;
+    min-height: 16px;
+    margin-top: auto;
+    padding: 0 7px 7px;
     color: #B5687C;
     font-size: 9px;
 }
@@ -144,20 +148,22 @@
     }
 
     .catalog-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 140px));
-        gap: 18px;
+        grid-template-columns: repeat(auto-fill, minmax(105px, 125px));
+        gap: 14px;
     }
 
     .catalog-card img {
-        height: 120px;
+        height: 105px;
     }
 
     .catalog-card h3 {
+        min-height: 32px;
         font-size: 11px;
         line-height: 15px;
     }
 
     .catalog-card p {
+        min-height: 17px;
         font-size: 10px;
     }
 }
@@ -178,20 +184,22 @@
     }
 
     .catalog-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 160px));
-        gap: 22px;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 140px));
+        gap: 16px;
     }
 
     .catalog-card img {
-        height: 140px;
+        height: 120px;
     }
 
     .catalog-card h3 {
+        min-height: 34px;
         font-size: 12px;
         line-height: 16px;
     }
 
     .catalog-card p {
+        min-height: 18px;
         font-size: 11px;
     }
 }
@@ -207,20 +215,22 @@
     }
 
     .catalog-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 175px));
-        gap: 25px;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 150px));
+        gap: 18px;
     }
 
     .catalog-card img {
-        height: 155px;
+        height: 130px;
     }
 
     .catalog-card h3 {
+        min-height: 34px;
         font-size: 12px;
         line-height: 16px;
     }
 
     .catalog-card p {
+        min-height: 18px;
         font-size: 11px;
     }
 }

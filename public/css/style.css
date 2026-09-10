@@ -16,6 +16,11 @@ body {
     background-color: #f5eff0;
 }
 
+body.persistent-sidebar .website {
+    width: calc(100% - 210px);
+    margin-left: 210px;
+}
+
 header {
     width: 100%;
     height: 80px;
@@ -67,18 +72,42 @@ header {
 .side-menu {
     position: fixed;
     top: 0;
-    left: -280px;
-    width: 260px;
+    left: 0;
+    width: 210px;
+    max-width: calc(100vw - 24px);
     height: 100vh;
+    overflow-y: auto;
     padding: 20px;
-    background-color: #ffffff;
+    background-color: #E8DFE0;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.20);
-    transition: left 0.3s ease;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
     z-index: 100;
 }
 
 .side-menu.show-menu {
-    left: 0;
+    transform: translateX(0);
+}
+
+body.persistent-sidebar .side-menu {
+    transform: translateX(0);
+}
+
+body.persistent-sidebar .menu-button {
+    display: none;
+}
+
+@media (max-width: 599px) {
+    body.persistent-sidebar .website {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    body.persistent-sidebar .side-menu {
+        width: 180px;
+        padding: 16px 10px;
+        transform: translateX(-100%);
+    }
 }
 
 .close-button {
@@ -95,7 +124,7 @@ header {
 .side-menu nav {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
 .side-menu a.menu-link {
@@ -103,61 +132,71 @@ header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
-    padding: 11px 10px;
-    border-radius: 8px;
+    gap: 8px;
+    padding: 9px 10px;
+    border-radius: 6px;
     color: #332d2f;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     text-decoration: none;
 }
 
 .menu-icon {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
 }
 
-.menu-icon svg {
-    display: block;
-    width: 17px;
-    height: 17px;
+.menu-icon img {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    filter: brightness(0);
+}
+.side-menu nav .menu-link:hover .menu-icon img {
+    filter: brightness(0) invert(1);
+}
+.side-menu nav .menu-link:active .menu-icon img,
+.side-menu nav .menu-link.active .menu-icon img {
+    filter: brightness(0) invert(1);
 }
 
-.menu-text {
+.side-menu nav .menu-link:active,
+.side-menu nav .menu-link.active {
+    color: #ffffff;
+}
+
+.side-menu nav .menu-text {
     display: inline-block;
     color: inherit;
 }
 
-.menu-link.active {
+.side-menu nav .menu-link.active {
     background-color: #7c4a4f;
     color: #e8dfe0;
     font-weight: 600;
 }
 
-.side-menu nav:hover .menu-link.active {
-    background-color: transparent;
-    color: #332d2f;
-}
-
-.side-menu nav .menu-link:hover,
-.side-menu nav:not(:hover) .menu-link.active,
-.side-menu nav .menu-link.active:hover {
+.side-menu nav .menu-link:hover {
     background-color: #7c4a4f;
     color: #e8dfe0;
 }
 
-#logoutButton {
+.side-menu nav .menu-link {
     background-color: transparent;
     color: #332d2f;
 }
 
-#logoutButton:hover {
-    background-color: #7c4a4f;
-    color: #e8dfe0;
+.side-menu nav:hover .menu-link.active:not(:hover) {
+    background-color: transparent;
+    color: #332d2f;
+    font-weight: 500;
+}
+
+.side-menu nav:hover .menu-link.active:not(:hover) .menu-icon img {
+    filter: brightness(0);
 }
 
 @media (min-width: 600px) {
@@ -173,7 +212,7 @@ header {
 
 @media (min-width: 900px) {
     header {
-        height: 90px;
+        height: 72px;
     }
 
     .menu-button {
@@ -182,14 +221,14 @@ header {
     }
 
     .logo img {
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
     }
 }
 
 @media (min-width: 1200px) {
     header {
-        height: 100px;
+        height: 78px;
     }
 
     .menu-button {
@@ -198,7 +237,7 @@ header {
     }
 
     .logo img {
-        width: 48px;
-        height: 48px;
+        width: 42px;
+        height: 42px;
     }
 }
