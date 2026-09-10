@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+
+    <link rel="stylesheet" href="css/payments.css">
+</head>
+
+<body>
+
+<div class="payment-page">
+
+    <!-- ================= PAYMENT LIST ================= -->
+    <section class="payment-list">
+
+        <h1>PAYMENT</h1>
+
+        <div class="payment-box">
+
+            <!-- Menu -->
+            <div class="menu">☰</div>
+
+            <!-- Filtersfr -->
+            <div class="filters">
+                <button class="filter active">ALL</button>
+                <button class="filter">PENDING</button>
+                <button class="filter">VERIFIED</button>
+                <button class="filter">REJECTED</button>
+            </div>
+
+            <!-- Payment Item 1 -->
+            <div class="payment-item" onclick="showDetails('pending')">
+
+                <img src="images/bouquet.jpg" alt="Bouquet">
+
+                <div class="payment-info">
+                    <strong>ORD-2024-0521-0001</strong>
+                    <span>May 12, 2026</span>
+                    <b>₱ 400</b>
+                </div>
+
+                <span class="status pending">Pending</span>
+
+            </div>
+
+
+            <!-- Payment Item 2 -->
+            <div class="payment-item" onclick="showDetails('verified')">
+
+                <img src="images/bouquet2.jpg" alt="Bouquet">
+
+                <div class="payment-info">
+                    <strong>ORD-2024-0521-0001</strong>
+                    <span>May 12, 2026</span>
+                    <b>₱ 400</b>
+                </div>
+
+                <span class="status verified">Verified</span>
+
+            </div>
+
+
+            <!-- Payment Item 3 -->
+            <div class="payment-item" onclick="showDetails('verified')">
+
+                <img src="images/bouquet2.jpg" alt="Bouquet">
+
+                <div class="payment-info">
+                    <strong>ORD-2024-0521-0001</strong>
+                    <span>May 12, 2026</span>
+                    <b>₱ 400</b>
+                </div>
+
+                <span class="status verified">Verified</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PAYMENT DETAILS ================= -->
+    <section class="payment-details">
+
+        <h1>PAYMENT DETAILS</h1>
+
+        <div class="details-box">
+
+            <!-- Back -->
+            <div class="back">←</div>
+
+            <div class="details-card">
+
+                <div class="reference-row">
+                    <div>
+                        <h2>Order Reference</h2>
+                        <strong>ORD-2024-0521-0001</strong>
+                    </div>
+
+                    <span class="status pending">Pending</span>
+                </div>
+
+
+                <div class="detail">
+                    <h2>Amount</h2>
+                    <strong class="amount">₱1,450</strong>
+                </div>
+
+
+                <div class="detail">
+                    <h2>Payment Method</h2>
+                    <p>Bank Transfer</p>
+                </div>
+
+
+                <div class="detail">
+                    <h2>Paid on</h2>
+                    <p>May 12, 2026 · 09:10 AM ₱400</p>
+                </div>
+
+
+                <div class="detail">
+                    <h2>Payment Proof</h2>
+
+                    <img
+                        class="payment-proof"
+                        src="images/bouquet.jpg"
+                        alt="Payment Proof"
+                    >
+                </div>
+
+
+                <button class="order-status">
+                    VIEW ORDER STATUS
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+function showDetails(status) {
+
+    const statusElement = document.querySelector(
+        ".details-card .status"
+    );
+
+    if (status === "verified") {
+        statusElement.textContent = "Verified";
+        statusElement.className = "status verified";
+    } 
+    else {
+        statusElement.textContent = "Pending";
+        statusElement.className = "status pending";
+    }
+
+}
+
+</script>
+
+</body>
+</html>
