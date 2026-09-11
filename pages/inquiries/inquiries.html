@@ -1,15 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>My Inquiries | Flora Avenue</title>
-	<link rel="stylesheet" href="../../public/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Inquiries | Flora Avenue</title>
+<link rel="stylesheet" href="../../public/css/inquiries.css">
 </head>
-<body class="persistent-sidebar" data-navigation-base="../../">
-	<div class="website">
-	</div>
-	<script src="../../public/js/navigation.js"></script>
-	<script src="../../public/js/script.js"></script>
+<body>
+  <div class="phone">
+
+    <section id="formScreen" class="screen active">
+      <header class="topbar">
+        <button class="back-btn" onclick="goHome()">←</button>
+        <h1>Inquiry Form</h1>
+      </header>
+
+      <main class="content">
+        <div class="card form-card">
+          <div class="product-row">
+            <div class="flower-img">💐</div>
+
+            <div>
+              <small>Product</small>
+              <strong>Eternal Glittered Rose</strong>
+              <b class="price">₱749</b>
+            </div>
+          </div>
+
+          <label>Inquiry Type</label>
+          <select id="inquiryType">
+            <option value="">Select type</option>
+            <option>Product Question</option>
+            <option>Customization</option>
+            <option>Availability</option>
+            <option>Other</option>
+          </select>
+
+          <label>Subject</label>
+          <input id="subject" type="text" placeholder="Enter subject">
+
+          <label>Your Message</label>
+          <textarea id="message" placeholder="Type your inquiry here"></textarea>
+
+          <button class="primary" onclick="submitInquiry()">Submit Inquiry</button>
+        </div>
+      </main>
+    </section>
+
+    <section id="submittedScreen" class="screen">
+      <header class="topbar">
+        <button class="back-btn" onclick="showScreen('formScreen')">←</button>
+        <h1>Inquiry submitted</h1>
+      </header>
+
+      <main class="content center">
+        <div class="card submitted-card">
+          <div class="check">✓</div>
+          <h2>Inquiry Submitted!</h2>
+          <p>Thank you! We have received your inquiry. We will respond to you as soon as possible.</p>
+
+          <div class="reference">
+            <span>Inquiry Reference</span>
+            <strong id="submittedRef">INQ-2026-0521-0001</strong>
+          </div>
+
+          <button class="primary" onclick="showDetails()">View My Inquiry</button>
+          <button class="secondary" onclick="showScreen('inquiriesScreen')">BACK TO HOME</button>
+        </div>
+      </main>
+    </section>
+
+    <section id="detailsScreen" class="screen">
+      <header class="topbar">
+        <button class="back-btn" onclick="showScreen('inquiriesScreen')">←</button>
+        <h1>Inquiry Details</h1>
+      </header>
+
+      <main class="content">
+        <div class="card details-card">
+          <div class="ref-title">
+            <span>Reference</span>
+            <strong id="detailRef">INQ-2026-0521-0001</strong>
+          </div>
+
+          <div class="product-row">
+            <div class="flower-img">💐</div>
+            <div>
+              <small>Product</small>
+              <strong>Eternal Glittered Rose</strong>
+              <b class="price">₱749</b>
+            </div>
+          </div>
+
+          <div class="message-box">
+            <strong>Your Message</strong>
+            <small id="detailDate">May 21, 2026, 10:30 AM</small>
+            <p id="detailMessage">I would like to inquire if you can make this bouquet in pastel pink and add fairy lights.</p>
+          </div>
+
+          <div class="message-box seller">
+            <strong>Seller Response</strong>
+            <small>May 21, 2026, 08:25 PM</small>
+            <p>Yes, we can customize it in pastel pink and add fairy lights. The total price will be ₱450.</p>
+          </div>
+
+          <button class="primary">Proceed With Order</button>
+        </div>
+      </main>
+    </section>
+
+    <section id="inquiriesScreen" class="screen">
+      <header class="topbar inquiries-header">
+        <button class="back-btn" onclick="goHome()">←</button>
+        <h1>My Inquiries</h1>
+      </header>
+
+      <main class="content inquiries-content">
+        <div class="tabs">
+          <button class="tab active">All</button>
+          <button class="tab">Responded</button>
+          <button class="tab">Accepted</button>
+        </div>
+
+        <div id="inquiryList"></div>
+      </main>
+    </section>
+  </div>
+
+  <script src="../../public/js/inquiries.js"></script>
 </body>
 </html>
+
+
