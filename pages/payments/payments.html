@@ -13,3 +13,133 @@
 	<script src="../../public/js/script.js"></script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+
+    <link rel="stylesheet" href="css/payments.css">
+</head>
+
+<body>
+
+    <div class="payment-page">
+
+        <!-- PAYMENT LIST -->
+        <div class="payment-section">
+            <h1>PAYMENT</h1>
+
+            <div class="payment-container">
+
+                <div class="menu">☰</div>
+
+                <!-- FILTERS -->
+                <div class="filters">
+                    <button class="active">ALL</button>
+                    <button>PENDING</button>
+                    <button>VERIFIED</button>
+                    <button>REJECTED</button>
+                </div>
+
+                <!-- PAYMENT 1 -->
+                <div class="payment-item">
+                    <img src="images/bouquet.jpg" alt="Bouquet">
+
+                    <div class="payment-info">
+                        <strong>ORD-2024-0521-0001</strong>
+                        <span>May 12, 2026</span>
+                        <b>₱ 400</b>
+                    </div>
+
+                    <span class="status pending">Pending</span>
+                </div>
+
+                <!-- PAYMENT 2 -->
+                <div class="payment-item">
+                    <img src="images/bouquet2.jpg" alt="Bouquet">
+
+                    <div class="payment-info">
+                        <strong>ORD-2024-0521-0001</strong>
+                        <span>May 12, 2026</span>
+                        <b>₱ 400</b>
+                    </div>
+
+                    <span class="status verified">Verified</span>
+                </div>
+
+                <!-- PAYMENT 3 -->
+                <div class="payment-item">
+                    <img src="images/bouquet2.jpg" alt="Bouquet">
+
+                    <div class="payment-info">
+                        <strong>ORD-2024-0521-0001</strong>
+                        <span>May 12, 2026</span>
+                        <b>₱ 400</b>
+                    </div>
+
+                    <span class="status verified">Verified</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- PAYMENT DETAILS -->
+        <div class="details-section">
+            <h1>PAYMENT DETAILS</h1>
+
+            <div class="details-container">
+
+                <div class="back">←</div>
+
+                <div class="details-card">
+
+                    <div class="reference">
+                        <div>
+                            <h2>Order Reference</h2>
+                            <strong>ORD-2024-0521-0001</strong>
+                        </div>
+
+                        <span class="status pending">Pending</span>
+                    </div>
+
+                    <div class="detail">
+                        <h2>Amount</h2>
+                        <strong class="amount">₱1,450</strong>
+                    </div>
+
+                    <div class="detail">
+                        <h2>Payment Method</h2>
+                        <p>Bank Transfer</p>
+                    </div>
+
+                    <div class="detail">
+                        <h2>Paid on</h2>
+                        <p>May 12, 2026 · 09:10 AM ₱400</p>
+                    </div>
+
+                    <div class="detail">
+                        <h2>Payment Proof</h2>
+
+                        <img
+                            src="images/bouquet.jpg"
+                            alt="Payment Proof"
+                            class="payment-proof"
+                        >
+                    </div>
+
+                    <button class="order-button">
+                        VIEW ORDER STATUS
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
