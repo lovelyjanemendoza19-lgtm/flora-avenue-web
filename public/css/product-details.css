@@ -1,0 +1,902 @@
+/* =========================================================
+   FLORA AVENUE
+   PRODUCT DETAILS
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.product-details-page {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    background-color: #b7b7b7;
+
+    font-family: "Poppins", sans-serif;
+
+    color: #111111;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 32px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MAIN WHITE PANEL
+   ========================================================= */
+
+.product-details {
+
+    width: 100%;
+
+    max-width: 1120px;
+
+    min-height: 720px;
+
+    background-color: #ffffff;
+
+    padding: 42px 50px 50px;
+
+    box-sizing: border-box;
+
+    border-radius: 2px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.product-header {
+
+    width: 100%;
+
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+
+    margin-bottom: 34px;
+
+    box-sizing: border-box;
+}
+
+
+.back-button {
+
+    width: 62px;
+
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    text-decoration: none;
+
+    color: #000000;
+
+    flex-shrink: 0;
+}
+
+
+.back-arrow {
+
+    display: block;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 52px;
+
+    font-weight: 300;
+
+    line-height: 1;
+
+    color: #000000;
+
+    transform: translateY(-3px);
+}
+
+
+.product-header h1 {
+
+    flex: 1;
+
+    margin: 0;
+
+    padding-right: 62px;
+
+    text-align: center;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    line-height: 1.1;
+
+    color: #000000;
+}
+
+
+/* =========================================================
+   PRODUCT CONTENT
+   ========================================================= */
+
+.product-content {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(500px, 1.08fr)
+        minmax(390px, 0.92fr);
+
+    column-gap: 54px;
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+   ========================================================= */
+
+.product-image-box {
+
+    width: 100%;
+
+    height: 520px;
+
+    overflow: hidden;
+
+    border-radius: 30px;
+
+    background-color: #eeeeee;
+}
+
+
+.product-image-box img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   PRODUCT INFORMATION
+   ========================================================= */
+
+.product-info {
+
+    padding-top: 7px;
+
+    box-sizing: border-box;
+}
+
+
+.product-info > h2 {
+
+    margin: 0 0 3px;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    line-height: 1.15;
+
+    color: #000000;
+}
+
+
+/* =========================================================
+   PRICE
+   ========================================================= */
+
+.product-price {
+
+    margin: 0 0 10px;
+
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+}
+
+
+.product-price span {
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 40px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    color: #111111;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.product-description {
+
+    max-width: 530px;
+
+    margin: 0 0 18px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 16px;
+
+    font-weight: 400;
+
+    line-height: 1.35;
+
+    color: #171717;
+}
+
+
+/* =========================================================
+   HANDMADE / CUSTOMIZABLE
+   ========================================================= */
+
+.product-tags {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+}
+
+
+.product-tag {
+
+    height: 50px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 15px;
+
+    border-radius: 15px;
+
+    box-sizing: border-box;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+
+.product-tag.handmade {
+    color: #807b7c;
+    background-color: #e9e7e7;
+    border: 1px solid #c7c3c4;
+}
+
+
+.product-tag.customizable {
+
+    color: #807b7c;
+
+    background-color: #e9e7e7;
+
+    border: 1px solid #c7c3c4;
+}
+
+
+.product-tag:hover {
+
+    transform: translateY(-1px);
+}
+
+
+.product-tag.active {
+
+    background-color: #f5e6e8;
+
+    border-color: #8b5a61;
+
+    color: #8b5a61;
+}
+
+
+/* =========================================================
+   CHOOSE COLOR
+   ========================================================= */
+
+.color-section {
+
+    margin: 0 0 39px;
+}
+
+
+.color-section h3 {
+
+    margin: 0 0 14px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    line-height: 1.2;
+
+    color: #111111;
+}
+
+
+.color-options {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 27px;
+}
+
+
+.color-circle {
+
+    width: 43px;
+
+    height: 43px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    border: 1.5px solid transparent;
+
+    outline: none;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease;
+}
+
+
+.color-circle:hover {
+
+    transform: scale(1.04);
+}
+
+
+.color-circle.selected {
+
+    border-color: #000000;
+}
+
+
+/* =========================================================
+   QUANTITY
+   ========================================================= */
+
+.quantity-section {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 29px;
+
+    margin-bottom: 52px;
+}
+
+
+.quantity-section h3 {
+
+    margin: 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    line-height: 1.2;
+
+    color: #111111;
+}
+
+
+.quantity-control {
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    overflow: hidden;
+
+    border: 1.5px solid #8f555d;
+
+    border-radius: 8px;
+
+    background-color: #ffffff;
+}
+
+
+.quantity-control button {
+
+    width: 36px;
+
+    height: 36px;
+
+    padding: 0;
+
+    border: none;
+
+    background-color: #f0e5e7;
+
+    color: #111111;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+.quantity-control span {
+
+    width: 36px;
+
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    border-left: 1px solid #8f555d;
+
+    border-right: 1px solid #8f555d;
+
+    background-color: #ffffff;
+
+    color: #111111;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 18px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.product-actions {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 23px;
+}
+
+
+.inquire-button,
+.order-button {
+
+    width: 100%;
+
+    height: 57px;
+
+    border-radius: 15px;
+
+    box-sizing: border-box;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.inquire-button {
+
+    background-color: #ffffff;
+
+    border: 1.5px solid #8f555d;
+
+    color: #8f555d;
+}
+
+
+.order-button {
+
+    background-color: #755057;
+
+    border: 1.5px solid #755057;
+
+    color: #ffffff;
+}
+
+
+.inquire-button:hover {
+
+    background-color: #f8eff0;
+}
+
+
+.order-button:hover {
+
+    background-color: #66454c;
+}
+
+
+/* =========================================================
+   COLOR CHOICES
+   ========================================================= */
+
+.color-light-red {
+
+    background-color: #e88b94;
+}
+
+
+.color-red {
+
+    background-color: #c65859;
+}
+
+
+.color-blue {
+
+    background-color: #78a9d3;
+}
+
+
+.color-purple {
+
+    background-color: #8d63bd;
+}
+
+
+.color-pink {
+
+    background-color: #e89aa8;
+}
+
+
+.color-violet {
+
+    background-color: #a979c9;
+}
+
+
+.color-white {
+
+    background-color: #f5f5f5;
+
+    border-color: #d0d0d0;
+}
+
+
+.color-yellow {
+
+    background-color: #f0d24d;
+}
+
+
+/* =========================================================
+   LAPTOP / SMALL DESKTOP
+   ========================================================= */
+
+@media (max-width: 1150px) {
+
+    .product-details-page {
+
+        padding: 22px;
+    }
+
+
+    .product-details {
+
+        max-width: 1050px;
+
+        padding:
+            35px
+            40px
+            42px;
+    }
+
+
+    .product-content {
+
+        grid-template-columns:
+            minmax(440px, 1.05fr)
+            minmax(360px, 0.95fr);
+
+        gap: 40px;
+    }
+
+
+    .product-image-box {
+
+        height: 480px;
+    }
+
+
+    .product-info > h2 {
+
+        font-size: 31px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .product-details-page {
+
+        min-height: 100vh;
+
+        padding: 0;
+
+        align-items: flex-start;
+
+        background-color: #ffffff;
+    }
+
+
+    .product-details {
+
+        width: 100%;
+
+        max-width: none;
+
+        min-height: 100vh;
+
+        padding:
+            30px
+            30px
+            45px;
+
+        border-radius: 0;
+    }
+
+
+    .product-content {
+
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+    }
+
+
+    .product-image-box {
+
+        height: 450px;
+    }
+
+
+    .product-info {
+
+        padding-top: 0;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .product-details {
+
+        padding:
+            24px
+            25px
+            35px;
+    }
+
+
+    .product-header {
+
+        height: 53px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .back-button {
+
+        width: 44px;
+    }
+
+
+    .back-arrow {
+
+        font-size: 43px;
+    }
+
+
+    .product-header h1 {
+
+        padding-right: 44px;
+
+        font-size: 27px;
+    }
+
+
+    .product-image-box {
+
+        height: 290px;
+
+        border-radius: 27px;
+    }
+
+
+    .product-info > h2 {
+
+        font-size: 27px;
+    }
+
+
+    .product-price span {
+
+        font-size: 24px;
+    }
+
+
+    .product-description {
+
+        font-size: 14px;
+    }
+
+
+    .product-tag {
+
+        height: 46px;
+
+        padding: 0 13px;
+
+        font-size: 14px;
+    }
+
+
+    .color-options {
+
+        gap: 22px;
+    }
+
+
+    .color-circle {
+
+        width: 42px;
+
+        height: 42px;
+    }
+
+
+    .quantity-section {
+
+        gap: 25px;
+
+        margin-bottom: 40px;
+    }
+
+
+    .product-actions {
+
+        gap: 15px;
+    }
+
+
+    .inquire-button,
+    .order-button {
+
+        height: 54px;
+
+        font-size: 15px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .product-details {
+
+        padding:
+            22px
+            18px
+            28px;
+    }
+
+
+    .product-tag {
+
+        padding: 9px 12px;
+
+        font-size: 12px;
+    }
+
+
+    .quantity-section {
+
+        flex-wrap: wrap;
+    }
+
+
+    .product-actions {
+
+        gap: 10px;
+    }
+
+}
+
