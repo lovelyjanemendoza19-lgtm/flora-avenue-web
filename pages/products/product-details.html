@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Details | Flora Avenue</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="../../public/css/product-details.css">
+</head>
+
+<body class="product-details-page">
+
+    <main class="product-details">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <header class="product-header">
+
+            <a
+                href="products.html"
+                class="back-button"
+                aria-label="Back to Product Catalog"
+            >
+                <span class="back-arrow">←</span>
+            </a>
+
+            <h1>Product Details</h1>
+
+        </header>
+
+
+        <!-- =========================
+             PRODUCT CONTENT
+        ========================== -->
+
+        <section class="product-content">
+
+            <!-- PRODUCT IMAGE -->
+
+            <div class="product-image-box">
+
+                <img
+                    id="productImage"
+                    src=""
+                    alt="Product"
+                >
+
+            </div>
+
+
+            <!-- PRODUCT INFORMATION -->
+
+            <div class="product-info">
+
+                <!-- PRODUCT NAME -->
+
+                <h2 id="productName">
+                    Product Details
+                </h2>
+
+
+                <!-- PRODUCT PRICE -->
+
+                <div class="product-price">
+
+                    <span id="productPrice">
+                        ₱0
+                    </span>
+
+                </div>
+
+
+                <!-- PRODUCT DESCRIPTION -->
+
+                <p
+                    id="productDescription"
+                    class="product-description"
+                >
+                    Product description
+                </p>
+
+
+                <!-- =========================
+                     PRODUCT TAGS
+                ========================== -->
+
+                <div class="product-tags">
+
+                    <span
+                        class="product-tag handmade"
+                        id="handmadeButton"
+                    >
+                        Handmade
+                    </span>
+
+                    <span
+                        class="product-tag customizable"
+                        id="customizableButton"
+                    >
+                        Customizable
+                    </span>
+
+                </div>
+
+
+                <!-- =========================
+                     CHOOSE COLOR
+                ========================== -->
+
+                <div
+                    class="color-section"
+                    id="colorGroup"
+                >
+
+                    <h3>
+                        Choose Color
+                    </h3>
+
+                    <div
+                        class="color-options"
+                        id="colorOptions"
+                    >
+                        <!--
+                            JavaScript will create
+                            the clickable color circles here.
+                        -->
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     QUANTITY
+                ========================== -->
+
+                <div class="quantity-section">
+
+                    <h3>
+                        Quantity
+                    </h3>
+
+                    <div class="quantity-control">
+
+                        <button
+                            type="button"
+                            id="decreaseQuantity"
+                            aria-label="Decrease quantity"
+                        >
+                            −
+                        </button>
+
+                        <span id="quantity">
+                            1
+                        </span>
+
+                        <button
+                            type="button"
+                            id="increaseQuantity"
+                            aria-label="Increase quantity"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     ACTION BUTTONS
+                ========================== -->
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="inquire-button"
+                        id="inquireButton"
+                    >
+                        Inquire
+                    </button>
+
+                    <button
+                        type="button"
+                        class="order-button"
+                        id="mainActionButton"
+                    >
+                        Customize / Order 
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- PRODUCT DETAILS JAVASCRIPT -->
+<script src="product-details.js"></script>
+
+</body>
+</html>
