@@ -5,11 +5,60 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Orders | Flora Avenue</title>
 	<link rel="stylesheet" href="../../public/css/style.css">
+	<link rel="stylesheet" href="../../public/css/orders.css">
 </head>
 <body class="persistent-sidebar" data-navigation-base="../../">
 	<div class="website">
+
+		<main class="orders-page">
+
+			<h1>My Orders</h1>
+
+			<div class="filters">
+				<button class="filter-button active" data-filter="all">All</button>
+				<button class="filter-button" data-filter="pending">Pending</button>
+				<button class="filter-button" data-filter="verified">Verified</button>
+			</div>
+
+			<div class="order-list">
+
+				<a href="#" class="order-item" data-status="pending">
+					<img src="images/bouquet.jpg" alt="ORD-2026-0521-0001">
+					<div class="order-info">
+						<strong>ORD-2026-0521-0001</strong>
+						<span>May 12, 2026</span>
+						<b>₱400</b>
+					</div>
+					<span class="status pending">Pending</span>
+				</a>
+
+				<a href="#" class="order-item" data-status="verified">
+					<img src="images/bouquet2.jpg" alt="ORD-2026-0521-0002">
+					<div class="order-info">
+						<strong>ORD-2026-0521-0002</strong>
+						<span>May 12, 2026</span>
+						<b>₱400</b>
+					</div>
+					<span class="status verified">Verified</span>
+				</a>
+
+				<a href="#" class="order-item" data-status="verified">
+					<img src="images/bouquet3.jpg" alt="ORD-2026-0521-0003">
+					<div class="order-info">
+						<strong>ORD-2026-0521-0003</strong>
+						<span>May 12, 2026</span>
+						<b>₱400</b>
+					</div>
+					<span class="status verified">Verified</span>
+				</a>
+
+			</div>
+
+		</main>
+
 	</div>
 	<script src="../../public/js/navigation.js"></script>
 	<script src="../../public/js/script.js"></script>
+	<script src="../../public/js/orders.js"></script>
 </body>
 </html>
