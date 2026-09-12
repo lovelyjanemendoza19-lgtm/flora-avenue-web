@@ -5,9 +5,43 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Profile | Flora Avenue</title>
 	<link rel="stylesheet" href="../../public/css/style.css">
+	<link rel="stylesheet" href="../../public/css/profile.css">
 </head>
-<body class="persistent-sidebar" data-navigation-base="../../">
+<body data-navigation-base="../../">
 	<div class="website">
+		<header>
+			<button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
+			<div class="logo">
+				<img src="../../public/images/logo.png" alt="Flora Avenue Logo">
+			</div>
+		</header>
+		<main class="profile-page">
+			<section class="profile-card" aria-labelledby="profile-title">
+				<div class="profile-avatar" aria-hidden="true">FA</div>
+				<div class="profile-heading">
+					<p class="profile-eyebrow">MY PROFILE</p>
+					<h1 id="profile-title">Flora Avenue Customer</h1>
+					<p class="profile-status">Welcome to your profile page.</p>
+				</div>
+
+				<div class="profile-details">
+					<div class="profile-detail">
+						<span>Name</span>
+						<strong>Flora Avenue Customer</strong>
+					</div>
+					<div class="profile-detail">
+						<span>Email</span>
+						<strong>customer@example.com</strong>
+					</div>
+					<div class="profile-detail">
+						<span>Contact Number</span>
+						<strong>Not provided</strong>
+					</div>
+				</div>
+
+				<button class="profile-action" type="button" disabled>Edit Profile</button>
+			</section>
+		</main>
 	</div>
 	<script src="../../public/js/navigation.js"></script>
 	<script src="../../public/js/script.js"></script>

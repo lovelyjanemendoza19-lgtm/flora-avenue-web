@@ -4,15 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Inquiries | Flora Avenue</title>
-<link rel="stylesheet" href="../../public/css/inquiries.css">
+  <link rel="stylesheet" href="../../public/css/style.css">
+  <link rel="stylesheet" href="../../public/css/inquiries.css">
 </head>
-<body>
+<body class="persistent-sidebar" data-navigation-base="../../">
+  <header class="inquiries-navigation-header">
+    <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
+    <div class="logo">
+      <img src="../../public/images/logo.png" alt="Flora Avenue Logo">
+    </div>
+  </header>
+  <div class="website">
   <div class="phone">
 
-    <section id="formScreen" class="screen active">
+    <section id="formScreen" class="screen">
       <header class="topbar">
-        <button class="back-btn" onclick="goHome()">←</button>
-        <h1>Inquiry Form</h1>
+        <button class="back-btn" onclick="goHome()">
       </header>
 
       <main class="content">
@@ -49,7 +56,7 @@
 
     <section id="submittedScreen" class="screen">
       <header class="topbar">
-        <button class="back-btn" onclick="showScreen('formScreen')">←</button>
+        <button class="back-btn" onclick="showScreen('formScreen')">
         <h1>Inquiry submitted</h1>
       </header>
 
@@ -65,14 +72,12 @@
           </div>
 
           <button class="primary" onclick="showDetails()">View My Inquiry</button>
-          <button class="secondary" onclick="showScreen('inquiriesScreen')">BACK TO HOME</button>
         </div>
       </main>
     </section>
 
     <section id="detailsScreen" class="screen">
       <header class="topbar">
-        <button class="back-btn" onclick="showScreen('inquiriesScreen')">←</button>
         <h1>Inquiry Details</h1>
       </header>
 
@@ -109,26 +114,29 @@
       </main>
     </section>
 
-    <section id="inquiriesScreen" class="screen">
+    <section id="inquiriesScreen" class="screen active">
       <header class="topbar inquiries-header">
-        <button class="back-btn" onclick="goHome()">←</button>
         <h1>My Inquiries</h1>
       </header>
 
       <main class="content inquiries-content">
-        <div class="tabs">
-          <button class="tab active">All</button>
-          <button class="tab">Responded</button>
-          <button class="tab">Accepted</button>
+        <div class="inquiries-list-header">
+          <div class="tabs">
+            <button class="tab active">All</button>
+            <button class="tab">Responded</button>
+            <button class="tab">Accepted</button>
+          </div>
+          <button class="new-inquiry-button" type="button" onclick="showScreen('formScreen')">New Inquiry</button>
         </div>
 
         <div id="inquiryList"></div>
       </main>
     </section>
   </div>
+  </div>
 
+  <script src="../../public/js/navigation.js"></script>
+  <script src="../../public/js/script.js"></script>
   <script src="../../public/js/inquiries.js"></script>
 </body>
 </html>
-
-

@@ -31,7 +31,10 @@ function showScreen(id) {
   document.querySelectorAll(".screen").forEach(screen => {
     screen.classList.remove("active");
   });
-  document.getElementById(id).classList.add("active");
+  const screen = document.getElementById(id);
+  if (screen) {
+    screen.classList.add("active");
+  }
 }
 
 function submitInquiry() {
@@ -44,16 +47,28 @@ function submitInquiry() {
     return;
   }
 
-  currentInquiry = {
-    ref: "INQ-2026-0521-0001",
-    date: "May 21, 2026",
-    status: "Responded",
+  const inquiryNumber = String(inquiries.length + 1).padStart(4, "0");
+  const submittedInquiry = {
+    ref: `INQ-2026-0521-${inquiryNumber}`,
+    date: new Date().toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    }),
+    status: "New",
     message
   };
+
+  inquiries.unshift(submittedInquiry);
+  currentInquiry = submittedInquiry;
 
   document.getElementById("submittedRef").textContent = currentInquiry.ref;
   document.getElementById("detailRef").textContent = currentInquiry.ref;
   document.getElementById("detailMessage").textContent = currentInquiry.message;
+
+  document.getElementById("inquiryType").value = "";
+  document.getElementById("subject").value = "";
+  document.getElementById("message").value = "";
 
   showScreen("submittedScreen");
 }
@@ -70,23 +85,27 @@ function showDetails(inquiry = currentInquiry) {
 
 function renderInquiries() {
   const list = document.getElementById("inquiryList");
+  if (!list) {
+    return;
+  }
+
   list.innerHTML = "";
 
   inquiries.forEach(inquiry => {
     const item = document.createElement("div");
     item.className = "inquiry-item";
+    item.dataset.status = inquiry.status;
     item.onclick = () => showDetails(inquiry);
 
-    const statusClass =
-      inquiry.status.toLowerCase() === "accepted" ? "accepted" :
-      inquiry.status.toLowerCase() === "responded" ? "responded" : "";
+    const statusClass = inquiry.status.toLowerCase();
 
     item.innerHTML = `
       <div class="item-img">💐</div>
       <div class="item-info">
         <strong>${inquiry.ref}</strong>
-        <span>${inquiry.date} · <span class="${statusClass}">${inquiry.status}</span></span>
+        <span>${inquiry.date}</span>
       </div>
+      <span class="inquiry-status ${statusClass}">${inquiry.status}</span>
       <div class="chevron">›</div>
     `;
 
@@ -94,7 +113,27 @@ function renderInquiries() {
   });
 }
 
+function filterInquiries(status, activeTab) {
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.toggle("active", tab === activeTab);
+  });
+
+  document.querySelectorAll(".inquiry-item").forEach(item => {
+    const itemStatus = item.dataset.status;
+    item.hidden = status !== "All" && itemStatus !== status;
+  });
+}
+
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", function () {
+    filterInquiries(tab.textContent.trim(), tab);
+  });
+});
+
 function goHome() {
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.toggle("active", tab.textContent.trim() === "All");
+  });
   renderInquiries();
   showScreen("inquiriesScreen");
 }

@@ -15,6 +15,10 @@ body {
   color: #292326;
 }
 
+.inquiries-navigation-header {
+  display: none;
+}
+
 /* MAIN CONTAINER */
 .phone {
   width: 100%;
@@ -375,6 +379,234 @@ select:focus {
   background: #faf5f6;
 }
 
+.new-inquiry-button {
+  flex: 0 0 auto;
+  min-height: 0;
+  padding: 10px 20px;
+  border: 1px solid #7c4a4f;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #7c4a4f;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.new-inquiry-button:hover {
+  background: #7c4a4f;
+  color: #ffffff;
+}
+
+.inquiries-list-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.inquiries-list-header .tabs {
+  flex: 1;
+  margin: 0;
+}
+
+.inquiries-list-header .tab {
+  flex: 0 0 auto;
+  height: auto;
+  padding: 10px 20px;
+  border: 1px solid #7c4a4f;
+  color: #7c4a4f;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.inquiries-list-header .tab.active {
+  background: #7c4a4f;
+  color: #ffffff;
+}
+
+.inquiries-content #inquiryList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inquiries-content .inquiry-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 12px;
+  background: #f8f1f1;
+}
+
+.inquiries-content .inquiry-item:hover {
+  background: #f8f1f1;
+}
+
+.inquiries-content .item-img {
+  width: 68px;
+  height: 68px;
+  border-radius: 8px;
+}
+
+.inquiries-content .item-info strong {
+  font-size: 15px;
+}
+
+.inquiries-content .item-info > span {
+  font-size: 12px;
+}
+
+.inquiries-content .inquiry-status {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.inquiries-content .inquiry-status.responded,
+.inquiries-content .inquiry-status.accepted {
+  background: #d4f2df;
+  color: #1f8a4c;
+}
+
+.inquiries-content .inquiry-status.new {
+  background: #fbe3c2;
+  color: #a5670f;
+}
+
+/* Match Orders and Payments card styling for inquiry boxes and messages. */
+.submitted-card,
+.details-card {
+  background: #f8f1f1;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.submitted-card {
+  padding: 28px 20px;
+}
+
+.submitted-card h2,
+.details-card h1 {
+  color: #332d2f;
+  font-family: "Playfair Display", serif;
+}
+
+.reference,
+.message-box {
+  border: 0;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.reference {
+  padding: 14px 20px;
+}
+
+.message-box {
+  padding: 14px 20px;
+  margin: 12px 0;
+}
+
+.message-box strong {
+  color: #332d2f;
+  font-size: 15px;
+}
+
+.message-box small {
+  color: #756c6f;
+  font-size: 12px;
+}
+
+.message-box p {
+  color: #332d2f;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.seller {
+  min-height: 0;
+  background: #f8f1f1;
+}
+
+.details-card .primary,
+.submitted-card .primary {
+  min-height: 0;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background: #7c4a4f;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.details-card .primary:hover,
+.submitted-card .primary:hover {
+  background: #633a3e;
+}
+
+.details-card .secondary,
+.submitted-card .secondary {
+  min-height: 0;
+  padding: 10px 20px;
+  border: 1px solid #7c4a4f;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #7c4a4f;
+}
+
+@media (max-width: 599px) {
+  .submitted-card,
+  .details-card {
+    padding: 20px 12px;
+  }
+
+  .message-box,
+  .reference {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 599px) {
+  .inquiries-list-header {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .inquiries-list-header .tabs {
+    width: 100%;
+  }
+
+  .inquiries-list-header .tab {
+    padding: 9px 14px;
+  }
+
+  .new-inquiry-button {
+    width: 100%;
+  }
+
+  .inquiries-content .inquiry-item {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .inquiries-content .item-img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .inquiries-content .inquiry-status {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+}
+
 .item-img {
   width: 80px;
   height: 62px;
@@ -409,6 +641,10 @@ select:focus {
 
 .item-info .accepted {
   color: #64a5c8;
+}
+
+.item-info .new {
+  color: #ad526e;
 }
 
 .chevron {
@@ -464,6 +700,52 @@ select:focus {
   body {
     min-height: 100vh;
     background: #eee5e7;
+  }
+
+  /* Match the shared Orders page layout on the inquiry list. */
+  .inquiries-content {
+    max-width: 1400px;
+    padding: 28px 20px 48px;
+  }
+
+  .inquiries-content .tabs {
+    max-width: none;
+    margin-bottom: 24px;
+  }
+
+  .inquiries-content .tab {
+    flex: 0 0 auto;
+    height: auto;
+    padding: 10px 20px;
+    border: 1px solid #7c4a4f;
+    color: #7c4a4f;
+  }
+
+  .inquiries-content .tab.active {
+    background: #7c4a4f;
+  }
+
+  .inquiries-content .inquiry-item {
+    padding: 14px 20px;
+    border: 0;
+    border-radius: 12px;
+    background: #f8f1f1;
+  }
+
+  .inquiries-content #inquiryList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  @media (max-width: 500px) {
+    .inquiries-content {
+      padding: 20px 16px 32px;
+    }
+
+    .new-inquiry-button {
+      max-width: none;
+    }
   }
 
   .phone {
@@ -659,6 +941,237 @@ select:focus {
     font-size: 17px;
   }
 
+  /* Orders-style inquiry list controls and rows. */
+  .inquiries-content {
+    max-width: 1400px;
+    padding: 28px 20px 48px;
+  }
+
+  .inquiries-content .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 24px;
+  }
+
+  .inquiries-content .tab {
+    flex: 0 0 auto;
+    height: auto;
+    padding: 10px 20px;
+    border: 1px solid #7c4a4f;
+    border-radius: 20px;
+    background: #ffffff;
+    color: #7c4a4f;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .inquiries-content .tab.active {
+    background: #7c4a4f;
+    color: #ffffff;
+  }
+
+  .new-inquiry-button {
+    max-width: 220px;
+    min-height: 0;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    border: 1px solid #7c4a4f;
+    border-radius: 20px;
+    background: #ffffff;
+    color: #7c4a4f;
+  }
+
+  .new-inquiry-button:hover {
+    background: #7c4a4f;
+    color: #ffffff;
+  }
+
+  .inquiries-content #inquiryList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .inquiries-content .inquiry-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 14px 20px;
+    border: 0;
+    border-radius: 12px;
+    background: #f8f1f1;
+  }
+
+  .inquiries-content .inquiry-item:hover {
+    background: #f8f1f1;
+  }
+
+  .inquiries-content .item-img {
+    width: 68px;
+    height: 68px;
+    border-radius: 8px;
+  }
+
+  .inquiries-content .item-info strong {
+    font-size: 15px;
+  }
+
+  .inquiries-content .item-info > span {
+    font-size: 12px;
+  }
+
+  .inquiries-content .item-info .responded,
+  .inquiries-content .item-info .accepted,
+  .inquiries-content .item-info .new {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .inquiries-content .item-info .responded,
+  .inquiries-content .item-info .accepted {
+    background: #d4f2df;
+    color: #1f8a4c;
+  }
+
+  .inquiries-content .item-info .new {
+    background: #fbe3c2;
+    color: #a5670f;
+  }
+
+  @media (max-width: 599px) {
+    .inquiries-navigation-header {
+      display: flex;
+    }
+
+    .inquiries-content {
+      padding: 20px 16px 32px;
+    }
+
+    .inquiries-content .inquiry-item {
+      gap: 12px;
+      padding: 12px;
+    }
+
+    .inquiries-content .item-img {
+      width: 52px;
+      height: 52px;
+    }
+  }
+
+  /* Keep inquiry controls and rows consistent with the Orders page. */
+  .inquiries-content .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 24px;
+  }
+
+  .inquiries-content .tab {
+    flex: 0 0 auto;
+    height: auto;
+    padding: 10px 20px;
+    border: 1px solid #7c4a4f;
+    border-radius: 20px;
+    background: #ffffff;
+    color: #7c4a4f;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .inquiries-content .tab.active {
+    background: #7c4a4f;
+    color: #ffffff;
+  }
+
+  .new-inquiry-button {
+    max-width: 220px;
+    min-height: 0;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    border: 1px solid #7c4a4f;
+    border-radius: 20px;
+    background: #ffffff;
+    color: #7c4a4f;
+  }
+
+  .new-inquiry-button:hover {
+    background: #7c4a4f;
+    color: #ffffff;
+  }
+
+  .inquiries-content #inquiryList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .inquiries-content .inquiry-item {
+    gap: 18px;
+    padding: 14px 20px;
+    border: 0;
+    border-radius: 12px;
+    background: #f8f1f1;
+  }
+
+  .inquiries-content .inquiry-item:hover {
+    background: #f8f1f1;
+  }
+
+  .inquiries-content .item-img {
+    width: 68px;
+    height: 68px;
+    border-radius: 8px;
+  }
+
+  .inquiries-content .item-info strong {
+    font-size: 15px;
+  }
+
+  .inquiries-content .item-info > span {
+    font-size: 12px;
+  }
+
+  .inquiries-content .item-info .responded,
+  .inquiries-content .item-info .accepted,
+  .inquiries-content .item-info .new {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .inquiries-content .item-info .responded {
+    background: #d4f2df;
+    color: #1f8a4c;
+  }
+
+  .inquiries-content .item-info .accepted {
+    background: #d4f2df;
+    color: #1f8a4c;
+  }
+
+  .inquiries-content .item-info .new {
+    background: #fbe3c2;
+    color: #a5670f;
+  }
+
+  @media (max-width: 599px) {
+    .inquiries-content .inquiry-item {
+      gap: 12px;
+      padding: 12px;
+    }
+
+    .inquiries-content .item-img {
+      width: 52px;
+      height: 52px;
+    }
+  }
+
   .content {
     padding-left: 9px;
     padding-right: 9px;
@@ -689,5 +1202,122 @@ select:focus {
   .item-img {
     width: 58px;
     height: 48px;
+  }
+}
+
+/* Orders-style inquiry list controls and rows. */
+.inquiries-content {
+  max-width: 1400px;
+  padding: 28px 20px 48px;
+}
+
+.inquiries-content .tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 24px;
+}
+
+.inquiries-content .tab {
+  flex: 0 0 auto;
+  height: auto;
+  padding: 10px 20px;
+  border: 1px solid #7c4a4f;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #7c4a4f;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.inquiries-content .tab.active {
+  background: #7c4a4f;
+  color: #ffffff;
+}
+
+.new-inquiry-button {
+  max-width: 220px;
+  min-height: 0;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border: 1px solid #7c4a4f;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #7c4a4f;
+}
+
+.new-inquiry-button:hover {
+  background: #7c4a4f;
+  color: #ffffff;
+}
+
+.inquiries-content #inquiryList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inquiries-content .inquiry-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 12px;
+  background: #f8f1f1;
+}
+
+.inquiries-content .inquiry-item:hover {
+  background: #f8f1f1;
+}
+
+.inquiries-content .item-img {
+  width: 68px;
+  height: 68px;
+  border-radius: 8px;
+}
+
+.inquiries-content .item-info strong {
+  font-size: 15px;
+}
+
+.inquiries-content .item-info > span {
+  font-size: 12px;
+}
+
+.inquiries-content .item-info .responded,
+.inquiries-content .item-info .accepted,
+.inquiries-content .item-info .new {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.inquiries-content .item-info .responded,
+.inquiries-content .item-info .accepted {
+  background: #d4f2df;
+  color: #1f8a4c;
+}
+
+.inquiries-content .item-info .new {
+  background: #fbe3c2;
+  color: #a5670f;
+}
+
+@media (max-width: 599px) {
+  .inquiries-content {
+    padding: 20px 16px 32px;
+  }
+
+  .inquiries-content .inquiry-item {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .inquiries-content .item-img {
+    width: 52px;
+    height: 52px;
   }
 }

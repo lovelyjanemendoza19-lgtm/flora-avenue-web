@@ -14,11 +14,13 @@ body {
 /* MAIN PAGE */
 
 .payment-page {
-    min-height: 100vh;
     display: flex;
-    justify-content: center;
-    gap: 34px;
-    padding: 30px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px 20px 48px;
 }
 
 
@@ -35,7 +37,7 @@ h1 {
 /* PAYMENT SECTION */
 
 .payment-section {
-    width: 330px;
+    width: 100%;
 }
 
 .payment-container {
@@ -45,23 +47,17 @@ h1 {
 }
 
 
-/* MENU */
-
-.menu {
-    font-size: 32px;
-    margin-bottom: 20px;
-}
-
-
 /* FILTERS */
 
 .filters {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 20px;
 }
 
 .filters button {
+    flex: 1 1 auto;
     background-color: white;
     border: 1px solid #999;
     border-radius: 20px;
@@ -91,6 +87,7 @@ h1 {
     gap: 8px;
 
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
 }
 
 .payment-item img {
@@ -144,16 +141,117 @@ h1 {
     color: #111;
 }
 
+.submitted {
+    background-color: #f2c94c;
+    color: #332d2f;
+}
+
 .rejected {
     background-color: #e85b5b;
     color: white;
 }
 
 
-/* DETAILS SECTION */
+/* PAYMENT HEADING */
 
+.payment-section h1 {
+    color: #332d2f;
+    font-family: "Playfair Display", serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0;
+    margin-bottom: 20px;
+}
+
+.payment-section .filters {
+    margin-bottom: 24px;
+}
+
+.payment-section .filters button {
+    flex: 0 0 auto;
+    border-color: #7c4a4f;
+    color: #7c4a4f;
+    padding: 10px 20px;
+    font-size: 12px;
+}
+
+.payment-section .filters .active {
+    background-color: #7c4a4f;
+    color: #ffffff;
+}
+
+.payment-item {
+    min-height: 96px;
+    height: auto;
+    margin-bottom: 0;
+    padding: 14px 20px;
+    border-radius: 12px;
+    background-color: #f8f1f1;
+    box-shadow: none;
+}
+
+.payment-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-section > .payment-item {
+    margin-bottom: 12px;
+}
+
+.payment-section > .payment-item:last-child {
+    margin-bottom: 0;
+}
+
+.payment-section > .payment-item img {
+    width: 68px;
+    height: 68px;
+}
+
+.payment-section > .payment-item .payment-info strong {
+    font-size: 15px;
+}
+
+.payment-section > .payment-item .payment-info span {
+    font-size: 12px;
+}
+
+.payment-section > .payment-item .payment-info b {
+    color: #b5687c;
+    font-size: 14px;
+}
+
+.payment-section > .payment-item .status {
+    padding: 6px 14px;
+    font-size: 11px;
+}
+
+/* Keep payment details available without affecting the list layout. */
 .details-section {
-    width: 330px;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .payment-page {
+        display: block;
+    }
+}
+
+@media (max-width: 767px) {
+    .payment-page {
+        padding: 20px 16px;
+    }
+
+    .payment-section > .payment-item {
+        padding: 12px;
+    }
+
+    .payment-section > .payment-item img {
+        width: 52px;
+        height: 52px;
+    }
 }
 
 .details-container {
@@ -166,9 +264,13 @@ h1 {
 /* BACK BUTTON */
 
 .back {
+    border: 0;
+    background: transparent;
+    color: inherit;
     font-size: 38px;
     line-height: 30px;
     margin-bottom: 25px;
+    cursor: pointer;
 }
 
 
@@ -248,16 +350,175 @@ h1 {
 
 /* MOBILE */
 
-@media (max-width: 750px) {
+@media (max-width: 767px) {
 
     .payment-page {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
+
+        gap: 20px;
+
+        max-width: 560px;
+        padding: 20px 16px;
     }
 
     .payment-section,
     .details-section {
-        width: 330px;
+        width: 100%;
+        max-width: none;
+    }
+    .payment-container,
+    .details-container {
+        min-height: auto;
+    }
+
+    .payment-item {
+        min-height: 80px;
+        height: auto;
+    }
+
+    .payment-info strong {
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 380px) {
+    .filters {
+        gap: 6px;
+    }
+
+    .filters button {
+        padding: 8px 7px;
+        font-size: 9px;
+    }
+
+    .payment-item img {
+        width: 52px;
+        height: 52px;
+    }
+
+    .status {
+        padding: 4px 6px;
+        font-size: 8px;
+    }
+}
+
+/* Match Orders page colors, buttons, and category rows. */
+.payment-page {
+    background: transparent;
+}
+
+.payment-section h1 {
+    color: #332d2f;
+    font-family: "Playfair Display", serif;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.payment-section .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.payment-section .filters button {
+    flex: 0 0 auto;
+    padding: 10px 20px;
+    border: 1px solid #7c4a4f;
+    border-radius: 20px;
+    background: #ffffff;
+    color: #7c4a4f;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.payment-section .filters button.active {
+    background: #7c4a4f;
+    color: #ffffff;
+}
+
+.payment-section > .payment-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 96px;
+    margin-bottom: 0;
+    padding: 14px 20px;
+    border-radius: 12px;
+    background: #f8f1f1;
+}
+
+.payment-section > .payment-item + .payment-item {
+    margin-top: 12px;
+}
+
+.payment-section > .payment-item img {
+    width: 68px;
+    height: 68px;
+    border-radius: 8px;
+}
+
+.payment-section > .payment-item .payment-info strong {
+    font-size: 15px;
+}
+
+.payment-section > .payment-item .payment-info span {
+    font-size: 12px;
+    color: #756c6f;
+}
+
+.payment-section > .payment-item .payment-info b {
+    color: #b5687c;
+    font-size: 14px;
+}
+
+.payment-section > .payment-item .status {
+    padding: 6px 14px;
+    font-size: 11px;
+}
+
+.payment-section > .payment-item .pending {
+    background: #fbe3c2;
+    color: #a5670f;
+}
+
+.payment-section > .payment-item .submitted {
+    background: #d4f2df;
+    color: #1f8a4c;
+}
+
+.payment-section > .payment-item .rejected {
+    background: #f9d6d6;
+    color: #c23a3a;
+}
+
+@media (max-width: 599px) {
+    .payment-section > .payment-item {
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .payment-section > .payment-item img {
+        width: 52px;
+        height: 52px;
     }
 }
  
+/* PAYMENT DETAILS HIDDEN BY DEFAULT */
+
+.details-section {
+    display: none;
+}
+
+
+
+.details-section.show {
+    display: block;
+}
+
+
+
+.payment-section.hide {
+    display: none;
+}

@@ -1,55 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Payments | Flora Avenue</title>
-	<link rel="stylesheet" href="../../public/css/style.css">
-</head>
-<body class="persistent-sidebar" data-navigation-base="../../">
-	<div class="website">
-	</div>
-	<script src="../../public/js/navigation.js"></script>
-	<script src="../../public/js/script.js"></script>
-</body>
-</html>
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Payments | Flora Avenue</title>
 
     <link rel="stylesheet" href="../../public/css/style.css">
-    <link rel="stylesheet" href="../../public/css/payments.css">
+    <link rel="stylesheet" href="../../public/css/payment.css">
 </head>
 
 <body class="persistent-sidebar" data-navigation-base="../../">
 
-    <div class="website">
+<div class="website">
+
+    <main class="payment-page">
 
         <!-- PAYMENT LIST -->
         <div class="payment-section">
 
-            <h1>PAYMENT</h1>
+            <h1>My Payments</h1>
 
-            <div class="payment-container">
+            <div class="filters">
+                <button class="filter-button active" data-filter="all">ALL</button>
+                <button class="filter-button" data-filter="pending">PENDING</button>
+                <button class="filter-button" data-filter="submitted">SUBMITTED</button>
+                <button class="filter-button" data-filter="rejected">REJECTED</button>
+            </div>
 
-                <div class="menu">☰</div>
 
-                <!-- FILTERS -->
-                <div class="filters">
-                    <button class="active">ALL</button>
-                    <button>PENDING</button>
-                    <button>VERIFIED</button>
-                    <button>REJECTED</button>
-                </div>
+                 <!-- PAYMENT 1 -->
+                <div class="payment-item" data-status="pending" onclick="showPaymentDetails()">
 
-                <!-- PAYMENT 1 -->
-                <div class="payment-item">
-
-                    <img src="../../public/images/bouquet.jpg"
+                    <img src="../../public/images/satin-.jpg"
                          alt="Bouquet">
 
                     <div class="payment-info">
@@ -63,7 +47,9 @@
                 </div>
 
                 <!-- PAYMENT 2 -->
-                <div class="payment-item">
+                <div class="payment-item"
+                data-status="submitted"
+                onclick="showPaymentDetails()">
 
                     <img src="../../public/images/bouquet2.jpg"
                          alt="Bouquet">
@@ -74,12 +60,14 @@
                         <b>₱ 400</b>
                     </div>
 
-                    <span class="status verified">Verified</span>
+                    <span class="status submitted">Submitted</span>
 
                 </div>
 
                 <!-- PAYMENT 3 -->
-                <div class="payment-item">
+                <div class="payment-item"
+                data-status="rejected"
+                onclick="showPaymentDetails()">
 
                     <img src="../../public/images/bouquet2.jpg"
                          alt="Bouquet">
@@ -90,7 +78,7 @@
                         <b>₱ 400</b>
                     </div>
 
-                    <span class="status verified">Verified</span>
+                    <span class="status rejected">Rejected</span>
 
                 </div>
 
@@ -99,13 +87,13 @@
 
 
         <!-- PAYMENT DETAILS -->
-        <div class="details-section">
+        <div class="details-section" id="paymentDetails">
 
             <h1>PAYMENT DETAILS</h1>
 
             <div class="details-container">
 
-                <div class="back">←</div>
+                <button class="back" type="button" onclick="hidePaymentDetails()" aria-label="Back to payments">←</button>
 
                 <div class="details-card">
 
@@ -181,14 +169,26 @@
 
             </div>
 
-        </div>
+        </main>
 
     </div>
 
 
     <script src="../../public/js/navigation.js"></script>
     <script src="../../public/js/script.js"></script>
+    <script src="../../public/js/payment.js"></script>
+
+    <script>
+    function showPaymentDetails() {
+            document.querySelector(".payment-section").classList.add("hide");
+            document.getElementById("paymentDetails").classList.add("show");
+        }
+
+        function hidePaymentDetails() {
+            document.querySelector(".payment-section").classList.remove("hide");
+            document.getElementById("paymentDetails").classList.remove("show");
+        }
+    </script>
 
 </body>
 </html>
-```

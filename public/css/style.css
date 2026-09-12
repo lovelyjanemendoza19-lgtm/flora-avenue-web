@@ -69,6 +69,100 @@ header {
     visibility: visible;
 }
 
+.logout-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(51, 45, 47, 0.42);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.2s ease;
+}
+
+.logout-modal.show-logout {
+    opacity: 1;
+    visibility: visible;
+}
+
+.logout-dialog {
+    position: relative;
+    width: min(360px, 100%);
+    padding: 30px 24px 24px;
+    border: 1px solid #ead9dc;
+    border-radius: 16px;
+    background: #fffafa;
+    box-shadow: 0 12px 30px rgba(51, 45, 47, 0.2);
+    text-align: center;
+}
+
+.logout-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    border: 0;
+    background: transparent;
+    color: #75676a;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.logout-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 14px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #f2dfe3;
+    color: #b5687c;
+    font-size: 25px;
+}
+
+.logout-dialog h2 {
+    color: #332d2f;
+    font-family: "Playfair Display", serif;
+    font-size: 24px;
+}
+
+.logout-dialog p {
+    margin-top: 8px;
+    color: #75676a;
+    font-size: 13px;
+}
+
+.logout-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.logout-actions button {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 7px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.logout-cancel {
+    border: 1px solid #d8c1c5;
+    background: #ffffff;
+    color: #6d565b;
+}
+
+.logout-confirm {
+    border: 1px solid #b5687c;
+    background: #b5687c;
+    color: #ffffff;
+}
+
 .side-menu {
     position: fixed;
     top: 0;
