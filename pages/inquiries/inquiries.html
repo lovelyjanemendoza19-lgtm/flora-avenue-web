@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>My Inquiries | Flora Avenue</title>
+<<<<<<< HEAD
   <link rel="stylesheet" href="../../public/css/style.css">
   <link rel="stylesheet" href="../../public/css/inquiries.css">
 </head>
@@ -18,13 +20,31 @@
   <div class="phone">
 
     <section id="formScreen" class="screen">
+=======
+
+  <link rel="stylesheet" href="../../public/css/inquiries.css">
+</head>
+
+<body>
+
+  <div class="phone">
+
+    <!-- =========================
+         INQUIRY FORM
+    ========================== -->
+    <section id="formScreen" class="screen active">
+
+>>>>>>> b7a6fbc86768cb1d8284278549a2c4fac056ebb2
       <header class="topbar">
         <button class="back-btn" onclick="goHome()">
       </header>
 
       <main class="content">
+
         <div class="card form-card">
+
           <div class="product-row">
+
             <div class="flower-img">💐</div>
 
             <div>
@@ -32,94 +52,255 @@
               <strong>Eternal Glittered Rose</strong>
               <b class="price">₱749</b>
             </div>
+
           </div>
 
-          <label>Inquiry Type</label>
+          <label for="inquiryType">Inquiry Type</label>
+
           <select id="inquiryType">
             <option value="">Select type</option>
-            <option>Product Question</option>
-            <option>Customization</option>
-            <option>Availability</option>
-            <option>Other</option>
+            <option value="Product Question">Product Question</option>
+            <option value="Customization">Customization</option>
+            <option value="Availability">Availability</option>
+            <option value="Other">Other</option>
           </select>
 
-          <label>Subject</label>
-          <input id="subject" type="text" placeholder="Enter subject">
 
-          <label>Your Message</label>
-          <textarea id="message" placeholder="Type your inquiry here"></textarea>
+          <label for="subject">Subject</label>
 
-          <button class="primary" onclick="submitInquiry()">Submit Inquiry</button>
+          <input
+            id="subject"
+            type="text"
+            placeholder="Enter subject"
+          >
+
+
+          <label for="message">Your Message</label>
+
+          <textarea
+            id="message"
+            placeholder="Type your inquiry here"
+          ></textarea>
+
+
+          <button
+            class="primary"
+            onclick="submitInquiry()"
+          >
+            Submit Inquiry
+          </button>
+
         </div>
+
       </main>
+
     </section>
 
+
+    <!-- =========================
+         INQUIRY SUBMITTED
+    ========================== -->
     <section id="submittedScreen" class="screen">
+
       <header class="topbar">
+<<<<<<< HEAD
         <button class="back-btn" onclick="showScreen('formScreen')">
+=======
+
+        <button
+          class="back-btn"
+          onclick="showScreen('formScreen')"
+        >
+          ←
+        </button>
+
+>>>>>>> b7a6fbc86768cb1d8284278549a2c4fac056ebb2
         <h1>Inquiry submitted</h1>
+
       </header>
+
 
       <main class="content center">
+
         <div class="card submitted-card">
+
           <div class="check">✓</div>
+
           <h2>Inquiry Submitted!</h2>
-          <p>Thank you! We have received your inquiry. We will respond to you as soon as possible.</p>
+
+          <p>
+            Thank you! We have received your inquiry.
+            We will respond to you as soon as possible.
+          </p>
+
 
           <div class="reference">
+
             <span>Inquiry Reference</span>
-            <strong id="submittedRef">INQ-2026-0521-0001</strong>
+
+            <strong id="submittedRef">
+              INQ-2026-0521-0001
+            </strong>
+
           </div>
 
+<<<<<<< HEAD
           <button class="primary" onclick="showDetails()">View My Inquiry</button>
+=======
+
+          <button
+            class="primary"
+            onclick="showDetails()"
+          >
+            View My Inquiry
+          </button>
+
+
+          <button
+            class="secondary"
+            onclick="showScreen('inquiriesScreen')"
+          >
+            BACK TO HOME
+          </button>
+
+>>>>>>> b7a6fbc86768cb1d8284278549a2c4fac056ebb2
         </div>
+
       </main>
+
     </section>
 
+
+    <!-- =========================
+         INQUIRY DETAILS
+    ========================== -->
     <section id="detailsScreen" class="screen">
+
       <header class="topbar">
+<<<<<<< HEAD
+=======
+
+        <button
+          class="back-btn"
+          onclick="showScreen('inquiriesScreen')"
+        >
+          ←
+        </button>
+
+>>>>>>> b7a6fbc86768cb1d8284278549a2c4fac056ebb2
         <h1>Inquiry Details</h1>
+
       </header>
+
 
       <main class="content">
+
         <div class="card details-card">
+
           <div class="ref-title">
+
             <span>Reference</span>
-            <strong id="detailRef">INQ-2026-0521-0001</strong>
+
+            <strong id="detailRef">
+              INQ-2026-0521-0001
+            </strong>
+
           </div>
+
 
           <div class="product-row">
+
             <div class="flower-img">💐</div>
+
             <div>
+
               <small>Product</small>
-              <strong>Eternal Glittered Rose</strong>
-              <b class="price">₱749</b>
+
+              <strong>
+                Eternal Glittered Rose
+              </strong>
+
+              <b class="price">
+                ₱749
+              </b>
+
             </div>
+
           </div>
+
 
           <div class="message-box">
+
             <strong>Your Message</strong>
-            <small id="detailDate">May 21, 2026, 10:30 AM</small>
-            <p id="detailMessage">I would like to inquire if you can make this bouquet in pastel pink and add fairy lights.</p>
+
+            <small id="detailDate">
+              May 21, 2026, 10:30 AM
+            </small>
+
+            <p id="detailMessage">
+              I would like to inquire if you can make this bouquet
+              in pastel pink and add fairy lights.
+            </p>
+
           </div>
+
 
           <div class="message-box seller">
+
             <strong>Seller Response</strong>
-            <small>May 21, 2026, 08:25 PM</small>
-            <p>Yes, we can customize it in pastel pink and add fairy lights. The total price will be ₱450.</p>
+
+            <small>
+              May 21, 2026, 08:25 PM
+            </small>
+
+            <p>
+              Yes, we can customize it in pastel pink and add
+              fairy lights. The total price will be ₱450.
+            </p>
+
           </div>
 
-          <button class="primary">Proceed With Order</button>
+
+          <button
+            class="primary"
+            onclick="proceedOrder()"
+          >
+            Proceed With Order
+          </button>
+
         </div>
+
       </main>
+
     </section>
 
+<<<<<<< HEAD
     <section id="inquiriesScreen" class="screen active">
       <header class="topbar inquiries-header">
+=======
+
+    <!-- =========================
+         MY INQUIRIES
+    ========================== -->
+    <section id="inquiriesScreen" class="screen">
+
+      <header class="topbar inquiries-header">
+
+        <button
+          class="back-btn"
+          onclick="goHome()"
+        >
+          ←
+        </button>
+
+>>>>>>> b7a6fbc86768cb1d8284278549a2c4fac056ebb2
         <h1>My Inquiries</h1>
+
       </header>
 
+
       <main class="content inquiries-content">
+<<<<<<< HEAD
         <div class="inquiries-list-header">
           <div class="tabs">
             <button class="tab active">All</button>
@@ -127,16 +308,58 @@
             <button class="tab">Accepted</button>
           </div>
           <button class="new-inquiry-button" type="button" onclick="showScreen('formScreen')">New Inquiry</button>
+=======
+
+        <div class="tabs">
+
+          <button
+            class="tab active"
+            data-status="All"
+            onclick="filterInquiries('All', this)"
+          >
+            All
+          </button>
+
+
+          <button
+            class="tab"
+            data-status="Responded"
+            onclick="filterInquiries('Responded', this)"
+          >
+            Responded
+          </button>
+
+
+          <button
+            class="tab"
+            data-status="Accepted"
+            onclick="filterInquiries('Accepted', this)"
+          >
+            Accepted
+          </button>
+
+>>>>>>> b7a6fbc86768cb1d8284278549a2c4fac056ebb2
         </div>
 
+
+        <!-- INQUIRY LIST -->
         <div id="inquiryList"></div>
+
       </main>
+
     </section>
+
   </div>
   </div>
 
+<<<<<<< HEAD
   <script src="../../public/js/navigation.js"></script>
   <script src="../../public/js/script.js"></script>
+=======
+
+  <!-- JAVASCRIPT -->
+>>>>>>> b7a6fbc86768cb1d8284278549a2c4fac056ebb2
   <script src="../../public/js/inquiries.js"></script>
+
 </body>
 </html>
