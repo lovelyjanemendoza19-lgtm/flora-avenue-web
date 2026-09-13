@@ -1,6 +1,6 @@
 (function () {
     const basePath = document.body.dataset.navigationBase || "";
-    const fallbackImage = basePath + "public/images/rose.jpg";
+    const fallbackImage = basePath + "public/images/rose.jpeg";
 
     function useFallback(image) {
         if (image.dataset.fallbackUsed === "true") {

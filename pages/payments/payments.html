@@ -1,194 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Payments | Flora Avenue</title>
-
-    <link rel="stylesheet" href="../../public/css/style.css">
-    <link rel="stylesheet" href="../../public/css/payment.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Payments | Flora Avenue</title>
+	<link rel="stylesheet" href="../../public/css/style.css">
+	<link rel="stylesheet" href="../../public/css/payment.css">
 </head>
 
 <body class="persistent-sidebar" data-navigation-base="../../">
+	<div class="website">
 
-<div class="website">
+			<div class="mobile-header">
 
-    <main class="payment-page">
+				<button class="menu-button" id="menuButton">
+					☰
+				</button>
 
-        <!-- PAYMENT LIST -->
-        <div class="payment-section">
+				<h1>Payments</h1>
 
-            <h1>My Payments</h1>
+			</div> 
+			
+		<main class="payments-page">
 
-            <div class="filters">
-                <button class="filter-button active" data-filter="all">ALL</button>
-                <button class="filter-button" data-filter="pending">PENDING</button>
-                <button class="filter-button" data-filter="submitted">SUBMITTED</button>
-                <button class="filter-button" data-filter="rejected">REJECTED</button>
-            </div>
+			<h1 class="desktop-title">My Payments</h1>
+			
+			<div class="filters">
+				<button class="filter-button active" data-filter="all">All</button>
+				<button class="filter-button" data-filter="pending">Pending</button>
+				<button class="filter-button" data-filter="submitted">Submitted</button>
+			</div>
 
+			<div class="payments-list">
 
-                 <!-- PAYMENT 1 -->
-                <div class="payment-item" data-status="pending" onclick="showPaymentDetails()">
+				<a href="#" class="payments-item" data-status="pending">
+					<img src="../../public/images/bouquet.jpeg" alt="ORD-2026-0521-0001">
+					<div class="payments-info">
+						<strong>ORD-2026-0521-0001</strong>
+						<span>May 12, 2026</span>
+						<b>₱400</b>
+					</div>
+					<span class="status pending">Pending</span>
+				</a>
 
-                    <img src="../../public/images/satin-.jpg"
-                         alt="Bouquet">
+				<a href="#" class="payments-item" data-status="submitted">
+					<img src="../../public/images/bouquet2.jpeg" alt="ORD-2026-0521-0002">
+					<div class="payments-info">
+						<strong>ORD-2026-0521-0002</strong>
+						<span>May 12, 2026</span>
+						<b>₱400</b>
+					</div>
+					<span class="status submitted">Submitted</span>
+				</a>
 
-                    <div class="payment-info">
-                        <strong>ORD-2024-0521-0001</strong>
-                        <span>May 12, 2026</span>
-                        <b>₱ 400</b>
-                    </div>
+				<a href="#" class="payments-item" data-status="submitted">
+					<img src="../../public/images/amore.jpeg" alt="ORD-2026-0521-0003">
+					<div class="payments-info">
+						<strong>ORD-2026-0521-0003</strong>
+						<span>May 12, 2026</span>
+						<b>₱1,000</b>
+					</div>
+					<span class="status submitted">Submitted</span>
+				</a>
 
-                    <span class="status pending">Pending</span>
+			</div>
 
-                </div>
+		</main>
 
-                <!-- PAYMENT 2 -->
-                <div class="payment-item"
-                data-status="submitted"
-                onclick="showPaymentDetails()">
-
-                    <img src="../../public/images/bouquet2.jpg"
-                         alt="Bouquet">
-
-                    <div class="payment-info">
-                        <strong>ORD-2024-0521-0002</strong>
-                        <span>May 12, 2026</span>
-                        <b>₱ 400</b>
-                    </div>
-
-                    <span class="status submitted">Submitted</span>
-
-                </div>
-
-                <!-- PAYMENT 3 -->
-                <div class="payment-item"
-                data-status="rejected"
-                onclick="showPaymentDetails()">
-
-                    <img src="../../public/images/bouquet2.jpg"
-                         alt="Bouquet">
-
-                    <div class="payment-info">
-                        <strong>ORD-2024-0521-0003</strong>
-                        <span>May 12, 2026</span>
-                        <b>₱ 400</b>
-                    </div>
-
-                    <span class="status rejected">Rejected</span>
-
-                </div>
-
-            </div>
-        </div>
+	</div>
 
 
-        <!-- PAYMENT DETAILS -->
-        <div class="details-section" id="paymentDetails">
+	<script src="../../public/js/navigation.js"></script>
+	<script src="../../public/js/script.js"></script>
+	<script src="../../public/js/payment.js"></script>
 
-            <h1>PAYMENT DETAILS</h1>
-
-            <div class="details-container">
-
-                <button class="back" type="button" onclick="hidePaymentDetails()" aria-label="Back to payments">←</button>
-
-                <div class="details-card">
-
-                    <!-- ORDER REFERENCE -->
-                    <div class="reference">
-
-                        <div>
-                            <h2>Order Reference</h2>
-                            <strong>ORD-2024-0521-0001</strong>
-                        </div>
-
-                        <span class="status pending">
-                            Pending
-                        </span>
-
-                    </div>
-
-
-                    <!-- AMOUNT -->
-                    <div class="detail">
-
-                        <h2>Amount</h2>
-
-                        <strong class="amount">
-                            ₱1,450
-                        </strong>
-
-                    </div>
-
-
-                    <!-- PAYMENT METHOD -->
-                    <div class="detail">
-
-                        <h2>Payment Method</h2>
-
-                        <p>Bank Transfer</p>
-
-                    </div>
-
-
-                    <!-- PAID ON -->
-                    <div class="detail">
-
-                        <h2>Paid on</h2>
-
-                        <p>
-                            May 12, 2026 · 09:10 AM · ₱400
-                        </p>
-
-                    </div>
-
-
-                    <!-- PAYMENT PROOF -->
-                    <div class="detail">
-
-                        <h2>Payment Proof</h2>
-
-                        <img
-                            src="../../public/images/bouquet.jpg"
-                            alt="Payment Proof"
-                            class="payment-proof"
-                        >
-
-                    </div>
-
-
-                    <!-- BUTTON -->
-                    <button class="order-button">
-                        VIEW ORDER STATUS
-                    </button>
-
-                </div>
-
-            </div>
-
-        </main>
-
-    </div>
-
-
-    <script src="../../public/js/navigation.js"></script>
-    <script src="../../public/js/script.js"></script>
-    <script src="../../public/js/payment.js"></script>
-
-    <script>
-    function showPaymentDetails() {
-            document.querySelector(".payment-section").classList.add("hide");
-            document.getElementById("paymentDetails").classList.add("show");
-        }
-
-        function hidePaymentDetails() {
-            document.querySelector(".payment-section").classList.remove("hide");
-            document.getElementById("paymentDetails").classList.remove("show");
-        }
-    </script>
-
-</body>
+	</body>
 </html>

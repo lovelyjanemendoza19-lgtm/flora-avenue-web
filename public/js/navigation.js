@@ -8,8 +8,6 @@
     navigation.innerHTML = `
         <div class="menu-overlay" id="menuOverlay"></div>
         <aside class="side-menu" id="sideMenu">
-            <div class="sidebar-brand">Flora Avenue</div>
-            <button class="close-button" id="closeButton" aria-label="Close menu">×</button>
             <nav>
                 <a href="${basePath}index.html" class="menu-link">Home</a>
                 <a href="${basePath}pages/products/products.html" class="menu-link">Products</a>
@@ -24,23 +22,24 @@
 
     body.prepend(navigation);
 
-    const menuButton = document.getElementById("menuButton");
-    const sideMenu = document.getElementById("sideMenu");
-    const menuOverlay = document.getElementById("menuOverlay");
-    const closeButton = document.getElementById("closeButton");
+    const menuButton = 
+        document.getElementById("menuButton");
+    const sideMenu = 
+        document.getElementById("sideMenu");
+    const menuOverlay =    
+        document.getElementById("menuOverlay");
 
     function closeMenu() {
-        sideMenu.classList.remove("active");
-        menuOverlay.classList.remove("active");
+        sideMenu.classList.remove("show-menu");
+        menuOverlay.classList.remove("show-overlay");
     }
 
     function openMenu() {
-        sideMenu.classList.add("active");
-        menuOverlay.classList.add("active");
+        sideMenu.classList.add("show-menu");
+        menuOverlay.classList.add("show-overlay");
     }
 
     menuButton?.addEventListener("click", openMenu);
-    closeButton?.addEventListener("click", closeMenu);
     menuOverlay.addEventListener("click", closeMenu);
 
     document.getElementById("logoutButton")?.addEventListener("click", function (event) {
@@ -58,5 +57,8 @@
     }
 
     updateNavigation();
-    window.addEventListener("resize", updateNavigation);
+    window.addEventListener(
+        "resize", 
+        updateNavigation
+    );
 })();

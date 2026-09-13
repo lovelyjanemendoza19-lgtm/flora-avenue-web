@@ -21,23 +21,31 @@ body.persistent-sidebar .website {
     margin-left: 210px;
 }
 
+
 header {
     width: 100%;
     height: 80px;
+
     background-color: #e8dfe0;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     position: relative;
 }
 
 .menu-button {
     position: absolute;
     left: 16px;
+
     border: none;
     background: none;
+
     color: #332d2f;
+
     font-size: 28px;
+
     cursor: pointer;
 }
 
@@ -49,18 +57,25 @@ header {
 
 .logo img {
     display: block;
+
     width: 40px;
     height: 40px;
+
     object-fit: contain;
 }
+
 
 .menu-overlay {
     position: fixed;
     inset: 0;
+
     background-color: rgba(0, 0, 0, 0.35);
+
     opacity: 0;
     visibility: hidden;
+
     transition: 0.3s ease;
+
     z-index: 90;
 }
 
@@ -69,17 +84,136 @@ header {
     visibility: visible;
 }
 
-.logout-modal {
+
+.side-menu {
     position: fixed;
-    inset: 0;
-    z-index: 110;
+
+    top: 0;
+    left: 0;
+
+    width: 210px;
+    max-width: calc(100vw - 24px);
+
+    height: 100vh;
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+    background-color: #E8DFE0;
+
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.20);
+
+    transform: translateX(-100%);
+
+    transition: transform 0.3s ease;
+
+    z-index: 100;
+}
+
+.side-menu.show-menu {
+    transform: translateX(0);
+}
+
+
+body.persistent-sidebar .side-menu {
+    transform: translateX(0);
+}
+
+body.persistent-sidebar .menu-button {
+    display: none;
+}
+
+
+.side-menu nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.side-menu a.menu-link {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 9px 10px;
+
+    border-radius: 6px;
+
+    background-color: transparent;
+
+    color: #332d2f;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+}
+
+.menu-icon {
+    width: 18px;
+    height: 18px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.menu-icon img {
+    width: 14px;
+    height: 14px;
+
+    object-fit: contain;
+
+    filter: brightness(0);
+}
+
+.side-menu nav .menu-link:hover {
+    background-color: #7c4a4f;
+    color: #e8dfe0;
+}
+
+.side-menu nav .menu-link:hover .menu-icon img {
+    filter: brightness(0) invert(1);
+}
+
+.side-menu nav .menu-link.active {
+    background-color: #7c4a4f;
+    color: #e8dfe0;
+
+    font-weight: 600;
+}
+
+.side-menu nav .menu-link.active .menu-icon img {
+    filter: brightness(0) invert(1);
+}
+
+.side-menu nav .menu-text {
+    color: inherit;
+}
+
+
+.logout-modal {
+    position: fixed;
+    inset: 0;
+
+    z-index: 110;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     padding: 20px;
+
     background: rgba(51, 45, 47, 0.42);
+
     opacity: 0;
     visibility: hidden;
+
     transition: 0.2s ease;
 }
 
@@ -90,224 +224,146 @@ header {
 
 .logout-dialog {
     position: relative;
+
     width: min(360px, 100%);
+
     padding: 30px 24px 24px;
+
     border: 1px solid #ead9dc;
     border-radius: 16px;
+
     background: #fffafa;
+
     box-shadow: 0 12px 30px rgba(51, 45, 47, 0.2);
+
     text-align: center;
 }
 
 .logout-close {
     position: absolute;
+
     top: 8px;
     right: 12px;
+
     border: 0;
+
     background: transparent;
+
     color: #75676a;
+
     font-size: 24px;
-    line-height: 1;
+
     cursor: pointer;
 }
 
 .logout-icon {
     width: 48px;
     height: 48px;
+
     margin: 0 auto 14px;
+
     display: grid;
     place-items: center;
+
     border-radius: 50%;
+
     background: #f2dfe3;
+
     color: #b5687c;
+
     font-size: 25px;
 }
 
 .logout-dialog h2 {
     color: #332d2f;
+
     font-family: "Playfair Display", serif;
+
     font-size: 24px;
 }
 
 .logout-dialog p {
     margin-top: 8px;
+
     color: #75676a;
+
     font-size: 13px;
 }
 
 .logout-actions {
     display: flex;
+
     gap: 10px;
+
     margin-top: 24px;
 }
 
 .logout-actions button {
     flex: 1;
+
     padding: 10px 14px;
+
     border-radius: 7px;
+
     font: inherit;
+
     font-size: 13px;
     font-weight: 600;
+
     cursor: pointer;
 }
 
 .logout-cancel {
     border: 1px solid #d8c1c5;
+
     background: #ffffff;
+
     color: #6d565b;
 }
 
 .logout-confirm {
     border: 1px solid #b5687c;
+
     background: #b5687c;
+
     color: #ffffff;
 }
 
-.side-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 210px;
-    max-width: calc(100vw - 24px);
-    height: 100vh;
-    overflow-y: auto;
-    padding: 20px;
-    background-color: #E8DFE0;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.20);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: 100;
-}
-
-.side-menu.show-menu {
-    transform: translateX(0);
-}
-
-body.persistent-sidebar .side-menu {
-    transform: translateX(0);
-}
-
-body.persistent-sidebar .menu-button {
-    display: none;
-}
-
 @media (max-width: 599px) {
-    header {
-        height: 64px;
+
+    body.persistent-sidebar .website {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+    body.persistent-sidebar .menu-button {
+        display: block;
     }
 
     .menu-button {
         left: 12px;
+
         font-size: 24px;
-    }
-
-    .logo img {
-        width: 32px;
-        height: 32px;
-    }
-
-    body.persistent-sidebar .website {
-        width: 100%;
-        margin-left: 0;
     }
 
     body.persistent-sidebar .side-menu {
         width: 180px;
+
         padding: 16px 10px;
+
         transform: translateX(-100%);
     }
+
+    body.persistent-sidebar .side-menu.show-menu {
+        transform: translateX(0);
+    }
+
 }
 
-.close-button {
-    display: block;
-    margin-left: auto;
-    margin-bottom: 15px;
-    border: none;
-    background: none;
-    color: #332d2f;
-    font-size: 28px;
-    cursor: pointer;
-}
-
-.side-menu nav {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.side-menu a.menu-link {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 10px;
-    border-radius: 6px;
-    color: #332d2f;
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: none;
-}
-
-.menu-icon {
-    width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.menu-icon img {
-    width: 14px;
-    height: 14px;
-    object-fit: contain;
-    filter: brightness(0);
-}
-.side-menu nav .menu-link:hover .menu-icon img {
-    filter: brightness(0) invert(1);
-}
-.side-menu nav .menu-link:active .menu-icon img,
-.side-menu nav .menu-link.active .menu-icon img {
-    filter: brightness(0) invert(1);
-}
-
-.side-menu nav .menu-link:active,
-.side-menu nav .menu-link.active {
-    color: #ffffff;
-}
-
-.side-menu nav .menu-text {
-    display: inline-block;
-    color: inherit;
-}
-
-.side-menu nav .menu-link.active {
-    background-color: #7c4a4f;
-    color: #e8dfe0;
-    font-weight: 600;
-}
-
-.side-menu nav .menu-link:hover {
-    background-color: #7c4a4f;
-    color: #e8dfe0;
-}
-
-.side-menu nav .menu-link {
-    background-color: transparent;
-    color: #332d2f;
-}
-
-.side-menu nav:hover .menu-link.active:not(:hover) {
-    background-color: transparent;
-    color: #332d2f;
-    font-weight: 500;
-}
-
-.side-menu nav:hover .menu-link.active:not(:hover) .menu-icon img {
-    filter: brightness(0);
-}
 
 @media (min-width: 600px) {
+
     header {
         height: 90px;
     }
@@ -316,15 +372,19 @@ body.persistent-sidebar .menu-button {
         width: 44px;
         height: 44px;
     }
+
 }
 
+
 @media (min-width: 900px) {
+
     header {
         height: 72px;
     }
 
     .menu-button {
         left: 30px;
+
         font-size: 30px;
     }
 
@@ -332,15 +392,23 @@ body.persistent-sidebar .menu-button {
         width: 40px;
         height: 40px;
     }
+
 }
 
+
+/* =========================
+   LARGE SCREEN
+========================= */
+
 @media (min-width: 1200px) {
+
     header {
         height: 78px;
     }
 
     .menu-button {
         left: 40px;
+
         font-size: 32px;
     }
 
@@ -348,4 +416,13 @@ body.persistent-sidebar .menu-button {
         width: 42px;
         height: 42px;
     }
+
+}
+
+@media (max-width: 599px) {
+
+    body.persistent-sidebar .menu-button {
+        display: block;
+    }
+
 }

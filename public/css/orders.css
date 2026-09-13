@@ -92,8 +92,6 @@
 }
 
 
-/* STATUS */
-
 .status {
     padding: 6px 14px;
     border-radius: 15px;
@@ -120,9 +118,92 @@
 
 /* MOBILE */
 
+.mobile-header {
+    display: none;
+}
+
 @media (max-width: 599px) {
     .order-item img {
         width: 52px;
         height: 52px;
     }
+
+ .mobile-header {
+        display: flex;
+        align-items: center;
+
+        gap: 14px;
+
+        height: 64px;
+
+        padding: 0 16px;
+
+        background-color: #f5eff0;
+    }
+
+    .mobile-header h1 {
+        margin: 0;
+
+        font-family: "Playfair Display", serif;
+
+        font-size: 24px;
+        font-weight: 700;
+
+        color: #332d2f;
+    }
+
+    .menu-button {
+        position: static;
+
+        border: none;
+        background: none;
+
+        color: #332d2f;
+
+        font-size: 26px;
+
+        cursor: pointer;
+    }
+
+    .desktop-title {
+        display: none;
+    }
+
+    .orders-page {
+        padding: 10px 16px 40px;
+    }
+
+    .filters {
+        gap: 8px;
+
+        overflow-x: auto;
+    }
+
+    .filters .filter-button {
+        padding: 8px 16px;
+
+        white-space: nowrap;
+    }
+
+    .order-item {
+        gap: 12px;
+
+        padding: 12px;
+    }
+
+    .order-item img {
+        width: 52px;
+        height: 52px;
+    }
+
+    .order-info strong {
+        font-size: 13px;
+    }
+
+    .status {
+        padding: 5px 10px;
+
+        font-size: 10px;
+    }
+
 }
