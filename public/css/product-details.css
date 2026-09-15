@@ -435,3 +435,20 @@ body {
   color: #888;
   pointer-events: none;
 }
+/* Keep the main action button at the bottom-right */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  min-height: 560px;
+}
+
+.product-actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: auto;
+}
+
+#mainActionButton {
+  margin-left: auto;
+}
