@@ -642,8 +642,34 @@ function initializePage() {
 if (!product.variants || product.variants.length <= 1) {
   variantField.classList.add("hidden");
 }
+// Hide Add-ons and Quantity for customizable products
+if (product.customizable) {
+  const addOnsField = addOnsElement.closest(".form-field");
+  const quantityRow = document.querySelector(".quantity-row");
+
+  //special instructions
+  const notesField = document.querySelector("#specialInstructions")?.closest(".form-field");
+
+  if (addOnsField) addOnsField.style.display = "none";
+  if (quantityRow) quantityRow.style.display = "none";
+  if (notesField) notesField.style.display = "none";
+}
+// Hide Choose variant for customizable products
+if (product.customizable) {
+  variantField.classList.add("hidden");
+} else {
+  variantField.classList.remove("hidden");
+}
   renderColors();
   renderAddOns();
+  if (product.customizable === true) {
+  const totalField = document.querySelector(".total-row");
+
+  if (totalField) {
+    totalField.style.display = "none";
+  }
+}
+  
 
   if (product.outOfStock) {
     stockMessage.textContent = "Out of stock";
