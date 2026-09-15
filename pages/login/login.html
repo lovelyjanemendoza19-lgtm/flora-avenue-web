@@ -7,98 +7,109 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0">
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Login | Flora Avenue</title>
 
-
-    <!-- Google Fonts -->
-
+    <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap"
-        rel="stylesheet">
+        rel="stylesheet"
+    >
 
-
-    <!-- Auth CSS -->
-
+    <!-- AUTH CSS -->
     <link
         rel="stylesheet"
-        href="../../public/css/auth.css">
+        href="../../public/css/auth.css"
+    >
 
 </head>
 
 
-<body>
-
-    <div class="auth-container">
+<body class="auth-page">
 
 
-        <!-- LEFT BRAND SECTION -->
+    <!-- DECORATIVE BACKGROUND -->
+
+    <div class="floating-flower flower-one">✿</div>
+    <div class="floating-flower flower-two">✿</div>
+    <div class="floating-flower flower-three">❀</div>
+    <div class="floating-flower flower-four">✿</div>
+
+
+    <main class="auth-container">
+
+
+        <!-- LEFT SIDE -->
 
         <section class="auth-brand">
 
             <div class="brand-content">
 
-                <div class="brand-logo">
-
-                    <img
-                        src="../../public/images/logo.png"
-                        alt="Flora Avenue Logo">
-
+                <div class="logo-circle">
+                    🌷
                 </div>
 
-
-                <p class="brand-small">
-                    WELCOME BACK
-                </p>
-
-
                 <h1>
-                    Welcome Back to
-                    <span>Flora Avenue</span>
+                    Flora Avenue
                 </h1>
 
+                <p class="brand-tagline">
+                    Handmade crafts for every moment.
+                </p>
 
                 <p class="brand-description">
-                    Sign in to continue exploring our
-                    handmade crafts and beautiful creations.
+                    Discover beautiful handmade bouquets,
+                    gifts, souvenirs, and crafts made with love.
                 </p>
+
+                <div class="flower-decoration">
+                    ✿　❀　✿
+                </div>
 
             </div>
 
         </section>
 
 
-        <!-- RIGHT LOGIN SECTION -->
+
+        <!-- RIGHT SIDE -->
 
         <section class="auth-card-wrapper">
 
-            <div class="mobile-brand">
-
-                <img
-                    src="../../public/images/logo.png"
-                    alt="Flora Avenue Logo">
-
-            </div>
-
-
             <div class="auth-card">
+
+
+                <!-- MOBILE LOGO -->
+
+                <div class="mobile-brand">
+
+                    <div class="mobile-logo">
+                        🌷
+                    </div>
+
+                    <h1>
+                        Flora Avenue
+                    </h1>
+
+                </div>
+
+
+
+                <!-- TITLE -->
 
                 <div class="auth-heading">
 
-                    <p class="form-label">
-                        ACCOUNT
-                    </p>
+                    <span class="welcome">
+                        Welcome back
+                    </span>
 
                     <h2>
-                        Login
+                        Sign in to your account
                     </h2>
 
                     <p>
@@ -108,57 +119,80 @@
                 </div>
 
 
+
                 <!-- LOGIN FORM -->
 
-                <form id="loginForm">
+                <form
+                    id="loginForm"
+                    class="auth-form"
+                >
 
 
                     <!-- EMAIL -->
 
-                    <div class="form-group">
+                    <div class="input-group">
 
                         <label for="loginEmail">
                             Email Address
                         </label>
 
-                        <input
-                            type="email"
-                            id="loginEmail"
-                            name="email"
-                            placeholder="Enter your email"
-                            autocomplete="email"
-                            required>
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                ✉
+                            </span>
+
+                            <input
+                                type="email"
+                                id="loginEmail"
+                                placeholder="Enter your email"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
 
                     </div>
 
 
+
                     <!-- PASSWORD -->
 
-                    <div class="form-group">
+                    <div class="input-group">
 
-                        <label for="loginPassword">
-                            Password
-                        </label>
+                        <div class="label-row">
+
+                            <label for="loginPassword">
+                                Password
+                            </label>
+
+                            <a href="#" onclick="forgotPassword(event)">
+                                Forgot password?
+                            </a>
+
+                        </div>
 
 
-                        <div class="password-wrapper">
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                🔒
+                            </span>
 
                             <input
                                 type="password"
                                 id="loginPassword"
-                                name="password"
                                 placeholder="Enter your password"
                                 autocomplete="current-password"
-                                required>
-
+                                required
+                            >
 
                             <button
                                 type="button"
                                 class="password-toggle"
-                                data-target="loginPassword">
-
-                                Show
-
+                                onclick="togglePassword('loginPassword', this)"
+                            >
+                                👁
                             </button>
 
                         </div>
@@ -166,46 +200,44 @@
                     </div>
 
 
-                    <!-- OPTIONS -->
 
-                    <div class="form-options">
+                    <!-- REMEMBER -->
 
-                        <label class="remember-me">
+                    <label class="remember">
 
-                            <input
-                                type="checkbox"
-                                id="rememberMe">
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                        >
 
-                            <span>
-                                Remember me
-                            </span>
+                        <span>
+                            Remember me
+                        </span>
 
-                        </label>
+                    </label>
 
-
-                        <a
-                            href="#"
-                            class="forgot-password">
-
-                            Forgot password?
-
-                        </a>
-
-                    </div>
 
 
                     <!-- LOGIN BUTTON -->
 
                     <button
                         type="submit"
-                        class="auth-button">
+                        class="auth-button"
+                    >
 
-                        Login
+                        <span>
+                            Sign In
+                        </span>
+
+                        <span class="button-arrow">
+                            →
+                        </span>
 
                     </button>
 
 
                 </form>
+
 
 
                 <!-- REGISTER -->
@@ -217,46 +249,29 @@
                     </span>
 
                     <a href="../register/register.html">
-                        Create one
+                        Create an account
                     </a>
 
                 </div>
+
 
 
                 <!-- HOME -->
 
                 <a
                     href="../../index.html"
-                    class="back-home">
-
+                    class="back-home"
+                >
                     ← Back to Home
-
                 </a>
+
 
             </div>
 
         </section>
 
+    </main>
 
-        <!-- Decorative flowers -->
-
-        <div class="floating-flower flower-one">
-            ✿
-        </div>
-
-        <div class="floating-flower flower-two">
-            ❀
-        </div>
-
-        <div class="floating-flower flower-three">
-            ✿
-        </div>
-
-
-    </div>
-
-
-    <!-- Auth JS -->
 
     <script src="../../public/js/auth.js"></script>
 
