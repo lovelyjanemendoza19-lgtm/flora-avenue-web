@@ -1,885 +1,706 @@
-/* =========================================================
-   FLORA AVENUE
-   PRODUCT DETAILS JAVASCRIPT
-   ========================================================= */
-
-
-/* =========================================================
-   PRODUCT DATA
-   ========================================================= */
-
-const products = {
-
-    /* =========================
-       FLOWERS
-    ========================= */
-
-    "plain-tulip-satin": {
-        name: "Plain Tulip / Satin Rose",
-        description:
-            "A beautiful handmade satin rose bouquet, perfect for gifts and special occasions.",
-        folder: "plain-tulip-satin",
-        colors: [
-            "light-red",
-            "blue",
-            "purple",
-            "pink"
-        ],
-        price: 45
-    },
-
-    "satin-rose": {
-        name: "Satin Rose Bouquet",
-        description:
-            "Handmade satin rose bouquet available in different sizes, colors, and styles.",
-        folder: "satin-rose",
-        colors: [
-            "red",
-            "pink",
-            "violet",
-            "blue"
-        ],
-        price: 69
-    },
-
-    "eternal-rose": {
-        name: "Eternal Glittered Rose",
-        description:
-            "A beautiful Eternal glittered Rose perfect for any special occasion.",
-        folder: "eternal-rose",
-        colors: [
-            "red",
-            "blue",
-            "purple",
-            "pink"
-        ],
-        price: 749
-    },
-
-    "sunflower": {
-        name: "Sunflower Bouquet",
-        description:
-            "A cheerful sunflower bouquet perfect for gifts and special occasions.",
-        folder: "sunflower",
-        colors: [],
-        price: 119
-    },
-
-    "artificial-tulip": {
-        name: "Artificial Tulip Bouquet",
-        description:
-            "Beautiful artificial tulip bouquet available in different quantities and colors.",
-        folder: "artificial-tulip",
-        colors: [
-            "pink",
-            "white",
-            "purple",
-            "yellow"
-        ],
-        price: 119
-    },
-
-    "roria": {
-        name: "Roria",
-        description:
-            "A beautiful flower arrangement from Flora Avenue.",
-        folder: "roria",
-        colors: [],
-        price: 450
-    },
-
-    "amore": {
-        name: "Amore Blooms",
-        description:
-            "A beautiful mixed flower bouquet available in different designs.",
-        folder: "amore",
-        colors: [],
-        price: 550
-    },
-
-    "thumbelina": {
-        name: "Thumbelina",
-        description:
-            "A lovely flower arrangement from Flora Avenue.",
-        folder: "thumbelina",
-        colors: [],
-        price: 749
-    },
-
-    "dahlia": {
-        name: "Dahlia Satin Rose",
-        description:
-            "A handmade Dahlia satin rose bouquet, perfect for thoughtful gifts and special moments.",
-        folder: "dahlia",
-        colors: [
-            "pink",
-            "red",
-            "violet"
-        ],
-        price: 119
-    },
-
-    "butterfly-flowers": {
-        name: "Butterfly × Flowers",
-        description:
-            "A lovely flower bouquet mixed with butterflies and lights.",
-        folder: "butterfly-flowers",
-        colors: [
-            "pink",
-            "red",
-            "violet",
-            "blue"
-        ],
-        price: 260
-    },
-
-
-    /* =========================
-       BOUQUETS
-    ========================= */
-
-    "butterfly-bouquet": {
-        name: "Butterfly Bouquet with Lights",
-        description:
-            "A charming butterfly bouquet decorated with beautiful fairy lights.",
-        folder: "butterfly-bouquet",
-        colors: [
-            "purple",
-            "pink",
-            "blue",
-            "yellow"
-        ],
-        price: 199
-    },
-
-    "buldak": {
-        name: "Buldak Bouquet",
-        description:
-            "A unique Buldak bouquet perfect for gifting.",
-        folder: "buldak",
-        colors: [],
-        price: 1100
-    },
-
-    "chocolate-bouquet": {
-        name: "Chocolate Bouquet",
-        description:
-            "A sweet chocolate bouquet perfect for special occasions.",
-        folder: "chocolate-bouquet",
-        colors: [],
-        price: 699
-    },
-
-    "money-bouquet": {
-        name: "Money Bouquet",
-        description:
-            "A creative money bouquet perfect for birthdays and special celebrations.",
-        folder: "money-bouquet",
-        colors: [],
-        price: 399
-    },
-
-
-    /* =========================
-       BOX / BAG
-    ========================= */
-
-    "blossom-bag": {
-        name: "Blossom Bag",
-        description:
-            "A beautiful floral arrangement presented in a stylish bag.",
-        folder: "blossom-bag",
-        colors: [],
-        price: 155
-    },
-
-    "blossom-box": {
-        name: "Blossom Box",
-        description:
-            "A beautiful blossom box with lights and a mini photo strip.",
-        folder: "blossom-box",
-        colors: [],
-        price: 219
-    },
-
-    "chocolate-box": {
-        name: "Chocolate Box",
-        description:
-            "A sweet chocolate gift box perfect for special occasions.",
-        folder: "chocolate-box",
-        colors: [],
-        price: "Out of stock"
-    },
-
-
-    /* =========================
-       RINGS / JEWELRY
-    ========================= */
-
-    "white-ring": {
-        name: "White Ring",
-        description:
-            "A simple and elegant ring perfect as a meaningful gift.",
-        folder: "white-ring",
-        colors: [],
-        price: 100
-    },
-
-    "pink-ring": {
-        name: "Pink Ring",
-        description:
-            "A lovely pink ring perfect for special occasions.",
-        folder: "pink-ring",
-        colors: [],
-        price: 110
-    },
-
-    "couple-ring": {
-        name: "Couple Ring",
-        description:
-            "A matching couple ring set perfect as a meaningful gift.",
-        folder: "couple-ring",
-        colors: [],
-        price: 180
-    },
-
-    "necklace": {
-        name: "Necklace",
-        description:
-            "A beautiful necklace perfect for gifting.",
-        folder: "necklace",
-        colors: [],
-        price: 180
-    },
-
-
-    /* =========================
-       KEYCHAINS / ACCESSORIES
-    ========================= */
-
-    "drive-safe": {
-        name: "Drive Safe",
-        description:
-            "A thoughtful Drive Safe gift item perfect for someone special.",
-        folder: "drive-safe",
-        colors: [],
-        price: 50
-    },
-
-    "regular-keychain": {
-        name: "Regular Keychain",
-        description:
-            "A customizable regular keychain perfect for gifting.",
-        folder: "regular-keychain",
-        colors: [],
-        price: 40
-    },
-
-    "spotify-keychain": {
-        name: "Spotify Keychain",
-        description:
-            "A personalized Spotify keychain made for meaningful memories.",
-        folder: "spotify-keychain",
-        colors: [],
-        price: 55
-    },
-
-    "mini-cd": {
-        name: "Mini CD",
-        description:
-            "A cute personalized mini CD keepsake.",
-        folder: "mini-cd",
-        colors: [],
-        price: 149
-    },
-
-    "ref-magnet": {
-        name: "Ref Magnet",
-        description:
-            "A personalized refrigerator magnet perfect as a small keepsake.",
-        folder: "ref-magnet",
-        colors: [],
-        price: "Price varies"
-    },
-
-    "phone-lanyard": {
-        name: "Phone Lanyard",
-        description:
-            "A customizable phone lanyard perfect for everyday use.",
-        folder: "phone-lanyard",
-        colors: [],
-        price: "Out of stock"
-    },
-
-    "button-pin": {
-        name: "Button Pin",
-        description:
-            "A customizable button pin perfect for gifts and personal collections.",
-        folder: "button-pin",
-        colors: [],
-        price: 40
-    },
-
-    "pocket-mirror": {
-        name: "Pocket Mirror",
-        description:
-            "A cute customizable pocket mirror perfect for gifting.",
-        folder: "pocket-mirror",
-        colors: [],
-        price: 50
-    },
-
-
-    /* =========================
-       PHOTO PRODUCTS
-    ========================= */
-
-    "polaroid": {
-        name: "Polaroid",
-        description:
-            "A personalized polaroid photo keepsake.",
-        folder: "polaroid",
-        colors: [],
-        price: 6
-    },
-
-    "mini-photo-strip": {
-        name: "Mini Photo Strip",
-        description:
-            "A personalized mini photo strip keepsake.",
-        folder: "mini-photo-strip",
-        colors: [],
-        price: 25
-    },
-
-    "regular-photo-strip": {
-        name: "Regular Photo Strip",
-        description:
-            "A personalized regular photo strip keepsake.",
-        folder: "regular-photo-strip",
-        colors: [],
-        price: 55
-    },
-
-
-    /* =========================
-       OTHER PRODUCTS
-    ========================= */
-
-    "makeup-bouquet": {
-        name: "Makeup Bouquet",
-        description:
-            "A creative bouquet made with makeup items, perfect as a special gift.",
-        folder: "makeup-bouquet",
-        colors: [],
-        price: "Custom Price"
-    },
-
-    "beverage-bouquet": {
-        name: "Beverage Bouquet",
-        description:
-            "A unique beverage bouquet perfect for celebrations and gifting.",
-        folder: "beverage-bouquet",
-        colors: [],
-        price: "Custom Price"
-    },
-
-    "money-garland": {
-        name: "Money Garland",
-        description:
-            "A creative money garland perfect for birthdays and special celebrations.",
-        folder: "money-garland",
-        colors: [],
-        price: "Custom Price"
-    },
-
-    "lei-garland": {
-        name: "Lei Garland",
-        description:
-            "A beautiful lei garland perfect for celebrations and special occasions.",
-        folder: "lei-garland",
-        colors: [],
-        price: "Custom Price"
-    },
-
-    "custom-bouquet": {
-        name: "Custom Bouquet",
-        description:
-            "A customizable bouquet made especially for your preferred design.",
-        folder: "custom-bouquet",
-        colors: [],
-        price: "Custom Price"
-    }
-
-};
-
-
-/* =========================================================
-   GET PRODUCT ID FROM URL
-   ========================================================= */
-
-const params =
-    new URLSearchParams(window.location.search);
-
-const productId =
-    params.get("id");
-
-const product =
-    products[productId];
-
-
-/* =========================================================
-   GET HTML ELEMENTS
-   ========================================================= */
-
-const productName =
-    document.getElementById("productName");
-
-const productDescription =
-    document.getElementById("productDescription");
-
-const productImage =
-    document.getElementById("productImage");
-
-const productPrice =
-    document.getElementById("productPrice");
-
-const colorGroup =
-    document.getElementById("colorGroup");
-
-const colorOptions =
-    document.getElementById("colorOptions");
-
-const quantityElement =
-    document.getElementById("quantity");
-
-const decreaseQuantity =
-    document.getElementById("decreaseQuantity");
-
-const increaseQuantity =
-    document.getElementById("increaseQuantity");
-
-const inquireButton =
-    document.getElementById("inquireButton");
-
-const mainActionButton =
-    document.getElementById("mainActionButton");
-
-const handmadeButton =
-    document.getElementById("handmadeButton");
-
-const customizableButton =
-    document.getElementById("customizableButton");
-
-
-/* =========================================================
-   VARIABLES
-   ========================================================= */
-
-let quantity = 1;
-
-let selectedColor = null;
-
-
-/* =========================================================
-   CHECK PRODUCT
-   ========================================================= */
-
-if (product) {
-
-    initializeProduct();
-
-} else {
-
-    productName.textContent =
-        "Product Not Found";
-
-    productDescription.textContent =
-        "The product you are looking for does not exist.";
-
-    productPrice.textContent =
-        "Price unavailable";
-
-    colorGroup.style.display =
-        "none";
-
-    productImage.style.display =
-        "none";
+
+/* =====================================================
+   FLORA AVENUE - PRODUCT DETAILS
+   Images are expected inside: public/images/
+===================================================== */
+
+const IMAGE_BASE = "../../public/images/";
+
+const products = [
+  {
+    id: "plain-tulip",
+    name: "Plain Tulip / Satin Rose",
+    category: "Flowers & Bouquets",
+    price: 45,
+    description: "Plain tulip or satin rose.",
+    customizable: false,
+    colors: ["Pink", "Red", "Blue", "Purple", "Yellow"],
+    images: ["plain-tulip.jpeg"]
+  },
+  {
+    id: "satin-rose",
+    name: "Satin Rose",
+    category: "Flowers & Bouquets",
+    description: "Choose your preferred size and stem count.",
+    colors: ["Pink", "Red", "Blue", "Purple", "Yellow"],
+    customizable: false,
+    variants: [
+      { label: "Small — 1 stem", price: 69 },
+      { label: "Small — 3 stems", price: 169 },
+      { label: "Small — 5 stems", price: 290 },
+      { label: "Medium — 3 stems + lights", price: 250 },
+      { label: "Medium — 6 stems + lights", price: 550 },
+      { label: "Medium — 8 stems + lights", price: 600 },
+      { label: "Big — 10–12 stems + free card", price: 800 },
+      { label: "Big — 15–18 stems + free card", price: 1299 },
+      { label: "Big — 20–25 stems + free card", price: 1499 }
+    ],
+    images: ["satin-rose.jpeg"]
+  },
+  {
+    id: "eternal-rose",
+    name: "Eternal Rose / Glittered",
+    category: "Flowers & Bouquets",
+    description: "Eternal rose bouquet with your chosen stem count.",
+    colors: ["Pink", "Red", "Blue", "Purple", "Yellow"],
+    customizable: false,
+    variants: [
+      { label: "7 stems", price: 749 },
+      { label: "12 stems", price: 1199 },
+      { label: "15 stems", price: 1299 },
+      { label: "18 stems", price: 1499 },
+      { label: "20 stems", price: 1999 },
+      { label: "21–25 stems", price: 2399 },
+      { label: "30 stems", price: 2799 },
+      { label: "35 stems", price: 2849 },
+      { label: "40 stems", price: 3299 },
+      { label: "50 stems", price: 4299 },
+      { label: "100 stems", price: 7999 }
+    ],
+    images: ["eternal-rose.jpeg"]
+  },
+  {
+    id: "sunflower",
+    name: "Sunflower Bouquet",
+    category: "Flowers & Bouquets",
+    description: "Custom stem count is available upon request.",
+    customizable: true,
+    variants: [
+      { label: "1 stem", price: 119 },
+      { label: "3 stems", price: 399 },
+      { label: "5 stems luxe", price: 599 },
+      { label: "10 stems luxe", price: 1249 },
+      { label: "Custom stem count — inquire", price: 0 }
+    ],
+    images: ["sunflower.jpeg"]
+  },
+  {
+    id: "artificial-tulip",
+    name: "Artificial Tulip Bouquet",
+    category: "Flowers & Bouquets",
+    description: "Artificial tulip bouquet.",
+    customizable: false,
+    variants: [
+      { label: "1 stem", price: 119 },
+      { label: "3 stems", price: 219 },
+      { label: "5 stems", price: 319 },
+      { label: "8 stems", price: 499 },
+      { label: "10 stems", price: 619 },
+      { label: "12 stems", price: 719 },
+      { label: "15–18 stems", price: 999 }
+    ],
+    images: ["artificial-tulip.jpeg"]
+  },
+  {
+    id: "roria",
+    name: "Roria Bouquet",
+    category: "Flowers & Bouquets",
+    price: 450,
+    description: "Roria bouquet.",
+    customizable: false,
+    images: ["roria.jpeg"]
+  },
+  {
+    id: "thumbelina",
+    name: "Thumbelina Bouquet",
+    category: "Flowers & Bouquets",
+    price: 749,
+    description: "Thumbelina bouquet.",
+    customizable: false,
+    images: ["thumbelina.jpeg"]
+  },
+  {
+    id: "dahlia",
+    name: "Dahlia Satin Rose",
+    category: "Flowers & Bouquets",
+    description: "Choose your preferred arrangement.",
+    customizable: false,
+    variants: [
+      { label: "1 stem", price: 119 },
+      { label: "7 stems round bouquet", price: 749 }
+    ],
+    images: ["dahlia.jpeg"]
+  },
+  {
+    id: "amore",
+    name: "Amore Blooms",
+    category: "Flowers & Bouquets",
+    description: "Mixed flower bouquets.",
+    customizable: false,
+    variants: [
+      { label: "Code 01 Small — 2 roses, 1 daisy, 2 plumeria, 3 tulips", price: 550 },
+      { label: "Code 02 Medium — 6 roses, 4 tulips, butterfly and fillers", price: 999 },
+      { label: "Code 03 Large — 12 roses, 1 peony, 7 tulips, butterfly and fillers", price: 1389 },
+      { label: "Code 04 Large — 6 roses, 4 plumeria, 1 orchid, 1 tulip, 2 daisies, butterfly and fillers", price: 949 },
+      { label: "Code 05 Large — 6 roses, 4 tulips, 1 peony, 1 orchid, 2 daisies, butterfly and fillers", price: 1389 }
+    ],
+    images: ["amore.jpeg"]
+  },
+  {
+    id: "butterfly",
+    name: "Butterfly Bouquet with Lights",
+    category: "Butterfly Bouquets",
+    description: "Butterfly bouquet with lights. Available in Purple, Pink, Blue, and Yellow.",
+    customizable: false,
+    variants: [
+      { label: "10 butterflies", price: 199 },
+      { label: "20 butterflies", price: 449 },
+      { label: "40 butterflies", price: 799 }
+    ],
+    colors: ["Purple", "Pink", "Blue", "Yellow"],
+    images: ["butterfly.jpeg"]
+  },
+  {
+    id: "butterfly-flowers",
+    name: "Butterfly × Flowers with Lights",
+    category: "Butterfly Bouquets",
+    description: "Flower and butterfly bouquet with lights.",
+    customizable: false,
+    variants: [
+      { label: "Small — 1 satin rose + 8 butterflies", price: 260 },
+      { label: "Medium — 3 flower stems + 20 butterflies", price: 599 },
+      { label: "Large — 5 flower stems + 30 butterflies", price: 899 }
+    ],
+    images: ["butterfly-flowers.jpeg"]
+  },
+  {
+    id: "buldak",
+    name: "Buldak Bouquet",
+    category: "Food & Gift Bouquets",
+    price: 1100,
+    description: "5 pieces. Can add more items upon request.",
+    customizable: false,
+    variants: [{ label: "5 pcs", price: 1100 }],
+    images: ["buldak.jpeg"]
+  },
+  {
+    id: "chocolate-bouquet",
+    name: "Chocolate Bouquet",
+    category: "Food & Gift Bouquets",
+    description: "Chocolate bouquet.",
+    customizable: false,
+    variants: [
+      { label: "Big — around 20–30 chocolates", price: 1349 },
+      { label: "3 Hershey chocolates", price: 699 }
+    ],
+    images: ["chocolate-bouquet.jpeg"]
+  },
+  {
+    id: "blossom-bag",
+    name: "Blossom Bag",
+    category: "Blossom Series",
+    price: 155,
+    description: "Blossom bag.",
+    customizable: false,
+    images: ["blossom-bag.jpeg"]
+  },
+  {
+    id: "blossom-box",
+    name: "Blossom Box + Mini Photostrip",
+    category: "Blossom Series",
+    description: "Choose whether to include a Pandora ring.",
+    customizable: false,
+    variants: [
+      { label: "With Pandora ring", price: 350 },
+      { label: "Without Pandora ring", price: 219 }
+    ],
+    images: ["blossom-box.jpeg"]
+  },
+  {
+    id: "chocolate-box",
+    name: "Chocolate Box + Satin Rose",
+    category: "Blossom Series",
+    description: "Out of stock.",
+    customizable: false,
+    outOfStock: true,
+    variants: [
+      { label: "With pink Pandora", price: 399 },
+      { label: "With pocket mirror", price: 349 }
+    ],
+    images: ["chocolate-box.jpeg"]
+  },
+  {
+    id: "money-bouquet",
+    name: "Money Bouquet",
+    category: "Food & Gift Bouquets",
+    description: "Starts at ₱399. Price depends on bill slots and design. Customer may provide an inspiration/reference.",
+    customizable: true,
+    variants: [
+      { label: "Round style — starts at ₱399", price: 399 },
+      { label: "Mermaid style — starts at ₱399", price: 399 }
+    ],
+    images: ["money-bouquet.jpeg"]
+  },
+  {
+    id: "white-ring",
+    name: "Pandora White Ring",
+    category: "Jewelry",
+    price: 100,
+    description: "Pandora white ring.",
+    customizable: false,
+    images: ["white-ringg.jpg"]
+  },
+  {
+    id: "pink-ring",
+    name: "Pandora Pink Ring",
+    category: "Jewelry",
+    description: "Choose a ring option.",
+    customizable: true,
+    variants: [
+      { label: "Pink ring", price: 110 },
+      { label: "Pink ring with chosen design", price: 120 }
+    ],
+    images: ["pink-ring.jpeg"]
+  },
+  {
+    id: "couple-ring",
+    name: "Couple Ring",
+    category: "Jewelry",
+    price: 180,
+    description: "Couple ring.",
+    customizable: false,
+    images: ["couple-ring.jpeg"]
+  },
+  {
+    id: "necklace",
+    name: "Pandora Necklace",
+    category: "Jewelry",
+    price: 180,
+    description: "Pandora necklace.",
+    customizable: false,
+    images: ["necklace.jpeg"]
+  },
+  {
+    id: "regular-keychain",
+    name: "Regular Keychain",
+    category: "Keychains & Small Gifts",
+    description: "Choose single or pair.",
+    customizable: true,
+    variants: [
+      { label: "1 piece", price: 40 },
+      { label: "2 pieces", price: 75 }
+    ],
+    images: ["regular-keychain.jpg"]
+  },
+  {
+    id: "spotify-keychain",
+    name: "Spotify Keychain",
+    category: "Keychains & Small Gifts",
+    description: "Choose single or pair.",
+    customizable: true,
+    variants: [
+      { label: "1 piece", price: 55 },
+      { label: "2 pieces", price: 100 }
+    ],
+    images: ["spotify-keychain.jpg"]
+  },
+  {
+    id: "mini-cd",
+    name: "Mini CD Keychain",
+    category: "Keychains & Small Gifts",
+    price: 149,
+    description: "Mini CD keychain.",
+    customizable: true,
+    images: ["mini-cd.jpeg"]
+  },
+  {
+    id: "ref-magnet",
+    name: "Ref Magnets",
+    category: "Keychains & Small Gifts",
+    price: null,
+    description: "Price not specified. Please inquire for the price.",
+    customizable: true,
+    images: ["ref-magnet.jpeg"]
+  },
+  {
+    id: "phone-lanyard",
+    name: "Phone Lanyard",
+    category: "Keychains & Small Gifts",
+    description: "Out of stock.",
+    customizable: true,
+    outOfStock: true,
+    images: ["phone-lanyard.jpeg"]
+  },
+  {
+    id: "button-pin",
+    name: "Button Pin 50mm",
+    category: "Keychains & Small Gifts",
+    price: 40,
+    description: "50mm button pin.",
+    customizable: true,
+    images: ["button-pin.jpeg"]
+  },
+  {
+    id: "pocket-mirror",
+    name: "Pocket Mirror",
+    category: "Keychains & Small Gifts",
+    price: 50,
+    description: "Pocket mirror.",
+    customizable: true,
+    images: ["pocket-mirror.jpeg"]
+  },
+  {
+    id: "polaroid",
+    name: "Polaroid / Instax-inspired Photos",
+    category: "Printing",
+    description: "Price ranges from ₱6 to ₱18 each.",
+    customizable: true,
+    variants: [
+      { label: "₱6 each", price: 6 },
+      { label: "₱18 each", price: 18 }
+    ],
+    images: ["polaroid.jpeg"]
+  },
+  {
+    id: "mini-photo-strip",
+    name: "Mini Photo Strip",
+    category: "Printing",
+    description: "Price ranges from ₱25 to ₱35.",
+    customizable: true,
+    variants: [
+      { label: "₱25", price: 25 },
+      { label: "₱35", price: 35 }
+    ],
+    images: ["mini-photo-strip.jpg"]
+  },
+  {
+    id: "regular-photo-strip",
+    name: "Regular Photo Strip",
+    category: "Printing",
+    description: "Price ranges from ₱55 to ₱65.",
+    customizable: true,
+    variants: [
+      { label: "₱55", price: 55 },
+      { label: "₱65", price: 65 }
+    ],
+    images: ["regular-photo-strip.jpg"]
+  },
+  {
+    id: "makeup-bouquet",
+    name: "Makeup Bouquet",
+    category: "Customized Creations",
+    price: null,
+    description: "Customized order. Final price depends on the requested items and design.",
+    customizable: true,
+    images: ["makeup-bouquet.jpeg"]
+  },
+  {
+    id: "beverage-bouquet",
+    name: "Beverage Bouquet",
+    category: "Customized Creations",
+    price: null,
+    description: "Customized order. Final price depends on the requested items and design.",
+    customizable: true,
+    images: ["custom-bouquet.jpeg"]
+  },
+  {
+    id: "money-garland",
+    name: "Money Garland",
+    category: "Customized Creations",
+    price: null,
+    description: "Customized order. Final price depends on the requested design.",
+    customizable: true,
+    images: ["money garland.jpeg"]
+  },
+  {
+    id: "lei-garland",
+    name: "Lei Garland",
+    category: "Customized Creations",
+    price: null,
+    description: "Customized order. Final price depends on the requested design.",
+    customizable: true,
+    images: ["lei-garland.jpeg"]
+  },
+  {
+    id: "custom-bouquet",
+    name: "Fully Customized Bouquet",
+    category: "Customized Creations",
+    price: null,
+    description: "Fully customized bouquet. Customer may provide an inspiration/reference.",
+    customizable: true,
+    images: ["custom-bouquet.jpeg"]
+  }
+];
+
+const addOnOptions = [
+  { id: "butterfly", label: "Butterfly — ₱5 each", price: 5 },
+  { id: "crown", label: "Crown — ₱80", price: 80 },
+  { id: "fairy-lights", label: "Fairy lights — ₱20", price: 20 },
+  { id: "message-card", label: "Printed message card — ₱10", price: 10 }
+];
+
+const params = new URLSearchParams(window.location.search);
+const requestedId = params.get("id") || params.get("product") || params.get("query");
+
+const product = products.find(item => item.id === requestedId) || products[0];
+
+const imageElement = document.getElementById("productImage");
+const thumbnailsElement = document.getElementById("productThumbnails");
+const categoryElement = document.getElementById("productCategory");
+const nameElement = document.getElementById("productName");
+const priceElement = document.getElementById("productPrice");
+const descriptionElement = document.getElementById("productDescription");
+const stockMessage = document.getElementById("stockMessage");
+const variantField = document.getElementById("variantField");
+const variantSelect = document.getElementById("variantSelect");
+const colorField = document.getElementById("colorField");
+const colorOptions = document.getElementById("colorOptions");
+const styleField = document.getElementById("styleField");
+const styleSelect = document.getElementById("styleSelect");
+const addOnsElement = document.getElementById("addOns");
+const quantityInput = document.getElementById("quantity");
+const totalPriceElement = document.getElementById("totalPrice");
+const mainActionButton = document.getElementById("mainActionButton");
+
+
+let selectedAddOns = new Set();
+let selectedColor = "";
+
+function money(amount) {
+  return amount == null ? "Price upon inquiry" : `₱${Number(amount).toLocaleString("en-PH")}`;
+}
+
+function getSelectedVariant() {
+  if (product.variants && product.variants.length) {
+    return product.variants[Number(variantSelect.value)] || product.variants[0];
+  }
+  return { label: "", price: product.price ?? 0 };
+}
+
+function getAddOnTotal() {
+  return addOnOptions.reduce((sum, addOn) => {
+    return sum + (selectedAddOns.has(addOn.id) ? addOn.price : 0);
+  }, 0);
+}
+
+function renderImages() {
+  const images = product.images && product.images.length
+    ? product.images
+    : ["plain-tulip.jpeg"];
+
+  imageElement.src = IMAGE_BASE + images[0];
+  imageElement.alt = product.name;
+  thumbnailsElement.innerHTML = "";
+
+  images.forEach((filename, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "thumbnail-button" + (index === 0 ? " active" : "");
+    button.setAttribute("aria-label", `View product image ${index + 1}`);
+
+    const img = document.createElement("img");
+    img.src = IMAGE_BASE + filename;
+    img.alt = `${product.name} photo ${index + 1}`;
+
+    button.appendChild(img);
+    button.addEventListener("click", () => {
+      imageElement.src = IMAGE_BASE + filename;
+      thumbnailsElement.querySelectorAll(".thumbnail-button")
+        .forEach(item => item.classList.remove("active"));
+      button.classList.add("active");
+    });
+
+    thumbnailsElement.appendChild(button);
+  });
+
+  imageElement.onerror = () => {
+    imageElement.onerror = null;
+    imageElement.src = IMAGE_BASE + "banner-flower.png";
+    imageElement.alt = `${product.name} image unavailable`;
+  };
 }
 
 
-/* =========================================================
-   INITIALIZE PRODUCT
-   ========================================================= */
+function renderVariants() {
+  variantField.classList.remove("hidden");
+  variantSelect.innerHTML = "";
 
-function initializeProduct() {
+  if (product.variants && product.variants.length) {
+    product.variants.forEach((variant, index) => {
+      const option = document.createElement("option");
+      option.value = String(index);
+      option.textContent =
+        `${variant.label} — ${money(variant.price)}`;
 
-    /* PRODUCT NAME */
-
-    productName.textContent =
-        product.name;
-
-
-    /* DESCRIPTION */
-
-    productDescription.textContent =
-        product.description;
-
-
-    /* PRICE */
-
-    if (typeof product.price === "number") {
-
-        productPrice.textContent =
-            `₱${product.price.toLocaleString()}`;
-
-    } else {
-
-        productPrice.textContent =
-            product.price;
-    }
-
-
-    /* DEFAULT COLOR */
-
-    if (
-        product.colors &&
-        product.colors.length > 0
-    ) {
-
-        selectedColor =
-            product.colors[0];
-
-    } else {
-
-        selectedColor = null;
-    }
-
-
-    /* CREATE COLOR CIRCLES */
-
-    createColorOptions();
-
-
-    /* UPDATE IMAGE */
-
-    updateProductImage();
+      variantSelect.appendChild(option);
+    });
+  } else {
+    const option = document.createElement("option");
+    option.value = "0";
+    option.textContent = product.name;
+    variantSelect.appendChild(option);
+  }
 }
 
 
-/* =========================================================
-   COLOR OPTIONS
-   ========================================================= */
+function renderColors() {
+  colorOptions.innerHTML = "";
+  selectedColor = "";
 
-function createColorOptions() {
+  if (product.colors && product.colors.length) {
+    colorField.classList.remove("hidden");
 
-    colorOptions.innerHTML = "";
-
-
-    /* NO COLORS */
-
-    if (
-        !product.colors ||
-        product.colors.length === 0
-    ) {
-
-        colorGroup.style.display =
-            "none";
-
-        return;
-    }
-
-
-    colorGroup.style.display =
-        "block";
-
-
-    /* COLOR MAP */
-
-    const colorMap = {
-
-        "light-red": "#e88b94",
-
-        "red": "#c65859",
-
-        "blue": "#78a9d3",
-
-        "purple": "#8d63bd",
-
-        "pink": "#e89aa8",
-
-        "violet": "#a979c9",
-
-        "white": "#f5f5f5",
-
-        "yellow": "#f0d24d"
-
+    const colors = {
+      Pink: "#F4A6B7",
+      Red: "#E53945",
+      Blue: "#4A90E2",
+      Purple: "#9B59B6",
+      Yellow: "#F4D03F"
     };
 
+    product.colors.forEach(color => {
+      const button = document.createElement("button");
 
-    /* CREATE CIRCLES */
+      button.type = "button";
+      button.className = "color-circle";
+      button.style.backgroundColor = colors[color];
+      button.setAttribute("aria-label", color);
+      button.setAttribute("title", color);
+      button.setAttribute("aria-pressed", "false");
 
-    product.colors.forEach(
-        (color, index) => {
+      button.addEventListener("click", () => {
+        selectedColor = color;
 
-            const button =
-                document.createElement("button");
+        colorOptions.querySelectorAll(".color-circle")
+          .forEach(circle => {
+            circle.classList.remove("selected");
+            circle.setAttribute("aria-pressed", "false");
+          });
 
+        button.classList.add("selected");
+        button.setAttribute("aria-pressed", "true");
+      });
 
-            button.type =
-                "button";
-
-
-            button.className =
-                "color-circle";
-
-
-            button.dataset.color =
-                color;
-
-
-            button.style.backgroundColor =
-                colorMap[color] ||
-                "#d8d1d2";
-
-
-            button.setAttribute(
-                "aria-label",
-                color
-            );
-
-
-            /* FIRST COLOR */
-
-            if (index === 0) {
-
-                button.classList.add(
-                    "selected"
-                );
-            }
-
-
-            /* COLOR CLICK */
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    selectedColor =
-                        this.dataset.color;
-
-
-                    document
-                        .querySelectorAll(
-                            ".color-circle"
-                        )
-                        .forEach(
-                            circle => {
-
-                                circle.classList.remove(
-                                    "selected"
-                                );
-
-                            }
-                        );
-
-
-                    this.classList.add(
-                        "selected"
-                    );
-
-
-                    updateProductImage();
-
-                }
-            );
-
-
-            colorOptions.appendChild(
-                button
-            );
-
-        }
-    );
+      colorOptions.appendChild(button);
+    });
+  } else {
+    colorField.classList.add("hidden");
+  }
 }
 
-
-/* =========================================================
-   PRODUCT IMAGE
-   ========================================================= */
-
-function updateProductImage() {
-
-    if (!product) {
-        return;
-    }
-
-
-    let imagePath;
-
-
-    /* PRODUCT WITH COLORS */
-
-    if (selectedColor) {
-
-        imagePath =
-            `images/${product.folder}/${selectedColor}.jpg`;
-
-    }
-
-
-    /* PRODUCT WITHOUT COLORS */
-
-    else {
-
-        imagePath =
-            `images/${product.folder}/default.jpg`;
-    }
-
-
-    productImage.src =
-        imagePath;
-
-
-    productImage.alt =
-        product.name;
-
-
-    /* FALLBACK */
-
-    productImage.onerror =
-        function () {
-
-            const fallback =
-                `images/${product.folder}/default.jpg`;
-
-
-            if (
-                this.src.indexOf(
-                    fallback
-                ) === -1
-            ) {
-
-                this.src =
-                    fallback;
-            }
-
-        };
-}
-
-
-/* =========================================================
-   QUANTITY - PLUS
-   ========================================================= */
-
-if (increaseQuantity) {
-
-    increaseQuantity.addEventListener(
-        "click",
-        function () {
-
-            quantity++;
-
-            quantityElement.textContent =
-                quantity;
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   QUANTITY - MINUS
-   ========================================================= */
-
-if (decreaseQuantity) {
-
-    decreaseQuantity.addEventListener(
-        "click",
-        function () {
-
-            if (quantity <= 1) {
-                return;
-            }
-
-            quantity--;
-
-            quantityElement.textContent =
-                quantity;
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   INQUIRE
-   ========================================================= */
-
-if (inquireButton) {
-
-    inquireButton.addEventListener(
-        "click",
-        function () {
-
-            if (!product) {
-                return;
-            }
-
-            window.location.href =
-                `inquiries.html?id=${productId}`;
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   ORDER
-   ========================================================= */
-
-if (mainActionButton) {
-
-    mainActionButton.addEventListener(
-        "click",
-        function () {
-
-            if (!product) {
-                return;
-            }
-
-            window.location.href =
-                `order.html?id=${productId}`;
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   HANDMADE & CUSTOMIZABLE
-   ========================================================= */
-
-if (handmadeButton && customizableButton) {
-
-    // Handmade
-    handmadeButton.addEventListener("click", function () {
-
-        handmadeButton.classList.add("active");
-        customizableButton.classList.remove("active");
-
+function renderAddOns() {
+  addOnsElement.innerHTML = "";
+
+  addOnOptions.forEach(addOn => {
+    const label = document.createElement("label");
+    label.className = "addon-option";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = addOn.id;
+    checkbox.checked = selectedAddOns.has(addOn.id);
+
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) selectedAddOns.add(addOn.id);
+      else selectedAddOns.delete(addOn.id);
+      updateTotal();
     });
 
-    // Customizable
-    customizableButton.addEventListener("click", function () {
+    const text = document.createElement("span");
+    text.textContent = addOn.label;
 
-        customizableButton.classList.add("active");
-        handmadeButton.classList.remove("active");
-
-    });
-
+    label.append(checkbox, text);
+    addOnsElement.appendChild(label);
+  });
 }
+
+function updateTotal() {
+  const variant = getSelectedVariant();
+  const quantity = Math.max(1, Number(quantityInput.value) || 1);
+  quantityInput.value = String(quantity);
+
+  const unitPrice = Number(variant.price ?? product.price ?? 0) + getAddOnTotal();
+  totalPriceElement.textContent = money(unitPrice * quantity);
+
+  priceElement.textContent = product.price == null && !product.variants
+    ? "Price upon inquiry"
+    : money(variant.price ?? product.price);
+}
+
+function goToPage(page) {
+  const variant = getSelectedVariant();
+  const quantity = Math.max(1, Number(quantityInput.value) || 1);
+  const query = new URLSearchParams({
+    id: product.id,
+    variant: variant.label || "",
+    price: String(variant.price ?? product.price ?? ""),
+    quantity: String(quantity),
+    color: selectedColor,
+    addons: Array.from(selectedAddOns).join(",")
+  });
+
+  window.location.href = `${page}?${query.toString()}`;
+}
+
+function initializePage() {
+  categoryElement.textContent = product.category;
+  nameElement.textContent = product.name;
+  descriptionElement.textContent = product.description || "";
+  renderImages();
+  renderVariants();
+  // hide choose
+if (!product.variants || product.variants.length <= 1) {
+  variantField.classList.add("hidden");
+}
+// Hide Add-ons and Quantity for customizable products
+if (product.customizable) {
+  const addOnsField = addOnsElement.closest(".form-field");
+  const quantityRow = document.querySelector(".quantity-row");
+
+  //special instructions
+  const notesField = document.querySelector("#specialInstructions")?.closest(".form-field");
+
+  if (addOnsField) addOnsField.style.display = "none";
+  if (quantityRow) quantityRow.style.display = "none";
+  if (notesField) notesField.style.display = "none";
+}
+// Hide Choose variant for customizable products
+if (product.customizable) {
+  variantField.classList.add("hidden");
+} else {
+  variantField.classList.remove("hidden");
+}
+  renderColors();
+  renderAddOns();
+  if (product.customizable === true) {
+  const totalField = document.querySelector(".total-row");
+
+  if (totalField) {
+    totalField.style.display = "none";
+  }
+}
+  
+
+  if (product.outOfStock) {
+    stockMessage.textContent = "Out of stock";
+    stockMessage.classList.add("out-of-stock");
+    mainActionButton.disabled = true;
+    mainActionButton.textContent = "Out of Stock";
+  } else {
+    stockMessage.textContent = "";
+    mainActionButton.textContent = product.customizable ? "Customize" : "Order Now";
+  }
+
+  updateTotal();
+}
+
+variantSelect.addEventListener("change", updateTotal);
+quantityInput.addEventListener("input", updateTotal);
+
+document.getElementById("decreaseQuantity").addEventListener("click", () => {
+  quantityInput.value = String(Math.max(1, Number(quantityInput.value || 1) - 1));
+  updateTotal();
+});
+
+document.getElementById("increaseQuantity").addEventListener("click", () => {
+  quantityInput.value = String(Math.max(1, Number(quantityInput.value || 1) + 1));
+  updateTotal();
+});
+
+
+mainActionButton.addEventListener("click", () => {
+  if (product.outOfStock) return;
+  goToPage(product.customizable ? "customization.html" : "order.html");
+});
+
+initializePage();

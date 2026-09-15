@@ -1,217 +1,98 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Product Details | Flora Avenue</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="../../public/css/product-details.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details | Flora Avenue</title>
+  <link rel="stylesheet" href="../../public/css/product-details.css">
 </head>
+<body>
+  <main class="product-details-page">
+    <section class="product-details">
+      <header class="product-header">
+        <a class="back-link" href="products.html">← Back to Products</a>
+        <h1>Product Details</h1>
+      </header>
 
-<body class="product-details-page">
-
-    <main class="product-details">
-
-        <!-- =========================
-             HEADER
-        ========================== -->
-
-        <header class="product-header">
-
-            <a
-                href="products.html"
-                class="back-button"
-                aria-label="Back to Product Catalog"
-            >
-                <span class="back-arrow">←</span>
-            </a>
-
-            <h1>Product Details</h1>
-
-        </header>
-
-
-        <!-- =========================
-             PRODUCT CONTENT
-        ========================== -->
-
-        <section class="product-content">
-
-            <!-- PRODUCT IMAGE -->
-
-            <div class="product-image-box">
-
-                <img
-                    id="productImage"
-                    src=""
-                    alt="Product"
-                >
-
-            </div>
-
-
-            <!-- PRODUCT INFORMATION -->
-
-            <div class="product-info">
-
-                <!-- PRODUCT NAME -->
-
-                <h2 id="productName">
-                    Product Details
-                </h2>
-
-
-                <!-- PRODUCT PRICE -->
-
-                <div class="product-price">
-
-                    <span id="productPrice">
-                        ₱0
-                    </span>
-
-                </div>
-
-
-                <!-- PRODUCT DESCRIPTION -->
-
-                <p
-                    id="productDescription"
-                    class="product-description"
-                >
-                    Product description
-                </p>
-
-
-                <!-- =========================
-                     PRODUCT TAGS
-                ========================== -->
-
-                <div class="product-tags">
-
-                    <span
-                        class="product-tag handmade"
-                        id="handmadeButton"
-                    >
-                        Handmade
-                    </span>
-
-                    <span
-                        class="product-tag customizable"
-                        id="customizableButton"
-                    >
-                        Customizable
-                    </span>
-
-                </div>
-
-
-                <!-- =========================
-                     CHOOSE COLOR
-                ========================== -->
-
-                <div
-                    class="color-section"
-                    id="colorGroup"
-                >
-
-                    <h3>
-                        Choose Color
-                    </h3>
-
-                    <div
-                        class="color-options"
-                        id="colorOptions"
-                    >
-                        <!--
-                            JavaScript will create
-                            the clickable color circles here.
-                        -->
-                    </div>
-
-                </div>
-
-
-                <!-- =========================
-                     QUANTITY
-                ========================== -->
-
-                <div class="quantity-section">
-
-                    <h3>
-                        Quantity
-                    </h3>
-
-                    <div class="quantity-control">
-
-                        <button
-                            type="button"
-                            id="decreaseQuantity"
-                            aria-label="Decrease quantity"
-                        >
-                            −
-                        </button>
-
-                        <span id="quantity">
-                            1
-                        </span>
-
-                        <button
-                            type="button"
-                            id="increaseQuantity"
-                            aria-label="Increase quantity"
-                        >
-                            +
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =========================
-                     ACTION BUTTONS
-                ========================== -->
-
-                <div class="product-actions">
-
-                    <button
-                        type="button"
-                        class="inquire-button"
-                        id="inquireButton"
-                    >
-                        Inquire
-                    </button>
-
-                    <button
-                        type="button"
-                        class="order-button"
-                        id="mainActionButton"
-                    >
-                        Customize / Order 
-                    </button>
-
-                </div>
-
-            </div>
-
+      <div class="product-layout">
+        <section class="gallery" aria-label="Product images">
+          <div class="main-image-wrap">
+            <img id="productImage" src="../../public/images/plain-tulip.jpeg" alt="Product photo">
+          </div>
+          <div id="productThumbnails" class="product-thumbnails"></div>
         </section>
 
-    </main>
+        <section class="product-info">
+          <p id="productCategory" class="product-category">Flowers & Bouquets</p>
+          <h2 id="productName">Product Name</h2>
+          <p id="productPrice" class="product-price">₱0</p>
+          <p id="productDescription" class="product-description"></p>
 
+          <p id="stockMessage" class="stock-message" aria-live="polite"></p>
 
-    <!-- PRODUCT DETAILS JAVASCRIPT -->
-<script src="product-details.js"></script>
+          <div id="variantField" class="form-field">
+            <label for="variantSelect">Choose variant</label>
+            <select id="variantSelect"></select>
+          </div>
 
+          <div id="colorField" class="form-field hidden">
+            <label>Choose color:</label>
+             <div id="colorOptions" class="color-options"></div>
+          </div>
+
+          <div id="styleField" class="form-field hidden">
+            <label for="styleSelect">Choose style</label>
+            <select id="styleSelect"></select>
+          </div>
+
+          <div class="form-field">
+            <label>Add-ons</label>
+            <div id="addOns" class="addons-list"></div>
+          </div>
+          
+          <!-- SPECIAL INSTRUCTIONS / NOTES -->
+<div class="form-field special-instructions">
+  <label for="specialInstructions">Special Instructions / Notes:</label>
+
+  <div class="notes-box">
+    <textarea
+      id="specialInstructions"
+      name="specialInstructions"
+      maxlength="200"
+      rows="3"
+      placeholder="E.g. preferred design, message, or other requests."
+    ></textarea>
+
+    <span id="notesCount" class="notes-count">0/200</span>
+  </div>
+</div>
+
+          <div class="quantity-row">
+            <label for="quantity">Quantity</label>
+            <div class="quantity-control">
+              <button type="button" id="decreaseQuantity" aria-label="Decrease quantity">−</button>
+              <input id="quantity" type="number" min="1" value="1">
+              <button type="button" id="increaseQuantity" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <div class="total-row">
+            <span>Total</span>
+            <strong id="totalPrice">₱0</strong>
+          </div>
+
+          <div class="product-actions">
+  <button type="button" id="mainActionButton" class="button button-primary">
+    ORDER NOW
+  </button>
+</div>
+          <p class="small-note">Final details for customized orders can be discussed through inquiry.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="product-details.js"defer></script>
 </body>
 </html>
