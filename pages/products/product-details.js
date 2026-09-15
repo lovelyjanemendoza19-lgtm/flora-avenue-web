@@ -238,7 +238,7 @@ const products = [
     price: 100,
     description: "Pandora white ring.",
     customizable: false,
-    images: ["white-ring.jpeg"]
+    images: ["white-ringg.jpg"]
   },
   {
     id: "pink-ring",
@@ -259,7 +259,7 @@ const products = [
     price: 180,
     description: "Couple ring.",
     customizable: false,
-    images: ["white-ring.jpeg"]
+    images: ["couple-ring.jpeg"]
   },
   {
     id: "necklace",
