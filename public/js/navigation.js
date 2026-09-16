@@ -17,6 +17,19 @@
                 <a href="${basePath}pages/profile/profile.html" class="menu-link">Profile</a>
                 <a href="#" class="menu-link" id="logoutButton">Log Out</a>
             </nav>
+            <a href="#" class="menu-link" id="logoutButton">
+                <span class="menu-icon">
+                </span>
+            </a>
+
+            </nav>
+
+            <div class="admin-login-bottom">
+                <a href="${basePath}admin/login.html">
+                    Admin Login
+                </a>
+            </div>
+
         </aside>
     `;
 

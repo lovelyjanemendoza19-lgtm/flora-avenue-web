@@ -425,4 +425,37 @@ body.persistent-sidebar .menu-button {
         display: block;
     }
 
+
+    .side-menu {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .side-menu nav {
+        flex: 1;
+    }
+
+    .admin-login-bottom {
+        margin-top: auto;
+        padding-top: 16px;
+
+        border-top: 1px solid rgba(51, 45, 47, 0.15);
+
+        text-align: center;
+    }
+
+    .admin-login-bottom a {
+        color: #A77F8B;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        text-decoration: none;
+    }
+
+    .admin-login-bottom a:hover {
+        color: #7c4a4f;
+        text-decoration: underline;
+    }
+
 }
