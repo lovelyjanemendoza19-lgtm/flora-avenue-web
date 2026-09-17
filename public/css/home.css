@@ -154,6 +154,230 @@
     font-size: 8px;
 }
 
+/* =========================================
+   LOGIN / REGISTER HEADER BUTTONS
+========================================= */
+
+.auth-buttons {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding-right: 25px;
+
+    animation: authButtonsAppear 0.7s ease both;
+}
+
+
+/* LOGIN */
+
+.login-link,
+.register-link {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 38px;
+
+    padding: 0 18px;
+
+    border-radius: 20px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+
+/* LOGIN - SIMPLE */
+
+.login-link {
+    color: #a9506d;
+
+    background: transparent;
+
+    border: 1px solid #a9506d;
+}
+
+
+/* REGISTER - MAIN BUTTON */
+
+.register-link {
+    color: white;
+
+    background: #a9506d;
+
+    border: 1px solid #a9506d;
+
+    box-shadow:
+        0 4px 10px rgba(169, 80, 109, 0.15);
+}
+
+
+/* =========================================
+   HOVER ANIMATION
+========================================= */
+
+.login-link:hover {
+    transform: translateY(-2px);
+
+    background: #a9506d;
+
+    color: white;
+
+    box-shadow:
+        0 6px 15px rgba(169, 80, 109, 0.20);
+}
+
+
+.register-link:hover {
+    transform: translateY(-2px);
+
+    background: #8f405b;
+
+    box-shadow:
+        0 8px 18px rgba(169, 80, 109, 0.28);
+}
+
+
+/* CLICK EFFECT */
+
+.login-link:active,
+.register-link:active {
+    transform: translateY(0) scale(0.97);
+}
+
+
+/* =========================================
+   SMALL ARROW ANIMATION
+========================================= */
+
+.register-link::after {
+    content: "→";
+
+    margin-left: 7px;
+
+    font-size: 14px;
+
+    transition:
+        transform 0.25s ease;
+}
+
+.register-link:hover::after {
+    transform: translateX(4px);
+}
+
+
+/* =========================================
+   HEADER ENTRANCE ANIMATION
+========================================= */
+
+@keyframes authButtonsAppear {
+
+    from {
+        opacity: 0;
+
+        transform: translateX(25px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateX(0);
+    }
+
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .auth-buttons {
+        padding-right: 15px;
+
+        gap: 7px;
+    }
+
+    .login-link,
+    .register-link {
+        height: 35px;
+
+        padding: 0 13px;
+
+        font-size: 11px;
+    }
+
+}
+
+
+/* =========================================
+   PHONE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .auth-buttons {
+        padding-right: 10px;
+
+        gap: 5px;
+    }
+
+    .login-link,
+    .register-link {
+        height: 32px;
+
+        padding: 0 10px;
+
+        border-radius: 17px;
+
+        font-size: 9px;
+    }
+
+    .register-link::after {
+        margin-left: 4px;
+
+        font-size: 11px;
+    }
+
+}
+
+
+/* =========================================
+   VERY SMALL PHONE
+========================================= */
+
+@media (max-width: 360px) {
+
+    .auth-buttons {
+        gap: 4px;
+
+        padding-right: 7px;
+    }
+
+    .login-link,
+    .register-link {
+        padding: 0 8px;
+
+        font-size: 8px;
+    }
+
+}
+
 @media (min-width: 600px) {
     .banner {
         height: 320px;
