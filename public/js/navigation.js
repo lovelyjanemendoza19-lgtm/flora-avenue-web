@@ -54,12 +54,7 @@
 
     menuButton?.addEventListener("click", openMenu);
     menuOverlay.addEventListener("click", closeMenu);
-
-    document.getElementById("logoutButton")?.addEventListener("click", function (event) {
-        event.preventDefault();
-        closeMenu();
-        alert("You are logged out.");
-    });
+);
 
     function updateNavigation() {
         const desktop = window.innerWidth >= 768;
