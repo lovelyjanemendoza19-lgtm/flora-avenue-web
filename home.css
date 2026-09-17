@@ -1,0 +1,579 @@
+.banner {
+    width: 100%;
+    height: 150px;
+    padding: 30px 16px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background-color: #E6D4D7;
+}
+
+.banner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background-image: linear-gradient(to right, #E6D4D7 0%, rgba(230, 212, 215, 0.85) 20%, rgba(230, 212, 215, 0.55) 40%, rgba(230, 212, 215, 0.20) 65%, rgba(230, 212, 215, 0) 100%), url("../images/banner-flower.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 0;
+}
+
+.banner-text {
+    width: 58%;
+    max-width: 560px;
+    position: relative;
+    z-index: 1;
+}
+
+.banner-small-text {
+    color: #a77f8b;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.banner-text h1 {
+    margin: 8px 0;
+    color: #332d2f;
+    font-family: "Playfair Display", serif;
+    font-size: 27px;
+    line-height: 1.15;
+}
+
+.banner-text p {
+    color: #756c6f;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.banner-text a {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-radius: 7px;
+    background-color: #7c4a4f;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.featured {
+    width: 100%;
+    margin: 0 auto;
+    padding: 28px 16px 42px;
+}
+
+.featured-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.featured-heading h1 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(19px, 2.4vw, 26px);
+    font-weight: 600;
+}
+
+.featured-heading a {
+    color: #916269;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    max-width: 360px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 18px;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+    color: #332d2f;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.featured-product-card {
+    min-width: 0;
+}
+
+.featured-image-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #eee3e4;
+}
+
+.featured-product-card .product-text {
+    justify-content: center;
+}
+
+.product-card img {
+    display: block;
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+}
+
+.product-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 6px;
+}
+
+.product-text p {
+    min-height: 26px;
+    color: #332d2f;
+    font-size: 9px;
+    line-height: 11px;
+}
+
+.product-text span {
+    margin-top: auto;
+    color: #a77f8b;
+    font-size: 8px;
+}
+
+/* =========================================
+   LOGIN / REGISTER HEADER BUTTONS
+========================================= */
+
+.auth-buttons {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding-right: 25px;
+
+    animation: authButtonsAppear 0.7s ease both;
+}
+
+
+/* LOGIN */
+
+.login-link,
+.register-link {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 38px;
+
+    padding: 0 18px;
+
+    border-radius: 20px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+
+/* LOGIN - SIMPLE */
+
+.login-link {
+    color: #a9506d;
+
+    background: transparent;
+
+    border: 1px solid #a9506d;
+}
+
+
+/* REGISTER - MAIN BUTTON */
+
+.register-link {
+    color: white;
+
+    background: #a9506d;
+
+    border: 1px solid #a9506d;
+
+    box-shadow:
+        0 4px 10px rgba(169, 80, 109, 0.15);
+}
+
+
+/* =========================================
+   HOVER ANIMATION
+========================================= */
+
+.login-link:hover {
+    transform: translateY(-2px);
+
+    background: #a9506d;
+
+    color: white;
+
+    box-shadow:
+        0 6px 15px rgba(169, 80, 109, 0.20);
+}
+
+
+.register-link:hover {
+    transform: translateY(-2px);
+
+    background: #8f405b;
+
+    box-shadow:
+        0 8px 18px rgba(169, 80, 109, 0.28);
+}
+
+
+/* CLICK EFFECT */
+
+.login-link:active,
+.register-link:active {
+    transform: translateY(0) scale(0.97);
+}
+
+
+/* =========================================
+   SMALL ARROW ANIMATION
+========================================= */
+
+.register-link::after {
+    content: "→";
+
+    margin-left: 7px;
+
+    font-size: 14px;
+
+    transition:
+        transform 0.25s ease;
+}
+
+.register-link:hover::after {
+    transform: translateX(4px);
+}
+
+
+/* =========================================
+   HEADER ENTRANCE ANIMATION
+========================================= */
+
+@keyframes authButtonsAppear {
+
+    from {
+        opacity: 0;
+
+        transform: translateX(25px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateX(0);
+    }
+
+}
+
+
+
+
+/* =========================================
+   ADMIN LOGIN — HOMEPAGE
+========================================= */
+
+.admin-login-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 20px;
+    color: #7c4a4f;
+    background: #ffffff;
+    border: 1px solid #c9aeb3;
+    font-family: "Poppins", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform .25s ease, background .25s ease,
+                color .25s ease, box-shadow .25s ease;
+}
+
+.admin-login-link:hover {
+    transform: translateY(-2px);
+    background: #7c4a4f;
+    color: #ffffff;
+    box-shadow: 0 6px 15px rgba(124, 74, 79, .18);
+}
+
+.admin-login-link:active {
+    transform: translateY(0) scale(.97);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .auth-buttons {
+        padding-right: 15px;
+
+        gap: 7px;
+    }
+
+    .login-link,
+    .register-link,
+    .admin-login-link {
+        height: 35px;
+        padding: 0 11px;
+        font-size: 10px;
+    }
+
+}
+
+
+/* =========================================
+   PHONE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .auth-buttons {
+        padding-right: 10px;
+
+        gap: 5px;
+    }
+
+    .login-link,
+    .register-link,
+    .admin-login-link {
+        height: 32px;
+        padding: 0 8px;
+        border-radius: 17px;
+        font-size: 8px;
+    }
+
+    .register-link::after {
+        margin-left: 4px;
+
+        font-size: 11px;
+    }
+
+}
+
+
+/* =========================================
+   VERY SMALL PHONE
+========================================= */
+
+@media (max-width: 360px) {
+
+    .auth-buttons {
+        gap: 4px;
+
+        padding-right: 7px;
+    }
+
+    .login-link,
+    .register-link,
+    .admin-login-link {
+        padding: 0 6px;
+        font-size: 7px;
+    }
+
+}
+
+@media (min-width: 600px) {
+    .banner {
+        height: 320px;
+        padding: 40px 48px;
+    }
+
+    .banner-text {
+        width: 48%;
+    }
+
+    .banner-small-text {
+        font-size: 13px;
+    }
+
+    .banner-text h1 {
+        font-size: 38px;
+    }
+
+    .banner-text p {
+        font-size: 14px;
+    }
+
+    .banner-text a {
+        margin-top: 18px;
+        padding: 11px 18px;
+        font-size: 13px;
+    }
+
+    .featured {
+        padding: 34px clamp(16px, 5vw, 56px) 42px;
+    }
+
+    .featured-heading h1 {
+        font-size: 22px;
+    }
+
+    .product-list {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 14px;
+        max-width: none;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .featured-image-placeholder {
+        aspect-ratio: 1 / 1;
+    }
+
+    .product-text p {
+        min-height: 32px;
+        font-size: 11px;
+        line-height: 14px;
+    }
+
+    .product-text span {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 599px) {
+    .banner {
+        height: 320px;
+        padding: 30px 16px;
+    }
+}
+
+@media (min-width: 900px) {
+    .banner {
+        height: 300px;
+        padding: 44px 7%;
+    }
+
+    .banner::after {
+        width: 58%;
+    }
+
+    .banner-text {
+        width: 42%;
+    }
+
+    .banner-small-text {
+        font-size: 15px;
+    }
+
+    .banner-text p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .banner-text a {
+        margin-top: 22px;
+        padding: 13px 22px;
+        font-size: 15px;
+    }
+
+    .featured {
+        padding-top: 38px;
+    }
+
+    .featured-heading h1 {
+        font-size: 24px;
+    }
+
+    .product-list {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .featured-image-placeholder {
+        aspect-ratio: 1 / 1;
+    }
+
+    .product-text {
+        padding: 10px;
+    }
+
+    .product-text p {
+        min-height: 34px;
+        font-size: 11px;
+        line-height: 14px;
+    }
+
+    .product-text span {
+        font-size: 11px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .banner {
+        height: 320px;
+        padding: 48px 8%;
+    }
+
+    .banner-text {
+        width: 42%;
+    }
+
+    .banner-text p {
+        font-size: 17px;
+    }
+
+    .featured {
+        padding-top: 42px;
+    }
+
+    .product-list {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .featured-image-placeholder {
+        aspect-ratio: 1 / 1;
+    }
+
+    .product-text {
+        padding: 11px;
+    }
+
+    .product-text p {
+        min-height: 34px;
+        font-size: 11px;
+    }
+
+    .product-text span {
+        font-size: 11px;
+    }
+}

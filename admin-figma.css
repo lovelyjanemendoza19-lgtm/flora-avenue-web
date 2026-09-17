@@ -1,0 +1,373 @@
+/* =========================================================
+   FLORA AVENUE — ADMIN MANAGEMENT PAGES
+   Figma-inspired visual system, polished for desktop + mobile
+========================================================= */
+
+:root{
+  --fx-bg:#f7f1f2;
+  --fx-surface:#ffffff;
+  --fx-soft:#fbf7f8;
+  --fx-sidebar:#e9dfe1;
+  --fx-maroon:#814b57;
+  --fx-maroon-dark:#673943;
+  --fx-rose:#a85b70;
+  --fx-rose-soft:#f4e4e8;
+  --fx-text:#292326;
+  --fx-muted:#7c7074;
+  --fx-border:#e6d8db;
+  --fx-shadow:0 10px 28px rgba(70,45,51,.07);
+}
+
+/* ---------- DESKTOP APP SHELL ---------- */
+body.admin-app{
+  margin:0;
+  min-height:100vh;
+  background:var(--fx-bg);
+  color:var(--fx-text);
+  font-family:"Poppins",sans-serif;
+}
+body.admin-app .admin-shell{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:250px minmax(0,1fr);
+  grid-template-rows:auto 1fr;
+  background:var(--fx-bg);
+}
+body.admin-app .admin-shell > .admin-sidebar-fx{
+  grid-column:1;
+  grid-row:1 / -1;
+}
+body.admin-app .admin-shell > .admin-topbar,
+body.admin-app .admin-shell > .figma-page{
+  grid-column:2;
+}
+
+.admin-sidebar-fx{
+  position:sticky;
+  top:0;
+  height:100vh;
+  padding:22px 14px;
+  background:linear-gradient(180deg,#ebe2e3 0%,#e6dcde 100%);
+  border-right:1px solid rgba(129,75,87,.10);
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  z-index:20;
+}
+.fx-side-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:2px 10px 20px;
+  border-bottom:1px solid rgba(129,75,87,.12);
+}
+.fx-side-brand img{width:43px;height:43px;object-fit:contain}
+.fx-side-brand strong{display:block;font:700 18px/1.1 "Playfair Display",serif}
+.fx-side-brand small{display:block;color:var(--fx-muted);font-size:8px;margin-top:3px}
+.fx-side-label{
+  margin:22px 10px 8px;
+  color:#9a858a;
+  font-size:7px;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.fx-side-nav{display:grid;gap:4px}
+.fx-side-nav a,.fx-side-logout{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:42px;
+  padding:0 11px;
+  border:0;
+  border-radius:9px;
+  background:transparent;
+  color:var(--fx-text);
+  text-decoration:none;
+  font-size:9px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.18s ease;
+}
+.fx-side-nav a:hover,.fx-side-nav a.active{
+  background:#fff;
+  color:var(--fx-maroon);
+  box-shadow:0 4px 12px rgba(76,48,53,.05);
+}
+.fx-side-icon{
+  width:23px;height:23px;
+  display:grid;place-items:center;
+  border-radius:6px;
+  background:rgba(255,255,255,.55);
+  font-size:13px;
+  flex:0 0 auto;
+}
+.fx-side-nav a.active .fx-side-icon{background:var(--fx-rose-soft)}
+.fx-side-bottom{margin-top:auto;padding-top:15px;border-top:1px solid rgba(129,75,87,.12)}
+.fx-side-admin{display:flex;align-items:center;gap:9px;padding:7px 9px 12px}
+.fx-side-avatar{width:34px;height:34px;border-radius:50%;background:#dcecff;display:grid;place-items:center;font-size:16px}
+.fx-side-admin strong{display:block;font-size:8px}.fx-side-admin small{display:block;color:var(--fx-muted);font-size:7px;margin-top:2px}
+.fx-side-logout{width:100%;color:#6e4b51}.fx-side-logout:hover{background:#fff1f3;color:#8a4350}
+
+/* ---------- TOP BAR ---------- */
+body.admin-app .admin-topbar{
+  min-height:76px;
+  padding:0 34px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:rgba(255,255,255,.72);
+  border-bottom:1px solid var(--fx-border);
+  box-sizing:border-box;
+}
+.figma-back{
+  display:inline-flex!important;
+  width:35px;height:35px;
+  align-items:center;justify-content:center;
+  border:1px solid var(--fx-border);
+  border-radius:9px;
+  background:#fff;
+  color:var(--fx-text);
+  text-decoration:none;
+  font-size:20px;
+  transition:.18s ease;
+}
+.figma-back:hover{color:var(--fx-maroon);border-color:#cdaeb5;transform:translateX(-1px)}
+.admin-topbar-title h1{
+  margin:0;
+  font:700 25px/1.1 "Playfair Display",serif;
+}
+.admin-topbar-title:after{
+  content:"Flora Avenue Admin Portal";
+  display:block;
+  color:var(--fx-muted);
+  font-size:8px;
+  margin-top:3px;
+}
+
+/* ---------- CONTENT ---------- */
+.figma-page{
+  width:min(1180px,calc(100% - 68px));
+  margin:0 auto;
+  padding:30px 0 55px;
+}
+.figma-top-logo{display:none!important}
+.figma-title{font-family:"Playfair Display",serif;font-size:24px;font-weight:700;color:var(--fx-text)}
+.figma-muted{color:var(--fx-muted);font-size:10px;line-height:1.7}
+
+.figma-search{
+  width:min(430px,100%);
+  height:42px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:0 12px;
+  margin-bottom:14px;
+  background:#fff;
+  border:1px solid var(--fx-border);
+  border-radius:9px;
+  box-shadow:0 3px 10px rgba(70,45,51,.035);
+}
+.figma-search span{font-size:17px;color:#817477}
+.figma-search input{width:100%;border:0;outline:0;background:transparent;color:var(--fx-text);font-size:10px}
+.figma-search input::placeholder{color:#aaa0a3}
+
+.figma-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.figma-tabs button{
+  height:32px;
+  padding:0 15px;
+  border:1px solid #cdaeb5;
+  border-radius:999px;
+  background:#fff;
+  color:#594b4f;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.02em;
+  cursor:pointer;
+  transition:.18s ease;
+}
+.figma-tabs button:hover{border-color:var(--fx-maroon);color:var(--fx-maroon)}
+.figma-tabs button.active{background:var(--fx-maroon);border-color:var(--fx-maroon);color:#fff}
+
+.figma-card,.figma-message,.figma-product-card{
+  background:var(--fx-surface);
+  border:1px solid var(--fx-border);
+  box-shadow:var(--fx-shadow);
+}
+.figma-card{border-radius:12px}
+
+/* ---------- PRODUCTS ---------- */
+.figma-product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.figma-product-card{
+  display:block;
+  padding:9px;
+  border-radius:11px;
+  color:inherit;
+  text-decoration:none;
+  transition:.2s ease;
+}
+.figma-product-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(70,45,51,.12);border-color:#d4b7bd}
+.figma-product-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;display:block}
+.figma-product-card strong{display:block;font-size:9px;line-height:1.4;margin-top:8px}
+.figma-product-card span{display:block;color:var(--fx-rose);font-size:11px;font-weight:700;margin-top:3px}
+.figma-product-grid + *{}
+
+/* ---------- LISTS / ORDERS / PAYMENTS ---------- */
+.figma-list{display:grid;gap:11px;max-width:900px}
+.figma-list-card{
+  padding:17px 18px;
+  min-height:94px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:5px 15px;
+  position:relative;
+  border-radius:11px;
+  align-items:center;
+}
+.figma-list-card .ref{font-size:7px;color:#97888c;letter-spacing:.05em}
+.figma-list-card .name{font-size:12px;font-weight:700;margin-top:3px}
+.figma-list-card .meta{font-size:8px;color:var(--fx-muted);display:block;line-height:1.65;margin-top:3px}
+.figma-list-card .price{font-size:13px;color:var(--fx-maroon);align-self:center}
+
+.figma-message{
+  display:block;
+  max-width:900px;
+  padding:15px 17px;
+  border-radius:11px;
+  color:inherit;
+  text-decoration:none;
+  transition:.18s ease;
+}
+.figma-message:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(70,45,51,.10)}
+.figma-message .msg-head{display:flex;align-items:center;gap:10px}
+.figma-avatar-sm{width:34px;height:34px;border-radius:50%;background:#b98d97;color:#fff;display:grid;place-items:center;font-size:8px;font-weight:700}
+.figma-message strong{font-size:10px}.figma-message .msg-time{font-size:7px;color:var(--fx-muted);margin-top:2px}
+.figma-message p{font-size:8px;color:#62575b;line-height:1.65;margin:10px 0 0;padding-left:44px}
+
+.figma-status{display:inline-block;padding:5px 10px;border-radius:999px;background:#eee6e8;font-size:7px;font-weight:700;white-space:nowrap}
+.figma-status.pending{background:#ffe7cc;color:#9b4e00}.figma-status.processing{background:#eee1eb;color:#7e4661}.figma-status.verified{background:#e2f2e4;color:#367041}.figma-status.failed{background:#f6dddd;color:#9b3b43}
+
+/* ---------- DETAILS ---------- */
+.figma-detail{max-width:760px;padding:22px}
+.figma-detail .row{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:14px 0;border-bottom:1px solid #eee6e8;font-size:10px}
+.figma-detail .row:last-child{border-bottom:0}
+.figma-detail .label{display:block;font-size:7px;color:var(--fx-muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.figma-detail strong{font-size:10px}
+.figma-product{display:grid;grid-template-columns:74px 1fr;gap:13px;align-items:center;padding:15px 0;border-bottom:1px solid #eee6e8}
+.figma-product img{width:74px;height:74px;object-fit:cover;border-radius:8px}
+.figma-product .product-name{font-size:11px;font-weight:700}.figma-product .product-meta{font-size:8px;color:var(--fx-muted);margin-top:3px}.figma-product .product-price{font-size:12px;color:var(--fx-rose);font-weight:700;margin-top:5px}
+.qty{display:flex;align-items:center;border:1px solid var(--fx-border);border-radius:7px;height:31px;overflow:hidden}.qty button{width:31px;height:30px;border:0;background:#fff;color:var(--fx-rose);font-weight:700}.qty strong{font-size:9px;width:30px;text-align:center}
+.figma-pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}.figma-pills button{height:30px;padding:0 13px;border:1px solid var(--fx-border);background:#fff;border-radius:999px;font-size:7px;font-weight:600}.figma-pills button.active{background:var(--fx-maroon);color:#fff;border-color:var(--fx-maroon)}
+.figma-total{display:flex;justify-content:space-between;padding:18px 0 11px;font:700 18px "Playfair Display",serif}.figma-total strong{color:var(--fx-maroon)}
+
+.figma-btn{
+  width:100%;
+  min-height:40px;
+  border:0;
+  border-radius:8px;
+  background:var(--fx-maroon);
+  color:#fff;
+  font-size:8px;
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:.18s ease;
+}
+.figma-btn:hover{background:var(--fx-maroon-dark);transform:translateY(-1px);box-shadow:0 8px 18px rgba(129,75,87,.16)}
+.figma-btn.secondary{background:#fff;color:var(--fx-maroon);border:1px solid #b98590}
+
+/* ---------- FORMS ---------- */
+.figma-form{display:grid;gap:13px;max-width:760px}
+.figma-form label{display:block;font-size:8px;font-weight:700;color:#4e4447}
+.figma-form small{display:block;color:var(--fx-muted);font-size:7px;font-weight:400;margin-top:3px}
+.figma-input,.figma-select{width:100%;height:42px;border:1px solid var(--fx-border);border-radius:8px;background:#fff;padding:0 11px;font-size:9px;outline:0;margin-top:6px;color:var(--fx-text)}
+.figma-textarea{width:100%;min-height:115px;border:1px solid var(--fx-border);border-radius:8px;padding:10px;font-size:9px;resize:vertical;outline:0;margin-top:6px;font-family:Poppins,sans-serif}
+.figma-input:focus,.figma-textarea:focus,.figma-select:focus{border-color:#b47a86;box-shadow:0 0 0 3px rgba(168,91,112,.08)}
+.figma-upload{min-height:135px;border:1.5px dashed #cdbdc1;border-radius:9px;display:grid;place-items:center;text-align:center;font-size:8px;color:#665b5f;background:#fff}
+.figma-upload span{display:block;font-size:25px;color:#a29a9d;margin-bottom:4px}
+.figma-upload small{display:block;font-size:6px;color:#918589;margin-top:3px}
+
+/* ---------- PROFILE ---------- */
+.figma-profile{max-width:760px;text-align:left;padding:23px;background:#fff;border:1px solid var(--fx-border);border-radius:12px;box-shadow:var(--fx-shadow);display:flex;align-items:center;gap:17px}
+.figma-avatar{width:78px;height:78px;border-radius:50%;background:#dcecff;display:grid;place-items:center;font-size:40px;flex:0 0 auto}
+.figma-profile h2{font:700 21px "Playfair Display",serif}.figma-profile p{font-size:8px;color:var(--fx-muted);margin-top:3px}
+.figma-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;max-width:760px;margin-top:13px}
+.figma-action{height:55px;background:#fff;border:1px solid var(--fx-border);border-radius:10px;display:grid;grid-template-columns:31px 1fr 20px;align-items:center;padding:0 14px;text-align:left;font-size:8px;font-weight:700;color:var(--fx-text);cursor:pointer;box-shadow:0 4px 12px rgba(70,45,51,.04);transition:.18s ease}
+.figma-action:hover{border-color:#cfadb5;transform:translateY(-2px)}.figma-action .icon{font-size:18px;color:var(--fx-maroon)}.figma-action .arrow{font-size:22px;color:#8a7479;text-align:right}
+
+.figma-payment-proof{margin-top:15px}.figma-payment-proof img{width:180px;height:180px;object-fit:cover;border-radius:10px;display:block;border:1px solid var(--fx-border)}
+.figma-section-title{font-size:9px;font-weight:700;margin-bottom:7px}
+
+/* ---------- MOBILE: retain Figma compact artboard feel ---------- */
+@media(max-width:700px){
+  body.admin-app{background:#dedadb}
+  body.admin-app .admin-shell{display:block;max-width:430px;min-height:100vh;margin:0 auto;background:#f5eeee;box-shadow:none}
+  .admin-sidebar-fx{display:none}
+  body.admin-app .admin-topbar{min-height:58px;padding:10px 13px;background:transparent;border:0}
+  .figma-back{width:29px;height:29px;border:0;background:transparent;font-size:24px}
+  .admin-topbar-title h1{font-size:17px}.admin-topbar-title:after{display:none}
+  .figma-page{width:auto;margin:0;padding:6px 12px 28px}
+  .figma-title{font-size:16px}.figma-muted{font-size:9px}
+  .figma-search{height:28px;border-radius:6px;padding:0 8px;margin-bottom:9px}.figma-search span{font-size:13px}.figma-search input{font-size:8px}
+  .figma-tabs{gap:5px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px;scrollbar-width:none}.figma-tabs::-webkit-scrollbar{display:none}.figma-tabs button{height:22px;padding:0 11px;font-size:7px}
+  .figma-list{gap:8px}.figma-list-card{padding:11px 10px;min-height:78px}.figma-list-card .name{font-size:9px}.figma-list-card .meta{font-size:6px}.figma-list-card .price{font-size:10px}
+  .figma-message{padding:9px}.figma-avatar-sm{width:19px;height:19px;font-size:6px}.figma-message strong{font-size:8px}.figma-message .msg-time{font-size:5px}.figma-message p{font-size:7px;padding-left:0;margin-top:6px}
+  .figma-product-grid{grid-template-columns:repeat(2,1fr);gap:7px}.figma-product-card{padding:5px}.figma-product-card strong{font-size:6px}.figma-product-card span{font-size:7px}
+  .figma-detail{padding:11px 10px}.figma-detail .row{padding:7px 0;font-size:8px}.figma-detail .label{font-size:6px}.figma-detail strong{font-size:8px}.figma-product{grid-template-columns:45px 1fr;gap:8px;padding:9px 0}.figma-product img{width:45px;height:45px}.figma-product .product-name{font-size:8px}.figma-product .product-meta{font-size:6px}.figma-product .product-price{font-size:9px}
+  .figma-btn{min-height:31px;font-size:7px}.figma-pills{gap:5px}.figma-pills button{height:21px;padding:0 9px;font-size:6px}.figma-total{font-size:13px}
+  .figma-form{gap:7px}.figma-form label{font-size:7px}.figma-input,.figma-select{height:28px;font-size:7px}.figma-textarea{min-height:74px;font-size:7px}.figma-upload{min-height:69px;font-size:6px}
+  .figma-profile{display:block;text-align:center;padding:14px 10px 4px;border:0;box-shadow:none;background:transparent}.figma-avatar{width:62px;height:62px;margin:0 auto 7px;font-size:35px}.figma-profile h2{font-size:14px}.figma-profile p{font-size:7px}.figma-actions{grid-template-columns:1fr;gap:5px;margin-top:12px}.figma-action{height:33px;font-size:8px}.figma-action .icon{font-size:17px}
+  .figma-payment-proof img{width:82px;height:82px}
+}
+
+
+/* ---------- POLISHED DESKTOP ADMIN PAGES ---------- */
+@media(min-width:701px){
+  body.admin-app .admin-shell{min-height:100vh;}
+  body.admin-app .admin-topbar{position:sticky;top:0;z-index:15;min-height:82px;padding:0 42px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px)}
+  .admin-topbar-title h1{font-size:27px}
+  .admin-topbar-title:after{font-size:9px}
+  .figma-page{width:min(1180px,calc(100% - 84px));padding:34px 0 64px}
+  .figma-title{font-size:28px}
+  .figma-muted{font-size:11px}
+  .figma-search{width:min(520px,100%);height:44px;border-radius:10px}
+  .figma-search input{font-size:11px}
+  .figma-tabs button{height:34px;padding:0 17px;font-size:9px}
+  .figma-list{gap:12px}
+  .figma-list-card{min-height:104px;padding:18px 20px;border-radius:13px}
+  .figma-list-card .name{font-size:13px}
+  .figma-list-card .meta{font-size:9px}
+  .figma-list-card .price{font-size:14px}
+  .figma-message{padding:16px 18px;border-radius:13px}
+  .figma-message strong{font-size:12px}
+  .figma-message .msg-time{font-size:8px}
+  .figma-message p{font-size:10px;padding-left:48px;margin-top:11px}
+  .figma-status{font-size:8px;padding:6px 11px}
+  .figma-product-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .figma-product-card{padding:10px;border-radius:12px}
+  .figma-product-card strong{font-size:10px}
+  .figma-product-card span{font-size:12px}
+  .figma-detail{max-width:900px;padding:26px;border-radius:14px}
+  .figma-detail .row{padding:16px 0;font-size:11px}
+  .figma-detail .label{font-size:8px}
+  .figma-detail strong{font-size:11px}
+  .figma-product{grid-template-columns:86px 1fr;gap:15px;padding:17px 0}
+  .figma-product img{width:86px;height:86px;border-radius:10px}
+  .figma-product .product-name{font-size:13px}
+  .figma-product .product-meta{font-size:9px}
+  .figma-product .product-price{font-size:14px}
+  .figma-btn{min-height:44px;font-size:9px;border-radius:9px}
+  .figma-form{max-width:900px;gap:17px;padding:26px}
+  .figma-form label{font-size:10px}
+  .figma-input,.figma-select{height:45px;font-size:10px}
+  .figma-textarea{min-height:140px;font-size:10px}
+  .figma-upload{min-height:160px;font-size:10px}
+  .figma-profile{max-width:900px;padding:28px;border-radius:14px}
+  .figma-profile h2{font-size:24px}
+  .figma-profile p{font-size:10px}
+  .figma-actions{max-width:900px;gap:14px}
+  .figma-action{height:62px;font-size:10px}
+}
