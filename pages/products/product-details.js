@@ -704,15 +704,44 @@ const loginRequiredModal = document.getElementById("loginRequiredModal");
 const cancelLoginButton = document.getElementById("cancelLoginButton");
 const goToLoginButton = document.getElementById("goToLoginButton");
 
+
+/* =========================================================
+   LOGIN STATUS CHECK
+   ========================================================= */
+
+function checkIfLoggedIn() {
+  return (
+    localStorage.getItem("isLoggedIn") === "true" ||
+    localStorage.getItem("loggedIn") === "true" ||
+    localStorage.getItem("isLogged") === "true" ||
+    localStorage.getItem("userLoggedIn") === "true" ||
+    localStorage.getItem("currentUser") !== null ||
+    localStorage.getItem("user") !== null
+  );
+}
+
 mainActionButton.addEventListener("click", () => {
   if (product.outOfStock) return;
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const isLoggedIn = checkIfLoggedIn();
+  if (isLoggedIn) {
+    loginRequiredModal.hidden = true;
+}
 
   if (!isLoggedIn) {
+    localStorage.setItem(
+        "pendingAction",
+        product.customizable ? "customize" : "order"
+    );
+
+    localStorage.setItem(
+        "pendingProductId",
+        product.id
+    );
+
     loginRequiredModal.hidden = false;
     return;
-  }
+}
 
   if (product.customizable) {
     const query = new URLSearchParams({
