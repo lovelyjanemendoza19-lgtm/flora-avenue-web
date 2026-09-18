@@ -622,6 +622,8 @@ function goToPage(page) {
   const quantity = Math.max(1, Number(quantityInput.value) || 1);
   const query = new URLSearchParams({
     id: product.id,
+    product: product.name,
+category: product.category,
     variant: variant.label || "",
     price: String(variant.price ?? product.price ?? ""),
     quantity: String(quantity),
@@ -698,9 +700,92 @@ document.getElementById("increaseQuantity").addEventListener("click", () => {
 });
 
 
+const loginRequiredModal = document.getElementById("loginRequiredModal");
+const cancelLoginButton = document.getElementById("cancelLoginButton");
+const goToLoginButton = document.getElementById("goToLoginButton");
+
 mainActionButton.addEventListener("click", () => {
   if (product.outOfStock) return;
-  goToPage(product.customizable ? "customization.html" : "order.html");
+
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  if (!isLoggedIn) {
+    loginRequiredModal.hidden = false;
+    return;
+  }
+
+  if (product.customizable) {
+    const query = new URLSearchParams({
+      id: product.id,
+      product: product.name,
+      category: product.category
+    });
+
+    window.location.href = `customization.html?${query.toString()}`;
+  } else {
+    goToPage("order.html");
+  }
+});
+
+cancelLoginButton.addEventListener("click", () => {
+  loginRequiredModal.hidden = true;
+});
+
+goToLoginButton.addEventListener("click", () => {
+  window.location.href = "../login/login.html";
+});
+
+/* =========================================================
+   HIDE VARIANT DROPDOWN WHEN THERE IS ONLY ONE VARIANT
+   ========================================================= */
+
+function updateVariantVisibility() {
+    const variantSelect = document.getElementById("variantSelect");
+
+    if (!variantSelect) return;
+
+    
+    const actualVariants = Array.from(variantSelect.options).filter(option => {
+        return option.value && option.value.trim() !== "";
+    });
+
+    // container variant
+    const variantGroup =
+        variantSelect.closest(".form-group") ||
+        variantSelect.closest(".product-option") ||
+        variantSelect.closest(".variant-group") ||
+        variantSelect.parentElement;
+
+    if (!variantGroup) return;
+
+
+    
+    if (actualVariants.length <= 1) {
+        variantGroup.style.display = "none";
+
+        // Automatically select the only variant
+        if (actualVariants.length === 1) {
+            variantSelect.value = actualVariants[0].value;
+            variantSelect.dispatchEvent(new Event("change"));
+        }
+    } else {
+      
+        variantGroup.style.display = "";
+    }
+}
+
+
+/* =========================================================
+   CHECK AGAIN AFTER PRODUCT DETAILS LOADS
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+    updateVariantVisibility();
+
+    // Check again after dynamic product data is loaded
+    setTimeout(updateVariantVisibility, 100);
+    setTimeout(updateVariantVisibility, 300);
+    setTimeout(updateVariantVisibility, 500);
 });
 
 initializePage();
