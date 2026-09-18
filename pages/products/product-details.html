@@ -93,6 +93,18 @@
     </section>
   </main>
 
-  <script src="product-details.js"defer></script>
+  <script src="product-details.js" defer></script>
+  <!-- LOGIN REQUIRED POPUP -->
+<div id="loginRequiredModal" class="login-modal" hidden>
+  <div class="login-modal-card" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+    <h2 id="loginModalTitle">Login Required</h2>
+    <p>Please log in first before you customize or place an order.</p>
+
+    <div class="login-modal-actions">
+      <button type="button" id="cancelLoginButton">Cancel</button>
+      <button type="button" id="goToLoginButton">Go to Login</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
