@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
             /* Temporary demo login */
 
             alert("Login successful!");
-
+            localStorage.setItem("isLoggedIn", "true");
 
             window.location.href = "../../index.html";
 
