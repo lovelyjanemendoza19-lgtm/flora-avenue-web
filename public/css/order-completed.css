@@ -1,0 +1,128 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 24px 16px;
+  background: #e8dfe0;
+  color: #332d2f;
+  font-family: Poppins, sans-serif;
+}
+
+.completion-page {
+  display: flex;
+  min-height: calc(100vh - 48px);
+  align-items: center;
+  justify-content: center;
+}
+
+.completion-card {
+  width: min(100%, 520px);
+  padding: 42px 38px 36px;
+  border: 1px solid #eadfe1;
+  border-radius: 12px;
+  background: #f8f1f1;
+  box-shadow: 0 5px 14px rgba(51, 45, 47, 0.08);
+  text-align: center;
+}
+
+.completion-check {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 22px;
+  place-items: center;
+  border-radius: 50%;
+  background: #7c4a4f;
+  color: #ffffff;
+  font-size: 36px;
+  line-height: 1;
+}
+
+.completion-card h1 {
+  margin: 0;
+  color: #332d2f;
+  font-size: 31px;
+  font-weight: 600;
+}
+
+.completion-message {
+  margin: 5px 0 18px;
+  color: #756c6f;
+  font-size: 14px;
+}
+
+.reference-label {
+  margin: 0 0 3px;
+  color: #756c6f;
+  font-size: 12px;
+}
+
+.order-reference {
+  display: block;
+  margin-bottom: 16px;
+  color: #7c4a4f;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+}
+
+.product-image {
+  display: block;
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 24px;
+  border-radius: 8px;
+  background: #e8dfe0;
+  object-fit: cover;
+}
+
+.upload-message {
+  margin: 0 auto 20px;
+  max-width: 360px;
+  color: #332d2f;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.completion-actions {
+  display: grid;
+  gap: 7px;
+}
+
+.orders-link {
+  display: block;
+  padding: 13px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+}
+
+.primary-link {
+  background: #7c4a4f;
+  color: #ffffff;
+}
+
+.secondary-link {
+  border: 1px solid #bba7aa;
+  background: #ffffff;
+  color: #7c4a4f;
+}
+
+@media (max-width: 380px) {
+  body {
+    padding: 16px 10px;
+  }
+
+  .completion-page {
+    min-height: calc(100vh - 32px);
+  }
+
+  .completion-card {
+    padding: 30px 20px 26px;
+  }
+}

@@ -177,6 +177,14 @@ body {
     font-size: 30px;
 }
 
+.flower-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    object-fit: cover;
+}
+
 .product-row small,
 .product-row strong,
 .product-row b {
@@ -463,6 +471,136 @@ textarea:focus {
     margin-top: 14px;
 }
 
+/* Inquiry details use the same visual frame as Order Details. */
+#detailsScreen {
+    min-height: 100vh;
+    padding: 14px 16px 28px;
+    background-color: #e8dfe0;
+}
+
+#detailsScreen.active {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#detailsScreen .topbar {
+    width: min(100%, 760px);
+    min-height: auto;
+    margin: 0 auto 14px;
+    padding: 0;
+    gap: 0;
+    background-color: transparent;
+}
+
+#detailsScreen .back-btn {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    color: #7c4a4f;
+    font-size: 13px;
+}
+
+#detailsScreen .back-btn::after {
+    content: " Back to Inquiries";
+    font-family: Poppins, Arial, sans-serif;
+    font-size: 13px;
+}
+
+#detailsScreen .topbar h1 {
+    display: none;
+}
+
+#detailsScreen .content {
+    width: min(100%, 760px);
+    max-width: 760px;
+    padding: 0;
+}
+
+#detailsScreen .details-card {
+    max-width: none;
+    padding: 22px 24px 28px;
+    border: 1px solid #d8cfd0;
+    border-radius: 14px;
+    background-color: #f8f1f1;
+}
+
+#detailsScreen .ref-title {
+    margin: 0 0 18px;
+    text-align: left;
+}
+
+#detailsScreen .ref-title span {
+    color: #756c6f;
+    font-size: 12px;
+}
+
+#detailsScreen .ref-title strong {
+    margin-top: 4px;
+    color: #332d2f;
+    font-size: 22px;
+}
+
+#detailsScreen .product-row {
+    margin-bottom: 20px;
+}
+
+#detailsScreen .flower-img {
+    width: 110px;
+    height: 110px;
+    border-radius: 8px;
+    background: #e8dfe0;
+}
+
+#detailsScreen .message-box {
+    margin: 12px 0;
+    padding: 14px 0;
+    border-top: 1px solid #e1d2d5;
+    border-radius: 0;
+    background: transparent;
+}
+
+#detailsScreen .message-box strong {
+    color: #7c4a4f;
+    font-size: 15px;
+}
+
+#detailsScreen .message-box p {
+    color: #332d2f;
+    font-size: 13px;
+}
+
+#detailsScreen .seller {
+    padding: 14px 0;
+    background: transparent;
+}
+
+#detailsScreen .details-card .primary {
+    min-height: 42px;
+    margin-top: 14px;
+    border-radius: 6px;
+}
+
+#detailsScreen .details-back-button {
+    margin-top: 10px;
+    border-radius: 6px;
+}
+
+@media (max-width: 599px) {
+    #detailsScreen {
+        padding: 12px 10px 22px;
+    }
+
+    #detailsScreen .details-card {
+        padding: 20px 22px 24px;
+    }
+
+    #detailsScreen .flower-img {
+        width: 90px;
+        height: 90px;
+    }
+}
+
 
 /* =========================
    MY INQUIRIES
@@ -573,9 +711,10 @@ textarea:focus {
 
     padding: 14px 20px;
 
+    border: 1px solid #e1d2d5;
     border-radius: 12px;
 
-    background-color: #f8f1f1;
+    background-color: #ffffff;
 
     cursor: pointer;
 }

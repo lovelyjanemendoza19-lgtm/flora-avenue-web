@@ -12,4 +12,4 @@ if (image) {
   imageElement.hidden = true;
 }
 
-document.getElementById("detailsLink").href = `Order%20details.html?order=${encodeURIComponent(reference)}`;
+document.getElementById("detailsLink").href = `order%20details.html?order=${encodeURIComponent(reference)}`;

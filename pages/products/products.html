@@ -38,12 +38,15 @@
         <!-- PRODUCT CATALOG -->
 <main class="catalog-page">
 
-    <input
-        type="text"
-        id="searchProduct"
-        class="search-box"
-        placeholder="⌕ Search Product"
-    >
+    <div class="search-box-wrap">
+        <span class="search-icon" aria-hidden="true"></span>
+        <input
+            type="text"
+            id="searchProduct"
+            class="search-box"
+            placeholder="Search Product"
+        >
+    </div>
 
     <div class="category-list">
 
@@ -369,8 +372,6 @@
 
 </div>
 
-    <script src="products-data.js"></script>
-
     <script>
 
         /* PRODUCT FILTER */
@@ -382,20 +383,6 @@
 
         const searchBox =
             document.getElementById("searchProduct");
-
-        document.querySelectorAll(".catalog-card").forEach(function (card) {
-            const productId =
-                new URL(card.href).searchParams.get("id");
-
-            const product =
-                window.products && window.products[productId];
-
-            if (product) {
-                const image = card.querySelector("img");
-                image.src = product.image;
-                image.alt = product.name;
-            }
-        });
 
         const allGrid = document.createElement("div");
         allGrid.className = "catalog-grid catalog-grid-all";

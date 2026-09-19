@@ -82,9 +82,11 @@
 }
 
 .featured-heading a {
+    align-self: center;
     color: #916269;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 600;
+    line-height: 1.2;
     text-decoration: none;
 }
 
@@ -376,6 +378,13 @@
         font-size: 8px;
     }
 
+}
+
+@media (max-width: 599px) {
+    .banner-text a {
+        padding: 12px 18px;
+        font-size: 13px;
+    }
 }
 
 @media (min-width: 600px) {

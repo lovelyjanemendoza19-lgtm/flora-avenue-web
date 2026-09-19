@@ -53,8 +53,9 @@
     align-items: center;
     gap: 18px;
     padding: 14px 20px;
-    background-color: #f8f1f1;
+    border: 1px solid #e1d2d5;
     border-radius: 12px;
+    background-color: #ffffff;
     text-decoration: none;
     color: #332d2f;
 }

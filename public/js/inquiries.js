@@ -52,6 +52,12 @@ function loadProductInquiryDetails() {
   const params = new URLSearchParams(window.location.search);
   const productName = params.get("product");
   if (!productName) return;
+  const imageName = params.get("image");
+  const imageElement = document.getElementById("formInquiryProductImage");
+  if (imageElement && imageName) {
+    imageElement.src = `../../public/images/${encodeURIComponent(imageName)}`;
+    imageElement.alt = productName;
+  }
   const productRow = document.querySelector("#formScreen .product-row");
   const name = productRow?.querySelector("strong");
   const price = productRow?.querySelector(".price");
@@ -130,6 +136,11 @@ function showDetails(inquiry = currentInquiry, screenId = "detailsScreen") {
   document.getElementById("detailDate").textContent = inquiry.date;
   document.getElementById("detailMessage").textContent = inquiry.message;
   document.getElementById("detailResponse").textContent = inquiry.response || "We will respond to your inquiry as soon as possible.";
+  const imageElement = document.getElementById("detailInquiryProductImage");
+  if (imageElement) {
+    imageElement.src = inquiry.image || "../../public/images/eternal-rose.jpeg";
+    imageElement.alt = inquiry.product || "Selected product";
+  }
   showScreen(screenId);
 }
 

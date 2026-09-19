@@ -558,6 +558,8 @@ function renderColors() {
 
       button.addEventListener("click", () => {
         selectedColor = color;
+        stockMessage.textContent = "";
+        stockMessage.classList.remove("selection-error");
 
         colorOptions.querySelectorAll(".color-circle")
           .forEach(circle => {
@@ -704,7 +706,7 @@ function goToPage(page) {
       ,customizable: product.customizable ? "true" : "false"
     });
 
-    window.location.href = `../orders/Order%20form.html?${orderQuery.toString()}`;
+    window.location.href = `../orders/order%20form.html?${orderQuery.toString()}`;
     return;
   }
 
@@ -813,6 +815,12 @@ document.getElementById("increaseQuantity").addEventListener("click", () => {
 
 mainActionButton.addEventListener("click", () => {
   if (product.outOfStock) return;
+  if (product.colors?.length && !selectedColor) {
+    stockMessage.textContent = "Please choose a color before ordering.";
+    stockMessage.classList.add("selection-error");
+    colorField.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
   if (localStorage.getItem("floraAvenueSignedIn") !== "true") {
     localStorage.setItem("floraAvenuePendingAction", JSON.stringify({
       action: product.customizable ? "customize" : "order",

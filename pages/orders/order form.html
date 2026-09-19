@@ -1,1 +1,70 @@
-o
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Place Order | Flora Avenue</title>
+	<link rel="stylesheet" href="../../public/css/customization.css">
+</head>
+<body>
+	<div class="wrap">
+		<header>
+			<p>Review your order details and provide your contact information.</p>
+		</header>
+
+		<form id="orderForm">
+			<fieldset>
+				<div class="summary-heading">
+					  <a class="back-button" id="backToProduct" href="../products/products.html" aria-label="Back to products">←</a>
+					<h1>Place Order</h1>
+				</div>
+				<div class="bouquet-recap" id="bouquetRecap"></div>
+			</fieldset>
+
+			<fieldset>
+				<legend>Contact Information</legend>
+				<div class="field">
+					<label for="contactName">Name <span class="required">*</span></label>
+					<input id="contactName" required>
+				</div>
+				<div class="row">
+					<div class="field">
+						<label for="contactNumber">Contact Number <span class="required">*</span></label>
+						<input id="contactNumber" type="tel" required>
+					</div>
+					<div class="field">
+						<label for="contactEmail">Email Address <span class="required">*</span></label>
+						<input id="contactEmail" type="email" required>
+					</div>
+				</div>
+			</fieldset>
+
+			<fieldset>
+				<legend>Fulfillment</legend>
+				<div class="row">
+					<div class="field">
+						<label for="orderFulfil">Method <span class="required">*</span></label>
+						<select id="orderFulfil" required>
+							<option value="">Choose a method</option>
+							<option value="Pickup">Pickup</option>
+							<option value="Delivery">Delivery</option>
+						</select>
+					</div>
+					<div class="field">
+						<label for="orderDate">Preferred Date <span class="required">*</span></label>
+						<input id="orderDate" type="date" required>
+					</div>
+				</div>
+				<div class="field">
+					<label for="orderAddress">Address</label>
+					<textarea id="orderAddress" rows="3"></textarea>
+				</div>
+			</fieldset>
+
+			<p id="formError" class="upload-status" role="alert"></p>
+			<button class="submit" type="submit">Submit Order</button>
+		</form>
+	</div>
+	<script src="../../public/js/order%20form.js"></script>
+</body>
+</html>

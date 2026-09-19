@@ -1,57 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Profile | Flora Avenue</title>
-	<link rel="stylesheet" href="../../public/css/style.css">
-	<link rel="stylesheet" href="../../public/css/profile.css">
-</head>
-<body data-navigation-base="../../">
-	<div class="website">
-		<header>
-			<button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
-			<div class="logo">
-				<img src="../../public/images/logo.png" alt="Flora Avenue Logo">
-			</div>
-		</header>
-		<main class="profile-page">
-			<section class="profile-card" aria-labelledby="profile-title">
-				<div class="profile-avatar profile-avatar-placeholder" aria-label="Profile photo placeholder">Photo</div>
-				<div class="profile-heading">
-					<p class="profile-eyebrow">MY PROFILE</p>
-					<h1 id="profile-title">Flora Avenue Customer</h1>
-					<p class="profile-status">Welcome to your profile page.</p>
-				</div>
+const navigationBase = document.body.dataset.navigationBase || "";
+const isSignedIn = localStorage.getItem("floraAvenueSignedIn") === "true";
+const navigationPath = window.location.pathname.replace(/\\/g, "/");
+const isHomeOrCatalog = navigationPath.endsWith("/index.html")
+    || navigationPath.endsWith("/products/products.html")
+    || navigationPath.endsWith("/");
 
-				<div class="profile-details">
-					<div class="profile-detail">
-						<span>Name</span>
-						<strong data-profile-value="name">Flora Avenue Customer</strong>
-						<input class="profile-input" data-profile-input="name" type="text" value="Flora Avenue Customer" aria-label="Name">
-					</div>
-					<div class="profile-detail">
-						<span>Email</span>
-						<strong data-profile-value="email">customer@example.com</strong>
-						<input class="profile-input" data-profile-input="email" type="email" value="customer@example.com" aria-label="Email">
-					</div>
-					<div class="profile-detail">
-						<span>Contact Number</span>
-						<strong data-profile-value="contact">Not provided</strong>
-						<input class="profile-input" data-profile-input="contact" type="tel" value="" placeholder="Not provided" aria-label="Contact Number">
-					</div>
-				</div>
+const navigationLinks = [
+    ["Home", "index.html", "home-icon.png"],
+    ["Products", "pages/products/products.html", "product-icon.png"],
+    ["My Inquiries", "pages/inquiries/inquiries.html", "inquiry-icon.png"],
+    ["My Orders", "pages/orders/orders.html", "order-icon.png"],
+    ["Profile", "pages/profile/profile.html", "profile-icon.png"]
+];
 
-				<div class="profile-actions">
-					<button class="profile-action" id="editProfileButton" type="button">Edit Profile</button>
-					<button class="profile-action profile-cancel" id="cancelProfileButton" type="button">Cancel</button>
-					<button class="profile-action" id="saveProfileButton" type="button">Save Profile</button>
-				</div>
-			</section>
-		</main>
-	</div>
-	<script src="../../public/js/navigation.js"></script>
-	<script src="../../public/js/script.js"></script>
-	<script src="../../public/js/profile.js"></script>
-</body>
-</html>
+const menu = document.createElement("aside");
+menu.className = "side-menu";
+menu.id = "sideMenu";
+menu.setAttribute("aria-label", "Main navigation");
+menu.innerHTML = `
+    <p class="side-menu-brand">FLORA AVENUE</p>
+    <nav>
+        ${navigationLinks.map(function ([label, path, icon]) {
+            return `<a class="menu-link" href="${navigationBase}${path}">
+                <span class="menu-icon"><img src="${navigationBase}public/images/${icon}" alt=""></span>
+                <span class="menu-text">${label}</span>
+            </a>`;
+        }).join("")}
+        ${!isSignedIn ? `<a class="menu-link side-sign-in mobile-sign-in" href="${navigationBase}pages/login/login.html">
+            <span class="menu-icon"><img src="${navigationBase}public/images/profile-icon.png" alt=""></span>
+            <span class="menu-text">Sign In</span>
+        </a>` : ""}
+        <button class="menu-link menu-action" id="logoutButton" type="button">
+            <span class="menu-icon"><img src="${navigationBase}public/images/logout-icon.png" alt=""></span>
+            <span class="menu-text">Log Out</span>
+        </button>
+    </nav>
+`;
+
+const overlay = document.createElement("div");
+overlay.className = "menu-overlay";
+overlay.id = "menuOverlay";
+overlay.setAttribute("aria-hidden", "true");
+
+document.body.append(menu, overlay);
+
+if (!isSignedIn && isHomeOrCatalog) {
+    const signIn = document.createElement("a");
+    signIn.className = "desktop-sign-in";
+    signIn.href = `${navigationBase}pages/login/login.html`;
+    signIn.textContent = "Sign In";
+    signIn.setAttribute("aria-label", "Sign in");
+    document.body.append(signIn);
+}
+
+const menuButton = document.getElementById("menuButton");
+
+function closeMenu() {
+    menu.classList.remove("show-menu");
+    overlay.classList.remove("show-overlay");
+    menuButton?.setAttribute("aria-expanded", "false");
+}
+
+function toggleMenu() {
+    const isOpen = menu.classList.toggle("show-menu");
+    overlay.classList.toggle("show-overlay", isOpen);
+    menuButton?.setAttribute("aria-expanded", String(isOpen));
+}
+
+menuButton?.addEventListener("click", toggleMenu);
+overlay.addEventListener("click", closeMenu);
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        closeMenu();
+    }
+});

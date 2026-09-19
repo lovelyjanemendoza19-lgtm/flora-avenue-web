@@ -7,6 +7,18 @@
     const cancelButton = document.getElementById("cancelProfileButton");
     const saveButton = document.getElementById("saveProfileButton");
 
+    if (localStorage.getItem("floraAvenueSignedIn") !== "true") {
+        inputs.forEach(function (input) {
+            input.hidden = true;
+        });
+        document.querySelectorAll("[data-profile-value]").forEach(function (value) {
+            value.hidden = false;
+        });
+        document.querySelector(".profile-actions").innerHTML =
+            '<a class="profile-action profile-sign-in" href="../login/login.html">Sign In</a>';
+        return;
+    }
+
     let savedProfile = {
         name: "Flora Avenue Customer",
         email: "customer@example.com",

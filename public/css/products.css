@@ -13,7 +13,7 @@
 .search-box {
     width: 100%;
     height: 42px;
-    padding: 0 14px;
+    padding: 0 14px 0 40px;
     border: 1px solid #7c4a4f;
     border-radius: 10px;
     background-color: #ffffff;
@@ -21,6 +21,45 @@
     font-family: Poppins, sans-serif;
     font-size: 12px;
     outline: none;
+}
+
+.search-box-wrap {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    z-index: 1;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.search-icon::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #7c4a4f;
+    border-radius: 50%;
+    content: "";
+}
+
+.search-icon::after {
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    width: 7px;
+    height: 2px;
+    border-radius: 2px;
+    background: #7c4a4f;
+    content: "";
+    transform: rotate(45deg);
+    transform-origin: left center;
 }
 
 .search-box::placeholder {
@@ -118,15 +157,33 @@
 }
 
 @media (max-width: 599px) {
+    .catalog-page {
+        width: 100%;
+        max-width: none;
+        overflow: hidden;
+    }
+
     .category-list {
+        width: 100%;
         overflow-x: auto;
         overflow-y: hidden;
         flex-wrap: nowrap;
         scrollbar-width: none;
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .category-button {
+        flex: 0 0 auto;
     }
 
     .category-list::-webkit-scrollbar {
         display: none;
+    }
+
+    .catalog-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
     }
 }
 

@@ -724,3 +724,14 @@ body {
 #mainActionButton {
   margin-left: 0;
 }
+
+.selection-error {
+  margin: 8px 0 14px;
+  padding: 9px 12px;
+  border-left: 4px solid #c23a3a;
+  border-radius: 4px;
+  background: #fff0f0;
+  color: #a52323;
+  font-size: 13px;
+  font-weight: 600;
+}

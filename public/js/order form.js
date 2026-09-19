@@ -15,7 +15,8 @@ function loadBouquetOrder(){
     qty: params.get('qty') || '1',
     colors: params.get('colors') || 'Not specified',
     cardMsg: params.get('cardMsg') || '',
-    notes: [params.get('notes'), params.get('addons')].filter(Boolean).join(', '),
+    notes: params.get('notes') || '',
+    addons: params.get('addons') || '',
     contactName: params.get('contactName') || '',
     contactNumber: params.get('contactNumber') || '',
     contactEmail: params.get('contactEmail') || '',
@@ -39,6 +40,7 @@ function renderBouquetRecap(o){
   ];
   if(o.cardMsg) rows.push(['Card message', '"' + o.cardMsg + '"']);
   if(o.notes) rows.push(['Notes', o.notes]);
+  if(o.addons) rows.push(['Add-ons', o.addons]);
   if(o.contactName) rows.push(['Contact Name', o.contactName]);
   if(o.contactNumber) rows.push(['Contact Number', o.contactNumber]);
   if(o.contactEmail) rows.push(['Email Address', o.contactEmail]);
@@ -56,23 +58,19 @@ renderBouquetRecap(bouquetOrder);
   const element = document.getElementById(field);
   if (element && bouquetOrder[field]) element.value = bouquetOrder[field];
 });
-if (document.getElementById('orderNotes')) {
-  document.getElementById('orderNotes').value = bouquetOrder.notes || '';
-}
-
 form.addEventListener('submit', e => {
   e.preventDefault();
-  const address = document.getElementById('address').value.trim();
-  const fulfil = document.getElementById('fulfil').value;
+  const address = document.getElementById('orderAddress').value.trim();
+  const fulfil = document.getElementById('orderFulfil').value;
   const error = document.getElementById('formError');
   if (!form.reportValidity()) return;
   if (fulfil === 'Delivery' && !address) {
-    const addressInput = document.getElementById('address');
+    const addressInput = document.getElementById('orderAddress');
     addressInput.setCustomValidity('Please enter a delivery address.');
     addressInput.reportValidity();
     return;
   }
-  document.getElementById('address').setCustomValidity('');
+  document.getElementById('orderAddress').setCustomValidity('');
 
   const reference = `ORD-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
   const order = {
@@ -84,13 +82,13 @@ form.addEventListener('submit', e => {
     size: bouquetOrder.size,
     qty: Number(bouquetOrder.qty) || 1,
     colors: bouquetOrder.colors,
-    addons: new URLSearchParams(window.location.search).get('addons') || '',
-    notes: document.getElementById('orderNotes').value.trim(),
+    addons: bouquetOrder.addons,
+    notes: bouquetOrder.notes,
     contactName: document.getElementById('contactName').value.trim(),
     contactNumber: document.getElementById('contactNumber').value.trim(),
     contactEmail: document.getElementById('contactEmail').value.trim(),
     fulfil,
-    date: document.getElementById('date').value,
+    date: document.getElementById('orderDate').value,
     address,
     amount: Number(new URLSearchParams(window.location.search).get('amount')) || null,
     status: 'Pending',
@@ -105,5 +103,5 @@ form.addEventListener('submit', e => {
     style: bouquetOrder.style,
     image: bouquetOrder.image
   });
-  window.location.href = `Order%20completed.html?${completionParams.toString()}`;
+  window.location.href = `order%20%20completed.html?${completionParams.toString()}`;
 });
