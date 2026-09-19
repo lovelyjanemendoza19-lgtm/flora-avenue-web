@@ -1,0 +1,14 @@
+const reference = new URLSearchParams(location.search).get("order");
+const orders = JSON.parse(localStorage.getItem("floraAvenueOrders") || "[]");
+const order = orders.find(item => item.reference === reference);
+const root = document.getElementById("details");
+const esc = value => String(value || "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+if (!order) root.innerHTML = "<h1>Order not found</h1>";
+else {
+  const accepted = order.status !== "Pending" && order.status !== "Cancelled";
+  root.innerHTML = `<h1>Order Details</h1><img class="order-image" src="../../public/images/${encodeURIComponent(order.image || "banner-flower.png")}" alt="${esc(order.style)}"><h2>${esc(order.reference)}</h2><p class="status">Status: ${esc(order.status)}</p><h3>Order Information</h3><dl><dt>Product</dt><dd>${esc(order.style)}</dd><dt>Variation</dt><dd>${esc(order.size)}</dd><dt>Color</dt><dd>${esc(order.colors)}</dd><dt>Quantity</dt><dd>${esc(order.qty)}</dd><dt>Add-ons</dt><dd>${esc(order.addons)}</dd><dt>Notes</dt><dd>${esc(order.notes)}</dd><dt>Total</dt><dd>₱${Number(order.amount || 0).toLocaleString("en-PH")}</dd></dl><h3>Customer Information</h3><dl><dt>Name</dt><dd>${esc(order.contactName)}</dd><dt>Contact</dt><dd>${esc(order.contactNumber)}</dd></dl><h3>Fulfillment</h3><dl><dt>Method</dt><dd>${esc(order.fulfil)}</dd><dt>Preferred date</dt><dd>${esc(order.date)}</dd><dt>Address</dt><dd>${esc(order.address)}</dd></dl><h3>Seller Response</h3><p>${esc(order.sellerProposal?.notes || "Waiting for seller response.")}</p>${order.sellerProposal ? '<button id="accept">Accept Order</button><button id="cancel" class="secondary">Cancel Order</button>' : ""}<h3>Payment Information</h3>${accepted ? `<p>Total amount: ₱${Number(order.payment?.total || order.amount || 0).toLocaleString("en-PH")}</p><p>Required down payment: ₱${Number(order.payment?.requiredDownPayment || 0).toLocaleString("en-PH")}</p><p>Amount paid: ₱${Number(order.payment?.amountPaid || 0).toLocaleString("en-PH")}</p><p>Remaining balance: ₱${Math.max(0, Number(order.payment?.total || order.amount || 0) - Number(order.payment?.amountPaid || 0)).toLocaleString("en-PH")}</p><input id="proof" type="file" accept="image/*,.pdf">` : "<p>Waiting for seller acceptance before payment.</p>"}`;
+  const save = status => { order.status = status; localStorage.setItem("floraAvenueOrders", JSON.stringify(orders)); location.reload(); };
+  document.getElementById("accept")?.addEventListener("click", () => save("Confirmed"));
+  document.getElementById("cancel")?.addEventListener("click", () => save("Cancelled"));
+  document.getElementById("proof")?.addEventListener("change", event => { order.payment.proof = event.target.files[0]?.name || ""; localStorage.setItem("floraAvenueOrders", JSON.stringify(orders)); });
+}
