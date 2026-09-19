@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Payments | Flora Avenue</title>
+	<link rel="stylesheet" href="../../public/css/style.css">
+	<link rel="stylesheet" href="../../public/css/payment.css">
+</head>
+
+<body class="persistent-sidebar" data-navigation-base="../../">
+	<script>
+		window.location.replace("../orders/orders.html");
+	</script>
+	<div class="website">
+
+			<div class="mobile-header">
+
+				<button class="menu-button" id="menuButton">
+					☰
+				</button>
+
+				<h1>My Payments</h1>
+
+			</div> 
+			
+		<main class="payments-page">
+
+			<h1 class="desktop-title">My Payments</h1>
+			
+			<div class="filters">
+				<button class="filter-button active" data-filter="all">All</button>
+				<button class="filter-button" data-filter="pending">Pending</button>
+				<button class="filter-button" data-filter="submitted">Submitted</button>
+			</div>
+
+			<div class="payments-list" id="paymentsList">
+
+				<a href="#" class="payments-item" data-status="pending">
+					<img src="../../public/images/bouquet.jpeg" alt="ORD-2026-0521-0001">
+					<div class="payments-info">
+						<strong>ORD-2026-0521-0001</strong>
+						<span>May 12, 2026</span>
+						<b>₱400</b>
+					</div>
+					<span class="status pending">Pending</span>
+				</a>
+
+				<a href="#" class="payments-item" data-status="submitted">
+					<img src="../../public/images/bouquet2.jpeg" alt="ORD-2026-0521-0002">
+					<div class="payments-info">
+						<strong>ORD-2026-0521-0002</strong>
+						<span>May 12, 2026</span>
+						<b>₱400</b>
+					</div>
+					<span class="status submitted">Submitted</span>
+				</a>
+
+				<a href="#" class="payments-item" data-status="submitted">
+					<img src="../../public/images/amore.jpeg" alt="ORD-2026-0521-0003">
+					<div class="payments-info">
+						<strong>ORD-2026-0521-0003</strong>
+						<span>May 12, 2026</span>
+						<b>₱1,000</b>
+					</div>
+					<span class="status submitted">Submitted</span>
+				</a>
+
+			</div>
+
+		</main>
+
+	</div>
+
+
+	<script src="../../public/js/navigation.js"></script>
+	<script src="../../public/js/script.js"></script>
+	<script src="../../public/js/payment.js"></script>
+	</body>
+</html>
