@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Order Status | Flora Avenue</title>
+    <title>Order Details | Flora Avenue</title>
 
-    <link rel="stylesheet" href="order-status.css">
+    <link rel="stylesheet" href="../../public/css/Order status.css">
 </head>
 
 <body>
@@ -14,71 +14,24 @@
     <main class="status-page">
 
         <!-- Back Button -->
-        <a href="orders.html" class="back-button">←</a>
+        <a href="orders.html" class="back-button">← Back to Orders</a>
 
         <!-- Status Card -->
         <section class="status-card">
-
-            <!-- Order Placed -->
-            <div class="status-item completed">
-                <div class="status-icon">✓</div>
-                <div class="status-line"></div>
-
-                <div class="status-content">
-                    <h2>ORDER PLACED</h2>
-                    <p>Oct 24, 2026</p>
-                    <p>10:30 AM</p>
-                </div>
+            <p class="detail-label">Order reference</p>
+            <h1 id="orderReference"></h1>
+            <div id="orderSummary" class="order-summary"></div>
+            <p class="current-status">Status: <strong id="currentStatus"></strong></p>
+            <div id="sellerActions" class="seller-actions">
+                <p>Seller proposal</p>
+                <button type="button" id="acceptOrder" class="continue-button">Accept</button>
+                <button type="button" id="cancelOrder" class="cancel-button">Cancel</button>
             </div>
-
-
-            <!-- Confirmed -->
-            <div class="status-item completed">
-                <div class="status-icon">✓</div>
-                <div class="status-line"></div>
-
-                <div class="status-content">
-                    <h2>CONFIRMED</h2>
-                    <p>Oct 24, 2026</p>
-                    <p>10:15 AM</p>
-                </div>
-            </div>
-
-
-            <!-- Processing -->
-            <div class="status-item active">
-                <div class="status-icon"></div>
-                <div class="status-line"></div>
-
-                <div class="status-content">
-                    <h2>PROCESSING</h2>
-                    <p>Your order is being handcrafted.</p>
-                </div>
-            </div>
-
-
-            <!-- Ready for Pickup -->
-            <div class="status-item">
-                <div class="status-icon"></div>
-                <div class="status-line"></div>
-
-                <div class="status-content">
-                    <h2>READY FOR PICKUP</h2>
-                    <p>Pending</p>
-                </div>
-            </div>
-
-
-            <!-- Completed -->
-            <div class="status-item last">
-                <div class="status-icon"></div>
-
-                <div class="status-content">
-                    <h2>COMPLETED</h2>
-                    <p>Pending</p>
-                </div>
-            </div>
-
+            <section id="paymentInfo" class="payment-info" hidden>
+                <h2>Payment information</h2>
+                <p>Your order is confirmed. Please send the down payment proof through the seller's payment channel.</p>
+                <p><strong>Payment method:</strong> Down payment</p>
+            </section>
         </section>
 
 
@@ -88,7 +41,6 @@
         </a>
 
     </main>
-
+    <script src="../../public/js/order-details.js"></script>
 </body>
 </html>
-

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,29 +81,18 @@
             <strong id="totalPrice">₱0</strong>
           </div>
 
-          <div class="product-actions">
-  <button type="button" id="mainActionButton" class="button button-primary">
-    ORDER NOW
-  </button>
-</div>
           <p class="small-note">Final details for customized orders can be discussed through inquiry.</p>
         </section>
       </div>
+
+        <div class="product-actions">
+          <button type="button" id="inquiryActionButton" class="button button-outline">Inquire</button>
+          <button type="button" id="mainActionButton" class="button button-primary">ORDER NOW</button>
+        </div>
+
     </section>
   </main>
 
-  <script src="product-details.js" defer></script>
-  <!-- LOGIN REQUIRED POPUP -->
-<div id="loginRequiredModal" class="login-modal" hidden>
-  <div class="login-modal-card" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
-    <h2 id="loginModalTitle">Login Required</h2>
-    <p>Please log in first before you customize or place an order.</p>
-
-    <div class="login-modal-actions">
-      <button type="button" id="cancelLoginButton">Cancel</button>
-      <button type="button" id="goToLoginButton">Go to Login</button>
-    </div>
-  </div>
-</div>
+  <script src="product-details.js"defer></script>
 </body>
 </html>

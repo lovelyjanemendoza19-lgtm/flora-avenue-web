@@ -17,7 +17,7 @@
 		</header>
 		<main class="profile-page">
 			<section class="profile-card" aria-labelledby="profile-title">
-				<div class="profile-avatar" aria-hidden="true">FA</div>
+				<div class="profile-avatar profile-avatar-placeholder" aria-label="Profile photo placeholder">Photo</div>
 				<div class="profile-heading">
 					<p class="profile-eyebrow">MY PROFILE</p>
 					<h1 id="profile-title">Flora Avenue Customer</h1>
@@ -27,23 +27,31 @@
 				<div class="profile-details">
 					<div class="profile-detail">
 						<span>Name</span>
-						<strong>Flora Avenue Customer</strong>
+						<strong data-profile-value="name">Flora Avenue Customer</strong>
+						<input class="profile-input" data-profile-input="name" type="text" value="Flora Avenue Customer" aria-label="Name">
 					</div>
 					<div class="profile-detail">
 						<span>Email</span>
-						<strong>customer@example.com</strong>
+						<strong data-profile-value="email">customer@example.com</strong>
+						<input class="profile-input" data-profile-input="email" type="email" value="customer@example.com" aria-label="Email">
 					</div>
 					<div class="profile-detail">
 						<span>Contact Number</span>
-						<strong>Not provided</strong>
+						<strong data-profile-value="contact">Not provided</strong>
+						<input class="profile-input" data-profile-input="contact" type="tel" value="" placeholder="Not provided" aria-label="Contact Number">
 					</div>
 				</div>
 
-				<button class="profile-action" type="button" disabled>Edit Profile</button>
+				<div class="profile-actions">
+					<button class="profile-action" id="editProfileButton" type="button">Edit Profile</button>
+					<button class="profile-action profile-cancel" id="cancelProfileButton" type="button">Cancel</button>
+					<button class="profile-action" id="saveProfileButton" type="button">Save Profile</button>
+				</div>
 			</section>
 		</main>
 	</div>
 	<script src="../../public/js/navigation.js"></script>
 	<script src="../../public/js/script.js"></script>
+	<script src="../../public/js/profile.js"></script>
 </body>
 </html>

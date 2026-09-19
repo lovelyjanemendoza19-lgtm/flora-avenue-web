@@ -21,45 +21,15 @@
 
 		<main class="orders-page">
 
+			<h1 class="desktop-title">My Orders</h1>
+
 			<div class="filters">
 				<button class="filter-button active" data-filter="all">All</button>
 				<button class="filter-button" data-filter="pending">Pending</button>
-				<button class="filter-button" data-filter="verified">Verified</button>
+				<button class="filter-button" data-filter="confirmed">Confirmed</button>
 			</div>
 
-			<div class="order-list">
-
-				<a href="#" class="order-item" data-status="pending">
-					<img src="../../public/images/bouquet.jpg" alt="ORD-2026-0521-0001">
-					<div class="order-info">
-						<strong>ORD-2026-0521-0001</strong>
-						<span>May 12, 2026</span>
-						<b>₱400</b>
-					</div>
-					<span class="status pending">Pending</span>
-				</a>
-
-				<a href="#" class="order-item" data-status="verified">
-					<img src="../../public/images/satin-rose.jpeg" alt="ORD-2026-0521-0002">
-					<div class="order-info">
-						<strong>ORD-2026-0521-0002</strong>
-						<span>May 12, 2026</span>
-						<b>₱400</b>
-					</div>
-					<span class="status verified">Verified</span>
-				</a>
-
-				<a href="#" class="order-item" data-status="verified">
-					<img src="images/bouquet3.jpg" alt="ORD-2026-0521-0003">
-					<div class="order-info">
-						<strong>ORD-2026-0521-0003</strong>
-						<span>May 12, 2026</span>
-						<b>₱400</b>
-					</div>
-					<span class="status verified">Verified</span>
-				</a>
-
-			</div>
+			<div class="order-list" id="orderList"></div>
 
 		</main>
 

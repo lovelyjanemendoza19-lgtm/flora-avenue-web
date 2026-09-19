@@ -1,6 +1,4 @@
-const menuButton = document.getElementById("menuButton");
 const sideMenu = document.getElementById("sideMenu");
-const closeButton = document.getElementById("closeButton");
 const logoutButton = document.getElementById("logoutButton");
 const menuOverlay = document.getElementById("menuOverlay");
 
@@ -32,35 +30,18 @@ function closeLogoutModal() {
 }
 
 function openLogoutModal() {
-    sideMenu.classList.remove("show-menu");
-    menuOverlay.classList.remove("show-overlay");
+    sideMenu?.classList.remove("show-menu");
+    menuOverlay?.classList.remove("show-overlay");
     logoutModal.classList.add("show-logout");
     logoutCancel.focus();
 }
 
-if (menuButton) {
-    menuButton.onclick = function () {
-        sideMenu.classList.add("show-menu");
-        menuOverlay.classList.add("show-overlay");
+if (logoutButton) {
+    logoutButton.onclick = function (event) {
+        event.preventDefault();
+        openLogoutModal();
     };
 }
-
-if (closeButton) {
-    closeButton.onclick = function () {
-        sideMenu.classList.remove("show-menu");
-        menuOverlay.classList.remove("show-overlay");
-    };
-}
-
-menuOverlay.onclick = function () {
-    sideMenu.classList.remove("show-menu");
-    menuOverlay.classList.remove("show-overlay");
-};
-
-logoutButton.onclick = function (event) {
-    event.preventDefault();
-    openLogoutModal();
-};
 
 logoutClose.onclick = closeLogoutModal;
 logoutCancel.onclick = closeLogoutModal;
@@ -71,7 +52,9 @@ logoutModal.addEventListener("click", function (event) {
 });
 
 logoutConfirm.onclick = function () {
+    localStorage.removeItem("floraAvenueSignedIn");
     closeLogoutModal();
+    window.location.reload();
 };
 
 document.addEventListener("keydown", function (event) {

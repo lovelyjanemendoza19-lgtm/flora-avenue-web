@@ -78,8 +78,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
             /* Temporary demo login */
 
+            localStorage.setItem("floraAvenueSignedIn", "true");
             alert("Login successful!");
-            localStorage.setItem("isLoggedIn", "true");
+
+            const pendingAction = localStorage.getItem("floraAvenuePendingAction");
+            if (pendingAction) {
+                try {
+                    const target = JSON.parse(pendingAction);
+                    window.location.href = target.url;
+                    return;
+                } catch (error) {
+                    localStorage.removeItem("floraAvenuePendingAction");
+                    console.warn("Unable to resume the requested action.", error);
+                }
+            }
 
             window.location.href = "../../index.html";
 

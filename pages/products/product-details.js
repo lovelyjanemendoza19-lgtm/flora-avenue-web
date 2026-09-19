@@ -1,9 +1,4 @@
 
-/* =====================================================
-   FLORA AVENUE - PRODUCT DETAILS
-   Images are expected inside: public/images/
-===================================================== */
-
 const IMAGE_BASE = "../../public/images/";
 
 const products = [
@@ -451,6 +446,9 @@ const addOnsElement = document.getElementById("addOns");
 const quantityInput = document.getElementById("quantity");
 const totalPriceElement = document.getElementById("totalPrice");
 const mainActionButton = document.getElementById("mainActionButton");
+const inquiryActionButton = document.getElementById("inquiryActionButton");
+const productOrderForm = document.getElementById("productOrderForm");
+const selectedProductSummary = document.getElementById("selectedProductSummary");
 
 
 let selectedAddOns = new Set();
@@ -533,6 +531,14 @@ function renderVariants() {
 }
 
 
+const colorPalette = {
+  Pink: "#F2BAC9",
+  Red: "#D9555C",
+  Blue: "#4A88D7",
+  Purple: "#8F6CCB",
+  Yellow: "#E9C85A"
+};
+
 function renderColors() {
   colorOptions.innerHTML = "";
   selectedColor = "";
@@ -540,20 +546,12 @@ function renderColors() {
   if (product.colors && product.colors.length) {
     colorField.classList.remove("hidden");
 
-    const colors = {
-      Pink: "#F4A6B7",
-      Red: "#E53945",
-      Blue: "#4A90E2",
-      Purple: "#9B59B6",
-      Yellow: "#F4D03F"
-    };
-
     product.colors.forEach(color => {
       const button = document.createElement("button");
 
       button.type = "button";
       button.className = "color-circle";
-      button.style.backgroundColor = colors[color];
+      button.style.backgroundColor = colorPalette[color] || "#d9d9d9";
       button.setAttribute("aria-label", color);
       button.setAttribute("title", color);
       button.setAttribute("aria-pressed", "false");
@@ -615,15 +613,103 @@ function updateTotal() {
   priceElement.textContent = product.price == null && !product.variants
     ? "Price upon inquiry"
     : money(variant.price ?? product.price);
+  renderSelectedProductSummary();
+}
+
+function renderSelectedProductSummary() {
+  if (!selectedProductSummary) return;
+  const variant = getSelectedVariant();
+  const quantity = Math.max(1, Number(quantityInput.value) || 1);
+  const addOns = Array.from(selectedAddOns)
+    .map(id => addOnOptions.find(addOn => addOn.id === id)?.label || id)
+    .join(", ") || "None";
+  const amount = (Number(variant.price ?? product.price ?? 0) + getAddOnTotal()) * quantity;
+  const colorDisplay = selectedColor
+    ? `<span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${colorPalette[selectedColor] || '#d9d9d9'}; border:1px solid rgba(51,45,47,0.2); vertical-align:middle; margin-right:8px;"></span>${selectedColor}`
+    : "Not specified";
+  selectedProductSummary.innerHTML = `
+    <img class="summary-product-image" src="${IMAGE_BASE}${product.images?.[0] || "banner-flower.png"}" alt="${product.name}">
+    <dl>
+      <dt>Product</dt><dd>${product.name}</dd>
+      <dt>Variation</dt><dd>${variant.label || "Standard"}</dd>
+      <dt>Color</dt><dd>${colorDisplay}</dd>
+      <dt>Quantity</dt><dd>${quantity}</dd>
+      <dt>Add-ons</dt><dd>${addOns}</dd>
+      <dt>Total</dt><dd>${money(amount)}</dd>
+    </dl>`;
+}
+
+function saveProductOrder() {
+  if (!productOrderForm.reportValidity()) return;
+  const fulfil = document.getElementById("orderFulfil").value;
+  const addressInput = document.getElementById("orderAddress");
+  const error = document.getElementById("orderFormError");
+  addressInput.setCustomValidity("");
+  error.textContent = "";
+  if (fulfil === "Delivery" && !addressInput.value.trim()) {
+    addressInput.setCustomValidity("Please enter a delivery address.");
+    addressInput.reportValidity();
+    return;
+  }
+
+  const variant = getSelectedVariant();
+  const quantity = Math.max(1, Number(quantityInput.value) || 1);
+  const amount = (Number(variant.price ?? product.price ?? 0) + getAddOnTotal()) * quantity;
+  const order = {
+    reference: `ORD-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
+    createdAt: new Date().toISOString(),
+    productId: product.id,
+    style: product.name,
+    image: product.images?.[0] || "",
+    size: variant.label || "Standard",
+    qty: quantity,
+    colors: selectedColor,
+    addons: Array.from(selectedAddOns).map(id => addOnOptions.find(item => item.id === id)?.label || id).join(", "),
+    notes: document.getElementById("specialInstructions").value.trim() + (document.getElementById("orderNotes").value.trim() ? ` ${document.getElementById("orderNotes").value.trim()}` : ""),
+    contactName: document.getElementById("orderContactName").value.trim(),
+    contactNumber: document.getElementById("orderContactNumber").value.trim(),
+    contactEmail: document.getElementById("orderContactEmail").value.trim(),
+    fulfil,
+    date: document.getElementById("orderDate").value,
+    address: addressInput.value.trim(),
+    amount,
+    status: "Pending",
+    payment: { total: amount, requiredDownPayment: 0, amountPaid: 0, proof: null }
+  };
+  const orders = JSON.parse(localStorage.getItem("floraAvenueOrders") || "[]");
+  orders.unshift(order);
+  localStorage.setItem("floraAvenueOrders", JSON.stringify(orders));
+  window.location.href = `../orders/Order%20completed.html?reference=${encodeURIComponent(order.reference)}&style=${encodeURIComponent(order.style)}&image=${encodeURIComponent(order.image)}`;
 }
 
 function goToPage(page) {
   const variant = getSelectedVariant();
   const quantity = Math.max(1, Number(quantityInput.value) || 1);
+  const notes = document.getElementById("specialInstructions")?.value.trim() || "";
+  const addOns = Array.from(selectedAddOns)
+    .map(id => addOnOptions.find(addOn => addOn.id === id)?.label || id)
+    .join(", ");
+
+  if (page === "order-form") {
+    const orderQuery = new URLSearchParams({
+      id: product.id,
+      image: product.images?.[0] || "",
+      style: product.name,
+      size: variant.label || "Standard",
+      qty: String(quantity),
+      colors: selectedColor,
+      notes,
+      addons: addOns
+      ,amount: String((variant.price ?? product.price ?? 0) * quantity + getAddOnTotal() * quantity)
+      ,customizable: product.customizable ? "true" : "false"
+    });
+
+    window.location.href = `../orders/Order%20form.html?${orderQuery.toString()}`;
+    return;
+  }
+
   const query = new URLSearchParams({
     id: product.id,
-    product: product.name,
-category: product.category,
     variant: variant.label || "",
     price: String(variant.price ?? product.price ?? ""),
     quantity: String(quantity),
@@ -632,6 +718,32 @@ category: product.category,
   });
 
   window.location.href = `${page}?${query.toString()}`;
+}
+
+function goToInquiry() {
+  const inquiryQuery = new URLSearchParams({
+    new: "1",
+    product: product.name,
+    image: product.images?.[0] || "",
+    variant: getSelectedVariant().label || "Standard",
+    quantity: String(Math.max(1, Number(quantityInput.value) || 1)),
+    color: selectedColor,
+    addons: Array.from(selectedAddOns)
+      .map(id => addOnOptions.find(addOn => addOn.id === id)?.label || id)
+      .join(", "),
+    notes: document.getElementById("specialInstructions")?.value.trim() || ""
+  });
+  const inquiryUrl = `../inquiries/inquiries.html?${inquiryQuery.toString()}`;
+  if (localStorage.getItem("floraAvenueSignedIn") !== "true") {
+    localStorage.setItem("floraAvenuePendingAction", JSON.stringify({
+      action: "inquiry",
+      url: inquiryUrl
+    }));
+    window.location.href = "../login/login.html";
+    return;
+  }
+  localStorage.removeItem("floraAvenuePendingAction");
+  window.location.href = inquiryUrl;
 }
 
 function initializePage() {
@@ -699,122 +811,44 @@ document.getElementById("increaseQuantity").addEventListener("click", () => {
   updateTotal();
 });
 
-
-const loginRequiredModal = document.getElementById("loginRequiredModal");
-const cancelLoginButton = document.getElementById("cancelLoginButton");
-const goToLoginButton = document.getElementById("goToLoginButton");
-
-
-/* =========================================================
-   LOGIN STATUS CHECK
-   ========================================================= */
-
-function checkIfLoggedIn() {
-  return (
-    localStorage.getItem("isLoggedIn") === "true" ||
-    localStorage.getItem("loggedIn") === "true" ||
-    localStorage.getItem("isLogged") === "true" ||
-    localStorage.getItem("userLoggedIn") === "true" ||
-    localStorage.getItem("currentUser") !== null ||
-    localStorage.getItem("user") !== null
-  );
-}
-
 mainActionButton.addEventListener("click", () => {
   if (product.outOfStock) return;
-
-  const isLoggedIn = checkIfLoggedIn();
-  if (isLoggedIn) {
-    loginRequiredModal.hidden = true;
-}
-
-  if (!isLoggedIn) {
-    localStorage.setItem(
-        "pendingAction",
-        product.customizable ? "customize" : "order"
-    );
-
-    localStorage.setItem(
-        "pendingProductId",
-        product.id
-    );
-
-    loginRequiredModal.hidden = false;
+  if (localStorage.getItem("floraAvenueSignedIn") !== "true") {
+    localStorage.setItem("floraAvenuePendingAction", JSON.stringify({
+      action: product.customizable ? "customize" : "order",
+      url: window.location.href
+    }));
+    window.location.href = "../login/login.html";
     return;
-}
-
-  if (product.customizable) {
-    const query = new URLSearchParams({
-      id: product.id,
-      product: product.name,
-      category: product.category
-    });
-
-    window.location.href = `customization.html?${query.toString()}`;
-  } else {
-    goToPage("order.html");
   }
+  localStorage.removeItem("floraAvenuePendingAction");
+  goToPage(product.customizable ? "customization.html" : "order-form");
 });
 
-cancelLoginButton.addEventListener("click", () => {
-  loginRequiredModal.hidden = true;
-});
+inquiryActionButton.addEventListener("click", goToInquiry);
 
-goToLoginButton.addEventListener("click", () => {
-  window.location.href = "../login/login.html";
-});
-
-/* =========================================================
-   HIDE VARIANT DROPDOWN WHEN THERE IS ONLY ONE VARIANT
-   ========================================================= */
-
-function updateVariantVisibility() {
-    const variantSelect = document.getElementById("variantSelect");
-
-    if (!variantSelect) return;
-
-    
-    const actualVariants = Array.from(variantSelect.options).filter(option => {
-        return option.value && option.value.trim() !== "";
-    });
-
-    // container variant
-    const variantGroup =
-        variantSelect.closest(".form-group") ||
-        variantSelect.closest(".product-option") ||
-        variantSelect.closest(".variant-group") ||
-        variantSelect.parentElement;
-
-    if (!variantGroup) return;
-
-
-    
-    if (actualVariants.length <= 1) {
-        variantGroup.style.display = "none";
-
-        // Automatically select the only variant
-        if (actualVariants.length === 1) {
-            variantSelect.value = actualVariants[0].value;
-            variantSelect.dispatchEvent(new Event("change"));
-        }
-    } else {
-      
-        variantGroup.style.display = "";
-    }
-}
-
-
-/* =========================================================
-   CHECK AGAIN AFTER PRODUCT DETAILS LOADS
-   ========================================================= */
-
-document.addEventListener("DOMContentLoaded", function () {
-    updateVariantVisibility();
-
-    // Check again after dynamic product data is loaded
-    setTimeout(updateVariantVisibility, 100);
-    setTimeout(updateVariantVisibility, 300);
-    setTimeout(updateVariantVisibility, 500);
-});
 
 initializePage();
+productOrderForm?.addEventListener("submit", event => {
+  event.preventDefault();
+  if (localStorage.getItem("floraAvenueSignedIn") !== "true") {
+    localStorage.setItem("floraAvenuePendingAction", JSON.stringify({
+      action: "order",
+      url: window.location.href
+    }));
+    window.location.href = "../login/login.html";
+    return;
+  }
+  saveProductOrder();
+});
+
+try {
+  const pendingAction = JSON.parse(localStorage.getItem("floraAvenuePendingAction"));
+  const isProductAction = pendingAction?.action === "order" || pendingAction?.action === "customize";
+  if (isProductAction && localStorage.getItem("floraAvenueSignedIn") === "true") {
+    mainActionButton.click();
+  }
+} catch (error) {
+  localStorage.removeItem("floraAvenuePendingAction");
+  console.warn("Unable to resume the product action.", error);
+}

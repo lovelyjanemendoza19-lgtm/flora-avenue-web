@@ -77,7 +77,52 @@ header {
 
     width: 40px;
     height: 40px;
-    margin-left: 650px;
+}
+
+.desktop-sign-in,
+.mobile-sign-in {
+    color: #A77F8B;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.desktop-sign-in {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+
+    padding: 8px 16px;
+
+    border: 1px solid #7c4a4f;
+    border-radius: 999px;
+    background-color: #7c4a4f;
+    color: #ffffff;
+
+    z-index: 80;
+}
+
+.desktop-sign-in:hover,
+.mobile-sign-in:hover {
+    color: #7c4a4f;
+    text-decoration: underline;
+}
+
+.desktop-sign-in:hover {
+    background-color: #7c4a4f;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.mobile-sign-in {
+    display: none;
+
+    margin-top: auto;
+    padding-top: 16px;
+
+    border-top: 1px solid rgba(51, 45, 47, 0.15);
 }
 
 
@@ -114,6 +159,9 @@ header {
 
     overflow-y: auto;
 
+    display: flex;
+    flex-direction: column;
+
     padding: 20px;
 
     background-color: #E8DFE0;
@@ -125,6 +173,18 @@ header {
     transition: transform 0.3s ease;
 
     z-index: 100;
+}
+
+.side-menu-brand {
+    margin-bottom: 20px;
+
+    color: #A77F8B;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    text-align: left;
 }
 
 .side-menu.show-menu {
@@ -142,6 +202,8 @@ body.persistent-sidebar .menu-button {
 
 
 .side-menu nav {
+    flex: 1;
+
     display: flex;
     flex-direction: column;
 
@@ -438,6 +500,14 @@ body.persistent-sidebar .menu-button {
 @media (max-width: 599px) {
 
     body.persistent-sidebar .menu-button {
+        display: block;
+    }
+
+    .desktop-sign-in {
+        display: none;
+    }
+
+    .mobile-sign-in {
         display: block;
     }
 
@@ -852,37 +922,5 @@ body.persistent-sidebar .menu-button {
         display: block;
     }
 
-
-    .side-menu {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .side-menu nav {
-        flex: 1;
-    }
-
-    .admin-login-bottom {
-        margin-top: auto;
-        padding-top: 16px;
-
-        border-top: 1px solid rgba(51, 45, 47, 0.15);
-
-        text-align: center;
-    }
-
-    .admin-login-bottom a {
-        color: #A77F8B;
-
-        font-size: 12px;
-        font-weight: 600;
-
-        text-decoration: none;
-    }
-
-    .admin-login-bottom a:hover {
-        color: #7c4a4f;
-        text-decoration: underline;
-    }
 
 }
