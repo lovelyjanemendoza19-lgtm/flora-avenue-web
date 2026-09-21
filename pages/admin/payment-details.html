@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Payment Details | Flora Avenue Admin</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../public/css/admin.css"><link rel="stylesheet" href="../../public/css/admin-figma.css"></head>
+<body class="admin-app"><main class="admin-shell"><aside class="admin-sidebar-fx">
+  <a class="fx-side-brand" href="dashboard.html">
+    <img src="../../public/images/logo.png" alt="Flora Avenue">
+    <span><strong>Flora Avenue</strong><small>Admin Portal</small></span>
+  </a>
+  <div class="fx-side-label">Management</div>
+  <nav class="fx-side-nav" aria-label="Admin navigation">
+    <a href="dashboard.html"><span class="fx-side-icon">▦</span><span>Dashboard</span></a>
+    <a href="products.html"><span class="fx-side-icon">▤</span><span>Products</span></a>
+    <a href="inquiries.html"><span class="fx-side-icon">✉</span><span>Inquiries</span></a>
+    <a href="orders.html"><span class="fx-side-icon">▣</span><span>Orders</span></a>
+    <a href="payments.html"><span class="fx-side-icon">▤</span><span>Payments</span></a>
+    <a href="profile.html"><span class="fx-side-icon">♙</span><span>Profile</span></a>
+  </nav>
+  <div class="fx-side-bottom">
+    <div class="fx-side-admin"><div class="fx-side-avatar">♙</div><div><strong>Juan Dela Cruz</strong><small>Administrator</small></div></div>
+    <button class="fx-side-logout" id="fxLogoutButton" type="button"><span class="fx-side-icon">↪</span><span>Log Out</span></button>
+  </div>
+</aside><header class="admin-topbar"><a class="figma-back" href="payments.html">←</a><div class="admin-topbar-title"><h1>Payment Details/Verification</h1></div></header><div class="figma-page"><article class="figma-card figma-detail"><div class="row"><div><span class="label">Order Reference</span><strong>ORD-2024-0521-001</strong></div><span class="figma-status pending" id="paymentStatus">Pending</span></div><div style="padding-top:10px"><span class="label">Amount</span><strong style="font-size:12px">₱1,450</strong></div><div style="padding-top:10px"><span class="label">Payment Method</span><strong>Bank Transfer</strong></div><div style="padding-top:10px"><span class="label">Paid on</span><strong>May 12, 2026 · 09:10 AM ₱400</strong></div><div class="figma-payment-proof"><div class="figma-section-title">Payment Proof</div><img src="../../public/images/eternal-rose.jpeg" alt="Payment proof placeholder"></div><button class="figma-btn" id="verifyPayment" type="button" style="margin-top:12px">Verify Payment</button><button class="figma-btn secondary" id="rejectPayment" type="button" style="margin-top:7px">Reject Payment</button></article></div></main><script src="../../public/js/admin.js"></script></body></html>

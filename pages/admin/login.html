@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | Flora Avenue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../public/css/admin.css"><link rel="stylesheet" href="../../public/css/admin-pro.css">
+</head>
+<body class="admin-pro-login">
+<main class="pro-login-wrap">
+  <section class="pro-login-visual">
+    <div class="pro-brand">
+      <img src="../../public/images/logo.png" alt="Flora Avenue logo">
+      <div class="eyebrow">Flora Avenue • Administration</div>
+      <h1>Welcome back.</h1>
+      <p>Manage products, customer inquiries, orders, and payments in one organized workspace.</p>
+      <div class="line"></div><small>Private admin portal</small>
+    </div>
+  </section>
+  <section class="pro-login-form">
+    <a class="pro-back" href="../../index.html">←&nbsp; Back to Home</a>
+    <div class="pro-heading">
+      <div class="eyebrow">Admin Portal</div>
+      <h2>Sign in to your account</h2>
+      <p>Enter your administrator credentials to continue to the Flora Avenue dashboard.</p>
+    </div>
+    <form id="adminLoginForm" class="pro-form">
+      <div class="pro-field"><label for="adminEmail">Email Address</label><div class="pro-input-wrap"><input class="pro-input" id="adminEmail" type="email" placeholder="admin@floraavenue.com" autocomplete="username" required></div></div>
+      <div class="pro-field"><label for="adminPassword">Password</label><div class="pro-input-wrap"><input class="pro-input" id="adminPassword" type="password" placeholder="Enter your password" autocomplete="current-password" required><button class="pro-eye" type="button" id="adminPasswordToggle" aria-label="Show password">◉</button></div></div>
+      <div class="pro-forgot">Forgot Password?</div>
+      <button class="pro-login-btn" type="submit">Sign In&nbsp; →</button>
+    </form>
+    <div class="pro-security"><span>⌁</span><div>Your admin session is protected. Never share your administrator credentials with customers or other users.</div></div>
+  </section>
+</main>
+<script src="../../public/js/admin.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{const p=document.getElementById('adminPassword'),b=document.getElementById('adminPasswordToggle');b?.addEventListener('click',()=>{const show=p.type==='password';p.type=show?'text':'password';b.textContent=show?'◉':'◌';b.setAttribute('aria-label',show?'Hide password':'Show password')});});
+</script>
+</body></html>

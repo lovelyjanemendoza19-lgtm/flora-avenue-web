@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Manage Products | Flora Avenue Admin</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../public/css/admin.css"><link rel="stylesheet" href="../../public/css/admin-figma.css"></head>
+<body class="admin-app"><main class="admin-shell"><aside class="admin-sidebar-fx">
+  <a class="fx-side-brand" href="dashboard.html">
+    <img src="../../public/images/logo.png" alt="Flora Avenue">
+    <span><strong>Flora Avenue</strong><small>Admin Portal</small></span>
+  </a>
+  <div class="fx-side-label">Management</div>
+  <nav class="fx-side-nav" aria-label="Admin navigation">
+    <a href="dashboard.html"><span class="fx-side-icon">▦</span><span>Dashboard</span></a>
+    <a href="products.html"><span class="fx-side-icon">▤</span><span>Products</span></a>
+    <a href="inquiries.html"><span class="fx-side-icon">✉</span><span>Inquiries</span></a>
+    <a href="orders.html"><span class="fx-side-icon">▣</span><span>Orders</span></a>
+    <a href="payments.html"><span class="fx-side-icon">▤</span><span>Payments</span></a>
+    <a href="profile.html"><span class="fx-side-icon">♙</span><span>Profile</span></a>
+  </nav>
+  <div class="fx-side-bottom">
+    <div class="fx-side-admin"><div class="fx-side-avatar">♙</div><div><strong>Juan Dela Cruz</strong><small>Administrator</small></div></div>
+    <button class="fx-side-logout" id="fxLogoutButton" type="button"><span class="fx-side-icon">↪</span><span>Log Out</span></button>
+  </div>
+</aside><header class="admin-topbar"><a class="figma-back" href="dashboard.html">←</a><div class="admin-topbar-title"><h1>Manage Products</h1></div></header><div class="figma-page"><div class="figma-top-logo"><img src="../../public/images/logo.png" alt="Flora Avenue"></div><div class="figma-search"><span>⌕</span><input id="productSearch" type="search" placeholder="Search Product"></div><div class="figma-tabs"><button class="active">ALL</button><button>BOUQUET</button><button>MIXED BOUQUETS</button></div><div style="display:flex;justify-content:space-between;align-items:center;margin:7px 0"><h2 class="figma-title">Manage Products</h2><a href="add-product.html" class="figma-btn" style="width:96px;text-align:center;line-height:31px">＋ Add New Product</a></div><div class="figma-title" style="font-family:Poppins;font-size:8px;margin-bottom:6px">Bouquet</div><div class="figma-product-grid"><a class="figma-product-card" href="add-product.html"><img src="../../public/images/eternal-rose.jpeg" alt="3 stem sunflower bouquet"><strong>3 stem sunflower bouquet</strong><span>₱99</span></a><a class="figma-product-card" href="add-product.html"><img src="../../public/images/sunflower.jpeg" alt="3 stem sunflower bouquet"><strong>3 stem sunflower bouquet</strong><span>₱99</span></a><a class="figma-product-card" href="add-product.html"><img src="../../public/images/sun-3.jpg" alt="3 stem sunflower bouquet"><strong>3 stem sunflower bouquet</strong><span>₱99</span></a><a class="figma-product-card" href="add-product.html"><img src="../../public/images/sun-3.jpg" alt="3 stem sunflower bouquet"><strong>3 stem sunflower bouquet</strong><span>₱99</span></a></div></div></main><script>document.getElementById('productSearch')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('.figma-product-card').forEach(c=>c.style.display=c.textContent.toLowerCase().includes(q)?'block':'none')});</script><script src="../../public/js/admin.js"></script></body></html>

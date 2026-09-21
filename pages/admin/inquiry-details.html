@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Inquiry Details | Flora Avenue Admin</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../public/css/admin.css"><link rel="stylesheet" href="../../public/css/admin-figma.css"></head>
+<body class="admin-app"><main class="admin-shell"><aside class="admin-sidebar-fx">
+  <a class="fx-side-brand" href="dashboard.html">
+    <img src="../../public/images/logo.png" alt="Flora Avenue">
+    <span><strong>Flora Avenue</strong><small>Admin Portal</small></span>
+  </a>
+  <div class="fx-side-label">Management</div>
+  <nav class="fx-side-nav" aria-label="Admin navigation">
+    <a href="dashboard.html"><span class="fx-side-icon">▦</span><span>Dashboard</span></a>
+    <a href="products.html"><span class="fx-side-icon">▤</span><span>Products</span></a>
+    <a href="inquiries.html"><span class="fx-side-icon">✉</span><span>Inquiries</span></a>
+    <a href="orders.html"><span class="fx-side-icon">▣</span><span>Orders</span></a>
+    <a href="payments.html"><span class="fx-side-icon">▤</span><span>Payments</span></a>
+    <a href="profile.html"><span class="fx-side-icon">♙</span><span>Profile</span></a>
+  </nav>
+  <div class="fx-side-bottom">
+    <div class="fx-side-admin"><div class="fx-side-avatar">♙</div><div><strong>Juan Dela Cruz</strong><small>Administrator</small></div></div>
+    <button class="fx-side-logout" id="fxLogoutButton" type="button"><span class="fx-side-icon">↪</span><span>Log Out</span></button>
+  </div>
+</aside><header class="admin-topbar"><a class="figma-back" href="inquiries.html">←</a><div class="admin-topbar-title"><h1>Inquiry Details/Response</h1></div></header><div class="figma-page"><article class="figma-card" style="padding:10px;margin-bottom:8px"><span class="figma-status pending" style="float:right">Pending</span><div class="figma-title">Question regarding<br>customized sunflower bouquet</div><p class="figma-muted" style="margin-top:5px"><strong>Customer:</strong> Alia Santos<br>Received: Oct 24, 2026 at 10:42 AM</p></article><div class="figma-card" style="padding:10px;margin-bottom:8px"><div class="figma-title" style="font-family:Poppins;font-size:9px">Customer Message</div><p style="font-size:7px;color:#5d5557;line-height:1.5;margin-top:7px">Hi, I am interested in ordering the 3 stem sunflower bouquet, but I was wondering if it’s possible to change the wrapper color to light purple instead of the standard one shown in the picture? Also, how long would delivery take to Quezon City? Thank you!</p></div><div class="figma-card" style="padding:10px;margin-bottom:8px"><div class="figma-title" style="font-family:Poppins;font-size:9px">Admin Response</div><textarea class="figma-textarea" id="inquiryResponse" placeholder="Type your response..."></textarea></div><button class="figma-btn" id="sendResponse" type="button">Send Response</button></div></main><script>document.getElementById('sendResponse')?.addEventListener('click',()=>{const t=document.getElementById('inquiryResponse'); if(!t.value.trim()){alert('Please enter a response.');return;} alert('Response sent successfully.');});</script><script src="../../public/js/admin.js"></script></body></html>

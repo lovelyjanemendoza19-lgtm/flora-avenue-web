@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | Flora Avenue Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../public/css/admin.css"><link rel="stylesheet" href="../../public/css/admin-pro.css">
+</head>
+<body class="admin-pro-dashboard">
+<div class="pro-dash-shell">
+<aside class="pro-sidebar">
+  <div class="pro-side-brand"><img src="../../public/images/logo.png" alt="Flora Avenue"><div><strong>Flora Avenue</strong><small>Admin Portal</small></div></div>
+  <nav class="pro-nav">
+    <a class="active" href="dashboard.html"><img src="../../public/images/home-icon.png">Dashboard</a>
+    <a href="products.html"><img src="../../public/images/product-icon.png">Products</a>
+    <a href="inquiries.html"><img src="../../public/images/inquiry-icon.png">Inquiries</a>
+    <a href="orders.html"><img src="../../public/images/order-icon.png">Orders</a>
+    <a href="payments.html"><img src="../../public/images/payment-icon.png">Payments</a>
+    <a href="profile.html"><img src="../../public/images/profile-icon.png">Profile</a>
+  </nav>
+  <div class="pro-side-bottom">
+    <div class="pro-admin-mini"><div class="pro-admin-avatar">♙</div><div><strong>Juan Dela Cruz</strong><small>Administrator</small></div></div>
+    <button class="pro-logout" id="logoutButton" type="button"><img src="../../public/images/logout-icon.png">Log Out</button>
+  </div>
+</aside>
+<main class="pro-main">
+  <header class="pro-header">
+    <div><h1>Dashboard</h1><p>Manage your Flora Avenue store at a glance.</p></div>
+    <div class="pro-header-right"><button class="pro-icon" title="Notifications">♧</button><div class="pro-admin-label"><div class="avatar">♙</div><div><strong>Juan Dela Cruz</strong><small>Administrator</small></div></div></div>
+  </header>
+  <div class="pro-content">
+    <section class="pro-welcome"><div class="eyebrow">Overview</div><h2>Good day, Admin.</h2><p>Here is a quick look at what is happening in your Flora Avenue store.</p></section>
+    <section class="pro-stats">
+      <article class="pro-stat"><div class="pro-stat-top"><span class="label">Total Products</span><span class="pro-stat-icon">▦</span></div><strong>65</strong><small>Products in catalog</small></article>
+      <article class="pro-stat"><div class="pro-stat-top"><span class="label">Pending Orders</span><span class="pro-stat-icon">↻</span></div><strong>12</strong><small>Need attention</small></article>
+      <article class="pro-stat"><div class="pro-stat-top"><span class="label">New Inquiries</span><span class="pro-stat-icon">✉</span></div><strong>5</strong><small>Awaiting response</small></article>
+      <article class="pro-stat"><div class="pro-stat-top"><span class="label">Total Revenue</span><span class="pro-stat-icon">₱</span></div><strong>₱4.2k</strong><small>Current total</small></article>
+    </section>
+    <section class="pro-grid">
+      <div class="pro-panel"><div class="pro-panel-head"><h3>Recent Orders</h3><a href="orders.html">View all →</a></div>
+        <a class="pro-order" href="order-details.html"><div><span class="ref">ORD-2026-0521-0001</span><span class="customer">Eleanor Mendez · Custom bouquet</span></div><span class="pro-badge">Processing</span><span class="amount">₱749</span></a>
+        <a class="pro-order" href="order-details.html"><div><span class="ref">ORD-2026-088</span><span class="customer">Michael Santos · Gift bouquet</span></div><span class="pro-badge">Pending</span><span class="amount">₱89</span></a>
+        <a class="pro-order" href="order-details.html"><div><span class="ref">ORD-2026-087</span><span class="customer">Juan Dela Cruz · Flower set</span></div><span class="pro-badge">Pending</span><span class="amount">₱215.75</span></a>
+      </div>
+      <div class="pro-panel"><div class="pro-panel-head"><h3>Quick Actions</h3></div><div class="pro-actions"><a class="pro-action" href="products.html">Manage Products <span>→</span></a><a class="pro-action" href="inquiries.html">Review Inquiries <span>→</span></a><a class="pro-action" href="orders.html">Manage Orders <span>→</span></a><a class="pro-action" href="payments.html">Verify Payments <span>→</span></a></div></div>
+    </section>
+    <section class="pro-section"><article class="pro-mini-card"><h4>Inquiries</h4><p>Review customer customization requests and send responses directly from the admin portal.</p><a href="inquiries.html">Open inquiries →</a></article><article class="pro-mini-card"><h4>Products</h4><p>Add new products, update prices and descriptions, and keep the catalog organized.</p><a href="products.html">Manage catalog →</a></article><article class="pro-mini-card"><h4>Payments</h4><p>Check submitted payment proofs and update payment verification status.</p><a href="payments.html">Check payments →</a></article></section>
+  </div>
+</main>
+</div>
+<div class="admin-overlay" id="adminOverlay"></div><div class="admin-modal" id="logoutModal" aria-hidden="true"></div>
+<script src="../../public/js/admin.js"></script>
+</body></html>
