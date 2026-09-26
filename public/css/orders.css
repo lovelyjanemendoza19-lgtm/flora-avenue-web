@@ -132,14 +132,14 @@
  .mobile-header {
         display: flex;
         align-items: center;
-
-        gap: 14px;
+        justify-content: center;
 
         height: 64px;
 
-        padding: 0 16px;
+        padding: 0 56px;
 
         background-color: #f5eff0;
+        position: relative;
     }
 
     .mobile-header h1 {
@@ -153,11 +153,17 @@
         color: #332d2f;
     }
 
-    .menu-button {
-        position: static;
+    .mobile-header .menu-button {
+        position: absolute;
+        left: 16px;
 
+        width: 30px;
+        height: 30px;
         border: none;
         background: none;
+
+        display: grid;
+        place-items: center;
 
         color: #332d2f;
 

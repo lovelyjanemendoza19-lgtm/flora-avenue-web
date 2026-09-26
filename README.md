@@ -46,3 +46,5 @@ Setup Instructions
 4. Run the project using a browser or the Live Server extension in Visual Studio Code.
 
 No additional installation is required because the project currently uses HTML, CSS, and JavaScript only.
+
+Customer sign-in, profile details, and inquiries are currently stored in the browser's local storage. Customer inquiries and admin responses are shared between the customer and admin pages in the same browser and site origin; they are not verified by a backend or shared across devices.

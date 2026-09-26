@@ -485,12 +485,7 @@ body {
 
     border-radius: 10px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #7c4a4f,
-            #b5687c
-        );
+    background: #7c4a4f;
 
     color: white;
 
@@ -590,6 +585,25 @@ body {
 }
 
 .auth-switch a:hover {
+    text-decoration: underline;
+}
+
+.admin-login-link {
+    display: block;
+    width: fit-content;
+    margin: 10px auto 0;
+    color: #777073;
+    font-size: 11px;
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.admin-login-link span {
+    color: #7c4a4f;
+    font-weight: 600;
+}
+
+.admin-login-link:hover span {
     text-decoration: underline;
 }
 

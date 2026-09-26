@@ -367,7 +367,7 @@ body.persistent-sidebar .menu-button {
 .logout-dialog p {
     margin-top: 8px;
 
-    color: #75676a;
+    color: #7c4a4f;
 
     font-size: 13px;
 }
@@ -786,7 +786,7 @@ body.persistent-sidebar .menu-button {
 .logout-dialog p {
     margin-top: 8px;
 
-    color: #75676a;
+    color: #7c4a4f;
 
     font-size: 13px;
 }
@@ -976,6 +976,14 @@ body.persistent-sidebar .website {
     color: #332d2f;
 }
 
+.side-menu a.side-sign-in:active,
+.side-menu a.side-sign-in:focus-visible {
+    border: 1px solid #7c4a4f;
+    border-radius: 6px;
+    outline: 2px solid rgba(124, 74, 79, 0.2);
+    outline-offset: 2px;
+}
+
 .side-menu a.mobile-sign-in {
     display: none;
 }
@@ -987,6 +995,10 @@ body.persistent-sidebar .website {
 
     .side-menu a.mobile-sign-in {
         display: flex;
+    }
+
+    .side-menu a.side-sign-in {
+        margin-top: auto;
     }
 }
 

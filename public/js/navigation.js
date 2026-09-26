@@ -30,10 +30,10 @@ menu.innerHTML = `
             <span class="menu-icon"><img src="${navigationBase}public/images/profile-icon.png" alt=""></span>
             <span class="menu-text">Sign In</span>
         </a>` : ""}
-        <button class="menu-link menu-action" id="logoutButton" type="button">
+        ${isSignedIn ? `<button class="menu-link menu-action" id="logoutButton" type="button">
             <span class="menu-icon"><img src="${navigationBase}public/images/logout-icon.png" alt=""></span>
             <span class="menu-text">Log Out</span>
-        </button>
+        </button>` : ""}
     </nav>
 `;
 

@@ -53,6 +53,7 @@ logoutModal.addEventListener("click", function (event) {
 
 logoutConfirm.onclick = function () {
     localStorage.removeItem("floraAvenueSignedIn");
+    localStorage.removeItem("floraAvenueUserEmail");
     closeLogoutModal();
     window.location.reload();
 };

@@ -1,72 +1,45 @@
-const defaultInquiries = [
-  {
-    reference: "INQ-2026-0521-0001",
-    date: "May 21, 2026",
-    status: "Responded",
-    image: "../../public/images/eternal-rose.jpeg",
-    message: "I would like to inquire if you can make this bouquet in pastel pink and add fairy lights.",
-    response: "Yes, we can customize it in pastel pink and add fairy lights. The total price will be ₱450."
-  },
-  {
-    reference: "INQ-2026-0518-0002",
-    date: "May 18, 2026",
-    status: "Accepted",
-    image: "../../public/images/custom-bouquet.jpeg",
-    message: "I would like to ask about the available customization options.",
-    response: "Yes, customization is available."
-  },
-  {
-    reference: "INQ-2026-0515-0001",
-    date: "May 15, 2026",
-    status: "Responded",
-    image: "../../public/images/satin-rose.jpeg",
-    message: "Is this item still available?",
-    response: "Yes, the product is currently available."
-  },
-  {
-    reference: "INQ-2026-0510-0001",
-    date: "May 10, 2026",
-    status: "New",
-    image: "../../public/images/sunflower.jpeg",
-    message: "I want to know more about this product.",
-    response: ""
-  }
-];
-let inquiries = loadInquiries();
+const inquiryStore = window.floraAvenueInquiryStore;
+let inquiries = inquiryStore.load();
+let currentInquiry = null;
 
-function loadInquiries() {
-  try {
-    const saved = JSON.parse(localStorage.getItem("floraAvenueInquiries") || "null");
-    return Array.isArray(saved) ? saved : defaultInquiries.slice();
-  } catch (error) {
-    console.warn("Unable to load saved inquiries.", error);
-    return defaultInquiries.slice();
-  }
-}
-
-function saveInquiries() {
-  localStorage.setItem("floraAvenueInquiries", JSON.stringify(inquiries));
+function getCustomerEmail() {
+  return (localStorage.getItem("floraAvenueUserEmail") || "").trim().toLowerCase();
 }
 
 function loadProductInquiryDetails() {
   const params = new URLSearchParams(window.location.search);
   const productName = params.get("product");
-  if (!productName) return;
+  const productRow = document.querySelector("#formScreen .product-row");
+  if (!productName) {
+    if (productRow) productRow.hidden = true;
+    return;
+  }
+
   const imageName = params.get("image");
   const imageElement = document.getElementById("formInquiryProductImage");
   if (imageElement && imageName) {
     imageElement.src = `../../public/images/${encodeURIComponent(imageName)}`;
     imageElement.alt = productName;
   }
-  const productRow = document.querySelector("#formScreen .product-row");
   const name = productRow?.querySelector("strong");
   const price = productRow?.querySelector(".price");
   if (name) name.textContent = productName;
-  if (price) price.textContent = [params.get("variant"), params.get("color"), `Qty ${params.get("quantity") || 1}`].filter(Boolean).join(" • ");
+  if (price) {
+    price.textContent = [
+      params.get("variant"),
+      params.get("color"),
+      `Qty ${params.get("quantity") || 1}`
+    ].filter(Boolean).join(" • ");
+  }
   const subject = document.getElementById("subject");
   const message = document.getElementById("message");
   if (subject) subject.value = `Inquiry about ${productName}`;
-  if (message) message.value = [params.get("notes"), params.get("addons") ? `Add-ons: ${params.get("addons")}` : ""].filter(Boolean).join("\n");
+  if (message) {
+    message.value = [
+      params.get("notes"),
+      params.get("addons") ? `Add-ons: ${params.get("addons")}` : ""
+    ].filter(Boolean).join("\n");
+  }
 
   if (params.get("new") === "1" && localStorage.getItem("floraAvenueSignedIn") === "true") {
     startInquiry();
@@ -74,7 +47,7 @@ function loadProductInquiryDetails() {
 }
 
 function startInquiry() {
-  if (localStorage.getItem("floraAvenueSignedIn") !== "true") {
+  if (localStorage.getItem("floraAvenueSignedIn") !== "true" || !getCustomerEmail()) {
     localStorage.setItem("floraAvenuePendingAction", JSON.stringify({
       action: "inquiry",
       url: window.location.href
@@ -87,8 +60,6 @@ function startInquiry() {
   showScreen("formScreen");
 }
 
-let currentInquiry = inquiries[0];
-
 function showScreen(screenId) {
   document.querySelectorAll(".screen").forEach(function (screen) {
     screen.classList.toggle("active", screen.id === screenId);
@@ -98,7 +69,26 @@ function showScreen(screenId) {
   }
 }
 
+function getCustomerName(email) {
+  const profileKey = `floraAvenueProfile:${encodeURIComponent(email)}`;
+  try {
+    const profile = JSON.parse(localStorage.getItem(profileKey) || "null");
+    if (profile && typeof profile.name === "string" && profile.name.trim()) {
+      return profile.name.trim();
+    }
+  } catch (error) {
+    console.warn("Unable to load the customer name for the inquiry.", error);
+  }
+  return "Customer";
+}
+
 function submitInquiry() {
+  const customerEmail = getCustomerEmail();
+  if (localStorage.getItem("floraAvenueSignedIn") !== "true" || !customerEmail) {
+    startInquiry();
+    return;
+  }
+
   const type = document.getElementById("inquiryType").value;
   const subject = document.getElementById("subject").value.trim();
   const message = document.getElementById("message").value.trim();
@@ -108,21 +98,40 @@ function submitInquiry() {
     return;
   }
 
+  const params = new URLSearchParams(window.location.search);
+  const now = new Date();
   currentInquiry = {
-    reference: `INQ-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
-    date: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+    reference: `INQ-${now.getFullYear()}-${String(Date.now()).slice(-8)}`,
+    date: now.toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    }),
     status: "New",
-    image: new URLSearchParams(window.location.search).get("image")
-      ? `../../public/images/${encodeURIComponent(new URLSearchParams(window.location.search).get("image"))}`
+    image: params.get("image")
+      ? `../../public/images/${encodeURIComponent(params.get("image"))}`
       : "../../public/images/custom-bouquet.jpeg",
-    product: new URLSearchParams(window.location.search).get("product") || "",
-    type,
-    subject,
-    message,
-    response: ""
+    product: params.get("product") || "",
+    type: type,
+    subject: subject,
+    message: message,
+    response: "",
+    customerEmail: customerEmail,
+    customerName: getCustomerName(customerEmail),
+    createdAt: now.toISOString()
   };
+
+  inquiries = inquiryStore.load();
   inquiries.unshift(currentInquiry);
-  saveInquiries();
+  try {
+    inquiryStore.save(inquiries);
+  } catch (error) {
+    alert("Unable to submit your inquiry. Please try again.");
+    return;
+  }
+
   document.getElementById("inquiryType").value = "";
   document.getElementById("subject").value = "";
   document.getElementById("message").value = "";
@@ -131,14 +140,25 @@ function submitInquiry() {
 }
 
 function showDetails(inquiry = currentInquiry, screenId = "detailsScreen") {
+  if (!inquiry) return;
   currentInquiry = inquiry;
   document.getElementById("detailRef").textContent = inquiry.reference;
-  document.getElementById("detailDate").textContent = inquiry.date;
+  document.getElementById("detailDate").textContent = inquiry.date || "";
   document.getElementById("detailMessage").textContent = inquiry.message;
-  document.getElementById("detailResponse").textContent = inquiry.response || "We will respond to your inquiry as soon as possible.";
+  document.getElementById("detailResponseDate").textContent = inquiry.respondedAt || "";
+  document.getElementById("detailResponse").textContent =
+    inquiry.response || "We will respond to your inquiry as soon as possible.";
+
+  const productRow = document.querySelector("#detailsScreen .product-row");
+  if (productRow) productRow.hidden = !inquiry.product;
+  const productName = productRow?.querySelector("strong");
+  const productPrice = productRow?.querySelector(".price");
+  if (productName) productName.textContent = inquiry.product || inquiry.subject;
+  if (productPrice) productPrice.textContent = inquiry.type || "";
+
   const imageElement = document.getElementById("detailInquiryProductImage");
   if (imageElement) {
-    imageElement.src = inquiry.image || "../../public/images/eternal-rose.jpeg";
+    imageElement.src = inquiry.image || "../../public/images/custom-bouquet.jpeg";
     imageElement.alt = inquiry.product || "Selected product";
   }
   showScreen(screenId);
@@ -147,26 +167,54 @@ function showDetails(inquiry = currentInquiry, screenId = "detailsScreen") {
 function renderInquiries(filter = "All") {
   const list = document.getElementById("inquiryList");
   if (!list) return;
-  list.innerHTML = "";
+  list.replaceChildren();
   document.querySelectorAll(".tab").forEach(function (tab) {
     tab.classList.toggle("active", tab.dataset.status === filter);
   });
 
-  inquiries.filter(function (inquiry) {
-    return filter === "All" || inquiry.status === filter;
-  }).forEach(function (inquiry) {
-    const item = document.createElement("div");
+  const customerEmail = getCustomerEmail();
+  const customerInquiries = inquiries.filter(function (inquiry) {
+    return inquiry.customerEmail?.toLowerCase() === customerEmail
+      && (filter === "All" || inquiry.status === filter);
+  });
+
+  if (customerInquiries.length === 0) {
+    const emptyState = document.createElement("p");
+    emptyState.className = "inquiry-empty";
+    emptyState.textContent = "You have no inquiries yet.";
+    list.appendChild(emptyState);
+    return;
+  }
+
+  customerInquiries.forEach(function (inquiry) {
+    const item = document.createElement("button");
     item.className = "inquiry-item";
+    item.type = "button";
     item.dataset.status = inquiry.status;
-    item.onclick = function () { showDetails(inquiry); };
-    item.innerHTML = `
-      <div class="item-img"><img src="${inquiry.image}" alt=""></div>
-      <div class="item-info">
-        <strong>${inquiry.reference}</strong>
-        <span>${inquiry.date}</span>
-      </div>
-      <span class="inquiry-status ${inquiry.status.toLowerCase()}">${inquiry.status}</span>
-    `;
+    item.addEventListener("click", function () {
+      showDetails(inquiry);
+    });
+
+    const imageWrap = document.createElement("span");
+    imageWrap.className = "item-img";
+    const image = document.createElement("img");
+    image.src = inquiry.image || "../../public/images/custom-bouquet.jpeg";
+    image.alt = "";
+    imageWrap.appendChild(image);
+
+    const info = document.createElement("span");
+    info.className = "item-info";
+    const reference = document.createElement("strong");
+    reference.textContent = inquiry.reference;
+    const date = document.createElement("span");
+    date.textContent = inquiry.date || "";
+    info.append(reference, date);
+
+    const status = document.createElement("span");
+    status.className = `inquiry-status ${String(inquiry.status).toLowerCase()}`;
+    status.textContent = inquiry.status;
+
+    item.append(imageWrap, info, status);
     list.appendChild(item);
   });
 }
@@ -181,6 +229,11 @@ function goHome() {
   window.location.href = "../../index.html";
 }
 
+document.querySelector(".new-inquiry-button")?.addEventListener("click", startInquiry);
+document.querySelector("#detailsScreen .primary")?.addEventListener("click", function () {
+  alert("We will help you proceed with an order soon.");
+});
+
 renderInquiries();
 loadProductInquiryDetails();
 
@@ -193,3 +246,18 @@ try {
   localStorage.removeItem("floraAvenuePendingAction");
   console.warn("Unable to resume the inquiry action.", error);
 }
+
+window.addEventListener("storage", function (event) {
+  if (event.key === "floraAvenueInquiries") {
+    inquiries = inquiryStore.load();
+    if (document.getElementById("inquiriesScreen").classList.contains("active")) {
+      renderInquiries();
+    }
+    if (currentInquiry) {
+      const updated = inquiries.find(function (inquiry) {
+        return inquiry.reference === currentInquiry.reference;
+      });
+      if (updated) showDetails(updated);
+    }
+  }
+});

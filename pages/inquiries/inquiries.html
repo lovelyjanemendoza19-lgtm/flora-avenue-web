@@ -25,8 +25,8 @@
               <div class="flower-img"><img id="formInquiryProductImage" src="../../public/images/eternal-rose.jpeg" alt="Selected product"></div>
               <div>
                 <small>Product</small>
-                <strong>Eternal Glittered Rose</strong>
-                <b class="price">₱749</b>
+                <strong id="detailProduct">Eternal Glittered Rose</strong>
+                <b class="price" id="detailType">₱749</b>
               </div>
             </div>
             <label for="inquiryType">Inquiry Type</label>
@@ -88,7 +88,7 @@
             </div>
             <div class="message-box seller">
               <strong>Seller Response</strong>
-              <small>May 21, 2026, 08:25 PM</small>
+              <small id="detailResponseDate"></small>
               <p id="detailResponse">We will respond to your inquiry as soon as possible.</p>
             </div>
             <button class="primary" type="button">Proceed With Order</button>
@@ -103,9 +103,9 @@
             <div class="tabs">
               <button class="tab active" data-status="All">All</button>
               <button class="tab" data-status="Responded">Responded</button>
-              <button class="tab" data-status="Accepted">Accepted</button>
+              <button class="tab" data-status="New">New</button>
             </div>
-            <button class="new-inquiry-button" type="button" onclick="showScreen('formScreen')">New Inquiry</button>
+            <button class="new-inquiry-button" type="button">New Inquiry</button>
           </div>
           <div id="inquiryList"></div>
         </main>
@@ -115,6 +115,7 @@
 
   <script src="../../public/js/navigation.js"></script>
   <script src="../../public/js/script.js"></script>
+  <script src="../../public/js/inquiry-store.js"></script>
   <script src="../../public/js/inquiries.js"></script>
 </body>
 </html>

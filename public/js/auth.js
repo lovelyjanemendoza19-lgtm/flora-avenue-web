@@ -78,7 +78,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             /* Temporary demo login */
 
-            localStorage.setItem("floraAvenueSignedIn", "true");
+            try {
+                localStorage.setItem("floraAvenueUserEmail", email.toLowerCase());
+                localStorage.setItem("floraAvenueSignedIn", "true");
+            } catch (error) {
+                console.error("Unable to save the signed-in account.", error);
+                alert("Unable to sign in on this device. Please check your browser storage settings.");
+                return;
+            }
             alert("Login successful!");
 
             const pendingAction = localStorage.getItem("floraAvenuePendingAction");
@@ -186,9 +193,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
             /* Temporary demo registration */
 
-            alert(
-                "Account created successfully!"
-            );
+            const profileKey = `floraAvenueProfile:${encodeURIComponent(email.toLowerCase())}`;
+            try {
+                if (!localStorage.getItem(profileKey)) {
+                    localStorage.setItem(profileKey, JSON.stringify({
+                        name: name,
+                        email: email.toLowerCase(),
+                        contact: ""
+                    }));
+                }
+            } catch (error) {
+                console.error("Unable to save the new profile.", error);
+                alert("Unable to save your profile on this device. Please check your browser storage settings.");
+                return;
+            }
+
+            alert("Account created successfully!");
 
 
 

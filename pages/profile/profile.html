@@ -20,20 +20,20 @@
 				<div class="profile-avatar profile-avatar-placeholder" aria-label="Profile photo placeholder">Photo</div>
 				<div class="profile-heading">
 					<p class="profile-eyebrow">MY PROFILE</p>
-					<h1 id="profile-title">Flora Avenue Customer</h1>
-					<p class="profile-status">Welcome to your profile page.</p>
+					<h1 id="profile-title">Not provided</h1>
+					<p class="profile-status" id="profileStatus">Welcome to your profile page.</p>
 				</div>
 
 				<div class="profile-details">
 					<div class="profile-detail">
 						<span>Name</span>
-						<strong data-profile-value="name">Flora Avenue Customer</strong>
-						<input class="profile-input" data-profile-input="name" type="text" value="Flora Avenue Customer" aria-label="Name">
+						<strong data-profile-value="name">Not provided</strong>
+						<input class="profile-input" data-profile-input="name" type="text" value="" aria-label="Name" required>
 					</div>
 					<div class="profile-detail">
 						<span>Email</span>
-						<strong data-profile-value="email">customer@example.com</strong>
-						<input class="profile-input" data-profile-input="email" type="email" value="customer@example.com" aria-label="Email">
+						<strong data-profile-value="email">Not provided</strong>
+						<input class="profile-input" data-profile-input="email" type="email" value="" aria-label="Email" required>
 					</div>
 					<div class="profile-detail">
 						<span>Contact Number</span>
@@ -42,6 +42,7 @@
 					</div>
 				</div>
 
+				<p class="profile-feedback" id="profileFeedback" role="status" aria-live="polite" hidden></p>
 				<div class="profile-actions">
 					<button class="profile-action" id="editProfileButton" type="button">Edit Profile</button>
 					<button class="profile-action profile-cancel" id="cancelProfileButton" type="button">Cancel</button>
