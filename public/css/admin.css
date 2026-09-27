@@ -6,17 +6,17 @@
 ========================================================= */
 
 :root{
-  --fa-bg:#f7f1f2;
+  --fa-bg:#f5eff0;
   --fa-surface:#ffffff;
   --fa-surface-soft:#fbf7f8;
   --fa-header:#e8dfe0;
   --fa-maroon:#7c4a4f;
-  --fa-maroon-dark:#673b40;
-  --fa-rose:#a9506d;
-  --fa-rose-soft:#f3e3e7;
+  --fa-maroon-dark:#633a3e;
+  --fa-rose:#a77f8b;
+  --fa-rose-soft:#f2e7e9;
   --fa-text:#332d2f;
   --fa-muted:#756c6f;
-  --fa-border:#e7d7da;
+  --fa-border:#e1d2d5;
   --fa-shadow:0 10px 30px rgba(76,48,53,.08);
   --fa-shadow-sm:0 4px 14px rgba(76,48,53,.07);
   --radius-lg:18px;

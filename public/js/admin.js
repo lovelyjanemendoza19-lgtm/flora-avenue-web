@@ -1,4 +1,57 @@
 
+function setupMobileAdminNavigation(shell, sidebar, header, buttonId) {
+  if (!shell || !sidebar || !header) return;
+
+  let menuButton = document.getElementById(buttonId);
+  if (!menuButton) {
+    menuButton = document.createElement("button");
+    menuButton.id = buttonId;
+    menuButton.className = buttonId === "adminProMobileMenu"
+      ? "pro-mobile-menu"
+      : "fx-mobile-menu";
+    menuButton.type = "button";
+    menuButton.textContent = "☰";
+    menuButton.setAttribute("aria-label", "Open admin navigation");
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-controls", sidebar.id);
+    header.insertBefore(menuButton, header.firstChild);
+  }
+  sidebar.id = sidebar.id || `${buttonId}-sidebar`;
+  menuButton.setAttribute("aria-controls", sidebar.id);
+
+  let overlay = shell.querySelector(".fx-mobile-overlay");
+  if (!overlay) {
+    overlay = document.createElement("button");
+    overlay.className = "fx-mobile-overlay";
+    overlay.type = "button";
+    overlay.setAttribute("aria-label", "Close admin navigation");
+    overlay.setAttribute("aria-hidden", "true");
+    shell.appendChild(overlay);
+  }
+
+  const closeMenu = () => {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Open admin navigation");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("admin-menu-open");
+  };
+
+  menuButton.addEventListener("click", () => {
+    const isOpen = sidebar.classList.toggle("open");
+    overlay.classList.toggle("show", isOpen);
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+    menuButton.setAttribute("aria-label", isOpen ? "Close admin navigation" : "Open admin navigation");
+    overlay.setAttribute("aria-hidden", String(!isOpen));
+    document.body.classList.toggle("admin-menu-open", isOpen);
+  });
+  overlay.addEventListener("click", closeMenu);
+  sidebar.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") closeMenu();
+  });
+}
 
 function buildAdminSidebar() {
   if (!document.body.classList.contains("admin-app")) return;
@@ -17,6 +70,12 @@ function buildAdminSidebar() {
         window.location.href = "login.html";
       }
     });
+    setupMobileAdminNavigation(
+      shell,
+      existingSidebar,
+      shell.querySelector(".admin-topbar"),
+      "adminMobileMenuButton"
+    );
     return;
   }
 
@@ -26,7 +85,6 @@ function buildAdminSidebar() {
     ["products.html", "▤", "Products"],
     ["inquiries.html", "✉", "Inquiries"],
     ["orders.html", "▣", "Orders"],
-    ["payments.html", "▤", "Payments"],
     ["profile.html", "♙", "Profile"]
   ];
 
@@ -56,10 +114,25 @@ function buildAdminSidebar() {
       window.location.href = "login.html";
     }
   });
+  setupMobileAdminNavigation(
+    shell,
+    aside,
+    shell.querySelector(".admin-topbar"),
+    "adminMobileMenuButton"
+  );
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   buildAdminSidebar();
+  const dashboardShell = document.querySelector(".pro-dash-shell");
+  if (dashboardShell) {
+    setupMobileAdminNavigation(
+      dashboardShell,
+      dashboardShell.querySelector(".pro-sidebar"),
+      dashboardShell.querySelector(".pro-header"),
+      "adminProMobileMenu"
+    );
+  }
   const path = window.location.pathname.toLowerCase();
   const isLogin = path.endsWith("/admin/login.html") || path.endsWith("/admin/login");
   const loggedIn = sessionStorage.getItem("floraAdminLoggedIn") === "true";
@@ -170,70 +243,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("helpButton")?.addEventListener("click", () => {
     alert("Help Center is ready for the next admin module.");
-  });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  function setupManagement(listId, filterId, searchId) {
-    const list = document.getElementById(listId);
-    const filters = document.getElementById(filterId);
-    const search = document.getElementById(searchId);
-    if (!list || !filters) return;
-
-    const items = [...list.querySelectorAll(".management-item, .figma-list-card")];
-    let active = "all";
-
-    function apply() {
-      const term = (search?.value || "").trim().toLowerCase();
-      items.forEach(item => {
-        const matchesStatus = active === "all" || item.dataset.status === active;
-        const matchesSearch = !term || (item.dataset.search || item.textContent).toLowerCase().includes(term);
-        item.style.display = matchesStatus && matchesSearch ? "grid" : "none";
-      });
-    }
-
-    filters.querySelectorAll("button").forEach(button => {
-      button.addEventListener("click", () => {
-        filters.querySelectorAll("button").forEach(b => b.classList.remove("active"));
-        button.classList.add("active");
-        active = button.dataset.filter;
-        apply();
-      });
-    });
-    search?.addEventListener("input", apply);
-  }
-
-  setupManagement("orderList", "orderFilters", "orderSearch");
-  setupManagement("paymentList", "paymentFilters", "paymentSearch");
-
-  const statusButtons = document.querySelectorAll("#orderStatus button");
-  const saveStatus = document.getElementById("saveOrderStatus");
-  statusButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      statusButtons.forEach(b => b.classList.remove("active"));
-      button.classList.add("active");
-    });
-  });
-  saveStatus?.addEventListener("click", () => {
-    const selected = document.querySelector("#orderStatus button.active");
-    alert(`Order status updated to ${selected?.dataset.status || "selected status"}.`);
-  });
-
-  const verify = document.getElementById("verifyPayment");
-  const reject = document.getElementById("rejectPayment");
-  const paymentStatus = document.getElementById("paymentStatus");
-  verify?.addEventListener("click", () => {
-    if (paymentStatus) {
-      paymentStatus.textContent = "Verified";
-      paymentStatus.className = "admin-status verified";
-    }
-    alert("Payment verified successfully.");
-  });
-  reject?.addEventListener("click", () => {
-    if (paymentStatus) {
-      paymentStatus.textContent = "Failed";
-      paymentStatus.className = "admin-status failed";
-    }
-    alert("Payment marked for rejection.");
   });
 });

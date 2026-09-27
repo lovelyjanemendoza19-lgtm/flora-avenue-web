@@ -4,17 +4,17 @@
 ========================================================= */
 
 :root{
-  --fx-bg:#f7f1f2;
+  --fx-bg:#f5eff0;
   --fx-surface:#ffffff;
   --fx-soft:#fbf7f8;
-  --fx-sidebar:#e9dfe1;
-  --fx-maroon:#814b57;
-  --fx-maroon-dark:#673943;
-  --fx-rose:#a85b70;
-  --fx-rose-soft:#f4e4e8;
-  --fx-text:#292326;
-  --fx-muted:#7c7074;
-  --fx-border:#e6d8db;
+  --fx-sidebar:#e8dfe0;
+  --fx-maroon:#7c4a4f;
+  --fx-maroon-dark:#633a3e;
+  --fx-rose:#a77f8b;
+  --fx-rose-soft:#f2e7e9;
+  --fx-text:#332d2f;
+  --fx-muted:#756c6f;
+  --fx-border:#e1d2d5;
   --fx-shadow:0 10px 28px rgba(70,45,51,.07);
 }
 
@@ -301,26 +301,61 @@ body.admin-app .admin-topbar{
 .figma-payment-proof{margin-top:15px}.figma-payment-proof img{width:180px;height:180px;object-fit:cover;border-radius:10px;display:block;border:1px solid var(--fx-border)}
 .figma-section-title{font-size:9px;font-weight:700;margin-bottom:7px}
 
+.fx-mobile-menu{display:none}
+.fx-mobile-overlay{display:none}
+body.admin-menu-open{overflow:hidden}
+
+.figma-title{font-size:24px}
+.figma-muted{font-size:12px}
+.figma-tabs button{font-size:11px}
+.figma-list-card .ref{font-size:10px}
+.figma-list-card .name{font-size:15px}
+.figma-list-card .meta{font-size:12px}
+.figma-list-card .price{font-size:15px}
+.figma-message strong{font-size:13px}
+.figma-message .msg-time{font-size:10px}
+.figma-message p{font-size:12px}
+.figma-status{font-size:10px}
+.figma-product-card strong{font-size:12px}
+.figma-product-card span{font-size:14px}
+.figma-detail .row{font-size:13px}
+.figma-detail .label{font-size:10px}
+.figma-detail strong{font-size:13px}
+.figma-product .product-name{font-size:14px}
+.figma-product .product-meta{font-size:11px}
+.figma-product .product-price{font-size:15px}
+.figma-btn{font-size:12px}
+.figma-form label{font-size:12px}
+.figma-input,.figma-select,.figma-textarea{font-size:13px}
+.figma-profile p{font-size:12px}
+.figma-action{font-size:12px}
+.figma-section-title{font-size:12px}
+
 /* ---------- MOBILE: retain Figma compact artboard feel ---------- */
 @media(max-width:700px){
-  body.admin-app{background:#dedadb}
-  body.admin-app .admin-shell{display:block;max-width:430px;min-height:100vh;margin:0 auto;background:#f5eeee;box-shadow:none}
-  .admin-sidebar-fx{display:none}
-  body.admin-app .admin-topbar{min-height:58px;padding:10px 13px;background:transparent;border:0}
-  .figma-back{width:29px;height:29px;border:0;background:transparent;font-size:24px}
-  .admin-topbar-title h1{font-size:17px}.admin-topbar-title:after{display:none}
-  .figma-page{width:auto;margin:0;padding:6px 12px 28px}
-  .figma-title{font-size:16px}.figma-muted{font-size:9px}
-  .figma-search{height:28px;border-radius:6px;padding:0 8px;margin-bottom:9px}.figma-search span{font-size:13px}.figma-search input{font-size:8px}
-  .figma-tabs{gap:5px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px;scrollbar-width:none}.figma-tabs::-webkit-scrollbar{display:none}.figma-tabs button{height:22px;padding:0 11px;font-size:7px}
-  .figma-list{gap:8px}.figma-list-card{padding:11px 10px;min-height:78px}.figma-list-card .name{font-size:9px}.figma-list-card .meta{font-size:6px}.figma-list-card .price{font-size:10px}
-  .figma-message{padding:9px}.figma-avatar-sm{width:19px;height:19px;font-size:6px}.figma-message strong{font-size:8px}.figma-message .msg-time{font-size:5px}.figma-message p{font-size:7px;padding-left:0;margin-top:6px}
-  .figma-product-grid{grid-template-columns:repeat(2,1fr);gap:7px}.figma-product-card{padding:5px}.figma-product-card strong{font-size:6px}.figma-product-card span{font-size:7px}
-  .figma-detail{padding:11px 10px}.figma-detail .row{padding:7px 0;font-size:8px}.figma-detail .label{font-size:6px}.figma-detail strong{font-size:8px}.figma-product{grid-template-columns:45px 1fr;gap:8px;padding:9px 0}.figma-product img{width:45px;height:45px}.figma-product .product-name{font-size:8px}.figma-product .product-meta{font-size:6px}.figma-product .product-price{font-size:9px}
-  .figma-btn{min-height:31px;font-size:7px}.figma-pills{gap:5px}.figma-pills button{height:21px;padding:0 9px;font-size:6px}.figma-total{font-size:13px}
-  .figma-form{gap:7px}.figma-form label{font-size:7px}.figma-input,.figma-select{height:28px;font-size:7px}.figma-textarea{min-height:74px;font-size:7px}.figma-upload{min-height:69px;font-size:6px}
-  .figma-profile{display:block;text-align:center;padding:14px 10px 4px;border:0;box-shadow:none;background:transparent}.figma-avatar{width:62px;height:62px;margin:0 auto 7px;font-size:35px}.figma-profile h2{font-size:14px}.figma-profile p{font-size:7px}.figma-actions{grid-template-columns:1fr;gap:5px;margin-top:12px}.figma-action{height:33px;font-size:8px}.figma-action .icon{font-size:17px}
-  .figma-payment-proof img{width:82px;height:82px}
+  body.admin-app{background:var(--fx-bg)}
+  body.admin-app .admin-shell{display:block;width:100%;max-width:none;min-height:100vh;margin:0;background:var(--fx-bg);box-shadow:none}
+  .admin-sidebar-fx{position:fixed;left:0;top:0;z-index:61;width:min(270px,calc(100vw - 48px));height:100vh;height:100dvh;padding:22px 16px;display:flex;transform:translateX(-105%);transition:transform .25s ease;box-shadow:12px 0 32px rgba(51,45,47,.15)}
+  .admin-sidebar-fx.open{transform:translateX(0)}
+  body.admin-app .admin-topbar{position:sticky;top:0;z-index:30;min-height:64px;padding:0 16px;gap:12px;background:rgba(245,239,240,.96);border-bottom:1px solid var(--fx-border);backdrop-filter:blur(10px)}
+  .figma-back{display:none!important}
+  .admin-topbar-title{flex:1;min-width:0}
+  .admin-topbar-title h1{font-size:22px}.admin-topbar-title:after{display:none}
+  .fx-mobile-menu{width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;border:1px solid var(--fx-border);border-radius:9px;background:#fff;color:var(--fx-text);font-size:22px}
+  .fx-mobile-overlay{position:fixed;inset:0;z-index:60;display:block;padding:0;border:0;background:rgba(35,28,30,.4);opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s ease}
+  .fx-mobile-overlay.show{opacity:1;visibility:visible}
+  .figma-page{width:auto;max-width:1180px;margin:0 auto;padding:20px 16px 40px}
+  .figma-title{font-size:22px}.figma-muted{font-size:12px}
+  .figma-search{width:100%;height:44px;border-radius:9px;padding:0 12px;margin-bottom:14px}.figma-search span{font-size:18px}.figma-search input{font-size:14px}
+  .figma-tabs{gap:8px;overflow-x:auto;flex-wrap:nowrap;padding:0 0 8px;scrollbar-width:none}.figma-tabs::-webkit-scrollbar{display:none}.figma-tabs button{height:38px;padding:0 15px;font-size:11px;white-space:nowrap}
+  .figma-list{gap:10px}.figma-list-card{padding:14px 15px;min-height:86px}.figma-list-card .ref{font-size:10px}.figma-list-card .name{font-size:14px}.figma-list-card .meta{font-size:11px}.figma-list-card .price{font-size:14px}
+  .figma-message{padding:14px}.figma-avatar-sm{width:34px;height:34px;font-size:11px}.figma-message strong{font-size:13px}.figma-message .msg-time{font-size:10px}.figma-message p{font-size:12px;padding-left:44px;margin-top:8px}
+  .figma-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.figma-product-card{padding:8px}.figma-product-card strong{font-size:11px}.figma-product-card span{font-size:13px}
+  .figma-detail{padding:16px}.figma-detail .row{padding:11px 0;font-size:12px}.figma-detail .label{font-size:10px}.figma-detail strong{font-size:12px}.figma-product{grid-template-columns:64px minmax(0,1fr);gap:11px;padding:12px 0}.figma-product img{width:64px;height:64px}.figma-product .product-name{font-size:12px}.figma-product .product-meta{font-size:10px}.figma-product .product-price{font-size:13px}
+  .figma-btn{min-height:44px;font-size:12px}.figma-pills{gap:7px}.figma-pills button{height:34px;padding:0 12px;font-size:10px}.figma-total{font-size:17px}
+  .figma-form{gap:12px}.figma-form label{font-size:12px}.figma-input,.figma-select{height:44px;font-size:13px}.figma-textarea{min-height:110px;font-size:13px}.figma-upload{min-height:120px;font-size:11px}
+  .figma-profile{display:flex;text-align:left;padding:20px;border:1px solid var(--fx-border);box-shadow:var(--fx-shadow);background:#fff}.figma-avatar{width:68px;height:68px;margin:0;font-size:36px}.figma-profile h2{font-size:20px}.figma-profile p{font-size:12px}.figma-actions{grid-template-columns:1fr;gap:9px;margin-top:12px}.figma-action{height:48px;font-size:12px}.figma-action .icon{font-size:18px}
+  .figma-payment-proof img{width:140px;height:140px}
 }
 
 
@@ -370,4 +405,8 @@ body.admin-app .admin-topbar{
   .figma-profile p{font-size:10px}
   .figma-actions{max-width:900px;gap:14px}
   .figma-action{height:62px;font-size:10px}
+}
+
+@media(max-width:700px){
+  .fx-mobile-menu{display:grid}
 }

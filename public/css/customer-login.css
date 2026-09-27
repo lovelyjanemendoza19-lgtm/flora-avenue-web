@@ -1,0 +1,152 @@
+.customer-pro-login {
+  background:
+    radial-gradient(circle at 12% 20%, rgba(167, 127, 139, .14), transparent 28%),
+    radial-gradient(circle at 88% 82%, rgba(124, 74, 79, .12), transparent 30%),
+    linear-gradient(135deg, #f8f3f4, #eee4e6);
+}
+
+.customer-pro-login .pro-login-visual {
+  background:
+    linear-gradient(145deg, rgba(124, 74, 79, .88), rgba(167, 127, 139, .82)),
+    url("../images/banner-flower.png") center / cover;
+}
+
+.customer-pro-login .pro-login-form {
+  padding-top: 42px;
+  padding-bottom: 42px;
+}
+
+.customer-pro-login .pro-back {
+  margin-bottom: 30px;
+}
+
+.customer-pro-login .pro-heading p {
+  margin-bottom: 24px;
+}
+
+.customer-pro-login .pro-form {
+  gap: 16px;
+}
+
+.customer-pro-login .pro-field label {
+  font-size: 12px;
+}
+
+.customer-pro-login .pro-input {
+  height: 46px;
+  padding-right: 44px;
+  font-size: 13px;
+}
+
+.customer-pro-login .pro-eye {
+  display: grid;
+  place-items: center;
+  top: 6px;
+}
+
+.customer-pro-login .pro-eye svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.customer-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.customer-label-row label {
+  margin: 0;
+}
+
+.customer-pro-login .pro-forgot {
+  margin: 0;
+  font-size: 10px;
+}
+
+.customer-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--pro-muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.customer-remember input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--pro-maroon);
+}
+
+.customer-pro-login .pro-login-btn {
+  min-height: 47px;
+  font-size: 13px;
+}
+
+.customer-login-links {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+  color: var(--pro-muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+.customer-login-links a {
+  color: var(--pro-maroon);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.customer-login-links a:hover {
+  text-decoration: underline;
+}
+
+.customer-pro-login .pro-security {
+  font-size: 10px;
+}
+
+@media (max-width: 650px) {
+  .customer-pro-login {
+    padding: 14px;
+  }
+
+  .customer-pro-login .pro-login-wrap {
+    min-height: 0;
+    border-radius: 18px;
+  }
+
+  .customer-pro-login .pro-login-form {
+    padding: 32px 23px;
+  }
+
+  .customer-pro-login .pro-back {
+    margin-bottom: 28px;
+  }
+
+  .customer-pro-login .pro-heading h2 {
+    font-size: 27px;
+  }
+}
+
+@media (max-width: 380px) {
+  .customer-pro-login {
+    padding: 10px;
+  }
+
+  .customer-pro-login .pro-login-form {
+    padding: 28px 18px;
+  }
+
+  .customer-pro-login .pro-heading h2 {
+    font-size: 25px;
+  }
+}

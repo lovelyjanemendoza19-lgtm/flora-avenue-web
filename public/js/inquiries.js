@@ -6,6 +6,17 @@ function getCustomerEmail() {
   return (localStorage.getItem("floraAvenueUserEmail") || "").trim().toLowerCase();
 }
 
+function imageFileName(imagePath) {
+  const imageName = String(imagePath || "").split(/[\\/]/).pop() || "";
+  try {
+    const decoded = decodeURIComponent(imageName);
+    return decoded.includes("/") || decoded.includes("\\") ? "" : decoded;
+  } catch (error) {
+    console.warn("Unable to decode the inquiry product image name.", error);
+    return imageName;
+  }
+}
+
 function loadProductInquiryDetails() {
   const params = new URLSearchParams(window.location.search);
   const productName = params.get("product");
@@ -120,6 +131,12 @@ function submitInquiry() {
     response: "",
     customerEmail: customerEmail,
     customerName: getCustomerName(customerEmail),
+    productId: params.get("id") || "",
+    variant: params.get("variant") || "",
+    color: params.get("color") || "",
+    quantity: params.get("quantity") || "1",
+    addons: params.get("addons") || "",
+    notes: params.get("notes") || "",
     createdAt: now.toISOString()
   };
 
@@ -143,23 +160,54 @@ function showDetails(inquiry = currentInquiry, screenId = "detailsScreen") {
   if (!inquiry) return;
   currentInquiry = inquiry;
   document.getElementById("detailRef").textContent = inquiry.reference;
+  document.getElementById("detailStatus").textContent = inquiry.status || "New";
+  document.getElementById("detailProductName").textContent = inquiry.product || "General inquiry";
+  document.getElementById("detailInquiryType").textContent = inquiry.type || "Not specified";
+  document.getElementById("detailSubject").textContent = inquiry.subject || "Not provided";
+  document.getElementById("detailVariant").textContent = inquiry.variant || "Not specified";
+  document.getElementById("detailColor").textContent = inquiry.color || "Not specified";
+  document.getElementById("detailQuantity").textContent = inquiry.quantity || "Not specified";
+  document.getElementById("detailAddons").textContent = inquiry.addons || "None";
   document.getElementById("detailDate").textContent = inquiry.date || "";
   document.getElementById("detailMessage").textContent = inquiry.message;
   document.getElementById("detailResponseDate").textContent = inquiry.respondedAt || "";
   document.getElementById("detailResponse").textContent =
     inquiry.response || "We will respond to your inquiry as soon as possible.";
 
-  const productRow = document.querySelector("#detailsScreen .product-row");
-  if (productRow) productRow.hidden = !inquiry.product;
-  const productName = productRow?.querySelector("strong");
-  const productPrice = productRow?.querySelector(".price");
-  if (productName) productName.textContent = inquiry.product || inquiry.subject;
-  if (productPrice) productPrice.textContent = inquiry.type || "";
-
   const imageElement = document.getElementById("detailInquiryProductImage");
   if (imageElement) {
     imageElement.src = inquiry.image || "../../public/images/custom-bouquet.jpeg";
-    imageElement.alt = inquiry.product || "Selected product";
+    imageElement.alt = inquiry.product || "Inquiry";
+  }
+  const orderAction = document.getElementById("inquiryOrderAction");
+  if (orderAction) {
+    const relatedOrder = window.floraAvenueCustomerOrders.load().find(function (order) {
+      return window.floraAvenueCustomerOrders.belongsToCustomer(order)
+        && order.sourceInquiryReference === inquiry.reference;
+    });
+    const orderReference = inquiry.orderReference || relatedOrder?.reference;
+    if (orderReference) {
+      orderAction.href = `../orders/order%20details.html?order=${encodeURIComponent(orderReference)}`;
+      orderAction.textContent = "View Related Order";
+    } else {
+      const customizationParams = new URLSearchParams({
+        sourceInquiry: inquiry.reference,
+        id: inquiry.productId || "customization-request",
+        product: inquiry.product || inquiry.subject || "Custom Request",
+        design: inquiry.product || inquiry.subject || "",
+        image: imageFileName(inquiry.image) || "custom-bouquet.jpeg",
+        variant: inquiry.variant || "",
+        quantity: inquiry.quantity || "1",
+        items: inquiry.quantity || "",
+        color: inquiry.color || "",
+        addons: inquiry.addons || "",
+        notes: inquiry.notes || "",
+        message: inquiry.message || "",
+        response: inquiry.response || ""
+      });
+      orderAction.href = `../products/customization.html?${customizationParams.toString()}`;
+      orderAction.textContent = "Proceed With Order";
+    }
   }
   showScreen(screenId);
 }
@@ -205,10 +253,14 @@ function renderInquiries(filter = "All") {
     const info = document.createElement("span");
     info.className = "item-info";
     const reference = document.createElement("strong");
-    reference.textContent = inquiry.reference;
-    const date = document.createElement("span");
-    date.textContent = inquiry.date || "";
-    info.append(reference, date);
+    reference.textContent = inquiry.subject || inquiry.product || "General inquiry";
+    const summary = document.createElement("span");
+    summary.textContent = [
+      inquiry.type || "General inquiry",
+      inquiry.reference,
+      inquiry.date
+    ].filter(Boolean).join(" · ");
+    info.append(reference, summary);
 
     const status = document.createElement("span");
     status.className = `inquiry-status ${String(inquiry.status).toLowerCase()}`;
@@ -230,12 +282,17 @@ function goHome() {
 }
 
 document.querySelector(".new-inquiry-button")?.addEventListener("click", startInquiry);
-document.querySelector("#detailsScreen .primary")?.addEventListener("click", function () {
-  alert("We will help you proceed with an order soon.");
-});
 
 renderInquiries();
 loadProductInquiryDetails();
+const inquiryReference = new URLSearchParams(window.location.search).get("reference");
+if (inquiryReference) {
+  const linkedInquiry = inquiries.find(function (inquiry) {
+    return inquiry.reference === inquiryReference
+      && inquiry.customerEmail?.toLowerCase() === getCustomerEmail();
+  });
+  if (linkedInquiry) showDetails(linkedInquiry);
+}
 
 try {
   const pendingAction = JSON.parse(localStorage.getItem("floraAvenuePendingAction"));

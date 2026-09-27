@@ -1,274 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Login | Flora Avenue</title>
-
-    <!-- GOOGLE FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- AUTH CSS -->
-    <link
-        rel="stylesheet"
-        href="../../public/css/auth.css"
-    >
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Sign In | Flora Avenue</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../public/css/admin-pro.css">
+  <link rel="stylesheet" href="../../public/css/customer-login.css">
 </head>
-
-
-<body class="auth-page">
-
-
-    <main class="auth-container">
-
-
-        <!-- LEFT SIDE -->
-
-        <section class="auth-brand">
-
-            <div class="brand-content">
-
-                <div class="logo-circle">
-                    🌷
-                </div>
-
-                <h1>
-                    Flora Avenue
-                </h1>
-
-                <p class="brand-tagline">
-                    Handmade crafts for every moment.
-                </p>
-
-                <p class="brand-description">
-                    Discover beautiful handmade bouquets,
-                    gifts, souvenirs, and crafts made with love.
-                </p>
-
-                <div class="flower-decoration">
-                    ✿　❀　✿
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- RIGHT SIDE -->
-
-        <section class="auth-card-wrapper">
-
-            <div class="auth-card">
-
-
-                <!-- MOBILE LOGO -->
-
-                <div class="mobile-brand">
-
-                    <div class="mobile-logo">
-                        🌷
-                    </div>
-
-                    <h1>
-                        Flora Avenue
-                    </h1>
-
-                </div>
-
-
-
-                <!-- TITLE -->
-
-                <div class="auth-heading">
-
-                    <span class="welcome">
-                        Welcome back
-                    </span>
-
-                    <h2>
-                        Sign in to your account
-                    </h2>
-
-                    <p>
-                        Enter your details to continue.
-                    </p>
-
-                </div>
-
-
-
-                <!-- LOGIN FORM -->
-
-                <form
-                    id="loginForm"
-                    class="auth-form"
-                >
-
-
-                    <!-- EMAIL -->
-
-                    <div class="input-group">
-
-                        <label for="loginEmail">
-                            Email Address
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <span class="input-icon">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>
-                            </span>
-
-                            <input
-                                type="email"
-                                id="loginEmail"
-                                placeholder="Enter your email"
-                                autocomplete="email"
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- PASSWORD -->
-
-                    <div class="input-group">
-
-                        <div class="label-row">
-
-                            <label for="loginPassword">
-                                Password
-                            </label>
-
-                            <a href="#" onclick="forgotPassword(event)">
-                                Forgot password?
-                            </a>
-
-                        </div>
-
-
-                        <div class="input-wrapper">
-
-                            <span class="input-icon">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
-                            </span>
-
-                            <input
-                                type="password"
-                                id="loginPassword"
-                                placeholder="Enter your password"
-                                autocomplete="current-password"
-                                required
-                            >
-
-                            <button
-                                type="button"
-                                class="password-toggle"
-                                onclick="togglePassword('loginPassword', this)"
-                            >
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-5 9.5-5 9.5 5 9.5 5-3.5 5-9.5 5-9.5-5-9.5-5Z"></path><circle cx="12" cy="12" r="2"></circle></svg>
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- REMEMBER -->
-
-                    <label class="remember">
-
-                        <input
-                            type="checkbox"
-                            id="rememberMe"
-                        >
-
-                        <span>
-                            Remember me
-                        </span>
-
-                    </label>
-
-
-
-                    <!-- LOGIN BUTTON -->
-
-                    <button
-                        type="submit"
-                        class="auth-button"
-                    >
-
-                        <span>
-                            Sign In
-                        </span>
-
-                        <span class="button-arrow">
-                            →
-                        </span>
-
-                    </button>
-
-
-                </form>
-
-
-
-                <!-- REGISTER -->
-
-                <div class="auth-switch">
-
-                    <span>
-                        Don't have an account?
-                    </span>
-
-                    <a href="../register/register.html">
-                        Create an account
-                    </a>
-
-                </div>
-
-                <a href="../admin/login.html" class="admin-login-link">
-                    Sign in as admin? <span>Admin Portal</span>
-                </a>
-
-                <!-- HOME -->
-
-                <a
-                    href="../../index.html"
-                    class="back-home"
-                >
-                    Back to Home
-                </a>
-
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <script src="../../public/js/auth.js"></script>
-
+<body class="admin-pro-login customer-pro-login">
+  <main class="pro-login-wrap">
+    <section class="pro-login-visual">
+      <div class="pro-brand">
+        <img src="../../public/images/logo.png" alt="Flora Avenue logo">
+        <div class="eyebrow">Flora Avenue • Customer Portal</div>
+        <h1>Welcome back.</h1>
+        <p>Discover handmade bouquets, gifts, and crafts made with love for every special moment.</p>
+        <div class="line"></div>
+        <small>Handmade with love</small>
+      </div>
+    </section>
+
+    <section class="pro-login-form">
+      <a class="pro-back" href="../../index.html">← Back to Home</a>
+      <div class="pro-heading">
+        <div class="eyebrow">Customer Portal</div>
+        <h2>Sign in to your account</h2>
+        <p>Enter your details to continue shopping with Flora Avenue.</p>
+      </div>
+
+      <form id="loginForm" class="pro-form">
+        <div class="pro-field">
+          <label for="loginEmail">Email Address</label>
+          <div class="pro-input-wrap">
+            <input class="pro-input" id="loginEmail" type="email" placeholder="Enter your email" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="pro-field">
+          <div class="customer-label-row">
+            <label for="loginPassword">Password</label>
+            <span class="pro-forgot">Forgot Password?</span>
+          </div>
+          <div class="pro-input-wrap">
+            <input class="pro-input" id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <button class="pro-eye password-toggle customer-password-toggle" type="button" data-target="loginPassword" aria-label="Show password">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-5 9.5-5 9.5 5 9.5 5-3.5 5-9.5 5-9.5-5-9.5-5Z"></path><circle cx="12" cy="12" r="2"></circle></svg>
+            </button>
+          </div>
+        </div>
+        <label class="customer-remember" for="rememberMe">
+          <input type="checkbox" id="rememberMe">
+          <span>Remember me</span>
+        </label>
+        <button class="pro-login-btn" type="submit">Sign In&nbsp; →</button>
+      </form>
+
+      <div class="customer-login-links">
+        <p>Don't have an account? <a href="../register/register.html">Create an account</a></p>
+        <p>Sign in as admin? <a href="../admin/login.html">Admin Portal</a></p>
+      </div>
+      <div class="pro-security">
+        <span>✿</span>
+        <div>Sign in to manage your inquiries, customization requests, and orders.</div>
+      </div>
+    </section>
+  </main>
+  <script src="../../public/js/auth.js"></script>
 </body>
-
 </html>

@@ -69,29 +69,35 @@
       <section id="detailsScreen" class="screen">
         <main class="content">
           <div class="card details-card">
-            <div class="ref-title">
-              <span>Reference</span>
-              <strong id="detailRef"></strong>
-            </div>
-            <div class="product-row">
-              <div class="flower-img"><img id="detailInquiryProductImage" src="../../public/images/eternal-rose.jpeg" alt="Selected product"></div>
-              <div>
-                <small>Product</small>
-                <strong>Eternal Glittered Rose</strong>
-                <b class="price">₱749</b>
-              </div>
-            </div>
-            <div class="message-box">
-              <strong>Your Message</strong>
-              <small id="detailDate"></small>
-              <p id="detailMessage"></p>
-            </div>
-            <div class="message-box seller">
-              <strong>Seller Response</strong>
-              <small id="detailResponseDate"></small>
-              <p id="detailResponse">We will respond to your inquiry as soon as possible.</p>
-            </div>
-            <button class="primary" type="button">Proceed With Order</button>
+            <h1>Inquiry Details</h1>
+            <img class="inquiry-summary-image" id="detailInquiryProductImage" src="../../public/images/custom-bouquet.jpeg" alt="Inquiry product">
+            <h2 id="detailRef"></h2>
+            <p class="inquiry-detail-status">Status: <strong id="detailStatus"></strong></p>
+            <h3>Inquiry Summary</h3>
+            <dl class="inquiry-summary">
+              <dt>Product</dt>
+              <dd id="detailProductName"></dd>
+              <dt>Inquiry type</dt>
+              <dd id="detailInquiryType"></dd>
+              <dt>Subject</dt>
+              <dd id="detailSubject"></dd>
+              <dt>Variation</dt>
+              <dd id="detailVariant"></dd>
+              <dt>Color</dt>
+              <dd id="detailColor"></dd>
+              <dt>Quantity</dt>
+              <dd id="detailQuantity"></dd>
+              <dt>Add-ons</dt>
+              <dd id="detailAddons"></dd>
+              <dt>Date submitted</dt>
+              <dd id="detailDate"></dd>
+              <dt>Your message</dt>
+              <dd id="detailMessage"></dd>
+            </dl>
+            <h3>Seller Response</h3>
+            <p class="inquiry-response-date" id="detailResponseDate"></p>
+            <p class="inquiry-response" id="detailResponse">We will respond to your inquiry as soon as possible.</p>
+            <a class="primary inquiry-order-action" id="inquiryOrderAction" href="#">Proceed With Order</a>
             <button class="secondary details-back-button" type="button" onclick="showScreen('inquiriesScreen')">Back to Inquiries</button>
           </div>
         </main>
@@ -115,6 +121,7 @@
 
   <script src="../../public/js/navigation.js"></script>
   <script src="../../public/js/script.js"></script>
+  <script src="../../public/js/customer-order-store.js"></script>
   <script src="../../public/js/inquiry-store.js"></script>
   <script src="../../public/js/inquiries.js"></script>
 </body>

@@ -2,16 +2,16 @@
    FLORA AVENUE — PROFESSIONAL ADMIN UI
    ========================================================= */
 :root{
-  --pro-bg:#f7f2f3;
+  --pro-bg:#f5eff0;
   --pro-panel:#fff;
-  --pro-sidebar:#eadfe1;
-  --pro-maroon:#7d4854;
-  --pro-maroon-dark:#643640;
-  --pro-rose:#a6576d;
-  --pro-rose-soft:#f4e5e9;
-  --pro-text:#292326;
-  --pro-muted:#817579;
-  --pro-border:#e8dcde;
+  --pro-sidebar:#e8dfe0;
+  --pro-maroon:#7c4a4f;
+  --pro-maroon-dark:#633a3e;
+  --pro-rose:#a77f8b;
+  --pro-rose-soft:#f2e7e9;
+  --pro-text:#332d2f;
+  --pro-muted:#756c6f;
+  --pro-border:#e1d2d5;
   --pro-shadow:0 12px 32px rgba(77,48,56,.08);
 }
 
@@ -48,7 +48,7 @@
   display:flex;
   align-items:flex-end;
   padding:55px;
-  background:linear-gradient(145deg,rgba(82,45,53,.88),rgba(125,72,84,.82)),url('../images/banner-flower.png') center/cover;
+  background:linear-gradient(145deg,rgba(124,74,79,.88),rgba(167,127,139,.82)),url('../images/banner-flower.png') center/cover;
 }
 .pro-login-visual:before{
   content:'';position:absolute;inset:0;
@@ -80,8 +80,8 @@
 .pro-eye{position:absolute;right:8px;top:7px;width:33px;height:33px;border:0;background:transparent;color:#8c7d81;font-size:14px;border-radius:7px}
 .pro-eye:hover{background:var(--pro-rose-soft);color:var(--pro-maroon)}
 .pro-forgot{text-align:right;margin-top:-9px;font-size:9px;color:var(--pro-muted)}
-.pro-login-btn{height:47px;border:0;border-radius:9px;background:linear-gradient(135deg,var(--pro-maroon),var(--pro-rose));color:#fff;font-size:11px;font-weight:700;box-shadow:0 9px 20px rgba(125,72,84,.18);transition:.2s}
-.pro-login-btn:hover{background:linear-gradient(135deg,var(--pro-maroon-dark),var(--pro-maroon));transform:translateY(-1px)}
+.pro-login-btn{height:47px;border:1px solid var(--pro-maroon);border-radius:9px;background:var(--pro-maroon);color:#fff;font-size:12px;font-weight:700;box-shadow:none;transition:.2s}
+.pro-login-btn:hover{background:var(--pro-maroon-dark);transform:translateY(-1px)}
 .pro-security{display:flex;align-items:center;gap:8px;margin-top:20px;padding:11px 12px;border:1px solid var(--pro-border);border-radius:9px;background:#fcf9fa;color:var(--pro-muted);font-size:8px;line-height:1.5}
 .pro-security span{font-size:14px;color:var(--pro-rose)}
 
@@ -95,14 +95,14 @@
 .pro-side-brand strong{display:block;font:700 20px/1 'Playfair Display',serif}
 .pro-side-brand small{display:block;color:var(--pro-muted);font-size:8px;margin-top:4px}
 .pro-nav{display:grid;gap:4px;margin-top:24px}
-.pro-nav a,.pro-logout{display:flex;align-items:center;gap:11px;min-height:43px;padding:0 12px;border:0;border-radius:9px;background:transparent;color:var(--pro-text);font-size:10px;font-weight:600;text-decoration:none;transition:.2s}
+.pro-nav a,.pro-logout{display:flex;align-items:center;gap:11px;min-height:43px;padding:0 12px;border:0;border-radius:9px;background:transparent;color:var(--pro-text);font-size:13px;font-weight:500;text-decoration:none;transition:.2s}
 .pro-nav a img,.pro-logout img{width:20px;height:20px;object-fit:contain;filter:brightness(0)}
 .pro-nav a:hover,.pro-nav a.active{background:var(--pro-maroon);color:#fff}
 .pro-nav a:hover img,.pro-nav a.active img,.pro-logout:hover img{filter:brightness(0) invert(1)}
 .pro-side-bottom{margin-top:auto;padding-top:16px;border-top:1px solid rgba(125,72,84,.10)}
 .pro-admin-mini{display:flex;align-items:center;gap:9px;padding:7px 9px;margin-bottom:8px}
 .pro-admin-avatar{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;background:#dcecff;font-size:17px}
-.pro-admin-mini strong{display:block;font-size:9px}.pro-admin-mini small{color:var(--pro-muted);font-size:7px}
+.pro-admin-mini strong{display:block;font-size:12px}.pro-admin-mini small{color:var(--pro-muted);font-size:10px}
 .pro-logout{width:100%;border-top:0}.pro-logout:hover{background:var(--pro-maroon);color:#fff}
 .pro-main{min-width:0;padding:0 38px 45px}
 .pro-header{height:83px;border-bottom:1px solid var(--pro-border);display:flex;align-items:center;justify-content:space-between;gap:20px}
@@ -122,3 +122,74 @@
 
 @media(max-width:900px){.pro-login-wrap{grid-template-columns:1fr;max-width:520px}.pro-login-visual{min-height:230px;padding:34px}.pro-brand h1{font-size:38px}.pro-login-form{padding:38px}.pro-dash-shell{grid-template-columns:210px 1fr}.pro-main{padding:0 20px 35px}.pro-stats{grid-template-columns:repeat(2,1fr)}.pro-grid{grid-template-columns:1fr}.pro-section{grid-template-columns:1fr}}
 @media(max-width:650px){.admin-pro-login{padding:14px}.pro-login-wrap{min-height:0;border-radius:18px}.pro-login-visual{display:none}.pro-login-form{padding:32px 23px}.pro-back{margin-bottom:30px}.pro-heading h2{font-size:27px}.pro-dash-shell{display:block}.pro-sidebar{position:relative;height:auto;padding:14px;display:block}.pro-side-brand{padding-bottom:13px}.pro-nav{grid-template-columns:repeat(2,1fr);margin-top:12px}.pro-nav a{min-height:38px;font-size:8px}.pro-side-bottom{display:none}.pro-main{padding:0 12px 30px}.pro-header{height:70px}.pro-header h1{font-size:22px}.pro-header p{font-size:7px}.pro-admin-label{display:none}.pro-welcome{padding:21px}.pro-stats{gap:8px}.pro-stat{padding:12px}.pro-stat strong{font-size:19px}.pro-grid{gap:9px}.pro-order{grid-template-columns:1fr auto;gap:8px}.pro-order .pro-badge{grid-column:2;grid-row:1}.pro-order .amount{grid-column:1;grid-row:2}.pro-section{display:none}}
+
+.pro-header p{font-size:12px}
+.pro-welcome .eyebrow{font-size:10px}
+.pro-welcome p{font-size:12px}
+.pro-stat .label{font-size:11px}
+.pro-stat small{font-size:10px}
+.pro-panel-head a{font-size:11px}
+.pro-order .ref{font-size:12px}
+.pro-order .customer{font-size:10px}
+.pro-order .amount{font-size:12px}
+.pro-badge{font-size:10px}
+.pro-action{font-size:12px}
+.pro-mini-card p{font-size:11px}
+.pro-mini-card a{font-size:10px}
+
+.pro-mobile-menu{display:none}
+.admin-pro-dashboard .fx-mobile-overlay{display:none}
+
+@media(max-width:650px){
+  .pro-dash-shell{display:block;min-height:100vh;background:var(--pro-bg)}
+  .pro-sidebar{position:fixed;z-index:61;top:0;left:0;width:min(270px,calc(100vw - 48px));height:100vh;height:100dvh;padding:22px 16px;display:flex;flex-direction:column;transform:translateX(-105%);transition:transform .25s ease;background:var(--pro-sidebar);box-shadow:12px 0 32px rgba(51,45,47,.15)}
+  .pro-sidebar.open{transform:translateX(0)}
+  .pro-side-brand{padding:4px 10px 20px}
+  .pro-side-brand strong{font-size:20px}
+  .pro-side-brand small{font-size:10px}
+  .pro-nav{grid-template-columns:1fr;gap:5px;margin-top:20px}
+  .pro-nav a{min-height:44px;font-size:13px}
+  .pro-side-bottom{display:block}
+  .pro-admin-mini strong{font-size:12px}
+  .pro-admin-mini small{font-size:10px}
+  .pro-main{padding:0 16px 32px}
+  .pro-header{position:sticky;top:0;z-index:30;height:68px;gap:12px;background:rgba(245,239,240,.96);border-bottom:1px solid var(--pro-border);backdrop-filter:blur(10px)}
+  .pro-mobile-menu{width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;border:1px solid var(--pro-border);border-radius:9px;background:#fff;color:var(--pro-text);font-size:22px}
+  .admin-pro-dashboard .fx-mobile-overlay{position:fixed;inset:0;z-index:60;display:block;padding:0;border:0;background:rgba(35,28,30,.4);opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s ease}
+  .admin-pro-dashboard .fx-mobile-overlay.show{opacity:1;visibility:visible}
+  .pro-header > div:first-of-type{flex:1;min-width:0}
+  .pro-header h1{font-size:22px}
+  .pro-header p{font-size:11px}
+  .pro-header-right{display:none}
+  .pro-content{padding-top:18px}
+  .pro-welcome{padding:22px}
+  .pro-welcome .eyebrow{font-size:10px}
+  .pro-welcome h2{font-size:24px}
+  .pro-welcome p{font-size:12px}
+  .pro-stats{gap:10px}
+  .pro-stat{padding:13px}
+  .pro-stat .label{font-size:10px}
+  .pro-stat strong{font-size:20px}
+  .pro-stat small{font-size:10px}
+  .pro-grid{gap:12px}
+  .pro-panel-head{padding:15px}
+  .pro-panel-head h3{font-size:16px}
+  .pro-panel-head a{font-size:11px}
+  .pro-order{grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:13px 15px}
+  .pro-order .ref{font-size:11px}
+  .pro-order .customer{font-size:10px}
+  .pro-order .pro-badge{grid-column:2;grid-row:1;font-size:9px}
+  .pro-order .amount{grid-column:1;grid-row:2;font-size:11px}
+  .pro-section{display:grid;grid-template-columns:1fr;gap:10px}
+  .pro-mini-card{padding:15px}
+  .pro-mini-card p{font-size:11px}
+  .pro-mini-card a{font-size:10px}
+}
+
+@media(max-width:360px){
+  .pro-main{padding-left:12px;padding-right:12px}
+  .pro-stats{gap:8px}
+  .pro-stat{padding:11px}
+  .pro-stat .label{font-size:9px}
+  .pro-stat strong{font-size:18px}
+}

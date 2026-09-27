@@ -1,4 +1,8 @@
 const form = document.getElementById('orderForm');
+const orderStore = window.floraAvenueCustomerOrders;
+const canPlaceOrder = orderStore.requireSignIn();
+const customerEmail = orderStore.getCustomerEmail();
+if (!canPlaceOrder) form.hidden = true;
 
 function escapeHtml(str){
   return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -58,7 +62,16 @@ renderBouquetRecap(bouquetOrder);
   const element = document.getElementById(field);
   if (element && bouquetOrder[field]) element.value = bouquetOrder[field];
 });
-form.addEventListener('submit', e => {
+if (!document.getElementById('contactName').value) {
+  document.getElementById('contactName').value = orderStore.getCustomerName(customerEmail);
+}
+if (!document.getElementById('contactNumber').value) {
+  document.getElementById('contactNumber').value = orderStore.getCustomerContact(customerEmail);
+}
+if (!document.getElementById('contactEmail').value) {
+  document.getElementById('contactEmail').value = customerEmail;
+}
+if (canPlaceOrder) form.addEventListener('submit', e => {
   e.preventDefault();
   const address = document.getElementById('orderAddress').value.trim();
   const fulfil = document.getElementById('orderFulfil').value;
@@ -76,6 +89,8 @@ form.addEventListener('submit', e => {
   const order = {
     reference,
     createdAt: new Date().toISOString(),
+    customerEmail,
+    customerName: orderStore.getCustomerName(customerEmail),
     productId: productId || bouquetOrder.style,
     style: bouquetOrder.style,
     image: bouquetOrder.image,
@@ -94,9 +109,12 @@ form.addEventListener('submit', e => {
     status: 'Pending',
     payment: { total: Number(new URLSearchParams(window.location.search).get('amount')) || 0, requiredDownPayment: 0, amountPaid: 0, proof: null }
   };
-  const orders = JSON.parse(localStorage.getItem('floraAvenueOrders') || '[]');
-  orders.unshift(order);
-  localStorage.setItem('floraAvenueOrders', JSON.stringify(orders));
+  try {
+    orderStore.save(order);
+  } catch (saveError) {
+    error.textContent = 'Unable to save your order. Please try again.';
+    return;
+  }
 
   const completionParams = new URLSearchParams({
     reference,

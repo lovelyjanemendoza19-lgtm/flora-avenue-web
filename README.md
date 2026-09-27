@@ -47,4 +47,4 @@ Setup Instructions
 
 No additional installation is required because the project currently uses HTML, CSS, and JavaScript only.
 
-Customer sign-in, profile details, and inquiries are currently stored in the browser's local storage. Customer inquiries and admin responses are shared between the customer and admin pages in the same browser and site origin; they are not verified by a backend or shared across devices.
+Customer sign-in, profile details, orders, customization requests, inquiries, and responses are currently stored in the browser's local storage. Orders are associated with the signed-in customer, and an inquiry can be continued as a linked customization request and order. Inquiry submissions and admin responses are shared only within the same browser and site origin; this demo is not backed by a server and does not sync across devices.

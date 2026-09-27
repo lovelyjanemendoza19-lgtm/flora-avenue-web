@@ -24,13 +24,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 input.type = "text";
 
-                button.textContent = "Hide";
+                if (button.classList.contains("customer-password-toggle")) {
+                    button.setAttribute("aria-label", "Hide password");
+                } else {
+                    button.textContent = "Hide";
+                }
 
             } else {
 
                 input.type = "password";
 
-                button.textContent = "Show";
+                if (button.classList.contains("customer-password-toggle")) {
+                    button.setAttribute("aria-label", "Show password");
+                } else {
+                    button.textContent = "Show";
+                }
 
             }
 

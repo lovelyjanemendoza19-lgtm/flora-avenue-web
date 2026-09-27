@@ -1,20 +1,195 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Manage Products | Flora Avenue Admin</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../public/css/admin.css"><link rel="stylesheet" href="../../public/css/admin-figma.css"></head>
-<body class="admin-app"><main class="admin-shell"><aside class="admin-sidebar-fx">
-  <a class="fx-side-brand" href="dashboard.html">
-    <img src="../../public/images/logo.png" alt="Flora Avenue">
-    <span><strong>Flora Avenue</strong><small>Admin Portal</small></span>
-  </a>
-  <div class="fx-side-label">Management</div>
-  <nav class="fx-side-nav" aria-label="Admin navigation">
-    <a href="dashboard.html"><span class="fx-side-icon">▦</span><span>Dashboard</span></a>
-    <a href="products.html"><span class="fx-side-icon">▤</span><span>Products</span></a>
-    <a href="inquiries.html"><span class="fx-side-icon">✉</span><span>Inquiries</span></a>
-    <a href="orders.html"><span class="fx-side-icon">▣</span><span>Orders</span></a>
-    <a href="payments.html"><span class="fx-side-icon">▤</span><span>Payments</span></a>
-    <a href="profile.html"><span class="fx-side-icon">♙</span><span>Profile</span></a>
-  </nav>
-  <div class="fx-side-bottom">
-    <div class="fx-side-admin"><div class="fx-side-avatar">♙</div><div><strong>Juan Dela Cruz</strong><small>Administrator</small></div></div>
-    <button class="fx-side-logout" id="fxLogoutButton" type="button"><span class="fx-side-icon">↪</span><span>Log Out</span></button>
-  </div>
-</aside><header class="admin-topbar"><a class="figma-back" href="dashboard.html">←</a><div class="admin-topbar-title"><h1>Manage Products</h1></div></header><div class="figma-page"><div class="figma-top-logo"><img src="../../public/images/logo.png" alt="Flora Avenue"></div><div class="figma-search"><span>⌕</span><input id="productSearch" type="search" placeholder="Search Product"></div><div class="figma-tabs"><button class="active">ALL</button><button>BOUQUET</button><button>MIXED BOUQUETS</button></div><div style="display:flex;justify-content:space-between;align-items:center;margin:7px 0"><h2 class="figma-title">Manage Products</h2><a href="add-product.html" class="figma-btn" style="width:96px;text-align:center;line-height:31px">＋ Add New Product</a></div><div class="figma-title" style="font-family:Poppins;font-size:8px;margin-bottom:6px">Bouquet</div><div class="figma-product-grid"><a class="figma-product-card" href="add-product.html"><img src="../../public/images/eternal-rose.jpeg" alt="3 stem sunflower bouquet"><strong>3 stem sunflower bouquet</strong><span>₱99</span></a><a class="figma-product-card" href="add-product.html"><img src="../../public/images/sunflower.jpeg" alt="3 stem sunflower bouquet"><strong>3 stem sunflower bouquet</strong><span>₱99</span></a><a class="figma-product-card" href="add-product.html"><img src="../../public/images/sun-3.jpg" alt="3 stem sunflower bouquet"><strong>3 stem sunflower bouquet</strong><span>₱99</span></a><a class="figma-product-card" href="add-product.html"><img src="../../public/images/sun-3.jpg" alt="3 stem sunflower bouquet"><strong>3 stem sunflower bouquet</strong><span>₱99</span></a></div></div></main><script>document.getElementById('productSearch')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('.figma-product-card').forEach(c=>c.style.display=c.textContent.toLowerCase().includes(q)?'block':'none')});</script><script src="../../public/js/admin.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Products | Flora Avenue Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../public/css/admin.css">
+  <link rel="stylesheet" href="../../public/css/admin-figma.css">
+  <link rel="stylesheet" href="../../public/css/products.css">
+</head>
+<body class="admin-app" data-navigation-base="../../">
+  <main class="admin-shell">
+    <aside class="admin-sidebar-fx">
+      <a class="fx-side-brand" href="dashboard.html">
+        <img src="../../public/images/logo.png" alt="Flora Avenue">
+        <span><strong>Flora Avenue</strong><small>Admin Portal</small></span>
+      </a>
+      <div class="fx-side-label">Management</div>
+      <nav class="fx-side-nav" aria-label="Admin navigation">
+        <a href="dashboard.html"><span class="fx-side-icon">▦</span><span>Dashboard</span></a>
+        <a class="active" href="products.html"><span class="fx-side-icon">▤</span><span>Products</span></a>
+        <a href="inquiries.html"><span class="fx-side-icon">✉</span><span>Inquiries</span></a>
+        <a href="orders.html"><span class="fx-side-icon">▣</span><span>Orders</span></a>
+        <a href="profile.html"><span class="fx-side-icon">♙</span><span>Profile</span></a>
+      </nav>
+      <div class="fx-side-bottom">
+        <div class="fx-side-admin"><div class="fx-side-avatar">♙</div><div><strong>Juan Dela Cruz</strong><small>Administrator</small></div></div>
+        <button class="fx-side-logout" id="fxLogoutButton" type="button"><span class="fx-side-icon">↪</span><span>Log Out</span></button>
+      </div>
+    </aside>
+
+    <header class="admin-topbar">
+      <a class="figma-back" href="dashboard.html" aria-label="Back to dashboard">←</a>
+      <div class="admin-topbar-title"><h1>Manage Products</h1></div>
+    </header>
+
+    <div class="figma-page catalog-page admin-product-catalog">
+      <div class="search-box-wrap">
+        <span class="search-icon" aria-hidden="true"></span>
+        <input type="search" id="searchProduct" class="search-box" placeholder="Search Product" aria-label="Search products">
+      </div>
+
+      <div class="admin-catalog-heading">
+        <div class="category-list" aria-label="Product categories">
+          <button class="category-button active" data-category="all">ALL</button>
+          <button class="category-button" data-category="flowers">FLOWERS</button>
+          <button class="category-button" data-category="gifts">GIFT BOUQUETS</button>
+          <button class="category-button" data-category="gift-sets">GIFT SETS</button>
+          <button class="category-button" data-category="jewelry">JEWELRY</button>
+          <button class="category-button" data-category="small-gifts">SMALL GIFTS</button>
+          <button class="category-button" data-category="printing">PRINTING</button>
+          <button class="category-button" data-category="custom">CUSTOMIZED</button>
+        </div>
+        <a href="add-product.html" class="figma-btn add-product-button">＋ Add New Product</a>
+      </div>
+
+      <div id="adminCatalogSections">
+        <section class="catalog-section" data-category="flowers" aria-label="Flowers">
+          <div class="catalog-grid">
+            <a href="add-product.html?product=plain-tulip-satin" class="catalog-card"><img src="../../public/images/plain-tulip.jpeg" alt="Plain Tulip / Satin Rose"><h3>Plain Tulip / Satin Rose</h3><p>₱45</p></a>
+            <a href="add-product.html?product=satin-rose" class="catalog-card"><img src="../../public/images/satin-rose.jpeg" alt="Satin Rose Bouquet"><h3>Satin Rose Bouquet</h3><p>From ₱69</p></a>
+            <a href="add-product.html?product=eternal-rose" class="catalog-card"><img src="../../public/images/eternal-rose.jpeg" alt="Eternal Glittered Rose"><h3>Eternal Glittered Rose</h3><p>From ₱749</p></a>
+            <a href="add-product.html?product=sunflower" class="catalog-card"><img src="../../public/images/sunflower.jpeg" alt="Sunflower Bouquet"><h3>Sunflower Bouquet</h3><p>From ₱119</p></a>
+            <a href="add-product.html?product=artificial-tulip" class="catalog-card"><img src="../../public/images/artificial-tulip.jpeg" alt="Artificial Tulip Bouquet"><h3>Artificial Tulip Bouquet</h3><p>From ₱119</p></a>
+            <a href="add-product.html?product=roria" class="catalog-card"><img src="../../public/images/roria.jpeg" alt="Roria Bouquet"><h3>Roria Bouquet</h3><p>₱450</p></a>
+            <a href="add-product.html?product=amore" class="catalog-card"><img src="../../public/images/amore.jpeg" alt="Amore Blooms"><h3>Amore Blooms</h3><p>From ₱550</p></a>
+            <a href="add-product.html?product=thumbelina" class="catalog-card"><img src="../../public/images/thumbelina.jpeg" alt="Thumbelina Bouquet"><h3>Thumbelina Bouquet</h3><p>₱749</p></a>
+            <a href="add-product.html?product=dahlia" class="catalog-card"><img src="../../public/images/dahlia.jpeg" alt="Dahlia Satin Rose"><h3>Dahlia Satin Rose</h3><p>From ₱119</p></a>
+            <a href="add-product.html?product=butterfly-flowers" class="catalog-card"><img src="../../public/images/butterfly-flowers.jpeg" alt="Butterfly X Flowers"><h3>Butterfly × Flowers</h3><p>From ₱260</p></a>
+          </div>
+        </section>
+
+        <section class="catalog-section" data-category="gifts" aria-label="Gift bouquets">
+          <div class="catalog-grid">
+            <a href="add-product.html?product=butterfly" class="catalog-card"><img src="../../public/images/butterfly.jpeg" alt="Butterfly Bouquet"><h3>Butterfly Bouquet with Lights</h3><p>From ₱199</p></a>
+            <a href="add-product.html?product=buldak" class="catalog-card"><img src="../../public/images/buldak.jpeg" alt="Buldak Bouquet"><h3>Buldak Bouquet</h3><p>From ₱1,100</p></a>
+            <a href="add-product.html?product=chocolate-bouquet" class="catalog-card"><img src="../../public/images/chocolate-bouquet.jpeg" alt="Chocolate Bouquet"><h3>Chocolate Bouquet</h3><p>From ₱699</p></a>
+            <a href="add-product.html?product=money-bouquet" class="catalog-card"><img src="../../public/images/money-bouquet.jpeg" alt="Money Bouquet"><h3>Money Bouquet</h3><p>From ₱399</p></a>
+          </div>
+        </section>
+
+        <section class="catalog-section" data-category="gift-sets" aria-label="Gift sets">
+          <div class="catalog-grid">
+            <a href="add-product.html?product=blossom-bag" class="catalog-card"><img src="../../public/images/blossom-bag.jpeg" alt="Blossom Bag"><h3>Blossom Bag</h3><p>₱155</p></a>
+            <a href="add-product.html?product=blossom-box" class="catalog-card"><img src="../../public/images/blossom-box.jpeg" alt="Blossom Box"><h3>Blossom Box</h3><p>From ₱219</p></a>
+            <a href="add-product.html?product=chocolate-box" class="catalog-card"><img src="../../public/images/chocolate-box.jpeg" alt="Chocolate Box + Satin Rose"><h3>Chocolate Box + Satin Rose</h3><p class="out-stock">Out of Stock</p></a>
+          </div>
+        </section>
+
+        <section class="catalog-section" data-category="jewelry" aria-label="Jewelry">
+          <div class="catalog-grid">
+            <a href="add-product.html?product=white-ring" class="catalog-card"><img src="../../public/images/white-ringg.jpg" alt="Pandora White Ring"><h3>Pandora White Ring</h3><p>₱100</p></a>
+            <a href="add-product.html?product=pink-ring" class="catalog-card"><img src="../../public/images/pink-ring.jpeg" alt="Pandora Pink Ring"><h3>Pandora Pink Ring</h3><p>From ₱110</p></a>
+            <a href="add-product.html?product=couple-ring" class="catalog-card"><img src="../../public/images/couple-ring.jpeg" alt="Couple Ring"><h3>Couple Ring</h3><p>₱180</p></a>
+            <a href="add-product.html?product=necklace" class="catalog-card"><img src="../../public/images/necklace.jpeg" alt="Pandora Necklace"><h3>Pandora Necklace</h3><p>₱180</p></a>
+          </div>
+        </section>
+
+        <section class="catalog-section" data-category="small-gifts" aria-label="Small gifts">
+          <div class="catalog-grid">
+            <a href="add-product.html?product=drive-safe" class="catalog-card"><img src="../../public/images/drive-safe.jpeg" alt="Drive Safe Keychain"><h3>Drive Safe Keychain</h3><p>₱50</p></a>
+            <a href="add-product.html?product=regular-keychain" class="catalog-card"><img src="../../public/images/regular-keychain.jpg" alt="Regular Keychain"><h3>Regular Keychain</h3><p>From ₱40</p></a>
+            <a href="add-product.html?product=spotify-keychain" class="catalog-card"><img src="../../public/images/spotify-keychain.jpg" alt="Spotify Keychain"><h3>Spotify Keychain</h3><p>From ₱55</p></a>
+            <a href="add-product.html?product=mini-cd" class="catalog-card"><img src="../../public/images/mini-cd.jpeg" alt="Mini CD Keychain"><h3>Mini CD Keychain</h3><p>₱149</p></a>
+            <a href="add-product.html?product=ref-magnet" class="catalog-card"><img src="../../public/images/ref-magnet.jpeg" alt="Ref Magnet"><h3>Ref Magnet</h3><p>Price varies</p></a>
+            <a href="add-product.html?product=phone-lanyard" class="catalog-card"><img src="../../public/images/phone-lanyard.jpeg" alt="Phone Lanyard"><h3>Phone Lanyard</h3><p class="out-stock">Out of Stock</p></a>
+            <a href="add-product.html?product=button-pin" class="catalog-card"><img src="../../public/images/button-pin.jpeg" alt="Button Pins"><h3>Button Pins 50mm</h3><p>₱40</p></a>
+            <a href="add-product.html?product=pocket-mirror" class="catalog-card"><img src="../../public/images/pocket-mirror.jpeg" alt="Pocket Mirror"><h3>Pocket Mirror</h3><p>₱50</p></a>
+          </div>
+        </section>
+
+        <section class="catalog-section" data-category="printing" aria-label="Printing">
+          <div class="catalog-grid">
+            <a href="add-product.html?product=polaroid" class="catalog-card"><img src="../../public/images/polaroid.jpeg" alt="Polaroid Photos"><h3>Polaroid / Instax Photos</h3><p>From ₱6</p></a>
+            <a href="add-product.html?product=mini-photo-strip" class="catalog-card"><img src="../../public/images/mini-photo-strip.jpg" alt="Mini Photo Strip"><h3>Mini Photo Strip</h3><p>From ₱25</p></a>
+            <a href="add-product.html?product=regular-photo-strip" class="catalog-card"><img src="../../public/images/regular-photo-strip.jpg" alt="Regular Photo Strip"><h3>Regular Photo Strip</h3><p>From ₱55</p></a>
+          </div>
+        </section>
+
+        <section class="catalog-section" data-category="custom" aria-label="Customized creations">
+          <div class="catalog-grid">
+            <a href="add-product.html?product=makeup-bouquet" class="catalog-card"><img src="../../public/images/makeup-bouquet.jpeg" alt="Makeup Bouquet"><h3>Makeup Bouquet</h3><p>Custom Price</p></a>
+            <a href="add-product.html?product=beverage-bouquet" class="catalog-card"><img src="../../public/images/beverage-bouquet.jpeg" alt="Beverage Bouquet"><h3>Beverage Bouquet</h3><p>Custom Price</p></a>
+            <a href="add-product.html?product=money-garland" class="catalog-card"><img src="../../public/images/money garland.jpeg" alt="Money Garland"><h3>Money Garland</h3><p>Custom Price</p></a>
+            <a href="add-product.html?product=lei-garland" class="catalog-card"><img src="../../public/images/lei-garland.jpeg" alt="Lei Garland"><h3>Lei Garland</h3><p>Custom Price</p></a>
+            <a href="add-product.html?product=custom-bouquet" class="catalog-card"><img src="../../public/images/custom.jpeg" alt="Fully Customized Bouquet"><h3>Fully Customized Bouquet</h3><p>Custom Price</p></a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const categoryButtons = document.querySelectorAll(".category-button");
+      const sections = document.querySelectorAll(".catalog-section");
+      const searchBox = document.getElementById("searchProduct");
+      const allGrid = document.createElement("div");
+      allGrid.className = "catalog-grid catalog-grid-all";
+
+      sections.forEach(function (section) {
+        section.querySelectorAll(".catalog-card").forEach(function (card) {
+          allGrid.appendChild(card.cloneNode(true));
+        });
+      });
+      document.getElementById("adminCatalogSections").prepend(allGrid);
+
+      let selectedCategory = "all";
+      function filterProducts() {
+        const searchText = searchBox.value.trim().toLowerCase();
+        if (selectedCategory === "all") {
+          allGrid.style.display = "grid";
+          allGrid.querySelectorAll(".catalog-card").forEach(function (card) {
+            const name = card.querySelector("h3").textContent.toLowerCase();
+            card.style.display = name.includes(searchText) ? "flex" : "none";
+          });
+          sections.forEach(function (section) { section.style.display = "none"; });
+          return;
+        }
+
+        allGrid.style.display = "none";
+        sections.forEach(function (section) {
+          let hasVisibleCard = false;
+          section.querySelectorAll(".catalog-card").forEach(function (card) {
+            const name = card.querySelector("h3").textContent.toLowerCase();
+            const isVisible = name.includes(searchText);
+            card.style.display = isVisible ? "flex" : "none";
+            hasVisibleCard = hasVisibleCard || isVisible;
+          });
+          section.style.display = section.dataset.category === selectedCategory && hasVisibleCard
+            ? "block"
+            : "none";
+        });
+      }
+
+      categoryButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          selectedCategory = button.dataset.category;
+          categoryButtons.forEach(function (item) {
+            item.classList.toggle("active", item === button);
+          });
+          filterProducts();
+        });
+      });
+      searchBox.addEventListener("input", filterProducts);
+      filterProducts();
+    })();
+  </script>
+  <script src="../../public/js/admin.js"></script>
+  <script src="../../public/js/image-fallback.js"></script>
+</body>
+</html>

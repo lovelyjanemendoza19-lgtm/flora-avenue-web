@@ -471,7 +471,7 @@ textarea:focus {
     margin-top: 14px;
 }
 
-/* Inquiry details use the same visual frame as Order Details. */
+/* Inquiry details follow the Order Details summary layout. */
 #detailsScreen {
     min-height: 100vh;
     padding: 14px 16px 28px;
@@ -525,64 +525,94 @@ textarea:focus {
     background-color: #f8f1f1;
 }
 
-#detailsScreen .ref-title {
-    margin: 0 0 18px;
-    text-align: left;
-}
-
-#detailsScreen .ref-title span {
-    color: #756c6f;
-    font-size: 12px;
-}
-
-#detailsScreen .ref-title strong {
-    margin-top: 4px;
+#detailsScreen .details-card > h1 {
+    margin: 0 0 14px;
     color: #332d2f;
-    font-size: 22px;
+    font-family: Poppins, Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
 }
 
-#detailsScreen .product-row {
-    margin-bottom: 20px;
-}
-
-#detailsScreen .flower-img {
+#detailsScreen .inquiry-summary-image {
+    display: block;
     width: 110px;
     height: 110px;
+    margin: 0 0 18px;
     border-radius: 8px;
     background: #e8dfe0;
+    object-fit: cover;
 }
 
-#detailsScreen .message-box {
-    margin: 12px 0;
-    padding: 14px 0;
-    border-top: 1px solid #e1d2d5;
-    border-radius: 0;
-    background: transparent;
-}
-
-#detailsScreen .message-box strong {
-    color: #7c4a4f;
-    font-size: 15px;
-}
-
-#detailsScreen .message-box p {
+#detailsScreen .details-card > h2 {
+    margin: 0 0 8px;
     color: #332d2f;
+    font-size: 20px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+#detailsScreen .inquiry-detail-status {
+    margin: 0 0 18px;
+    color: #7c4a4f;
     font-size: 13px;
 }
 
-#detailsScreen .seller {
-    padding: 14px 0;
-    background: transparent;
+#detailsScreen .details-card > h3 {
+    margin: 0 0 10px;
+    color: #7c4a4f;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#detailsScreen .inquiry-summary {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 5px 0;
+    margin: 0 0 20px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#detailsScreen .inquiry-summary dt {
+    color: #756c6f;
+}
+
+#detailsScreen .inquiry-summary dd {
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+    color: #332d2f;
+}
+
+#detailsScreen .inquiry-response-date {
+    margin: -4px 0 6px;
+    color: #756c6f;
+    font-size: 11px;
+}
+
+#detailsScreen .inquiry-response {
+    margin: 0 0 20px;
+    color: #332d2f;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
 }
 
 #detailsScreen .details-card .primary {
+    display: inline-flex;
+    width: auto;
     min-height: 42px;
-    margin-top: 14px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 8px 20px 0;
     border-radius: 6px;
+    text-decoration: none;
 }
 
 #detailsScreen .details-back-button {
-    margin-top: 10px;
+    width: auto;
+    margin: 0 0 20px;
     border-radius: 6px;
 }
 
@@ -595,9 +625,12 @@ textarea:focus {
         padding: 20px 22px 24px;
     }
 
-    #detailsScreen .flower-img {
-        width: 90px;
-        height: 90px;
+    #detailsScreen .details-card > h1 {
+        font-size: 26px;
+    }
+
+    #detailsScreen .inquiry-summary {
+        grid-template-columns: 120px minmax(0, 1fr);
     }
 }
 

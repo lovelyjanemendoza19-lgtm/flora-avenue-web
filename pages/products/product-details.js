@@ -660,6 +660,10 @@ function saveProductOrder() {
   const order = {
     reference: `ORD-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
     createdAt: new Date().toISOString(),
+    customerEmail: window.floraAvenueCustomerOrders.getCustomerEmail(),
+    customerName: window.floraAvenueCustomerOrders.getCustomerName(
+      window.floraAvenueCustomerOrders.getCustomerEmail()
+    ),
     productId: product.id,
     style: product.name,
     image: product.images?.[0] || "",
@@ -678,9 +682,12 @@ function saveProductOrder() {
     status: "Pending",
     payment: { total: amount, requiredDownPayment: 0, amountPaid: 0, proof: null }
   };
-  const orders = JSON.parse(localStorage.getItem("floraAvenueOrders") || "[]");
-  orders.unshift(order);
-  localStorage.setItem("floraAvenueOrders", JSON.stringify(orders));
+  try {
+    window.floraAvenueCustomerOrders.save(order);
+  } catch (error) {
+    document.getElementById("orderFormError").textContent = "Unable to save your order. Please try again.";
+    return;
+  }
   window.location.href = `../orders/Order%20completed.html?reference=${encodeURIComponent(order.reference)}&style=${encodeURIComponent(order.style)}&image=${encodeURIComponent(order.image)}`;
 }
 
@@ -712,11 +719,16 @@ function goToPage(page) {
 
   const query = new URLSearchParams({
     id: product.id,
+    product: product.name,
+    image: product.images?.[0] || "",
+    design: product.name,
     variant: variant.label || "",
     price: String(variant.price ?? product.price ?? ""),
     quantity: String(quantity),
+    items: String(quantity),
     color: selectedColor,
-    addons: Array.from(selectedAddOns).join(",")
+    addons: addOns,
+    notes
   });
 
   window.location.href = `${page}?${query.toString()}`;
@@ -725,6 +737,7 @@ function goToPage(page) {
 function goToInquiry() {
   const inquiryQuery = new URLSearchParams({
     new: "1",
+    id: product.id,
     product: product.name,
     image: product.images?.[0] || "",
     variant: getSelectedVariant().label || "Standard",

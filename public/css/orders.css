@@ -92,6 +92,26 @@
     color: #B5687C;
 }
 
+.orders-sign-in {
+    width: fit-content;
+    padding: 9px 18px;
+    border: 1px solid #7c4a4f;
+    border-radius: 20px;
+    background: #7c4a4f;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.orders-sign-in:hover {
+    background: #633a3e;
+}
+
+.order-info > span {
+    overflow-wrap: anywhere;
+}
+
 
 .status {
     padding: 6px 14px;
