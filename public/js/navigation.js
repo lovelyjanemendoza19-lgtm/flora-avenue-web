@@ -50,7 +50,8 @@ if (!isSignedIn && isHomeOrCatalog) {
     signIn.href = `${navigationBase}pages/login/login.html`;
     signIn.textContent = "Sign In";
     signIn.setAttribute("aria-label", "Sign in");
-    document.body.append(signIn);
+    const header = document.querySelector(".website > header");
+    header?.append(signIn);
 }
 
 const menuButton = document.getElementById("menuButton");

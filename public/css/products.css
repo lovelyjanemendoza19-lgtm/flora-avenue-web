@@ -1,3 +1,4 @@
+
 .catalog-page {
     width: 100%;
     max-width: 1400px;
@@ -297,3 +298,20 @@
 .catalog-grid-all {
     justify-content: start;
 } 
+
+.product-catalog .website > header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #E8DFE0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.product-catalog header .desktop-sign-in {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    bottom: auto;
+    left: auto;
+    transform: translateY(-50%);
+}

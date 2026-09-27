@@ -554,3 +554,21 @@
         font-size: 11px;
     }
 }
+
+.website > header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #E8DFE0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+.website > header .desktop-sign-in {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    bottom: auto;
+    left: auto;
+    transform: translateY(-50%);
+}
