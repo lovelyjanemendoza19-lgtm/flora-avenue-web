@@ -17,7 +17,7 @@
       <div class="product-layout">
         <section class="gallery" aria-label="Product images">
           <div class="main-image-wrap">
-            <img id="productImage" src="../../public/images/plain-tulip.jpeg" alt="Product photo">
+            <img id="productImage" src="../../public/images/plain-tulip.jpeg" alt="Product photo" fetchpriority="high">
           </div>
           <div id="productThumbnails" class="product-thumbnails"></div>
         </section>
@@ -27,6 +27,11 @@
           <h2 id="productName">Product Name</h2>
           <p id="productPrice" class="product-price">₱0</p>
           <p id="productDescription" class="product-description"></p>
+          <p id="preparationEstimate" class="preparation-estimate">
+            <strong>Estimated preparation:</strong>
+            <span id="preparationEstimateValue">To be confirmed</span>
+          </p>
+          <p id="productCustomization" class="product-customization hidden">Customization is available for this product.</p>
 
           <p id="stockMessage" class="stock-message" aria-live="polite"></p>
 
@@ -49,7 +54,7 @@
             <label>Add-ons</label>
             <div id="addOns" class="addons-list"></div>
           </div>
-          
+
           <!-- SPECIAL INSTRUCTIONS / NOTES -->
 <div class="form-field special-instructions">
   <label for="specialInstructions">Special Instructions / Notes:</label>
@@ -95,5 +100,6 @@
 
   <script src="../../public/js/customer-order-store.js" defer></script>
   <script src="product-details.js" defer></script>
+  <script src="../../public/js/footer.js" defer></script>
 </body>
 </html>

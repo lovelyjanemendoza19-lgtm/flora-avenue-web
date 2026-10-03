@@ -58,10 +58,35 @@ function renderBouquetRecap(o){
 }
 renderBouquetRecap(bouquetOrder);
 
-['contactName', 'contactNumber', 'contactEmail', 'fulfil', 'date', 'address'].forEach(field => {
-  const element = document.getElementById(field);
+[
+  ['contactName', 'contactName'],
+  ['contactNumber', 'contactNumber'],
+  ['contactEmail', 'contactEmail'],
+  ['orderFulfil', 'fulfil'],
+  ['orderDate', 'date'],
+  ['orderAddress', 'address']
+].forEach(([id, field]) => {
+  const element = document.getElementById(id);
   if (element && bouquetOrder[field]) element.value = bouquetOrder[field];
 });
+const fulfilInput = document.getElementById('orderFulfil');
+const addressInput = document.getElementById('orderAddress');
+const addressField = document.getElementById('orderAddressField');
+const addressRequired = document.getElementById('orderAddressRequired');
+function syncAddressRequirement() {
+  const requiresAddress = fulfilInput.value === 'Delivery';
+  addressField.hidden = !requiresAddress;
+  addressRequired.hidden = !requiresAddress;
+  addressInput.required = requiresAddress;
+  addressInput.setCustomValidity('');
+}
+fulfilInput.addEventListener('change', syncAddressRequirement);
+addressInput.addEventListener('input', () => {
+  if (fulfilInput.value === 'Delivery' && addressInput.value.trim()) {
+    addressInput.setCustomValidity('');
+  }
+});
+syncAddressRequirement();
 if (!document.getElementById('contactName').value) {
   document.getElementById('contactName').value = orderStore.getCustomerName(customerEmail);
 }
@@ -73,17 +98,13 @@ if (!document.getElementById('contactEmail').value) {
 }
 if (canPlaceOrder) form.addEventListener('submit', e => {
   e.preventDefault();
-  const address = document.getElementById('orderAddress').value.trim();
-  const fulfil = document.getElementById('orderFulfil').value;
+  const fulfil = fulfilInput.value;
+  const address = fulfil === 'Delivery' ? addressInput.value.trim() : '';
   const error = document.getElementById('formError');
+  addressInput.setCustomValidity(
+    fulfil === 'Delivery' && !address ? 'Please enter a delivery address.' : ''
+  );
   if (!form.reportValidity()) return;
-  if (fulfil === 'Delivery' && !address) {
-    const addressInput = document.getElementById('orderAddress');
-    addressInput.setCustomValidity('Please enter a delivery address.');
-    addressInput.reportValidity();
-    return;
-  }
-  document.getElementById('orderAddress').setCustomValidity('');
 
   const reference = `ORD-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
   const order = {

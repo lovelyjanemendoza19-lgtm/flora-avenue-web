@@ -16,6 +16,7 @@ body {
 .wrap {
   width: min(100%, 760px);
   margin: 0 auto;
+  margin-bottom: 28px;
 }
 
 header {
@@ -75,10 +76,43 @@ fieldset {
 }
 
 .bouquet-recap {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
   min-height: 24px;
   margin-top: 18px;
   color: #7c4a4f;
   font-size: 13px;
+}
+
+.bouquet-recap .product-summary-image {
+  display: block;
+  width: 112px;
+  height: 112px;
+  flex: 0 0 112px;
+  border: 1px solid #e1d2d5;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.bouquet-recap dl {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 5px 12px;
+  margin: 0;
+}
+
+.bouquet-recap dt {
+  font-weight: 600;
+}
+
+.bouquet-recap dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 legend {
@@ -90,8 +124,13 @@ legend {
 
 .field {
   display: grid;
+  min-width: 0;
   gap: 7px;
   margin-top: 16px;
+}
+
+#orderAddressField[hidden] {
+  display: none;
 }
 
 .row {
@@ -111,8 +150,12 @@ label {
 }
 
 input,
-textarea {
+textarea,
+select {
+  display: block;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   border: 1px solid #d8c1c5;
   border-radius: 6px;
   background: #fffafb;
@@ -133,8 +176,14 @@ textarea {
   resize: vertical;
 }
 
+select {
+  height: 44px;
+  padding: 0 12px;
+}
+
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   border-color: #7c4a4f;
   box-shadow: 0 0 0 3px rgba(124, 74, 79, 0.12);
 }
@@ -205,5 +254,24 @@ input[type="file"] {
   .row {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+
+  .bouquet-recap {
+    gap: 12px;
+  }
+
+  .bouquet-recap .product-summary-image {
+    width: 88px;
+    height: 88px;
+    flex-basis: 88px;
+  }
+
+  .bouquet-recap dl {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .bouquet-recap dd {
+    margin-bottom: 6px;
   }
 }

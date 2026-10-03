@@ -1,5 +1,5 @@
 const sideMenu = document.getElementById("sideMenu");
-const logoutButton = document.getElementById("logoutButton");
+const logoutButtons = document.querySelectorAll("[data-logout-button]");
 const menuOverlay = document.getElementById("menuOverlay");
 
 const logoutModal = document.createElement("div");
@@ -32,16 +32,22 @@ function closeLogoutModal() {
 function openLogoutModal() {
     sideMenu?.classList.remove("show-menu");
     menuOverlay?.classList.remove("show-overlay");
+    sideMenu?.setAttribute("aria-hidden", "true");
+    document.querySelectorAll(".profile-toggle").forEach(function (toggle) {
+        toggle.setAttribute("aria-expanded", "false");
+        document.getElementById(toggle.getAttribute("aria-controls")).hidden = true;
+        toggle.closest(".profile-menu").classList.remove("is-open");
+    });
     logoutModal.classList.add("show-logout");
     logoutCancel.focus();
 }
 
-if (logoutButton) {
-    logoutButton.onclick = function (event) {
+logoutButtons.forEach(function (logoutButton) {
+    logoutButton.addEventListener("click", function (event) {
         event.preventDefault();
         openLogoutModal();
-    };
-}
+    });
+});
 
 logoutClose.onclick = closeLogoutModal;
 logoutCancel.onclick = closeLogoutModal;
@@ -68,7 +74,7 @@ document.addEventListener("keydown", function (event) {
 /* CURRENT PAGE HIGHLIGHT */
 
 const menuLinks = document.querySelectorAll(
-    ".menu-link:not(#logoutButton)"
+    "a.menu-link:not([data-logout-button])"
 );
 
 function normalizePath(path) {
@@ -90,3 +96,9 @@ menuLinks.forEach(function (link) {
         link.classList.add("active");
     }
 });
+
+if (/\/(profile|orders|inquiries)\//.test(currentPath)) {
+    document.querySelectorAll(".profile-toggle").forEach(function (toggle) {
+        toggle.classList.add("active");
+    });
+}

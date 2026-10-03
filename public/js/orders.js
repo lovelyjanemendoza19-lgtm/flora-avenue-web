@@ -43,17 +43,16 @@
             orderList.replaceChildren();
             const emptyState = document.createElement("p");
             emptyState.className = "empty-orders";
-            emptyState.textContent = orderStore.getCustomerEmail()
-                ? "No orders found."
-                : "Sign in to view your orders.";
-            orderList.appendChild(emptyState);
-            if (!orderStore.getCustomerEmail()) {
+            if (orderStore.getCustomerEmail()) {
+                emptyState.textContent = "No orders found.";
+            } else {
                 const signInLink = document.createElement("a");
-                signInLink.className = "orders-sign-in";
+                signInLink.className = "orders-sign-in-link";
                 signInLink.href = "../../pages/login/login.html";
-                signInLink.textContent = "Sign In";
-                orderList.appendChild(signInLink);
+                signInLink.textContent = "Sign in";
+                emptyState.append(signInLink, document.createTextNode(" to view your orders."));
             }
+            orderList.appendChild(emptyState);
             return;
         }
 
@@ -72,7 +71,7 @@
                 : "";
 
             return `<a class="order-item" href="order%20details.html?order=${encodeURIComponent(order.reference)}" data-status="${escapeHtml(String(order.status).toLowerCase())}">
-                <img src="../../public/images/${encodeURIComponent(order.image || "banner-flower.png")}" alt="${escapeHtml(title)}">
+                <img src="../../public/images/${encodeURIComponent(order.image || "banner-flower.png")}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">
                 <div class="order-info">
                     <strong>${escapeHtml(title)}</strong>
                     <span>${escapeHtml(details)} · ${escapeHtml(order.reference)}</span>

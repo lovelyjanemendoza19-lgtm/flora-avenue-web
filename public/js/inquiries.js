@@ -229,7 +229,15 @@ function renderInquiries(filter = "All") {
   if (customerInquiries.length === 0) {
     const emptyState = document.createElement("p");
     emptyState.className = "inquiry-empty";
-    emptyState.textContent = "You have no inquiries yet.";
+    if (localStorage.getItem("floraAvenueSignedIn") !== "true" || !customerEmail) {
+      const signInLink = document.createElement("a");
+      signInLink.className = "inquiry-sign-in-link";
+      signInLink.href = "../login/login.html";
+      signInLink.textContent = "Sign in";
+      emptyState.append(signInLink, document.createTextNode(" to continue."));
+    } else {
+      emptyState.textContent = "You have no inquiries yet.";
+    }
     list.appendChild(emptyState);
     return;
   }
@@ -248,6 +256,8 @@ function renderInquiries(filter = "All") {
     const image = document.createElement("img");
     image.src = inquiry.image || "../../public/images/custom-bouquet.jpeg";
     image.alt = "";
+    image.loading = "lazy";
+    image.decoding = "async";
     imageWrap.appendChild(image);
 
     const info = document.createElement("span");

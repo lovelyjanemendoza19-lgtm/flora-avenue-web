@@ -132,28 +132,57 @@
 .product-card img {
     display: block;
     width: 100%;
-    height: 198px;
+    aspect-ratio: 4 / 3;
+    height: auto;
     object-fit: cover;
+    background: #eee3e4;
 }
 
 .product-text {
     display: flex;
     flex: 1;
     flex-direction: column;
-    padding: 6px;
+    gap: 7px;
+    padding: 12px;
 }
 
 .product-text p {
-    min-height: 26px;
+    min-height: 38px;
     color: #332d2f;
-    font-size: 9px;
-    line-height: 11px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
 }
 
-.product-text span {
-    margin-top: auto;
+.product-text small {
+    min-height: 50px;
+    color: #756c6f;
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.product-text .product-price {
     color: #B5687C;
-    font-size: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.featured-card-action {
+    display: flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
+    border-radius: 7px;
+    background: #7c4a4f;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.featured-product-card:hover .featured-card-action,
+.featured-product-card:focus-visible .featured-card-action {
+    background: #633a3e;
 }
 
 /* =========================================
@@ -424,7 +453,7 @@
     }
 
     .product-list {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 14px;
         max-width: none;
         margin-right: 0;
@@ -443,6 +472,10 @@
 
     .product-text span {
         font-size: 10px;
+    }
+
+    .product-text .featured-card-action {
+        font-size: 12px;
     }
 }
 
@@ -491,7 +524,7 @@
     }
 
     .product-list {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 16px;
     }
 
@@ -511,6 +544,10 @@
 
     .product-text span {
         font-size: 11px;
+    }
+
+    .product-text .featured-card-action {
+        font-size: 12px;
     }
 }
 
@@ -533,7 +570,7 @@
     }
 
     .product-list {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 18px;
     }
 

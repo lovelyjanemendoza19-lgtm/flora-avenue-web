@@ -113,6 +113,7 @@ legend {
 
 .field {
   display: grid;
+  min-width: 0;
   gap: 7px;
   margin-top: 16px;
 }
@@ -136,7 +137,10 @@ label {
 input,
 textarea,
 select {
+  display: block;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   border: 1px solid #d8c1c5;
   border-radius: 6px;
   background: #fffafb;
@@ -158,12 +162,13 @@ textarea {
 }
 
 select {
-  height: 42px;
+  height: 44px;
   padding: 0 12px;
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   border-color: #7c4a4f;
   box-shadow: 0 0 0 3px rgba(124, 74, 79, 0.12);
 }

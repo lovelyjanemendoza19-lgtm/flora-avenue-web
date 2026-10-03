@@ -7,16 +7,17 @@ const products = [
     name: "Plain Tulip / Satin Rose",
     category: "Flowers & Bouquets",
     price: 45,
-    description: "Plain tulip or satin rose.",
+    description: "Tulips are a simple way to share affection, while satin roses offer a thoughtful gesture for celebrations or everyday appreciation.",
     customizable: false,
     colors: ["Pink", "Red", "Blue", "Purple", "Yellow"],
+    preparationTime: "",
     images: ["plain-tulip.jpeg"]
   },
   {
     id: "satin-rose",
     name: "Satin Rose",
     category: "Flowers & Bouquets",
-    description: "Choose your preferred size and stem count.",
+    description: "Pink roses symbolize admiration, sweetness, and gratitude. A thoughtful choice for birthdays, thank-you gifts, or showing someone you appreciate them.",
     colors: ["Pink", "Red", "Blue", "Purple", "Yellow"],
     customizable: false,
     variants: [
@@ -30,13 +31,14 @@ const products = [
       { label: "Big — 15–18 stems + free card", price: 1299 },
       { label: "Big — 20–25 stems + free card", price: 1499 }
     ],
+    preparationTime: "",
     images: ["satin-rose.jpeg"]
   },
   {
     id: "eternal-rose",
     name: "Eternal Rose / Glittered",
     category: "Flowers & Bouquets",
-    description: "Eternal rose bouquet with your chosen stem count.",
+    description: "An eternal rose is a lasting reminder of love and special memories. A thoughtful keepsake for anniversaries, romantic occasions, or someone special.",
     colors: ["Pink", "Red", "Blue", "Purple", "Yellow"],
     customizable: false,
     variants: [
@@ -52,13 +54,14 @@ const products = [
       { label: "50 stems", price: 4299 },
       { label: "100 stems", price: 7999 }
     ],
+    preparationTime: "",
     images: ["eternal-rose.jpeg"]
   },
   {
     id: "sunflower",
     name: "Sunflower Bouquet",
     category: "Flowers & Bouquets",
-    description: "Custom stem count is available upon request.",
+    description: "Sunflowers symbolize happiness, positivity, and warmth. A cheerful gift for celebrations, encouragement, or simply brightening someone's day.",
     customizable: true,
     variants: [
       { label: "1 stem", price: 119 },
@@ -67,13 +70,14 @@ const products = [
       { label: "10 stems luxe", price: 1249 },
       { label: "Custom stem count — inquire", price: 0 }
     ],
+    preparationTime: "",
     images: ["sunflower.jpeg"]
   },
   {
     id: "artificial-tulip",
     name: "Artificial Tulip Bouquet",
     category: "Flowers & Bouquets",
-    description: "Artificial tulip bouquet.",
+    description: "A simple, elegant gift for birthdays, celebrations, or a thoughtful everyday surprise.",
     customizable: false,
     variants: [
       { label: "1 stem", price: 119 },
@@ -84,6 +88,7 @@ const products = [
       { label: "12 stems", price: 719 },
       { label: "15–18 stems", price: 999 }
     ],
+    preparationTime: "",
     images: ["artificial-tulip.jpeg"]
   },
   {
@@ -91,8 +96,9 @@ const products = [
     name: "Roria Bouquet",
     category: "Flowers & Bouquets",
     price: 450,
-    description: "Roria bouquet.",
+    description: "A thoughtful floral gift for birthdays, celebrations, or simply brightening someone's day.",
     customizable: false,
+    preparationTime: "",
     images: ["roria.jpeg"]
   },
   {
@@ -100,27 +106,29 @@ const products = [
     name: "Thumbelina Bouquet",
     category: "Flowers & Bouquets",
     price: 749,
-    description: "Thumbelina bouquet.",
+    description: "A sweet way to celebrate a special moment or let someone know you are thinking of them.",
     customizable: false,
+    preparationTime: "",
     images: ["thumbelina.jpeg"]
   },
   {
     id: "dahlia",
     name: "Dahlia Satin Rose",
     category: "Flowers & Bouquets",
-    description: "Choose your preferred arrangement.",
+    description: "Dahlias symbolize strength, elegance, and lasting commitment. A meaningful choice for special celebrations or someone you admire.",
     customizable: false,
     variants: [
       { label: "1 stem", price: 119 },
       { label: "7 stems round bouquet", price: 749 }
     ],
+    preparationTime: "",
     images: ["dahlia.jpeg"]
   },
   {
     id: "amore",
     name: "Amore Blooms",
     category: "Flowers & Bouquets",
-    description: "Mixed flower bouquets.",
+    description: "A graceful arrangement for birthdays, anniversaries, and other moments worth celebrating.",
     customizable: false,
     variants: [
       { label: "Code 01 Small — 2 roses, 1 daisy, 2 plumeria, 3 tulips", price: 550 },
@@ -129,13 +137,14 @@ const products = [
       { label: "Code 04 Large — 6 roses, 4 plumeria, 1 orchid, 1 tulip, 2 daisies, butterfly and fillers", price: 949 },
       { label: "Code 05 Large — 6 roses, 4 tulips, 1 peony, 1 orchid, 2 daisies, butterfly and fillers", price: 1389 }
     ],
+    preparationTime: "",
     images: ["amore.jpeg"]
   },
   {
     id: "butterfly",
     name: "Butterfly Bouquet with Lights",
     category: "Butterfly Bouquets",
-    description: "Butterfly bouquet with lights. Available in Purple, Pink, Blue, and Yellow.",
+    description: "A cheerful bouquet with lights, available in Purple, Pink, Blue, and Yellow. A fun surprise for birthdays and celebrations.",
     customizable: false,
     variants: [
       { label: "10 butterflies", price: 199 },
@@ -143,19 +152,21 @@ const products = [
       { label: "40 butterflies", price: 799 }
     ],
     colors: ["Purple", "Pink", "Blue", "Yellow"],
+    preparationTime: "",
     images: ["butterfly.jpeg"]
   },
   {
     id: "butterfly-flowers",
     name: "Butterfly × Flowers with Lights",
     category: "Butterfly Bouquets",
-    description: "Flower and butterfly bouquet with lights.",
+    description: "A bright gift for birthdays, celebrations, or a little surprise to make someone's day.",
     customizable: false,
     variants: [
       { label: "Small — 1 satin rose + 8 butterflies", price: 260 },
       { label: "Medium — 3 flower stems + 20 butterflies", price: 599 },
       { label: "Large — 5 flower stems + 30 butterflies", price: 899 }
     ],
+    preparationTime: "",
     images: ["butterfly-flowers.jpeg"]
   },
   {
@@ -163,21 +174,23 @@ const products = [
     name: "Buldak Bouquet",
     category: "Food & Gift Bouquets",
     price: 1100,
-    description: "5 pieces. Can add more items upon request.",
+    description: "A playful gift for birthdays and celebrations, with the option to request more items.",
     customizable: false,
     variants: [{ label: "5 pcs", price: 1100 }],
+    preparationTime: "",
     images: ["buldak.jpeg"]
   },
   {
     id: "chocolate-bouquet",
     name: "Chocolate Bouquet",
     category: "Food & Gift Bouquets",
-    description: "Chocolate bouquet.",
+    description: "A sweet surprise for birthdays, celebrations, and thoughtful moments with someone special.",
     customizable: false,
     variants: [
       { label: "Big — around 20–30 chocolates", price: 1349 },
       { label: "3 Hershey chocolates", price: 699 }
     ],
+    preparationTime: "",
     images: ["chocolate-bouquet.jpeg"]
   },
   {
@@ -185,20 +198,22 @@ const products = [
     name: "Blossom Bag",
     category: "Blossom Series",
     price: 155,
-    description: "Blossom bag.",
+    description: "A thoughtful gift set for birthdays, congratulations, and other special occasions.",
     customizable: false,
+    preparationTime: "",
     images: ["blossom-bag.jpeg"]
   },
   {
     id: "blossom-box",
     name: "Blossom Box + Mini Photostrip",
     category: "Blossom Series",
-    description: "Choose whether to include a Pandora ring.",
+    description: "A ready-to-gift set for birthdays and celebrations, with a choice to include a Pandora ring.",
     customizable: false,
     variants: [
       { label: "With Pandora ring", price: 350 },
       { label: "Without Pandora ring", price: 219 }
     ],
+    preparationTime: "",
     images: ["blossom-box.jpeg"]
   },
   {
@@ -212,18 +227,20 @@ const products = [
       { label: "With pink Pandora", price: 399 },
       { label: "With pocket mirror", price: 349 }
     ],
+    preparationTime: "",
     images: ["chocolate-box.jpeg"]
   },
   {
     id: "money-bouquet",
     name: "Money Bouquet",
     category: "Food & Gift Bouquets",
-    description: "Starts at ₱399. Price depends on bill slots and design. Customer may provide an inspiration/reference.",
+    description: "A creative way to combine a meaningful gift with something practical. A memorable choice for birthdays, graduations, and celebrations.",
     customizable: true,
     variants: [
       { label: "Round style — starts at ₱399", price: 399 },
       { label: "Mermaid style — starts at ₱399", price: 399 }
     ],
+    preparationTime: "",
     images: ["money-bouquet.jpeg"]
   },
   {
@@ -233,6 +250,7 @@ const products = [
     price: 100,
     description: "Pandora white ring.",
     customizable: false,
+    preparationTime: "",
     images: ["white-ringg.jpg"]
   },
   {
@@ -245,6 +263,7 @@ const products = [
       { label: "Pink ring", price: 110 },
       { label: "Pink ring with chosen design", price: 120 }
     ],
+    preparationTime: "",
     images: ["pink-ring.jpeg"]
   },
   {
@@ -254,6 +273,7 @@ const products = [
     price: 180,
     description: "Couple ring.",
     customizable: false,
+    preparationTime: "",
     images: ["couple-ring.jpeg"]
   },
   {
@@ -263,6 +283,7 @@ const products = [
     price: 180,
     description: "Pandora necklace.",
     customizable: false,
+    preparationTime: "",
     images: ["necklace.jpeg"]
   },
   {
@@ -275,6 +296,7 @@ const products = [
       { label: "1 piece", price: 40 },
       { label: "2 pieces", price: 75 }
     ],
+    preparationTime: "",
     images: ["regular-keychain.jpg"]
   },
   {
@@ -287,6 +309,7 @@ const products = [
       { label: "1 piece", price: 55 },
       { label: "2 pieces", price: 100 }
     ],
+    preparationTime: "",
     images: ["spotify-keychain.jpg"]
   },
   {
@@ -296,6 +319,7 @@ const products = [
     price: 149,
     description: "Mini CD keychain.",
     customizable: true,
+    preparationTime: "",
     images: ["mini-cd.jpeg"]
   },
   {
@@ -305,6 +329,7 @@ const products = [
     price: null,
     description: "Price not specified. Please inquire for the price.",
     customizable: true,
+    preparationTime: "",
     images: ["ref-magnet.jpeg"]
   },
   {
@@ -314,6 +339,7 @@ const products = [
     description: "Out of stock.",
     customizable: true,
     outOfStock: true,
+    preparationTime: "",
     images: ["phone-lanyard.jpeg"]
   },
   {
@@ -323,6 +349,7 @@ const products = [
     price: 40,
     description: "50mm button pin.",
     customizable: true,
+    preparationTime: "",
     images: ["button-pin.jpeg"]
   },
   {
@@ -332,6 +359,7 @@ const products = [
     price: 50,
     description: "Pocket mirror.",
     customizable: true,
+    preparationTime: "",
     images: ["pocket-mirror.jpeg"]
   },
   {
@@ -344,6 +372,7 @@ const products = [
       { label: "₱6 each", price: 6 },
       { label: "₱18 each", price: 18 }
     ],
+    preparationTime: "",
     images: ["polaroid.jpeg"]
   },
   {
@@ -356,6 +385,7 @@ const products = [
       { label: "₱25", price: 25 },
       { label: "₱35", price: 35 }
     ],
+    preparationTime: "",
     images: ["mini-photo-strip.jpg"]
   },
   {
@@ -368,6 +398,7 @@ const products = [
       { label: "₱55", price: 55 },
       { label: "₱65", price: 65 }
     ],
+    preparationTime: "",
     images: ["regular-photo-strip.jpg"]
   },
   {
@@ -375,8 +406,9 @@ const products = [
     name: "Makeup Bouquet",
     category: "Customized Creations",
     price: null,
-    description: "Customized order. Final price depends on the requested items and design.",
+    description: "A fun, personal gift for someone who enjoys beauty and self-care. A thoughtful choice for birthdays and celebrations.",
     customizable: true,
+    preparationTime: "",
     images: ["makeup-bouquet.jpeg"]
   },
   {
@@ -384,8 +416,9 @@ const products = [
     name: "Beverage Bouquet",
     category: "Customized Creations",
     price: null,
-    description: "Customized order. Final price depends on the requested items and design.",
+    description: "Personalize this gift to celebrate a birthday, milestone, or someone special.",
     customizable: true,
+    preparationTime: "",
     images: ["custom-bouquet.jpeg"]
   },
   {
@@ -393,8 +426,9 @@ const products = [
     name: "Money Garland",
     category: "Customized Creations",
     price: null,
-    description: "Customized order. Final price depends on the requested design.",
+    description: "Personalize the details to create a meaningful gift for a celebration or special occasion.",
     customizable: true,
+    preparationTime: "",
     images: ["money garland.jpeg"]
   },
   {
@@ -402,8 +436,9 @@ const products = [
     name: "Lei Garland",
     category: "Customized Creations",
     price: null,
-    description: "Customized order. Final price depends on the requested design.",
+    description: "Personalize the details to create a meaningful gift for a celebration or special occasion.",
     customizable: true,
+    preparationTime: "",
     images: ["lei-garland.jpeg"]
   },
   {
@@ -411,8 +446,9 @@ const products = [
     name: "Fully Customized Bouquet",
     category: "Customized Creations",
     price: null,
-    description: "Fully customized bouquet. Customer may provide an inspiration/reference.",
+    description: "Made especially for you or someone special. Personalize the details to create a memorable gift.",
     customizable: true,
+    preparationTime: "",
     images: ["custom-bouquet.jpeg"]
   }
 ];
@@ -435,6 +471,8 @@ const categoryElement = document.getElementById("productCategory");
 const nameElement = document.getElementById("productName");
 const priceElement = document.getElementById("productPrice");
 const descriptionElement = document.getElementById("productDescription");
+const preparationEstimateElement = document.getElementById("preparationEstimateValue");
+const customizationElement = document.getElementById("productCustomization");
 const stockMessage = document.getElementById("stockMessage");
 const variantField = document.getElementById("variantField");
 const variantSelect = document.getElementById("variantSelect");
@@ -462,13 +500,79 @@ function getSelectedVariant() {
   if (product.variants && product.variants.length) {
     return product.variants[Number(variantSelect.value)] || product.variants[0];
   }
-  return { label: "", price: product.price ?? 0 };
+  return { label: "", price: product.price };
 }
 
 function getAddOnTotal() {
   return addOnOptions.reduce((sum, addOn) => {
     return sum + (selectedAddOns.has(addOn.id) ? addOn.price : 0);
   }, 0);
+}
+
+function savePendingProductAction(action) {
+  const pendingAction = {
+    action,
+    url: window.location.href,
+    productId: product.id,
+    selection: {
+      variantIndex: variantSelect.value,
+      color: selectedColor,
+      addOns: Array.from(selectedAddOns),
+      quantity: quantityInput.value,
+      notes: document.getElementById("specialInstructions").value
+    }
+  };
+
+  try {
+    localStorage.setItem("floraAvenuePendingAction", JSON.stringify(pendingAction));
+    return true;
+  } catch (error) {
+    console.error("Unable to save the product selection before sign-in.", error);
+    alert("Unable to continue on this device. Please check your browser storage settings.");
+    return false;
+  }
+}
+
+function restorePendingProductSelection(pendingAction) {
+  const selection = pendingAction?.productId === product.id
+    ? pendingAction.selection
+    : null;
+  if (!selection || typeof selection !== "object") return;
+
+  const variantIndex = Number(selection.variantIndex);
+  if (
+    product.variants?.length
+    && Number.isInteger(variantIndex)
+    && variantIndex >= 0
+    && variantIndex < product.variants.length
+  ) {
+    variantSelect.value = String(variantIndex);
+  }
+
+  if (product.colors?.includes(selection.color)) {
+    Array.from(colorOptions.querySelectorAll(".color-circle"))
+      .find(button => button.getAttribute("aria-label") === selection.color)
+      ?.click();
+  }
+
+  selectedAddOns = new Set(
+    Array.isArray(selection.addOns)
+      ? selection.addOns.filter(id => addOnOptions.some(addOn => addOn.id === id))
+      : []
+  );
+  renderAddOns();
+
+  const quantity = Number(selection.quantity);
+  if (Number.isFinite(quantity) && quantity >= 1) {
+    quantityInput.value = String(Math.floor(quantity));
+  }
+
+  if (typeof selection.notes === "string") {
+    document.getElementById("specialInstructions").value =
+      selection.notes.slice(0, document.getElementById("specialInstructions").maxLength);
+  }
+
+  updateTotal();
 }
 
 function renderImages() {
@@ -489,6 +593,8 @@ function renderImages() {
     const img = document.createElement("img");
     img.src = IMAGE_BASE + filename;
     img.alt = `${product.name} photo ${index + 1}`;
+    img.loading = "lazy";
+    img.decoding = "async";
 
     button.appendChild(img);
     button.addEventListener("click", () => {
@@ -609,8 +715,12 @@ function updateTotal() {
   const quantity = Math.max(1, Number(quantityInput.value) || 1);
   quantityInput.value = String(quantity);
 
-  const unitPrice = Number(variant.price ?? product.price ?? 0) + getAddOnTotal();
-  totalPriceElement.textContent = money(unitPrice * quantity);
+  const selectedPrice = variant.price ?? product.price;
+  const totalRow = document.querySelector(".total-row");
+  if (totalRow) totalRow.style.display = selectedPrice == null ? "none" : "flex";
+  totalPriceElement.textContent = selectedPrice == null
+    ? "Price upon inquiry"
+    : money((Number(selectedPrice) + getAddOnTotal()) * quantity);
 
   priceElement.textContent = product.price == null && !product.variants
     ? "Price upon inquiry"
@@ -764,41 +874,15 @@ function goToInquiry() {
 function initializePage() {
   categoryElement.textContent = product.category;
   nameElement.textContent = product.name;
-  descriptionElement.textContent = product.description || "";
+  descriptionElement.textContent = product.description || "Product details will be confirmed with your inquiry.";
+  preparationEstimateElement.textContent = product.preparationTime || "To be confirmed";
+  customizationElement.classList.toggle("hidden", !product.customizable);
   renderImages();
   renderVariants();
-  // hide choose
-if (!product.variants || product.variants.length <= 1) {
-  variantField.classList.add("hidden");
-}
-// Hide Add-ons and Quantity for customizable products
-if (product.customizable) {
-  const addOnsField = addOnsElement.closest(".form-field");
-  const quantityRow = document.querySelector(".quantity-row");
-
-  //special instructions
-  const notesField = document.querySelector("#specialInstructions")?.closest(".form-field");
-
-  if (addOnsField) addOnsField.style.display = "none";
-  if (quantityRow) quantityRow.style.display = "none";
-  if (notesField) notesField.style.display = "none";
-}
-// Hide Choose variant for customizable products
-if (product.customizable) {
-  variantField.classList.add("hidden");
-} else {
-  variantField.classList.remove("hidden");
-}
+  variantField.classList.toggle("hidden", !product.variants || product.variants.length <= 1);
   renderColors();
   renderAddOns();
-  if (product.customizable === true) {
-  const totalField = document.querySelector(".total-row");
-
-  if (totalField) {
-    totalField.style.display = "none";
-  }
-}
-  
+  addOnsElement.closest(".form-field")?.classList.toggle("hidden", product.customizable);
 
   if (product.outOfStock) {
     stockMessage.textContent = "Out of stock";
@@ -835,10 +919,7 @@ mainActionButton.addEventListener("click", () => {
     return;
   }
   if (localStorage.getItem("floraAvenueSignedIn") !== "true") {
-    localStorage.setItem("floraAvenuePendingAction", JSON.stringify({
-      action: product.customizable ? "customize" : "order",
-      url: window.location.href
-    }));
+    if (!savePendingProductAction(product.customizable ? "customize" : "order")) return;
     window.location.href = "../login/login.html";
     return;
   }
@@ -850,13 +931,19 @@ inquiryActionButton.addEventListener("click", goToInquiry);
 
 
 initializePage();
+let pendingProductAction = null;
+try {
+  pendingProductAction = JSON.parse(localStorage.getItem("floraAvenuePendingAction") || "null");
+} catch (error) {
+  console.warn("Unable to restore the saved product selection.", error);
+  localStorage.removeItem("floraAvenuePendingAction");
+}
+restorePendingProductSelection(pendingProductAction);
+
 productOrderForm?.addEventListener("submit", event => {
   event.preventDefault();
   if (localStorage.getItem("floraAvenueSignedIn") !== "true") {
-    localStorage.setItem("floraAvenuePendingAction", JSON.stringify({
-      action: "order",
-      url: window.location.href
-    }));
+    if (!savePendingProductAction("order")) return;
     window.location.href = "../login/login.html";
     return;
   }
@@ -864,9 +951,14 @@ productOrderForm?.addEventListener("submit", event => {
 });
 
 try {
-  const pendingAction = JSON.parse(localStorage.getItem("floraAvenuePendingAction"));
+  const pendingAction = pendingProductAction;
   const isProductAction = pendingAction?.action === "order" || pendingAction?.action === "customize";
-  if (isProductAction && localStorage.getItem("floraAvenueSignedIn") === "true") {
+  if (
+    isProductAction
+    && pendingAction?.url === window.location.href
+    && pendingAction?.productId === product.id
+    && localStorage.getItem("floraAvenueSignedIn") === "true"
+  ) {
     mainActionButton.click();
   }
 } catch (error) {

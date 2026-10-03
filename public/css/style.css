@@ -1017,3 +1017,219 @@ body.persistent-sidebar .website {
         padding: 16px;
     }
 }
+
+/* Shared customer navigation */
+body.persistent-sidebar .website {
+    width: 100%;
+    margin-left: 0;
+}
+
+.side-menu {
+    display: flex;
+}
+
+.desktop-navigation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transform: translate(-50%, -50%);
+}
+
+.desktop-navigation > .menu-link,
+.desktop-navigation .profile-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #332d2f;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.desktop-navigation > .menu-link:hover,
+.desktop-navigation > .menu-link:focus-visible,
+.desktop-navigation .profile-toggle:hover,
+.desktop-navigation .profile-toggle:focus-visible,
+.desktop-navigation .profile-toggle.active,
+.desktop-navigation .profile-menu.is-open .profile-toggle {
+    outline: none;
+    background: #7c4a4f;
+    color: #ffffff;
+}
+
+.profile-menu {
+    position: relative;
+}
+
+.profile-chevron {
+    font-size: 17px;
+    line-height: 1;
+    transition: transform 0.2s ease;
+}
+
+.profile-menu.is-open .profile-chevron {
+    transform: rotate(180deg);
+}
+
+.profile-submenu {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 8px;
+    border: 1px solid #ead9dc;
+    border-radius: 10px;
+    background: #fffafa;
+    box-shadow: 0 10px 24px rgba(51, 45, 47, 0.16);
+}
+
+.profile-submenu[hidden] {
+    display: none;
+}
+
+.desktop-profile-menu .profile-submenu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    z-index: 5;
+    width: 190px;
+    transform: translateX(-50%);
+}
+
+.desktop-profile-menu .profile-submenu .menu-link {
+    display: block;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #332d2f;
+    font: inherit;
+    font-size: 13px;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.desktop-profile-menu .profile-submenu .menu-link:hover,
+.desktop-profile-menu .profile-submenu .menu-link:focus-visible,
+.desktop-profile-menu .profile-submenu .menu-link.active {
+    outline: none;
+    background: #7c4a4f;
+    color: #ffffff;
+}
+
+.desktop-sign-in {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    z-index: 3;
+    transform: translateY(-50%);
+}
+
+header .logo {
+    position: absolute;
+    left: 28px;
+    transform: none;
+}
+
+.menu-button {
+    display: none;
+}
+
+@media (min-width: 600px) {
+    .side-menu,
+    .menu-overlay {
+        display: none;
+    }
+
+    body.persistent-sidebar .mobile-header .menu-button {
+        display: none;
+    }
+}
+
+@media (max-width: 599px) {
+    .desktop-navigation,
+    .generated-site-header {
+        display: none;
+    }
+
+    header .logo {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .menu-button {
+        display: block;
+        z-index: 2;
+    }
+
+    .side-menu {
+        width: min(280px, calc(100vw - 24px));
+    }
+
+    body.persistent-sidebar .side-menu {
+        width: min(280px, calc(100vw - 24px));
+        padding: 20px;
+    }
+
+    .side-menu .profile-submenu {
+        gap: 2px;
+        padding: 0 0 0 18px;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .side-menu .profile-toggle,
+    .side-menu .profile-submenu .menu-link {
+        width: 100%;
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 10px;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: #332d2f;
+        font: inherit;
+        font-size: 13px;
+        text-align: left;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .side-menu .profile-toggle {
+        justify-content: space-between;
+    }
+
+    .side-menu .profile-toggle:hover,
+    .side-menu .profile-toggle:focus-visible,
+    .side-menu .profile-toggle.active,
+    .side-menu .profile-submenu .menu-link:hover,
+    .side-menu .profile-submenu .menu-link:focus-visible,
+    .side-menu .profile-submenu .menu-link.active {
+        outline: none;
+        background: #7c4a4f;
+        color: #ffffff;
+    }
+
+    .side-menu .mobile-sign-in {
+        display: flex;
+    }
+
+    .menu-overlay {
+        display: block;
+    }
+}

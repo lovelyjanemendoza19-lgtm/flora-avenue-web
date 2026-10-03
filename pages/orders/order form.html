@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Place Order | Flora Avenue</title>
-	<link rel="stylesheet" href="../../public/css/customization.css">
+	<link rel="stylesheet" href="../../public/css/order%20form.css">
 </head>
 <body>
 	<div class="wrap">
@@ -55,8 +55,8 @@
 						<input id="orderDate" type="date" required>
 					</div>
 				</div>
-				<div class="field">
-					<label for="orderAddress">Address</label>
+				<div class="field" id="orderAddressField" hidden>
+					<label for="orderAddress">Address <span id="orderAddressRequired" class="required" hidden>*</span></label>
 					<textarea id="orderAddress" rows="3"></textarea>
 				</div>
 			</fieldset>
@@ -67,5 +67,6 @@
 	</div>
 	<script src="../../public/js/customer-order-store.js"></script>
 	<script src="../../public/js/order%20form.js"></script>
+	<script src="../../public/js/footer.js"></script>
 </body>
 </html>

@@ -773,6 +773,18 @@ textarea:focus {
     text-align: center;
 }
 
+.inquiry-sign-in-link {
+    color: #7c4a4f;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.inquiry-sign-in-link:hover,
+.inquiry-sign-in-link:focus-visible {
+    color: #633a3e;
+}
+
 .inquiry-status.new {
     background-color: #f2dfe3;
     color: #7c4a4f;
