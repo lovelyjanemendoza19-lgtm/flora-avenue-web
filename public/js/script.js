@@ -1,6 +1,7 @@
 const sideMenu = document.getElementById("sideMenu");
 const logoutButtons = document.querySelectorAll("[data-logout-button]");
 const menuOverlay = document.getElementById("menuOverlay");
+const customerHomeUrl = new URL("../../index.html", document.currentScript.src).href;
 
 const logoutModal = document.createElement("div");
 logoutModal.className = "logout-modal";
@@ -61,7 +62,7 @@ logoutConfirm.onclick = function () {
     localStorage.removeItem("floraAvenueSignedIn");
     localStorage.removeItem("floraAvenueUserEmail");
     closeLogoutModal();
-    window.location.reload();
+    window.location.assign(customerHomeUrl);
 };
 
 document.addEventListener("keydown", function (event) {

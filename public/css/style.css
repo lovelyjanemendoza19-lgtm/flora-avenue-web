@@ -1031,12 +1031,13 @@ body.persistent-sidebar .website {
 .desktop-navigation {
     position: absolute;
     top: 50%;
-    left: 50%;
+    right: 24px;
     z-index: 2;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 8px;
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
 }
 
 .desktop-navigation > .menu-link,
@@ -1057,6 +1058,17 @@ body.persistent-sidebar .website {
     cursor: pointer;
 }
 
+.desktop-navigation > .nav-sign-in {
+    background: #7c4a4f;
+    color: #ffffff;
+}
+
+.desktop-navigation > .nav-sign-in:hover,
+.desktop-navigation > .nav-sign-in:focus-visible {
+    background: #633b40;
+    color: #ffffff;
+}
+
 .desktop-navigation > .menu-link:hover,
 .desktop-navigation > .menu-link:focus-visible,
 .desktop-navigation .profile-toggle:hover,
@@ -1073,13 +1085,17 @@ body.persistent-sidebar .website {
 }
 
 .profile-chevron {
-    font-size: 17px;
-    line-height: 1;
+    width: 7px;
+    height: 7px;
+    flex: 0 0 7px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
     transition: transform 0.2s ease;
 }
 
 .profile-menu.is-open .profile-chevron {
-    transform: rotate(180deg);
+    transform: rotate(225deg);
 }
 
 .profile-submenu {
@@ -1212,6 +1228,14 @@ header .logo {
 
     .side-menu .profile-toggle {
         justify-content: space-between;
+    }
+
+    .side-menu nav .nav-sign-in {
+        margin-top: auto;
+        justify-content: center;
+        background: #7c4a4f;
+        color: #ffffff;
+        font-weight: 600;
     }
 
     .side-menu .profile-toggle:hover,

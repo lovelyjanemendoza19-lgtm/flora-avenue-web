@@ -1,9 +1,5 @@
 const navigationBase = document.body.dataset.navigationBase || "";
 const isSignedIn = localStorage.getItem("floraAvenueSignedIn") === "true";
-const navigationPath = window.location.pathname.replace(/\\/g, "/");
-const isHomeOrCatalog = navigationPath.endsWith("/index.html")
-    || navigationPath.endsWith("/products/products.html")
-    || navigationPath.endsWith("/");
 
 const navigationItems = [
     ["Home", "index.html"],
@@ -16,11 +12,16 @@ function createNavigationLinks() {
     }).join("");
 }
 
+function createAccountNavigation(mobile) {
+    if (isSignedIn) {
+        return createProfileMenu(mobile);
+    }
+
+    return `<a class="menu-link nav-sign-in${mobile ? " mobile-nav-sign-in" : ""}" href="${navigationBase}pages/login/login.html">Sign In</a>`;
+}
+
 function createProfileMenu(mobile) {
     const menuId = mobile ? "mobileProfileSubmenu" : "desktopProfileSubmenu";
-    const logoutButton = isSignedIn
-        ? `<button class="menu-link menu-action" data-logout-button type="button">Log Out</button>`
-        : "";
 
     return `
         <div class="profile-menu${mobile ? " mobile-profile-menu" : " desktop-profile-menu"}">
@@ -30,12 +31,12 @@ function createProfileMenu(mobile) {
                 aria-haspopup="true"
                 aria-expanded="false"
                 aria-controls="${menuId}"
-            >Profile<span class="profile-chevron" aria-hidden="true">⌄</span></button>
+            >Profile<span class="profile-chevron" aria-hidden="true"></span></button>
             <div class="profile-submenu" id="${menuId}" hidden>
                 <a class="menu-link" href="${navigationBase}pages/profile/profile.html">My Profile</a>
                 <a class="menu-link" href="${navigationBase}pages/orders/orders.html">My Orders</a>
                 <a class="menu-link" href="${navigationBase}pages/inquiries/inquiries.html">My Inquiries</a>
-                ${logoutButton}
+                <button class="menu-link menu-action" data-logout-button type="button">Log Out</button>
             </div>
         </div>
     `;
@@ -66,7 +67,7 @@ desktopNavigation.className = "desktop-navigation";
 desktopNavigation.setAttribute("aria-label", "Main navigation");
 desktopNavigation.innerHTML = `
     ${createNavigationLinks()}
-    ${createProfileMenu(false)}
+    ${createAccountNavigation(false)}
 `;
 header.append(desktopNavigation);
 
@@ -79,8 +80,7 @@ menu.innerHTML = `
     <p class="side-menu-brand">FLORA AVENUE</p>
     <nav aria-label="Main navigation">
         ${createNavigationLinks()}
-        ${createProfileMenu(true)}
-        ${!isSignedIn ? `<a class="menu-link side-sign-in mobile-sign-in" href="${navigationBase}pages/login/login.html">Sign In</a>` : ""}
+        ${createAccountNavigation(true)}
     </nav>
 `;
 
@@ -94,15 +94,6 @@ document.body.append(menu, overlay);
 const siteFooterLoader = document.createElement("script");
 siteFooterLoader.src = `${navigationBase}public/js/footer.js`;
 document.body.append(siteFooterLoader);
-
-if (!isSignedIn && isHomeOrCatalog) {
-    const signIn = document.createElement("a");
-    signIn.className = "desktop-sign-in";
-    signIn.href = `${navigationBase}pages/login/login.html`;
-    signIn.textContent = "Sign In";
-    signIn.setAttribute("aria-label", "Sign in");
-    header.append(signIn);
-}
 
 function setProfileMenuOpen(toggle, isOpen) {
     const submenu = document.getElementById(toggle.getAttribute("aria-controls"));
