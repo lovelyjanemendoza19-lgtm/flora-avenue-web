@@ -18,25 +18,72 @@
         });
     }
 
-    function statusClass(status) {
+    function normalizeOrderStatus(status) {
         return {
-            Pending: "pending",
-            "Awaiting Customer": "pending",
-            Confirmed: "verified",
-            Processing: "verified",
-            Shipped: "verified",
-            Delivered: "verified",
-            Declined: "rejected",
-            Cancelled: "rejected"
-        }[status] || "pending";
+            pending: "To Pay",
+            "awaiting customer": "Awaiting Approval",
+            confirmed: "Confirmed",
+            processing: "Preparing",
+            preparing: "Preparing",
+            "ready for pickup": "Ready for Pickup",
+            "ready for delivery": "Ready for Delivery",
+            shipped: "On the Way",
+            "shipped out": "On the Way",
+            delivered: "Completed",
+            completed: "Completed",
+            declined: "Cancelled",
+            cancelled: "Cancelled"
+        }[String(status || "").toLowerCase()] || status || "To Pay";
     }
 
-    function renderOrders(filter) {
+    function isAwaitingApproval(order) {
+        if (order.type !== "Customization Request" || order.customizationVoidedAt) return false;
+        const status = normalizeOrderStatus(order.status);
+        const payment = orderStore.getPaymentSummary(order);
+        const customizationConfirmed = Boolean(
+            order.customizationConfirmedAt
+            || order.sellerProposal
+            || payment.amountPaid > 0
+            || ["Confirmed", "Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(status)
+        );
+        const customizationAccepted = Boolean(
+            order.customizationAcceptedAt
+            || order.sellerProposal?.acceptedAt
+            || payment.amountPaid > 0
+            || ["Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(status)
+        );
+        return !customizationConfirmed || !customizationAccepted;
+    }
+
+    function getCustomerStatus(order) {
+        const status = normalizeOrderStatus(order.status);
+        if (isAwaitingApproval(order)) return "Awaiting Approval";
+        if (status === "Cancelled" || status === "Completed") return status;
+
+        const payment = orderStore.getPaymentSummary(order);
+        if (payment.status !== "Fully Paid") return "To Pay";
+        if (status === "To Pay" || status === "Pending") return "Confirmed";
+        return status;
+    }
+
+    function getTrackingStatus(order) {
+        const status = normalizeOrderStatus(order.status);
+        if (status === "Completed") return "completed";
+        if (status === "Cancelled") return "cancelled";
+        if (isAwaitingApproval(order)) return "awaiting-approval";
+
+        const payment = orderStore.getPaymentSummary(order);
+        if (payment.status !== "Fully Paid") return "to-pay";
+        return "to-receive";
+    }
+
+    function formatAmount(value) {
+        return `₱${Number(value || 0).toLocaleString("en-PH")}`;
+    }
+
+    function renderOrders(filter = "all") {
         const visibleOrders = orders.filter(function (order) {
-            const status = String(order.status).toLowerCase();
-            if (filter === "all") return true;
-            if (filter === "confirmed") return ["confirmed", "processing", "shipped", "delivered"].includes(status);
-            return status === filter;
+            return filter === "all" || getTrackingStatus(order) === filter;
         });
 
         if (!visibleOrders.length) {
@@ -58,28 +105,42 @@
 
         orderList.innerHTML = visibleOrders.map(function (order) {
             const title = order.type === "Customization Request"
-                ? "Customization Request"
+                ? order.style || "Customization Request"
                 : order.style || "Order";
             const details = order.type === "Customization Request"
-                ? order.style || "Custom creation"
-                : `${order.size || "Standard"} x ${order.qty || 1}`;
-            const amount = Number(order.amount || 0) > 0
-                ? `₱${Number(order.amount).toLocaleString("en-PH")}`
-                : order.type === "Customization Request" ? "Budget to be discussed" : "₱0";
-            const inquiryReference = order.sourceInquiryReference
-                ? `<span>Inquiry: ${escapeHtml(order.sourceInquiryReference)}</span>`
-                : "";
-
-            return `<a class="order-item" href="order%20details.html?order=${encodeURIComponent(order.reference)}" data-status="${escapeHtml(String(order.status).toLowerCase())}">
-                <img src="../../public/images/${encodeURIComponent(order.image || "banner-flower.png")}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">
-                <div class="order-info">
-                    <strong>${escapeHtml(title)}</strong>
-                    <span>${escapeHtml(details)} · ${escapeHtml(order.reference)}</span>
-                    ${inquiryReference}
-                    <b>${escapeHtml(amount)}</b>
+                ? "Custom order"
+                : `${order.size || "Standard"} · Qty ${order.qty || 1}`;
+            const payment = orderStore.getPaymentSummary(order);
+            const trackingStatus = getTrackingStatus(order);
+            const orderStatus = getCustomerStatus(order);
+            const customizationPendingPrice = order.type === "Customization Request"
+                && !order.customizationConfirmedAt
+                && !["confirmed", "preparing", "ready for pickup", "ready for delivery", "shipped", "shipped out", "completed"]
+                    .includes(String(order.status || "").toLowerCase());
+            const total = customizationPendingPrice
+                ? "Awaiting final price"
+                : payment.total > 0
+                ? formatAmount(payment.total)
+                : formatAmount(order.amount);
+            return `<article class="order-item" data-tracking-status="${trackingStatus}">
+                <div class="order-item-product">
+                    <img src="../../public/images/${encodeURIComponent(order.image || "banner-flower.png")}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">
+                    <div class="order-info">
+                        <strong>${escapeHtml(title)}</strong>
+                        <span>${escapeHtml(details)}</span>
+                        <span>Order ID: ${escapeHtml(order.reference)}</span>
+                        <span>Fulfillment: ${escapeHtml(order.fulfil || "Not specified")}</span>
+                    </div>
+                    <div class="order-item-total"><span>Total</span><strong>${escapeHtml(total)}</strong></div>
                 </div>
-                <span class="status ${statusClass(order.status)}">${escapeHtml(order.status || "Pending")}</span>
-            </a>`;
+                <div class="order-item-actions">
+                    <div class="order-status-group">
+                        <span class="order-status-label">Order status</span>
+                    <span class="order-status-value tracking-${trackingStatus}">${escapeHtml(orderStatus)}</span>
+                    </div>
+                    <a class="order-details-button" href="order%20details.html?order=${encodeURIComponent(order.reference)}">View Details</a>
+                </div>
+            </article>`;
         }).join("");
     }
 
@@ -90,18 +151,26 @@
             });
 
             button.classList.add("active");
+            filterButtons.forEach(function (item) {
+                item.setAttribute("aria-selected", String(item === button));
+            });
             renderOrders(button.dataset.filter);
         });
     });
 
     renderOrders("all");
 
-    window.addEventListener("storage", function (event) {
-        if (event.key !== "floraAvenueOrders" && event.key !== "floraAvenueUserEmail") return;
+    function refreshOrders() {
         orders = orderStore.load().filter(function (order) {
             return orderStore.belongsToCustomer(order);
         });
         const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
         renderOrders(activeFilter);
+    }
+
+    window.addEventListener("storage", function (event) {
+        if (event.key !== "floraAvenueOrders" && event.key !== "floraAvenueUserEmail") return;
+        refreshOrders();
     });
+    window.addEventListener("floraAvenueOrdersChanged", refreshOrders);
 })();

@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="../../public/css/style.css">
 	<link rel="stylesheet" href="../../public/css/orders.css">
 </head>
-<body class="persistent-sidebar" data-navigation-base="../../">
+<body class="persistent-sidebar orders-body" data-navigation-base="../../">
 	<div class="website">
 			<div class="mobile-header">
 
@@ -21,10 +21,11 @@
 
 			<h1 class="desktop-title">My Orders</h1>
 
-			<div class="filters">
-				<button class="filter-button active" data-filter="all">All</button>
-				<button class="filter-button" data-filter="pending">Pending</button>
-				<button class="filter-button" data-filter="confirmed">Confirmed</button>
+			<div class="filters" id="orderFilters" role="tablist" aria-label="Filter orders">
+				<button class="filter-button active" type="button" role="tab" aria-selected="true" data-filter="all">All</button>
+				<button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="to-pay">To Pay</button>
+				<button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="to-receive">To Receive</button>
+				<button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="completed">Completed</button>
 			</div>
 
 			<div class="order-list" id="orderList"></div>

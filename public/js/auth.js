@@ -1,5 +1,73 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    function getPendingActionDestination() {
+        const pendingActionRaw = localStorage.getItem("floraAvenuePendingAction");
+        if (!pendingActionRaw) return null;
+
+        let pendingAction;
+        try {
+            pendingAction = JSON.parse(pendingActionRaw);
+        } catch (error) {
+            console.warn("Unable to resume the requested action.", error);
+            localStorage.removeItem("floraAvenuePendingAction");
+            return null;
+        }
+
+        const destinationUrl = pendingAction?.continuationUrl || pendingAction?.url;
+        let destination;
+        try {
+            destination = new URL(destinationUrl, window.location.href);
+        } catch (error) {
+            console.warn("Unable to resume the requested action.", error);
+            localStorage.removeItem("floraAvenuePendingAction");
+            return null;
+        }
+
+        const path = destination.pathname.toLowerCase();
+        const siteRoot = new URL("../../index.html", window.location.href);
+        const siteRootPath = siteRoot.pathname.replace(/index\.html$/i, "");
+        const isSameSite = destination.origin === siteRoot.origin
+            && destination.pathname.startsWith(siteRootPath);
+        const isInquiry = pendingAction?.action === "inquiry"
+            && path.endsWith("/inquiries/inquiries.html");
+        const isOrder = pendingAction?.action === "order"
+            && (
+                path.endsWith("/products/product-details.html")
+                || path.endsWith("/products/customization.html")
+                || path.endsWith("/orders/order%20form.html")
+                || path.endsWith("/orders/order%20details.html")
+            );
+        const isCustomization = pendingAction?.action === "customize"
+            && (
+                path.endsWith("/products/product-details.html")
+                || path.endsWith("/products/customization.html")
+            );
+
+        if (!isSameSite || !(isInquiry || isOrder || isCustomization)) {
+            localStorage.removeItem("floraAvenuePendingAction");
+            return null;
+        }
+
+        return destination.href;
+    }
+
+    function redirectAfterSignIn() {
+        const destination = getPendingActionDestination();
+        if (destination && localStorage.getItem("floraAvenuePendingAction")) {
+            try {
+                const pendingAction = JSON.parse(localStorage.getItem("floraAvenuePendingAction"));
+                if (pendingAction?.continuationUrl) {
+                    localStorage.removeItem("floraAvenuePendingAction");
+                }
+            } catch (error) {
+                console.warn("Unable to clear the resumed action.", error);
+                localStorage.removeItem("floraAvenuePendingAction");
+            }
+        }
+        window.location.href = destination || "../../index.html";
+    }
+
+
     const passwordToggles =
         document.querySelectorAll(".password-toggle");
 
@@ -52,6 +120,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (loginForm) {
 
+        try {
+            if (localStorage.getItem("floraAvenueSignedIn") === "true") {
+                redirectAfterSignIn();
+                return;
+            }
+        } catch (error) {
+            console.error("Unable to check the signed-in customer account.", error);
+        }
+
         loginForm.addEventListener("submit", function (event) {
 
             event.preventDefault();
@@ -96,19 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             alert("Login successful!");
 
-            const pendingAction = localStorage.getItem("floraAvenuePendingAction");
-            if (pendingAction) {
-                try {
-                    const target = JSON.parse(pendingAction);
-                    window.location.href = target.url;
-                    return;
-                } catch (error) {
-                    localStorage.removeItem("floraAvenuePendingAction");
-                    console.warn("Unable to resume the requested action.", error);
-                }
-            }
-
-            window.location.href = "../../index.html";
+            redirectAfterSignIn();
 
         });
 

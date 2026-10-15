@@ -7,6 +7,10 @@
     "INQ-2026-0510-0001"
   ]);
 
+  function notifyInquiriesChanged() {
+    window.dispatchEvent(new Event("floraAvenueInquiriesChanged"));
+  }
+
   function load() {
     let inquiries;
     try {
@@ -33,6 +37,7 @@
   function save(inquiries) {
     try {
       localStorage.setItem(storageKey, JSON.stringify(inquiries));
+      notifyInquiriesChanged();
     } catch (error) {
       console.error("Unable to save inquiries.", error);
       throw error;

@@ -29,7 +29,7 @@ body.admin-app{
 body.admin-app .admin-shell{
   min-height:100vh;
   display:grid;
-  grid-template-columns:250px minmax(0,1fr);
+  grid-template-columns:255px minmax(0,1fr);
   grid-template-rows:auto 1fr;
   background:var(--fx-bg);
 }
@@ -46,14 +46,35 @@ body.admin-app .admin-shell > .figma-page{
   position:sticky;
   top:0;
   height:100vh;
-  padding:22px 14px;
-  background:linear-gradient(180deg,#ebe2e3 0%,#e6dcde 100%);
-  border-right:1px solid rgba(129,75,87,.10);
+  padding:25px 15px;
+  background:#e8dfe0;
+  border-right:1px solid rgba(125,72,84,.08);
   box-sizing:border-box;
   display:flex;
   flex-direction:column;
   z-index:20;
 }
+.admin-sidebar-fx .pro-side-brand{display:flex;align-items:center;gap:10px;padding:2px 11px 28px;border-bottom:1px solid rgba(125,72,84,.10)}
+.admin-sidebar-fx .pro-side-brand img{width:42px;height:42px;object-fit:contain}
+.admin-sidebar-fx .pro-side-brand strong{display:block;font:700 20px/1 "Playfair Display",serif}
+.admin-sidebar-fx .pro-side-brand small{display:block;color:var(--fx-muted);font-size:8px;margin-top:4px}
+.admin-sidebar-fx .pro-nav{display:grid;gap:4px;margin-top:24px}
+.admin-sidebar-fx .pro-nav a,
+.admin-sidebar-fx .pro-logout{display:flex;align-items:center;gap:11px;min-height:43px;padding:0 12px;border:0;border-radius:9px;background:transparent;color:var(--fx-text);font-size:13px;font-weight:500;text-decoration:none;transition:.2s}
+.admin-sidebar-fx .pro-nav a img,
+.admin-sidebar-fx .pro-logout img{width:20px;height:20px;object-fit:contain;filter:brightness(0)}
+.admin-sidebar-fx .pro-nav a:hover,
+.admin-sidebar-fx .pro-nav a.active,
+.admin-sidebar-fx .pro-logout:hover{background:#7c4a4f;color:#fff}
+.admin-sidebar-fx .pro-nav a:hover img,
+.admin-sidebar-fx .pro-nav a.active img,
+.admin-sidebar-fx .pro-logout:hover img{filter:brightness(0) invert(1)}
+.admin-sidebar-fx .pro-side-bottom{margin-top:auto;padding-top:16px;border-top:1px solid rgba(125,72,84,.10)}
+.admin-sidebar-fx .pro-admin-mini{display:flex;align-items:center;gap:9px;padding:7px 9px;margin-bottom:8px}
+.admin-sidebar-fx .pro-admin-avatar{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;background:#dcecff;font-size:17px}
+.admin-sidebar-fx .pro-admin-mini strong{display:block;font-size:12px}
+.admin-sidebar-fx .pro-admin-mini small{color:var(--fx-muted);font-size:10px}
+.admin-sidebar-fx .pro-logout{width:100%;cursor:pointer}
 .fx-side-brand{
   display:flex;
   align-items:center;
@@ -121,7 +142,7 @@ body.admin-app .admin-topbar{
   box-sizing:border-box;
 }
 .figma-back{
-  display:inline-flex!important;
+  display:none!important;
   width:35px;height:35px;
   align-items:center;justify-content:center;
   border:1px solid var(--fx-border);
@@ -214,6 +235,8 @@ body.admin-app .admin-topbar{
 
 /* ---------- LISTS / ORDERS / PAYMENTS ---------- */
 .figma-list{display:grid;gap:11px;max-width:900px}
+.admin-inquiry-description{margin:0 0 8px}
+.admin-inquiry-empty{grid-column:1/-1;margin:0;transform:none;animation:none}
 .figma-list-card{
   padding:17px 18px;
   min-height:94px;
@@ -294,7 +317,9 @@ body.admin-app .admin-topbar{
 .figma-profile{max-width:760px;text-align:left;padding:23px;background:#fff;border:1px solid var(--fx-border);border-radius:12px;box-shadow:var(--fx-shadow);display:flex;align-items:center;gap:17px}
 .figma-avatar{width:78px;height:78px;border-radius:50%;background:#dcecff;display:grid;place-items:center;font-size:40px;flex:0 0 auto}
 .figma-profile h2{font:700 21px "Playfair Display",serif}.figma-profile p{font-size:8px;color:var(--fx-muted);margin-top:3px}
+.figma-profile-copy{min-width:0}
 .figma-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;max-width:760px;margin-top:13px}
+.admin-profile-actions{grid-template-columns:minmax(0,1fr);max-width:380px}
 .figma-action{height:55px;background:#fff;border:1px solid var(--fx-border);border-radius:10px;display:grid;grid-template-columns:31px 1fr 20px;align-items:center;padding:0 14px;text-align:left;font-size:8px;font-weight:700;color:var(--fx-text);cursor:pointer;box-shadow:0 4px 12px rgba(70,45,51,.04);transition:.18s ease}
 .figma-action:hover{border-color:#cfadb5;transform:translateY(-2px)}.figma-action .icon{font-size:18px;color:var(--fx-maroon)}.figma-action .arrow{font-size:22px;color:#8a7479;text-align:right}
 
@@ -331,12 +356,71 @@ body.admin-menu-open{overflow:hidden}
 .figma-action{font-size:12px}
 .figma-section-title{font-size:12px}
 
+.admin-product-catalog .admin-catalog-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.admin-product-catalog .category-list{
+  min-width:0;
+  display:flex;
+  flex:1 1 auto;
+  flex-direction:row;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:10px 0 18px;
+  overflow:visible;
+}
+
+.admin-orders-table-wrap{width:100%;overflow-x:auto;border:1px solid var(--fx-border);border-radius:11px;background:#fff}
+.admin-orders-table{width:100%;min-width:1350px;border-collapse:collapse;text-align:left}
+.admin-orders-table th{padding:12px 10px;background:#f7eff1;color:var(--fx-text);font-size:11px;font-weight:700;white-space:nowrap}
+.admin-orders-table td{padding:12px 10px;border-top:1px solid #eee6e8;color:var(--fx-text);font-size:12px;vertical-align:middle}
+.admin-order-badge{display:inline-flex;align-items:center;justify-content:center;padding:5px 9px;border-radius:999px;background:#eee6e8;color:#62575b;font-size:10px;font-weight:700;line-height:1.3}
+.admin-order-badge.payment-pending-verification,.admin-order-badge.order-pending{background:#fff0d7;color:#8b5a16}
+.admin-order-badge.payment-verified-down-payment,.admin-order-badge.order-preparing{background:#f3e7ee;color:#7e4661}
+.admin-order-badge.payment-fully-paid,.admin-order-badge.order-confirmed,.admin-order-badge.order-ready-for-pickup,.admin-order-badge.order-ready-for-delivery,.admin-order-badge.order-shipped-out,.admin-order-badge.order-completed{background:#e5f1e6;color:#367041}
+.admin-order-badge.payment-rejected,.admin-order-badge.order-cancelled{background:#f6dddd;color:#9b3b43}
+.admin-order-actions{min-width:155px}
+.admin-order-actions a{display:inline-block;margin:2px 6px 2px 0;color:var(--fx-maroon);font-size:11px;font-weight:700;text-decoration:underline}
+.admin-orders-table .admin-order-actions a:last-child{margin-right:0}
+
+@media(max-width:760px){
+  .admin-orders-table-wrap{overflow:visible;border:0;background:transparent}
+  .admin-orders-table{display:block;min-width:0}
+  .admin-orders-table thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .admin-orders-table tbody{display:grid;gap:10px}
+  .admin-orders-table tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:hidden;border:1px solid var(--fx-border);border-radius:10px;background:#fff;box-shadow:var(--fx-shadow-sm)}
+  .admin-orders-table td{display:flex;min-width:0;flex-direction:column;gap:4px;padding:10px;border-top:1px solid #f1e8ea;font-size:12px;overflow-wrap:anywhere}
+  .admin-orders-table td:before{content:attr(data-label);color:var(--fx-muted);font-size:10px;font-weight:700}
+  .admin-orders-table .admin-order-actions{grid-column:1/-1;min-width:0}
+}
+.admin-product-catalog .category-list .category-button{
+  min-height:32px;
+  flex:0 0 auto;
+  padding:0 15px;
+  text-align:center;
+  white-space:nowrap;
+}
+.admin-product-catalog .add-product-button{width:auto;flex:0 0 auto;padding:0 16px}
+
+@media(max-width:900px){
+  .admin-product-catalog .admin-catalog-heading{align-items:stretch;flex-direction:column}
+  .admin-product-catalog .category-list{width:100%;flex:none}
+  .admin-product-catalog .add-product-button{align-self:flex-start}
+}
+
 /* ---------- MOBILE: retain Figma compact artboard feel ---------- */
 @media(max-width:700px){
   body.admin-app{background:var(--fx-bg)}
   body.admin-app .admin-shell{display:block;width:100%;max-width:none;min-height:100vh;margin:0;background:var(--fx-bg);box-shadow:none}
   .admin-sidebar-fx{position:fixed;left:0;top:0;z-index:61;width:min(270px,calc(100vw - 48px));height:100vh;height:100dvh;padding:22px 16px;display:flex;transform:translateX(-105%);transition:transform .25s ease;box-shadow:12px 0 32px rgba(51,45,47,.15)}
   .admin-sidebar-fx.open{transform:translateX(0)}
+  .admin-sidebar-fx .pro-side-brand{padding:4px 10px 20px}
+  .admin-sidebar-fx .pro-nav{gap:5px;margin-top:20px}
+  .admin-sidebar-fx .pro-nav a,
+  .admin-sidebar-fx .pro-logout{min-height:44px}
   body.admin-app .admin-topbar{position:sticky;top:0;z-index:30;min-height:64px;padding:0 16px;gap:12px;background:rgba(245,239,240,.96);border-bottom:1px solid var(--fx-border);backdrop-filter:blur(10px)}
   .figma-back{display:none!important}
   .admin-topbar-title{flex:1;min-width:0}
@@ -348,6 +432,13 @@ body.admin-menu-open{overflow:hidden}
   .figma-title{font-size:22px}.figma-muted{font-size:12px}
   .figma-search{width:100%;height:44px;border-radius:9px;padding:0 12px;margin-bottom:14px}.figma-search span{font-size:18px}.figma-search input{font-size:14px}
   .figma-tabs{gap:8px;overflow-x:auto;flex-wrap:nowrap;padding:0 0 8px;scrollbar-width:none}.figma-tabs::-webkit-scrollbar{display:none}.figma-tabs button{height:38px;padding:0 15px;font-size:11px;white-space:nowrap}
+  .admin-product-catalog .category-list{
+    flex-wrap:nowrap;
+    margin:10px 0 18px;
+    padding:0 0 8px;
+    overflow-x:auto;
+  }
+  .admin-product-catalog .category-list .category-button{min-height:38px}
   .figma-list{gap:10px}.figma-list-card{padding:14px 15px;min-height:86px}.figma-list-card .ref{font-size:10px}.figma-list-card .name{font-size:14px}.figma-list-card .meta{font-size:11px}.figma-list-card .price{font-size:14px}
   .figma-message{padding:14px}.figma-avatar-sm{width:34px;height:34px;font-size:11px}.figma-message strong{font-size:13px}.figma-message .msg-time{font-size:10px}.figma-message p{font-size:12px;padding-left:44px;margin-top:8px}
   .figma-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.figma-product-card{padding:8px}.figma-product-card strong{font-size:11px}.figma-product-card span{font-size:13px}

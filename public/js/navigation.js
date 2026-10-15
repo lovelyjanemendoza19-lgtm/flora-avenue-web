@@ -31,10 +31,12 @@ function createAccountNavigation(mobile) {
             <a class="menu-link" href="${navigationBase}pages/inquiries/inquiries.html">
                 <span class="menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/inquiry-icon.png" alt=""></span>
                 <span class="menu-text">${inquiryLabel}</span>
+                <span class="customer-nav-badge" data-count-for="inquiries" hidden></span>
             </a>
             <a class="menu-link" href="${navigationBase}pages/orders/orders.html">
                 <span class="menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/order-icon.png" alt=""></span>
                 <span class="menu-text">${ordersLabel}</span>
+                <span class="customer-nav-badge" data-count-for="orders" hidden></span>
             </a>
             ${accountAction}
         `;
@@ -49,22 +51,16 @@ function createAccountNavigation(mobile) {
 
 function createProfileMenu(mobile) {
     const menuId = mobile ? "mobileProfileSubmenu" : "desktopProfileSubmenu";
+    const profileUrl = `${navigationBase}pages/profile/profile.html?edit=1`;
+    const trigger = `<button class="menu-link profile-toggle" type="button" aria-label="My Profile and account menu" title="My Profile" aria-haspopup="true" aria-expanded="false" aria-controls="${menuId}"><span class="menu-icon profile-menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/profile-icon.png" alt=""></span><span class="profile-chevron" aria-hidden="true"></span></button>`;
 
     return `
         <div class="profile-menu${mobile ? " mobile-profile-menu" : " desktop-profile-menu"}">
-            <button
-                class="menu-link profile-toggle"
-                type="button"
-                aria-label="Profile"
-                title="Profile"
-                aria-haspopup="true"
-                aria-expanded="false"
-                aria-controls="${menuId}"
-            ><span class="menu-icon profile-menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/profile-icon.png" alt=""></span><span class="profile-chevron" aria-hidden="true"></span></button>
+            ${trigger}
             <div class="profile-submenu" id="${menuId}" hidden>
-                <a class="menu-link" href="${navigationBase}pages/profile/profile.html">My Profile</a>
-                <a class="menu-link" href="${navigationBase}pages/orders/orders.html">My Orders</a>
-                <a class="menu-link" href="${navigationBase}pages/inquiries/inquiries.html">My Inquiries</a>
+                <a class="menu-link" href="${profileUrl}">Edit Profile</a>
+                <a class="menu-link" href="${navigationBase}pages/orders/orders.html"><span>My Orders</span><span class="customer-nav-badge" data-count-for="orders" hidden></span></a>
+                <a class="menu-link" href="${navigationBase}pages/inquiries/inquiries.html"><span>My Inquiries</span><span class="customer-nav-badge" data-count-for="inquiries" hidden></span></a>
                 <button class="menu-link menu-action" data-logout-button type="button">Log Out</button>
             </div>
         </div>
@@ -119,6 +115,64 @@ overlay.id = "menuOverlay";
 overlay.setAttribute("aria-hidden", "true");
 
 document.body.append(menu, overlay);
+
+function renderCustomerNavigationBadges() {
+    const badges = document.querySelectorAll(".customer-nav-badge");
+    if (!badges.length) return;
+
+    let email = "";
+    let orders = [];
+    let inquiries = [];
+    try {
+        if (localStorage.getItem("floraAvenueSignedIn") === "true") {
+            email = (localStorage.getItem("floraAvenueUserEmail") || "").trim().toLowerCase();
+        }
+        orders = JSON.parse(localStorage.getItem("floraAvenueOrders") || "[]");
+        inquiries = JSON.parse(localStorage.getItem("floraAvenueInquiries") || "[]");
+        if (!Array.isArray(orders) || !Array.isArray(inquiries)) {
+            throw new Error("Customer order and inquiry data must be lists.");
+        }
+    } catch (error) {
+        console.error("Unable to load customer navigation counts.", error);
+        badges.forEach(function (badge) {
+            badge.hidden = true;
+            badge.textContent = "";
+            badge.removeAttribute("aria-label");
+        });
+        return;
+    }
+
+    const pendingOrderCount = email
+        ? orders.filter(function (order) {
+            const customerEmail = String(order.customerEmail || order.contactEmail || "").trim().toLowerCase();
+            const status = String(order.status || "Pending").trim().toLowerCase();
+            return customerEmail === email && ["pending", "awaiting customer"].includes(status);
+        }).length
+        : 0;
+    const unansweredInquiryCount = email
+        ? inquiries.filter(function (inquiry) {
+            return String(inquiry.customerEmail || "").trim().toLowerCase() === email
+                && !String(inquiry.response || "").trim();
+        }).length
+        : 0;
+
+    badges.forEach(function (badge) {
+        const type = badge.dataset.countFor;
+        const count = type === "orders" ? pendingOrderCount : unansweredInquiryCount;
+        badge.textContent = count > 99 ? "99+" : String(count);
+        badge.hidden = count === 0;
+        badge.setAttribute("aria-label", `${count} pending ${type}`);
+    });
+}
+
+renderCustomerNavigationBadges();
+window.addEventListener("storage", function (event) {
+    if (["floraAvenueOrders", "floraAvenueInquiries", "floraAvenueSignedIn", "floraAvenueUserEmail"].includes(event.key)) {
+        renderCustomerNavigationBadges();
+    }
+});
+window.addEventListener("floraAvenueOrdersChanged", renderCustomerNavigationBadges);
+window.addEventListener("floraAvenueInquiriesChanged", renderCustomerNavigationBadges);
 
 const siteFooterLoader = document.createElement("script");
 siteFooterLoader.src = `${navigationBase}public/js/footer.js`;

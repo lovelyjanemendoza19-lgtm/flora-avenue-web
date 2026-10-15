@@ -314,17 +314,21 @@ try {
   console.warn("Unable to resume the inquiry action.", error);
 }
 
-window.addEventListener("storage", function (event) {
-  if (event.key === "floraAvenueInquiries") {
-    inquiries = inquiryStore.load();
-    if (document.getElementById("inquiriesScreen").classList.contains("active")) {
-      renderInquiries();
-    }
-    if (currentInquiry) {
-      const updated = inquiries.find(function (inquiry) {
-        return inquiry.reference === currentInquiry.reference;
-      });
-      if (updated) showDetails(updated);
-    }
+function refreshInquiries() {
+  inquiries = inquiryStore.load();
+  if (document.getElementById("inquiriesScreen").classList.contains("active")) {
+    const activeFilter = document.querySelector(".tab.active")?.dataset.status || "All";
+    renderInquiries(activeFilter);
   }
+  if (currentInquiry) {
+    const updated = inquiries.find(function (inquiry) {
+      return inquiry.reference === currentInquiry.reference;
+    });
+    if (updated) showDetails(updated);
+  }
+}
+
+window.addEventListener("storage", function (event) {
+  if (event.key === "floraAvenueInquiries") refreshInquiries();
 });
+window.addEventListener("floraAvenueInquiriesChanged", refreshInquiries);

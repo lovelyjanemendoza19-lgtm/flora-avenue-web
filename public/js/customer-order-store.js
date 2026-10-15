@@ -1,6 +1,10 @@
 (function () {
   const storageKey = "floraAvenueOrders";
 
+  function notifyOrdersChanged() {
+    window.dispatchEvent(new Event("floraAvenueOrdersChanged"));
+  }
+
   function getCustomerEmail() {
     try {
       if (localStorage.getItem("floraAvenueSignedIn") !== "true") return "";
@@ -88,11 +92,42 @@
     return Boolean(email && orderEmail === email);
   }
 
+  function getPaymentSummary(order) {
+    const payment = order.payment || {};
+    const total = Math.max(0, Number(payment.total ?? order.amount) || 0);
+    const amountPaid = Math.max(0, Number(payment.amountPaid) || 0);
+    const remainingBalance = Math.max(0, total - amountPaid);
+    let status = "Unpaid";
+
+    if (
+      payment.proof
+      && typeof payment.proof === "object"
+      && !payment.proof.verifiedAt
+      && payment.status !== "Rejected"
+    ) status = "Pending Verification";
+    else if (payment.status === "Rejected") status = "Rejected";
+    else if (payment.status === "Fully Paid" && total > 0 && amountPaid >= total) status = "Fully Paid";
+
+    return {
+      total,
+      amountPaid,
+      remainingBalance,
+      status,
+      method: payment.method || "",
+      arrangement: payment.arrangement || "Standard",
+      proof: payment.proof && typeof payment.proof === "object" ? payment.proof : null,
+      cashReceipt: payment.cashReceipt && typeof payment.cashReceipt === "object"
+        ? payment.cashReceipt
+        : null
+    };
+  }
+
   function save(order) {
     try {
       const orders = readStoredOrders();
       orders.unshift(order);
       localStorage.setItem(storageKey, JSON.stringify(orders));
+      notifyOrdersChanged();
     } catch (error) {
       console.error("Unable to save the customer order.", error);
       throw error;
@@ -108,6 +143,7 @@
       }
       orders[index] = order;
       localStorage.setItem(storageKey, JSON.stringify(orders));
+      notifyOrdersChanged();
     } catch (error) {
       console.error("Unable to update the customer order.", error);
       throw error;
@@ -121,6 +157,7 @@
     requireSignIn,
     load,
     belongsToCustomer,
+    getPaymentSummary,
     save,
     update
   };

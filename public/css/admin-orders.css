@@ -1,0 +1,79 @@
+.order-admin-detail{display:grid;gap:18px;width:min(100%,1320px);margin:0 auto}
+.admin-order-detail-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;border:1px solid #e1d2d5;border-radius:12px;background:#fff}
+.admin-order-detail-heading h2{margin:2px 0;font:700 22px "Playfair Display",serif;color:#633a3e;overflow-wrap:anywhere}
+.admin-order-detail-heading p{color:#756c6f;font-size:13px}
+.admin-order-eyebrow{color:#a77f8b;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+.admin-order-back{color:#7c4a4f;font-size:12px;font-weight:700;text-decoration:underline}
+.admin-order-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:16px}
+.admin-order-detail-grid>.admin-order-section:first-child{grid-column:1/-1}
+.admin-order-section{min-width:0;padding:20px;border:1px solid #e1d2d5;border-radius:12px;background:#fff;box-shadow:0 4px 14px rgba(76,48,53,.05)}
+.admin-order-section-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
+.admin-order-section-heading>div{display:flex;align-items:center;gap:10px}
+.admin-order-section-heading>div>span{color:#a77f8b;font-size:11px;font-weight:700}
+.admin-order-section h2{margin:0;color:#71383f;font:600 17px Poppins,sans-serif}
+.admin-order-section h3{margin:0;color:#71383f;font-size:14px;font-weight:700}
+.admin-order-summary{display:grid;grid-template-columns:minmax(125px,.8fr) minmax(0,1.2fr);gap:8px 12px;margin:0 0 18px;font-size:12px}
+.admin-order-summary dt{color:#756c6f}
+.admin-order-summary dd{margin:0;color:#332d2f;font-weight:500;overflow-wrap:anywhere}
+.admin-customization-confirmation{padding:14px;border:1px solid #e9d8db;border-radius:9px;background:#fbf7f8}
+.admin-customization-confirmation>h3{margin:0}
+.admin-customization-confirmation>p{margin:0;color:#756c6f;font-size:12px}
+.admin-customization-confirmation .figma-btn:disabled{cursor:not-allowed;opacity:.55}
+.admin-customization-locked{color:#9b3b43!important}
+.admin-customization-reference{display:grid;justify-items:start;gap:7px;padding:10px;border:1px solid #e9d8db;border-radius:8px;background:#fff}
+.admin-customization-reference strong{color:#71383f;font-size:12px}
+.admin-customization-reference img{display:block;width:auto;max-width:min(100%,320px);max-height:320px;border:1px solid #e1d2d5;border-radius:7px;object-fit:contain}
+.admin-customization-reference span,.admin-customization-reference p{margin:0;color:#756c6f;font-size:11px;overflow-wrap:anywhere}
+.admin-order-form{display:grid;gap:12px;margin-top:16px}
+.admin-order-form label{display:grid;gap:5px;color:#4e4447;font-size:12px;font-weight:600}
+.admin-customer-message,.admin-status-control{margin-top:14px}
+.admin-customer-message .figma-textarea,.admin-status-control .figma-select{margin:0}
+.admin-order-form .figma-input,.admin-order-form .figma-select,.admin-order-form .figma-textarea{margin:0}
+.admin-order-form .figma-btn{margin:0}
+.admin-proof-review{display:grid;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #eee6e8}
+.admin-proof-review>h3{margin:0}
+.admin-payment-proof{display:grid;gap:12px}
+.admin-payment-proof dl{display:grid;grid-template-columns:minmax(110px,.7fr) minmax(0,1.3fr);gap:5px 10px;margin:0;font-size:12px}
+.admin-payment-proof dt{color:#756c6f}
+.admin-payment-proof dd{margin:0;overflow-wrap:anywhere}
+.admin-payment-proof-image{display:block;max-width:min(100%,360px);max-height:360px;object-fit:contain;object-position:left center;border:1px solid #e1d2d5;border-radius:8px;background:#fbf7f8}
+.admin-payment-proof-link{width:max-content;max-width:100%;color:#7c4a4f;font-weight:700;text-decoration:underline;overflow-wrap:anywhere}
+.admin-payment-no-proof,.admin-seller-proposal span{color:#756c6f;font-size:12px}
+.admin-payment-review-actions{display:flex;flex-wrap:wrap;gap:9px}
+.admin-payment-review-actions .figma-btn{width:auto;min-width:150px;padding:0 15px}
+.admin-payment-review-actions .figma-btn:disabled{cursor:not-allowed;opacity:.5;transform:none;box-shadow:none}
+.admin-payment-rejection{padding:10px;border-radius:8px;background:#fff1f1;color:#8b343b;font-size:12px}
+.admin-payment-rejection strong{margin-right:4px}
+.admin-order-product{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.admin-order-product img{width:72px;height:72px;flex:0 0 auto;border-radius:8px;object-fit:cover;background:#f5eff0}
+.admin-order-product strong,.admin-order-product span{display:block}
+.admin-order-product strong{font-size:13px}
+.admin-order-product span{margin-top:3px;color:#756c6f;font-size:11px}
+.admin-seller-proposal,.seller-proposal-current{margin-top:16px;padding:13px;border-radius:8px;background:#fbf7f8}
+.admin-seller-proposal p,.seller-proposal-current p{margin:5px 0;color:#5f5558;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.admin-order-feedback{min-height:22px;color:#367041;font-size:12px}
+.admin-order-feedback[data-error="true"]{color:#9b3b43}
+.admin-order-feedback:empty{display:none}
+.order-admin-detail .order-empty{padding:22px;border:1px solid #e1d2d5;border-radius:10px;background:#fff}
+.admin-order-id-link{color:#7c4a4f;font-weight:700;text-decoration:underline}
+.admin-orders-table{min-width:780px}
+.admin-orders-table-wrap{overflow-x:auto}
+.admin-order-meta{margin-bottom:12px}
+.admin-order-type-error{margin:0 0 12px;padding:10px 12px;border:1px solid #e5b8bd;border-radius:7px;background:#fff1f1;color:#9b3b43;font-size:12px}
+.admin-order-type-control{margin:0 0 14px}
+.admin-order-type-control .figma-select[aria-invalid="true"]{border-color:#9b3b43}
+
+@media(max-width:900px){
+  .admin-order-detail-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:560px){
+  .admin-order-detail-heading{align-items:flex-start;flex-direction:column;padding:15px}
+  .admin-order-detail-heading h2{font-size:19px}
+  .admin-order-section{padding:14px}
+  .admin-order-section-heading{align-items:flex-start;flex-direction:column}
+  .admin-order-summary,.admin-payment-proof dl{grid-template-columns:1fr;gap:2px}
+  .admin-order-summary dd,.admin-payment-proof dd{margin-bottom:7px}
+  .admin-payment-review-actions{display:grid;grid-template-columns:1fr;width:100%}
+  .admin-payment-review-actions .figma-btn{width:100%}
+}

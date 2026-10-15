@@ -9,24 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../public/css/admin.css">
   <link rel="stylesheet" href="../../public/css/admin-figma.css">
-  <style>
-    .order-admin-detail { display: grid; gap: 18px; }
-    .order-admin-detail h2 { margin: 14px 0 8px; font: 600 16px Poppins, sans-serif; color: #71383f; }
-    .order-admin-detail dl { display: grid; grid-template-columns: minmax(120px, 180px) minmax(0, 1fr); gap: 8px 12px; margin: 0; }
-    .order-admin-detail dt { color: #74666a; }
-    .order-admin-detail dd { margin: 0; overflow-wrap: anywhere; }
-    .seller-proposal-form { display: grid; gap: 12px; padding-top: 16px; border-top: 1px solid #e7dadd; }
-    .seller-proposal-form label { display: grid; gap: 6px; font-weight: 500; }
-    .order-admin-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-    .order-admin-actions .figma-btn { margin: 0; }
-    .order-admin-actions .secondary { background: #a05259; }
-    .order-empty { padding: 20px; }
-    .seller-proposal-current { overflow-wrap: anywhere; }
-    @media (max-width: 520px) {
-      .order-admin-detail dl { grid-template-columns: 1fr; gap: 2px; }
-      .order-admin-detail dd { margin-bottom: 8px; }
-    }
-  </style>
+  <link rel="stylesheet" href="../../public/css/admin-orders.css">
 </head>
 <body class="admin-app">
   <main class="admin-shell">
@@ -53,7 +36,7 @@
       <div class="admin-topbar-title"><h1>Customer Order</h1></div>
     </header>
     <div class="figma-page">
-      <article class="figma-card figma-detail order-admin-detail" id="adminOrderDetails" aria-live="polite">
+      <article class="order-admin-detail" id="adminOrderDetails" aria-live="polite">
         <p class="figma-muted">Loading order…</p>
       </article>
     </div>

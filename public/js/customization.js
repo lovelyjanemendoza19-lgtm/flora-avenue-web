@@ -5,6 +5,7 @@
 	const inquiriesLink = document.getElementById("inquiriesLink");
 	const orderStore = window.floraAvenueCustomerOrders;
 	const inquiryStore = window.floraAvenueInquiryStore;
+	const maxReferenceImageBytes = 2 * 1024 * 1024;
 	const params = new URLSearchParams(window.location.search);
 	const sourceInquiryReference = params.get("sourceInquiry") || "";
 
@@ -60,8 +61,7 @@
 		return `ORD-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
 	}
 
-	function getCustomizationOrder() {
-		const referenceImage = document.getElementById("reference").files[0]?.name || "";
+	function getCustomizationOrder(referenceImage) {
 		const design = document.getElementById("design").value.trim();
 		const color = document.getElementById("color").value.trim();
 		const items = document.getElementById("items").value.trim();
@@ -72,8 +72,7 @@
 		const customerName = orderStore.getCustomerName(customerEmail);
 		const detailNotes = [
 			occasion && `Occasion: ${occasion}`,
-			notes,
-			referenceImage && `Reference image: ${referenceImage}`
+			notes
 		].filter(Boolean).join("\n");
 
 		return {
@@ -89,6 +88,7 @@
 			colors: color,
 			addons,
 			notes: detailNotes,
+			referenceImage,
 			sourceInquiryReference,
 			contactName: customerName,
 			contactNumber: "",
@@ -99,7 +99,8 @@
 			amount: budget,
 			status: "Pending",
 			type: "Customization Request",
-			payment: { total: budget, requiredDownPayment: 0, amountPaid: 0, proof: null }
+			preparationTime: "To be confirmed",
+			payment: { total: budget, amountPaid: 0, status: "Unpaid", proof: null }
 		};
 	}
 
@@ -108,39 +109,64 @@
 
 		if (!customizationForm.reportValidity()) return;
 
-		const order = getCustomizationOrder();
-		try {
-			orderStore.save(order);
-		} catch (error) {
-			customStatus.textContent = "Unable to save your request. Please try again.";
+		const file = document.getElementById("reference").files[0];
+		if (file && (!/^image\/(png|jpeg|webp|gif)$/.test(file.type) || file.size > maxReferenceImageBytes)) {
+			customStatus.textContent = "Choose a PNG, JPG, WebP, or GIF image no larger than 2 MB.";
 			return;
 		}
 
-		let inquiryLinkSaved = true;
-		if (sourceInquiry) {
-			const inquiries = inquiryStore.load().map(function (inquiry) {
-				return inquiry.reference === sourceInquiryReference
-					? { ...inquiry, orderReference: order.reference, orderPlacedAt: order.createdAt }
-					: inquiry;
-			});
+		const saveCustomizationOrder = referenceImage => {
+			const order = getCustomizationOrder(referenceImage);
 			try {
-				inquiryStore.save(inquiries);
+				orderStore.save(order);
 			} catch (error) {
-				inquiryLinkSaved = false;
-				console.error("Unable to link the customization request to its inquiry.", error);
+				customStatus.textContent = "Unable to save your request. Please check available browser storage and try again.";
+				console.error("Unable to save the customization request.", error);
+				return;
 			}
+
+			let inquiryLinkSaved = true;
+			if (sourceInquiry) {
+				const inquiries = inquiryStore.load().map(function (inquiry) {
+					return inquiry.reference === sourceInquiryReference
+						? { ...inquiry, orderReference: order.reference, orderPlacedAt: order.createdAt }
+						: inquiry;
+				});
+				try {
+					inquiryStore.save(inquiries);
+				} catch (error) {
+					inquiryLinkSaved = false;
+					console.error("Unable to link the customization request to its inquiry.", error);
+				}
+			}
+
+			customStatus.textContent = inquiryLinkSaved
+				? `Customization request submitted. Status: Pending. Reference: ${order.reference}`
+				: `Your request was saved as ${order.reference}, but we couldn't link it to your inquiry. You can still view it in My Orders.`;
+			ordersLink.href = `../orders/order%20details.html?order=${encodeURIComponent(order.reference)}`;
+			ordersLink.textContent = "View My Order";
+			ordersLink.hidden = false;
+			if (sourceInquiry) {
+				inquiriesLink.href = `../inquiries/inquiries.html?reference=${encodeURIComponent(sourceInquiryReference)}`;
+				inquiriesLink.hidden = false;
+			}
+			customizationForm.querySelector("button[type=submit]").disabled = true;
+		};
+
+		if (!file) {
+			saveCustomizationOrder(null);
+			return;
 		}
 
-		customStatus.textContent = inquiryLinkSaved
-			? `Customization request submitted. Status: Pending. Reference: ${order.reference}`
-			: `Your request was saved as ${order.reference}, but we couldn't link it to your inquiry. You can still view it in My Orders.`;
-		ordersLink.href = `../orders/order%20details.html?order=${encodeURIComponent(order.reference)}`;
-		ordersLink.textContent = "View My Order";
-		ordersLink.hidden = false;
-		if (sourceInquiry) {
-			inquiriesLink.href = `../inquiries/inquiries.html?reference=${encodeURIComponent(sourceInquiryReference)}`;
-			inquiriesLink.hidden = false;
-		}
-		customizationForm.querySelector("button[type=submit]").disabled = true;
+		const reader = new FileReader();
+		reader.onerror = () => {
+			customStatus.textContent = "Unable to read the reference image. Please try another image.";
+		};
+		reader.onload = () => saveCustomizationOrder({
+			fileName: file.name,
+			mimeType: file.type,
+			dataUrl: String(reader.result || "")
+		});
+		reader.readAsDataURL(file);
 	});
 })();

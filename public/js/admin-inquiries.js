@@ -16,7 +16,7 @@
 
     if (inquiries.length === 0) {
       const emptyState = document.createElement("p");
-      emptyState.className = "figma-muted";
+      emptyState.className = "figma-muted admin-inquiry-empty";
       emptyState.textContent = "No customer inquiries have been submitted yet.";
       list.appendChild(emptyState);
       return;
@@ -65,4 +65,5 @@
   window.addEventListener("storage", function (event) {
     if (event.key === "floraAvenueInquiries") render();
   });
+  window.addEventListener("floraAvenueInquiriesChanged", render);
 })();

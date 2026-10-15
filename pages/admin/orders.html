@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../public/css/admin.css">
   <link rel="stylesheet" href="../../public/css/admin-figma.css">
+  <link rel="stylesheet" href="../../public/css/admin-orders.css">
 </head>
 <body class="admin-app">
   <main class="admin-shell">
@@ -35,17 +36,14 @@
       <div class="admin-topbar-title"><h1>Manage Orders</h1></div>
     </header>
     <div class="figma-page">
-      <p class="figma-muted">Customer orders appear here when submitted from the customer portal.</p>
+      <p class="figma-muted">Review payment submissions and update order progress from this page.</p>
       <div class="figma-search"><span>⌕</span><input id="orderSearch" type="search" placeholder="Search customer orders..." aria-label="Search orders"></div>
       <div class="figma-tabs" id="orderFilters">
         <button class="active" data-filter="all">ALL</button>
-        <button data-filter="pending">PENDING</button>
-        <button data-filter="awaiting-customer">AWAITING CUSTOMER</button>
-        <button data-filter="confirmed">CONFIRMED</button>
-        <button data-filter="declined">DECLINED</button>
-        <button data-filter="processing">PROCESSING</button>
-        <button data-filter="shipped">SHIPPED</button>
-        <button data-filter="delivered">DELIVERED</button>
+        <button data-filter="to-verify">TO VERIFY</button>
+        <button data-filter="to-prepare">TO PREPARE</button>
+        <button data-filter="to-ship">TO SHIP / PICKUP</button>
+        <button data-filter="completed">COMPLETED</button>
         <button data-filter="cancelled">CANCELLED</button>
       </div>
       <div class="figma-list" id="orderList" aria-live="polite"></div>

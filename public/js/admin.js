@@ -57,58 +57,34 @@ function buildAdminSidebar() {
   if (!document.body.classList.contains("admin-app")) return;
   const shell = document.querySelector(".admin-shell");
   if (!shell) return;
-  const existingSidebar = shell.querySelector(".admin-sidebar-fx");
-  if (existingSidebar) {
-    const current = (window.location.pathname.split("/").pop() || "admin.html").toLowerCase();
-    existingSidebar.querySelectorAll(".fx-side-nav a").forEach(link => {
-      link.classList.toggle("active", link.getAttribute("href")?.toLowerCase() === current);
-    });
-    const existingLogout = existingSidebar.querySelector("#fxLogoutButton");
-    existingLogout?.addEventListener("click", () => {
-      if (confirm("Are you sure you want to log out?")) {
-        sessionStorage.removeItem("floraAdminLoggedIn");
-        window.location.href = "login.html";
-      }
-    });
-    setupMobileAdminNavigation(
-      shell,
-      existingSidebar,
-      shell.querySelector(".admin-topbar"),
-      "adminMobileMenuButton"
-    );
-    return;
-  }
-
   const current = (window.location.pathname.split("/").pop() || "admin.html").toLowerCase();
   const links = [
-    ["dashboard.html", "▦", "Dashboard"],
-    ["products.html", "▤", "Products"],
-    ["inquiries.html", "✉", "Inquiries"],
-    ["orders.html", "▣", "Orders"],
-    ["profile.html", "♙", "Profile"]
+    ["dashboard.html", "home-icon.png", "Dashboard", ["dashboard.html"]],
+    ["products.html", "product-icon.png", "Products", ["products.html", "add-product.html"]],
+    ["inquiries.html", "inquiry-icon.png", "Inquiries", ["inquiries.html", "inquiry-details.html"]],
+    ["orders.html", "order-icon.png", "Orders", ["orders.html", "order-details.html"]],
+    ["profile.html", "profile-icon.png", "Profile", ["profile.html"]]
   ];
 
-  const aside = document.createElement("aside");
-  aside.className = "admin-sidebar-fx";
-  aside.innerHTML = `
-    <a class="fx-side-brand" href="dashboard.html">
+  const sidebar = shell.querySelector(".admin-sidebar-fx") || document.createElement("aside");
+  sidebar.className = "admin-sidebar-fx";
+  sidebar.innerHTML = `
+    <div class="pro-side-brand">
       <img src="../../public/images/logo.png" alt="Flora Avenue">
-      <span><strong>Flora Avenue</strong><small>Admin Portal</small></span>
-    </a>
-    <div class="fx-side-label">Management</div>
-    <nav class="fx-side-nav" aria-label="Admin navigation">
-      ${links.map(([href, icon, label]) => `
-        <a href="${href}" class="${current === href ? "active" : ""}">
-          <span class="fx-side-icon">${icon}</span><span>${label}</span>
+      <div><strong>Flora Avenue</strong><small>Admin Portal</small></div>
+    </div>
+    <nav class="pro-nav" aria-label="Admin navigation">
+      ${links.map(([href, icon, label, activePaths]) => `
+        <a href="${href}" class="${activePaths.includes(current) ? "active" : ""}">
+          <img src="../../public/images/${icon}" alt=""><span>${label}</span>
         </a>`).join("")}
     </nav>
-    <div class="fx-side-bottom">
-      <div class="fx-side-admin"><div class="fx-side-avatar">♙</div><div><strong>Juan Dela Cruz</strong><small>Administrator</small></div></div>
-      <button class="fx-side-logout" id="fxLogoutButton" type="button"><span class="fx-side-icon">↪</span><span>Log Out</span></button>
+    <div class="pro-side-bottom">
+      <button class="pro-logout" id="fxLogoutButton" type="button"><img src="../../public/images/logout-icon.png" alt=""><span>Log Out</span></button>
     </div>`;
+  if (!sidebar.isConnected) shell.prepend(sidebar);
 
-  shell.prepend(aside);
-  document.getElementById("fxLogoutButton")?.addEventListener("click", () => {
+  sidebar.querySelector("#fxLogoutButton")?.addEventListener("click", () => {
     if (confirm("Are you sure you want to log out?")) {
       sessionStorage.removeItem("floraAdminLoggedIn");
       window.location.href = "login.html";
@@ -116,7 +92,7 @@ function buildAdminSidebar() {
   });
   setupMobileAdminNavigation(
     shell,
-    aside,
+    sidebar,
     shell.querySelector(".admin-topbar"),
     "adminMobileMenuButton"
   );
@@ -233,15 +209,4 @@ document.addEventListener("DOMContentLoaded", () => {
     if (form) form.hidden = true;
   });
 
-  document.getElementById("changePasswordButton")?.addEventListener("click", () => {
-    alert("Change Password is ready for backend/database integration.");
-  });
-
-  document.getElementById("addressBookButton")?.addEventListener("click", () => {
-    alert("Address Book is ready for the next admin module.");
-  });
-
-  document.getElementById("helpButton")?.addEventListener("click", () => {
-    alert("Help Center is ready for the next admin module.");
-  });
 });

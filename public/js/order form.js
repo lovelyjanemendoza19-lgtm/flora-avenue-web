@@ -128,7 +128,7 @@ if (canPlaceOrder) form.addEventListener('submit', e => {
     address,
     amount: Number(new URLSearchParams(window.location.search).get('amount')) || null,
     status: 'Pending',
-    payment: { total: Number(new URLSearchParams(window.location.search).get('amount')) || 0, requiredDownPayment: 0, amountPaid: 0, proof: null }
+    payment: { total: Number(new URLSearchParams(window.location.search).get('amount')) || 0, amountPaid: 0, status: 'Unpaid', proof: null }
   };
   try {
     orderStore.save(order);

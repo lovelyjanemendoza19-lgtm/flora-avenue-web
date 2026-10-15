@@ -1089,6 +1089,14 @@ body.persistent-sidebar .website {
 
 .profile-menu {
     position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.desktop-profile-menu .profile-toggle {
+    min-width: 44px;
+    justify-content: center;
+    padding: 10px 12px;
 }
 
 .profile-chevron {
@@ -1143,7 +1151,11 @@ body.persistent-sidebar .website {
 }
 
 .desktop-profile-menu .profile-submenu .menu-link {
-    display: block;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     padding: 10px 12px;
     border: 0;
     border-radius: 6px;
@@ -1162,6 +1174,33 @@ body.persistent-sidebar .website {
     outline: none;
     background: #7c4a4f;
     color: #ffffff;
+}
+
+.customer-nav-badge {
+    min-width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #7c4a4f;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.customer-nav-badge[hidden] {
+    display: none;
+}
+
+.profile-submenu .menu-link:hover .customer-nav-badge,
+.profile-submenu .menu-link:focus-visible .customer-nav-badge,
+.profile-submenu .menu-link.active .customer-nav-badge {
+    background: #ffffff;
+    color: #7c4a4f;
 }
 
 .desktop-sign-in {
@@ -1227,6 +1266,11 @@ header .logo {
         box-shadow: none;
     }
 
+    .side-menu .profile-menu {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
     .side-menu .profile-toggle,
     .side-menu .profile-submenu .menu-link {
         width: 100%;
@@ -1247,7 +1291,8 @@ header .logo {
     }
 
     .side-menu .profile-toggle {
-        justify-content: space-between;
+        justify-content: flex-start;
+        gap: 10px;
     }
 
     .side-menu nav .nav-sign-in {
@@ -1256,6 +1301,10 @@ header .logo {
         background: #7c4a4f;
         color: #ffffff;
         font-weight: 600;
+    }
+
+    .side-menu nav > [data-logout-button] {
+        margin-top: auto;
     }
 
     .side-menu .profile-toggle:hover,
@@ -1284,5 +1333,24 @@ header .logo {
 
     .menu-overlay {
         display: block;
+    }
+}
+
+@media (min-width: 600px) {
+    body.persistent-sidebar .website {
+        width: calc(100% - 170px);
+        margin-left: 170px;
+    }
+
+    body.persistent-sidebar .side-menu {
+        display: flex;
+        width: 170px;
+        height: 100vh;
+        height: 100dvh;
+        transform: translateX(0);
+    }
+
+    body.persistent-sidebar .menu-overlay {
+        display: none;
     }
 }

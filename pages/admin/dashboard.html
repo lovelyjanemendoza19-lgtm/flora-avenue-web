@@ -19,7 +19,6 @@
     <a href="profile.html"><img src="../../public/images/profile-icon.png">Profile</a>
   </nav>
   <div class="pro-side-bottom">
-    <div class="pro-admin-mini"><div class="pro-admin-avatar">♙</div><div><strong>Juan Dela Cruz</strong><small>Administrator</small></div></div>
     <button class="pro-logout" id="logoutButton" type="button"><img src="../../public/images/logout-icon.png">Log Out</button>
   </div>
 </aside>
@@ -31,23 +30,25 @@
   <div class="pro-content">
     <section class="pro-welcome"><div class="eyebrow">Overview</div><h2>Good day, Admin.</h2><p>Here is a quick look at what is happening in your Flora Avenue store.</p></section>
     <section class="pro-stats">
-      <article class="pro-stat"><div class="pro-stat-top"><span class="label">Total Products</span><span class="pro-stat-icon">▦</span></div><strong>65</strong><small>Products in catalog</small></article>
-      <article class="pro-stat"><div class="pro-stat-top"><span class="label">Pending Orders</span><span class="pro-stat-icon">↻</span></div><strong id="pendingOrderCount">0</strong><small>Need attention</small></article>
-      <article class="pro-stat"><div class="pro-stat-top"><span class="label">New Inquiries</span><span class="pro-stat-icon">✉</span></div><strong>5</strong><small>Awaiting response</small></article>
-      <article class="pro-stat"><div class="pro-stat-top"><span class="label">Total Revenue</span><span class="pro-stat-icon">₱</span></div><strong id="orderRevenue">₱0</strong><small>Confirmed customer orders</small></article>
+      <a class="pro-stat" href="products.html"><div class="pro-stat-top"><span class="label">Total Products</span><span class="pro-stat-icon">▦</span></div><strong id="productCount">37</strong><small>Products in catalog</small></a>
+      <a class="pro-stat" href="orders.html?filter=pending"><div class="pro-stat-top"><span class="label">Pending Orders</span><span class="pro-stat-icon">↻</span></div><strong id="pendingOrderCount">0</strong><small>Need attention</small></a>
+      <a class="pro-stat" href="orders.html?filter=to-verify"><div class="pro-stat-top"><span class="label">Payments Awaiting Verification</span><span class="pro-stat-icon">₱</span></div><strong id="paymentsAwaitingVerificationCount">0</strong><small>Review submitted proof</small></a>
+      <a class="pro-stat" href="orders.html?filter=preparing"><div class="pro-stat-top"><span class="label">Orders in Preparation</span><span class="pro-stat-icon">✿</span></div><strong id="ordersInPreparationCount">0</strong><small>Being prepared</small></a>
+      <a class="pro-stat" href="orders.html?filter=ready"><div class="pro-stat-top"><span class="label">Ready for Pickup / Delivery</span><span class="pro-stat-icon">✓</span></div><strong id="readyOrdersCount">0</strong><small>Ready for the customer</small></a>
+      <a class="pro-stat" href="inquiries.html"><div class="pro-stat-top"><span class="label">New Inquiries</span><span class="pro-stat-icon">✉</span></div><strong id="newInquiryCount">0</strong><small>Awaiting response</small></a>
+      <a class="pro-stat" href="orders.html"><div class="pro-stat-top"><span class="label">Total Revenue</span><span class="pro-stat-icon">₱</span></div><strong id="orderRevenue">₱0</strong><small>Confirmed customer orders</small></a>
     </section>
     <section class="pro-grid">
       <div class="pro-panel"><div class="pro-panel-head"><h3>Recent Orders</h3><a href="orders.html">View all →</a></div>
         <div id="recentOrders" aria-live="polite"><p class="figma-muted">Loading orders…</p></div>
       </div>
-      <div class="pro-panel"><div class="pro-panel-head"><h3>Quick Actions</h3></div><div class="pro-actions"><a class="pro-action" href="products.html">Manage Products <span>→</span></a><a class="pro-action" href="inquiries.html">Review Inquiries <span>→</span></a><a class="pro-action" href="orders.html">Manage Orders <span>→</span></a></div></div>
     </section>
-    <section class="pro-section"><article class="pro-mini-card"><h4>Inquiries</h4><p>Review customer customization requests and send responses directly from the admin portal.</p><a href="inquiries.html">Open inquiries →</a></article><article class="pro-mini-card"><h4>Products</h4><p>Add new products, update prices and descriptions, and keep the catalog organized.</p><a href="products.html">Manage catalog →</a></article></section>
   </div>
 </main>
 </div>
 <div class="admin-overlay" id="adminOverlay"></div><div class="admin-modal" id="logoutModal" aria-hidden="true"></div>
 <script src="../../public/js/admin.js"></script>
 <script src="../../public/js/customer-order-store.js"></script>
+<script src="../../public/js/inquiry-store.js"></script>
 <script src="../../public/js/admin-orders.js"></script>
 </body></html>

@@ -412,6 +412,7 @@
 
 </div>
 
+    <script src="../../public/js/product-catalog-store.js"></script>
     <script>
 
         /* PRODUCT FILTER */
@@ -447,6 +448,37 @@
             printing: "Turn favorite photos into a personal keepsake for someone special.",
             custom: "Personalize the details to create a gift for a special occasion."
         };
+
+        const productCards = Array.from(document.querySelectorAll(".catalog-section .catalog-card"));
+        const catalogStore = window.FloraAvenueProductStore;
+        try {
+            productCards.forEach(function (card) {
+                const productId = catalogStore.canonicalId(
+                    new URL(card.href).searchParams.get("id") || ""
+                );
+                const override = catalogStore.get(productId);
+                if (!override) return;
+
+                card.querySelector("h3").textContent = override.name;
+                const image = card.querySelector("img");
+                image.alt = override.name;
+                if (override.image) image.src = override.image;
+                if (override.price !== undefined) {
+                    card.querySelector("p").textContent =
+                        `₱${Number(override.price).toLocaleString("en-PH")}`;
+                }
+                const currentGrid = card.closest(".catalog-grid");
+                const targetSection = Array.from(sections).find(
+                    item => item.dataset.category === override.category
+                );
+                const targetGrid = targetSection?.querySelector(".catalog-grid");
+                if (targetGrid && currentGrid && targetGrid !== currentGrid) {
+                    targetGrid.appendChild(card);
+                }
+            });
+        } catch (error) {
+            console.error("Unable to apply saved product edits to the customer catalog.", error);
+        }
 
         sections.forEach(function (section) {
             section.querySelectorAll(".catalog-card").forEach(function (card) {

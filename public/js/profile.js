@@ -137,7 +137,11 @@
     }
 
     updateDisplay(savedProfile);
-    setEditing(false);
+    const editRequested = new URLSearchParams(window.location.search).get("edit") === "1";
+    setEditing(editRequested);
+    if (editRequested) {
+        inputs[0].focus();
+    }
     editButton.addEventListener("click", function () {
         showFeedback("", false);
         setEditing(true);

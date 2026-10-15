@@ -461,9 +461,27 @@ const addOnOptions = [
 ];
 
 const params = new URLSearchParams(window.location.search);
-const requestedId = params.get("id") || params.get("product") || params.get("query");
+const requestedId = window.FloraAvenueProductStore.canonicalId(
+  params.get("id") || params.get("product") || params.get("query") || ""
+);
 
 const product = products.find(item => item.id === requestedId) || products[0];
+let productOverride = null;
+try {
+  productOverride = window.FloraAvenueProductStore.get(product.id);
+} catch (error) {
+  console.error("Unable to load saved product edits.", error);
+}
+if (productOverride) {
+  product.name = productOverride.name;
+  product.description = productOverride.description || product.description;
+  product.category = window.FloraAvenueProductStore.categories[productOverride.category]
+    || product.category;
+  if (productOverride.price !== undefined && !product.variants?.length) {
+    product.price = Number(productOverride.price);
+  }
+  if (productOverride.image) product.images = [productOverride.image];
+}
 
 const imageElement = document.getElementById("productImage");
 const thumbnailsElement = document.getElementById("productThumbnails");
@@ -513,6 +531,10 @@ function savePendingProductAction(action) {
   const pendingAction = {
     action,
     url: window.location.href,
+    continuationUrl: new URL(
+      getProductActionUrl(action === "customize" ? "customization.html" : "order-form"),
+      window.location.href
+    ).href,
     productId: product.id,
     selection: {
       variantIndex: variantSelect.value,
@@ -580,7 +602,7 @@ function renderImages() {
     ? product.images
     : ["plain-tulip.jpeg"];
 
-  imageElement.src = IMAGE_BASE + images[0];
+  imageElement.src = productImageSource(images[0]);
   imageElement.alt = product.name;
   thumbnailsElement.innerHTML = "";
 
@@ -591,14 +613,14 @@ function renderImages() {
     button.setAttribute("aria-label", `View product image ${index + 1}`);
 
     const img = document.createElement("img");
-    img.src = IMAGE_BASE + filename;
+    img.src = productImageSource(filename);
     img.alt = `${product.name} photo ${index + 1}`;
     img.loading = "lazy";
     img.decoding = "async";
 
     button.appendChild(img);
     button.addEventListener("click", () => {
-      imageElement.src = IMAGE_BASE + filename;
+      imageElement.src = productImageSource(filename);
       thumbnailsElement.querySelectorAll(".thumbnail-button")
         .forEach(item => item.classList.remove("active"));
       button.classList.add("active");
@@ -612,6 +634,20 @@ function renderImages() {
     imageElement.src = IMAGE_BASE + "banner-flower.png";
     imageElement.alt = `${product.name} image unavailable`;
   };
+}
+
+function productImageSource(filename) {
+  return filename.startsWith("data:") ? filename : IMAGE_BASE + filename;
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character]);
 }
 
 
@@ -740,9 +776,9 @@ function renderSelectedProductSummary() {
     ? `<span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${colorPalette[selectedColor] || '#d9d9d9'}; border:1px solid rgba(51,45,47,0.2); vertical-align:middle; margin-right:8px;"></span>${selectedColor}`
     : "Not specified";
   selectedProductSummary.innerHTML = `
-    <img class="summary-product-image" src="${IMAGE_BASE}${product.images?.[0] || "banner-flower.png"}" alt="${product.name}">
+    <img class="summary-product-image" src="${escapeHTML(productImageSource(product.images?.[0] || "banner-flower.png"))}" alt="${escapeHTML(product.name)}">
     <dl>
-      <dt>Product</dt><dd>${product.name}</dd>
+      <dt>Product</dt><dd>${escapeHTML(product.name)}</dd>
       <dt>Variation</dt><dd>${variant.label || "Standard"}</dd>
       <dt>Color</dt><dd>${colorDisplay}</dd>
       <dt>Quantity</dt><dd>${quantity}</dd>
@@ -789,8 +825,9 @@ function saveProductOrder() {
     date: document.getElementById("orderDate").value,
     address: addressInput.value.trim(),
     amount,
+    preparationTime: product.preparationTime || "To be confirmed",
     status: "Pending",
-    payment: { total: amount, requiredDownPayment: 0, amountPaid: 0, proof: null }
+    payment: { total: amount, requiredDownPayment: 0, amountPaid: 0, status: "Unpaid", arrangement: "Standard", proof: null }
   };
   try {
     window.floraAvenueCustomerOrders.save(order);
@@ -802,6 +839,10 @@ function saveProductOrder() {
 }
 
 function goToPage(page) {
+  window.location.href = getProductActionUrl(page);
+}
+
+function getProductActionUrl(page) {
   const variant = getSelectedVariant();
   const quantity = Math.max(1, Number(quantityInput.value) || 1);
   const notes = document.getElementById("specialInstructions")?.value.trim() || "";
@@ -823,8 +864,7 @@ function goToPage(page) {
       ,customizable: product.customizable ? "true" : "false"
     });
 
-    window.location.href = `../orders/order%20form.html?${orderQuery.toString()}`;
-    return;
+    return `../orders/order%20form.html?${orderQuery.toString()}`;
   }
 
   const query = new URLSearchParams({
@@ -841,7 +881,7 @@ function goToPage(page) {
     notes
   });
 
-  window.location.href = `${page}?${query.toString()}`;
+  return `${page}?${query.toString()}`;
 }
 
 function goToInquiry() {
