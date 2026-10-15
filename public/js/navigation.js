@@ -2,22 +2,49 @@ const navigationBase = document.body.dataset.navigationBase || "";
 const isSignedIn = localStorage.getItem("floraAvenueSignedIn") === "true";
 
 const navigationItems = [
-    ["Home", "index.html"],
-    ["Products", "pages/products/products.html"]
+    ["Home", "index.html", "home-icon.png"],
+    ["Products", "pages/products/products.html", "product-icon.png"]
 ];
 
-function createNavigationLinks() {
-    return navigationItems.map(function ([label, path]) {
-        return `<a class="menu-link" href="${navigationBase}${path}">${label}</a>`;
+function createNavigationLinks(mobile = false) {
+    return navigationItems.map(function ([label, path, icon]) {
+        const iconMarkup = mobile
+            ? `<span class="menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/${icon}" alt=""></span>`
+            : "";
+        return `<a class="menu-link" href="${navigationBase}${path}">${iconMarkup}<span class="menu-text">${label}</span></a>`;
     }).join("");
 }
 
 function createAccountNavigation(mobile) {
+    if (mobile) {
+        const inquiryLabel = "Inquiries";
+        const ordersLabel = "Orders";
+        const accountAction = isSignedIn
+            ? `<button class="menu-link menu-action" data-logout-button type="button">
+                    <span class="menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/logout-icon.png" alt=""></span>
+                    <span class="menu-text">Log Out</span>
+                </button>`
+            : `<a class="menu-link nav-sign-in mobile-nav-sign-in" href="${navigationBase}pages/login/login.html">Sign In</a>`;
+
+        return `
+            <span class="menu-divider" role="separator" aria-hidden="true"></span>
+            <a class="menu-link" href="${navigationBase}pages/inquiries/inquiries.html">
+                <span class="menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/inquiry-icon.png" alt=""></span>
+                <span class="menu-text">${inquiryLabel}</span>
+            </a>
+            <a class="menu-link" href="${navigationBase}pages/orders/orders.html">
+                <span class="menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/order-icon.png" alt=""></span>
+                <span class="menu-text">${ordersLabel}</span>
+            </a>
+            ${accountAction}
+        `;
+    }
+
     if (isSignedIn) {
         return createProfileMenu(mobile);
     }
 
-    return `<a class="menu-link nav-sign-in${mobile ? " mobile-nav-sign-in" : ""}" href="${navigationBase}pages/login/login.html">Sign In</a>`;
+    return `<a class="menu-link nav-sign-in" href="${navigationBase}pages/login/login.html">Sign In</a>`;
 }
 
 function createProfileMenu(mobile) {
@@ -28,10 +55,12 @@ function createProfileMenu(mobile) {
             <button
                 class="menu-link profile-toggle"
                 type="button"
+                aria-label="Profile"
+                title="Profile"
                 aria-haspopup="true"
                 aria-expanded="false"
                 aria-controls="${menuId}"
-            >Profile<span class="profile-chevron" aria-hidden="true"></span></button>
+            ><span class="menu-icon profile-menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/profile-icon.png" alt=""></span><span class="profile-chevron" aria-hidden="true"></span></button>
             <div class="profile-submenu" id="${menuId}" hidden>
                 <a class="menu-link" href="${navigationBase}pages/profile/profile.html">My Profile</a>
                 <a class="menu-link" href="${navigationBase}pages/orders/orders.html">My Orders</a>
@@ -79,7 +108,7 @@ menu.setAttribute("aria-hidden", "true");
 menu.innerHTML = `
     <p class="side-menu-brand">FLORA AVENUE</p>
     <nav aria-label="Main navigation">
-        ${createNavigationLinks()}
+        ${createNavigationLinks(true)}
         ${createAccountNavigation(true)}
     </nav>
 `;

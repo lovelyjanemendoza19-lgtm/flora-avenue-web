@@ -254,6 +254,13 @@ body.persistent-sidebar .menu-button {
     filter: brightness(0);
 }
 
+.menu-divider {
+    display: block;
+    height: 0;
+    margin: 10px 8px 5px;
+    border-top: 1px solid rgba(51, 45, 47, 0.18);
+}
+
 .side-menu nav .menu-link:hover {
     background-color: #7c4a4f;
     color: #e8dfe0;
@@ -1098,6 +1105,19 @@ body.persistent-sidebar .website {
     transform: rotate(225deg);
 }
 
+.desktop-navigation .profile-menu-icon img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0);
+}
+
+.desktop-navigation .profile-toggle:hover .profile-menu-icon img,
+.desktop-navigation .profile-toggle:focus-visible .profile-menu-icon img,
+.desktop-navigation .profile-toggle.active .profile-menu-icon img,
+.desktop-navigation .profile-menu.is-open .profile-menu-icon img {
+    filter: brightness(0) invert(1);
+}
+
 .profile-submenu {
     display: flex;
     flex-direction: column;
@@ -1251,6 +1271,15 @@ header .logo {
 
     .side-menu .mobile-sign-in {
         display: flex;
+    }
+
+    .side-menu .menu-divider {
+        width: auto;
+    }
+
+    .side-menu .menu-text {
+        min-width: 0;
+        overflow-wrap: anywhere;
     }
 
     .menu-overlay {
