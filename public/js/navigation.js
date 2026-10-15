@@ -20,7 +20,11 @@ function createAccountNavigation(mobile) {
         const inquiryLabel = "Inquiries";
         const ordersLabel = "Orders";
         const accountAction = isSignedIn
-            ? `<button class="menu-link menu-action" data-logout-button type="button">
+            ? `<a class="menu-link" href="${navigationBase}pages/profile/profile.html?edit=1">
+                    <span class="menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/profile-icon.png" alt=""></span>
+                    <span class="menu-text">My Profile</span>
+                </a>
+                <button class="menu-link menu-action" data-logout-button type="button">
                     <span class="menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/logout-icon.png" alt=""></span>
                     <span class="menu-text">Log Out</span>
                 </button>`

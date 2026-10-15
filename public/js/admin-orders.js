@@ -261,7 +261,8 @@
             <dt>Order Date</dt><dd>${escapeHtml(formatOrderDate(order.createdAt))}</dd>
             <dt>Order Type</dt><dd>${escapeHtml(fulfillment)}</dd>
             <dt>Product Details</dt><dd>${escapeHtml([order.size, `Qty ${order.qty || 1}`, order.colors].filter(Boolean).join(" · ") || "Not specified")}</dd>
-            <dt>Customization</dt><dd>${escapeHtml([order.addons, order.notes].filter(Boolean).join(" · ") || "None")}</dd>
+            <dt>Customization</dt><dd>${escapeHtml(order.addons || "None")}</dd>
+            <dt>${isCustomized ? "Customization Details" : "Customer Special Instructions / Notes"}</dt><dd>${escapeHtml(order.notes || "None")}</dd>
             <dt>Delivery Address</dt><dd>${escapeHtml(order.fulfil === "Delivery" ? order.address || "Not provided" : "Not applicable")}</dd>
             <dt>Estimated Preparation</dt><dd>${escapeHtml(order.preparationTime || "To be confirmed")}</dd>
           </dl>

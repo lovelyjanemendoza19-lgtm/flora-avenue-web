@@ -131,11 +131,11 @@
             </div>
             <div class="customer-order-total"><span>Total Amount</span><strong>${isCustomized && !customizationConfirmed ? "Awaiting final price" : payment.total > 0 ? formatAmount(payment.total) : "To be discussed"}</strong></div>
           </article>
-          <section class="customer-message-card" aria-labelledby="customer-message-title">
-            <h3 id="customer-message-title">Customer Message</h3>
-            <p>${customerMessage ? displayValue(customerMessage) : "None"}</p>
+          <section class="customer-message-card" aria-labelledby="order-notes-title">
+            <h3 id="order-notes-title">${isCustomized ? "Customization Details" : "Customer Special Instructions / Notes"}</h3>
+            <p>${displayValue(order.notes || "None")}</p>
           </section>
-          ${isCustomized ? `<section class="customer-order-extra"><h3>Customization details</h3><p>${displayValue(order.notes || "None")}</p>
+          ${isCustomized ? `<section class="customer-order-extra"><h3>Customization status</h3>
             <p>Seller confirmation: ${!customizationConfirmed ? "Awaiting review" : awaitingCustomerDecision ? "Awaiting your decision" : order.customizationVoidedAt ? "Voided" : "Confirmed and accepted"}</p></section>` : ""}
           ${awaitingCustomerDecision ? `
             <section class="customer-order-extra custom-offer-response" aria-labelledby="custom-offer-title">

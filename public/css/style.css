@@ -1144,10 +1144,9 @@ body.persistent-sidebar .website {
 .desktop-profile-menu .profile-submenu {
     position: absolute;
     top: calc(100% + 8px);
-    left: 50%;
+    right: 0;
     z-index: 5;
     width: 190px;
-    transform: translateX(-50%);
 }
 
 .desktop-profile-menu .profile-submenu .menu-link {
@@ -1296,15 +1295,11 @@ header .logo {
     }
 
     .side-menu nav .nav-sign-in {
-        margin-top: auto;
+        margin-top: 8px;
         justify-content: center;
         background: #7c4a4f;
         color: #ffffff;
         font-weight: 600;
-    }
-
-    .side-menu nav > [data-logout-button] {
-        margin-top: auto;
     }
 
     .side-menu .profile-toggle:hover,
