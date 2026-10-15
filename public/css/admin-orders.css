@@ -1,9 +1,10 @@
-.order-admin-detail{display:grid;gap:18px;width:min(100%,1320px);margin:0 auto}
+.order-admin-detail{display:grid;gap:18px;width:min(100%,1320px);min-width:0;max-width:100%;margin:0 auto}
 .admin-order-detail-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;border:1px solid #e1d2d5;border-radius:12px;background:#fff}
+.admin-order-detail-heading>div{min-width:0}
 .admin-order-detail-heading h2{margin:2px 0;font:700 22px "Playfair Display",serif;color:#633a3e;overflow-wrap:anywhere}
-.admin-order-detail-heading p{color:#756c6f;font-size:13px}
+.admin-order-detail-heading p{color:#756c6f;font-size:13px;overflow-wrap:anywhere}
 .admin-order-eyebrow{color:#a77f8b;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
-.admin-order-back{color:#7c4a4f;font-size:12px;font-weight:700;text-decoration:underline}
+.admin-order-back{max-width:100%;color:#7c4a4f;font-size:12px;font-weight:700;text-decoration:underline;overflow-wrap:anywhere}
 .admin-order-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:16px}
 .admin-order-detail-grid>.admin-order-section:first-child{grid-column:1/-1}
 .admin-order-section{min-width:0;padding:20px;border:1px solid #e1d2d5;border-radius:12px;background:#fff;box-shadow:0 4px 14px rgba(76,48,53,.05)}
@@ -56,12 +57,16 @@
 .admin-order-feedback:empty{display:none}
 .order-admin-detail .order-empty{padding:22px;border:1px solid #e1d2d5;border-radius:10px;background:#fff}
 .admin-order-id-link{color:#7c4a4f;font-weight:700;text-decoration:underline}
-.admin-orders-table{min-width:780px}
 .admin-orders-table-wrap{overflow-x:auto}
 .admin-order-meta{margin-bottom:12px}
 .admin-order-type-error{margin:0 0 12px;padding:10px 12px;border:1px solid #e5b8bd;border-radius:7px;background:#fff1f1;color:#9b3b43;font-size:12px}
 .admin-order-type-control{margin:0 0 14px}
 .admin-order-type-control .figma-select[aria-invalid="true"]{border-color:#9b3b43}
+
+@media(max-width:760px){
+  .admin-orders-table-wrap{overflow:visible}
+  .admin-orders-table{min-width:0}
+}
 
 @media(max-width:900px){
   .admin-order-detail-grid{grid-template-columns:1fr}

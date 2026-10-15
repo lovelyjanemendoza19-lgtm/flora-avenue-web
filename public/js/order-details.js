@@ -14,6 +14,9 @@
   const displayValue = value => value === null || value === undefined || value === ""
     ? "Not provided"
     : escapeHtml(value);
+  const hasFinalPreparationTime = order => typeof order.preparationTime === "string"
+    && Boolean(order.preparationTime.trim())
+    && order.preparationTime.trim().toLowerCase() !== "to be confirmed";
   const normalizeOrderStatus = value => ({
     pending: "To Pay",
     "awaiting customer": "Awaiting Approval",
@@ -60,7 +63,7 @@
         payment.amountPaid > 0
         || ["Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(adminStatus)
       ))
-    );
+    ) && hasFinalPreparationTime(order);
     const awaitingCustomerDecision = isCustomized
       && customizationConfirmed
       && !customizationAccepted
@@ -137,12 +140,14 @@
           ${awaitingCustomerDecision ? `
             <section class="customer-order-extra custom-offer-response" aria-labelledby="custom-offer-title">
               <h3 id="custom-offer-title">Seller's Customized Offer</h3>
-              <p>Review the seller's edited design and final price. Choose whether to continue to payment or cancel the order.</p>
+              <p>Review the seller's edited design, final price, and preparation time. Choose whether to continue to payment or cancel the order.</p>
               <p><strong>Final price: ${formatAmount(payment.total)}</strong></p>
+              <p><strong>Estimated preparation: ${hasFinalPreparationTime(order) ? displayValue(order.preparationTime) : "Awaiting seller confirmation"}</strong></p>
               <div class="custom-offer-actions">
-                <button id="acceptCustomizedOffer" type="button">Accept &amp; Continue to Payment</button>
+                ${hasFinalPreparationTime(order) ? '<button id="acceptCustomizedOffer" type="button">Accept &amp; Continue to Payment</button>' : ""}
                 <button id="voidCustomizedOffer" class="secondary" type="button">Cancel Order</button>
               </div>
+              ${hasFinalPreparationTime(order) ? "" : '<p class="payment-notice">Please wait while the seller confirms the estimated preparation time.</p>'}
               <p id="customOfferFeedback" class="payment-form-feedback" role="status" aria-live="polite"></p>
             </section>` : ""}
           ${sourceInquiry ? `<section class="customer-order-extra"><h3>Related Inquiry</h3><p><a class="related-inquiry-link" href="../inquiries/inquiries.html?reference=${encodeURIComponent(sourceInquiry.reference)}">${escapeHtml(sourceInquiry.subject || sourceInquiry.reference)} · ${escapeHtml(sourceInquiry.reference)}</a></p></section>` : ""}
@@ -187,6 +192,7 @@
         </div>
       </div>`;
     document.getElementById("acceptCustomizedOffer")?.addEventListener("click", () => {
+      if (!hasFinalPreparationTime(order)) return;
       order.customizationAcceptedAt = new Date().toISOString();
       order.status = "Pending";
       updateOrder(order, "Unable to accept the seller's customized order. Please try again.");

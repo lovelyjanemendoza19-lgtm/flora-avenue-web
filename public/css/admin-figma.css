@@ -194,6 +194,9 @@ body.admin-app .admin-topbar{
 .figma-search input::placeholder{color:#aaa0a3}
 
 .figma-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.figma-tabs#orderFilters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.figma-tabs#orderFilters::-webkit-scrollbar{display:none}
+.figma-tabs#orderFilters button{flex:0 0 auto;white-space:nowrap}
 .figma-tabs button{
   height:32px;
   padding:0 15px;
@@ -367,11 +370,13 @@ body.admin-menu-open{overflow:hidden}
   display:flex;
   flex:1 1 auto;
   flex-direction:row;
-  flex-wrap:wrap;
+  flex-wrap:nowrap;
   gap:7px;
   margin:10px 0 18px;
-  overflow:visible;
+  overflow-x:auto;
+  scrollbar-width:none;
 }
+.admin-product-catalog .category-list::-webkit-scrollbar{display:none}
 
 .admin-orders-table-wrap{width:100%;overflow-x:auto;border:1px solid var(--fx-border);border-radius:11px;background:#fff}
 .admin-orders-table{width:100%;min-width:1350px;border-collapse:collapse;text-align:left}

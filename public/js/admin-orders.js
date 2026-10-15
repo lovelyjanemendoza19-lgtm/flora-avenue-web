@@ -40,6 +40,9 @@
   const paymentSummary = order => store.getPaymentSummary(order);
   const formatPaymentStatus = order => paymentSummary(order).status;
   const isCustomizationOrder = order => order.type === "Customization Request";
+  const hasFinalPreparationTime = order => typeof order.preparationTime === "string"
+    && Boolean(order.preparationTime.trim())
+    && order.preparationTime.trim().toLowerCase() !== "to be confirmed";
   const hasCustomizationConfirmation = order => Boolean(
     order.customizationConfirmedAt
     || order.sellerProposal?.acceptedAt
@@ -108,7 +111,7 @@
     list.innerHTML = `
       <div class="admin-orders-table-wrap">
         <table class="admin-orders-table">
-          <thead><tr><th scope="col">Order ID</th><th scope="col">Customer</th><th scope="col">Product</th><th scope="col">Payment</th><th scope="col">Order Status</th><th scope="col">Actions</th></tr></thead>
+          <thead><tr><th scope="col">Order ID</th><th scope="col">Customer</th><th scope="col">Product</th><th scope="col">Payment</th><th scope="col">Order Status</th></tr></thead>
           <tbody>${orders.map(order => {
             const detailsUrl = `order-details.html?order=${encodeURIComponent(order.reference)}`;
             return `<tr>
@@ -117,7 +120,6 @@
               <td data-label="Product">${escapeHtml(order.style || (isCustomizationOrder(order) ? "Custom Order" : "Order"))}</td>
               <td data-label="Payment">${escapeHtml(formatPaymentStatus(order))}</td>
               <td data-label="Order Status">${escapeHtml(normalizeOrderStatus(order.status))}</td>
-              <td data-label="Actions"><a class="admin-order-id-link" href="${detailsUrl}">View Details</a></td>
             </tr>`;
           }).join("")}</tbody>
         </table>
@@ -187,12 +189,13 @@
     const status = normalizeOrderStatus(order.status);
     const isCustomized = isCustomizationOrder(order);
     const customizationConfirmed = hasCustomizationConfirmation(order);
-    const customizationAccepted = hasCustomizationAcceptance(order);
+    const preparationTimeConfirmed = hasFinalPreparationTime(order);
+    const customizationAccepted = hasCustomizationAcceptance(order) && preparationTimeConfirmed;
     const awaitingCustomerAcceptance = isCustomized
       && customizationConfirmed
       && !customizationAccepted
       && !order.customizationVoidedAt;
-    const paymentStarted = payment.amountPaid > 0 || Boolean(payment.proof);
+    const paymentStarted = payment.amountPaid > 0 || (Boolean(payment.proof) && payment.status !== "Rejected");
     const customizationLocked = customizationConfirmed && paymentStarted;
     const fulfillment = fulfillmentType(order);
     const fulfillmentMissing = fulfillment === "Not specified";
@@ -218,7 +221,9 @@
               <h3>Seller Confirmation</h3>
               <p class="admin-customization-status">${customizationConfirmed
                 ? awaitingCustomerAcceptance
-                  ? "Customized order offer sent. Waiting for the customer to accept or void it."
+                  ? preparationTimeConfirmed
+                    ? "Customized order offer sent. Waiting for the customer to accept or void it."
+                    : "Set the estimated preparation time before the customer can accept the offer."
                   : "Customized order accepted. The customer can submit payment."
                 : "Review and edit the customized order, then confirm the final price before the customer can pay."}</p>
               ${customizationReferenceMarkup(order)}
@@ -232,6 +237,7 @@
               <label>Add-ons<input class="figma-input" name="addons" type="text" maxlength="300" value="${escapeHtml(order.addons || "")}"${customizationLocked ? " disabled" : ""}></label>
               <label>Customization details<textarea class="figma-textarea" name="notes" maxlength="2000"${customizationLocked ? " disabled" : ""}>${escapeHtml(order.notes || "")}</textarea></label>
               <label>Final price<input class="figma-input" name="finalPrice" type="number" min="0.01" step="0.01" value="${customizationConfirmed ? payment.total : ""}" required${customizationLocked ? " disabled" : ""}></label>
+              <label>Estimated preparation time<input class="figma-input" name="preparationTime" type="text" maxlength="100" value="${preparationTimeConfirmed ? escapeHtml(order.preparationTime.trim()) : ""}" placeholder="e.g. 2–3 days" required${customizationLocked ? " disabled" : ""}></label>
               <button class="figma-btn" type="submit"${customizationLocked ? " disabled" : ""}>${customizationConfirmed ? "Save Customized Order" : "Confirm Customized Order & Set Price"}</button>
               ${customizationLocked ? '<p class="admin-customization-locked">Customization details are locked because payment has been submitted.</p>' : ""}
             </form>` : ""}
@@ -270,7 +276,7 @@
             ${proof ? `<p class="admin-payment-method">Payment method: ${escapeHtml(proof.method || payment.method || "Not provided")}</p>` : ""}
             ${payment.status === "Pending Verification" && proof
               ? `<div class="admin-payment-review-actions">
-                  <button class="figma-btn" id="verifyPayment" type="button"${isCustomized && !customizationConfirmed ? " disabled" : ""}>Verify</button>
+                  <button class="figma-btn" id="verifyPayment" type="button"${isCustomized && (!customizationConfirmed || !customizationAccepted) ? " disabled" : ""}>Verify</button>
                   <button class="figma-btn secondary" id="rejectPayment" type="button">Reject</button>
                 </div>`
               : ""}
@@ -317,8 +323,16 @@
       const form = event.currentTarget;
       const finalPrice = Number(form.elements.finalPrice.value);
       const quantity = Number(form.elements.qty.value);
+      const preparationTime = form.elements.preparationTime.value.trim();
       if (!form.reportValidity() || !Number.isFinite(finalPrice) || finalPrice <= 0
         || !Number.isInteger(quantity) || quantity < 1) {
+        return;
+      }
+      if (!preparationTime) {
+        form.elements.preparationTime.focus();
+        const feedback = document.getElementById("orderAdminFeedback");
+        feedback.textContent = "Enter an estimated preparation time before sending the customized offer.";
+        feedback.dataset.error = "true";
         return;
       }
       if (customizationLocked) {
@@ -334,6 +348,7 @@
       order.colors = form.elements.colors.value.trim();
       order.addons = form.elements.addons.value.trim();
       order.notes = form.elements.notes.value.trim();
+      order.preparationTime = preparationTime;
       order.amount = finalPrice;
       order.payment = { ...(order.payment || {}), total: finalPrice };
       order.customizationConfirmedAt = new Date().toISOString();
@@ -347,6 +362,7 @@
       const currentPayment = paymentSummary(order);
       const submittedAmount = Number(currentPayment.proof?.amount);
       const validProof = (!isCustomized || (hasCustomizationConfirmation(order) && hasCustomizationAcceptance(order)))
+        && (!isCustomized || hasFinalPreparationTime(order))
         && currentPayment.status === "Pending Verification"
         && currentPayment.proof
         && Number.isFinite(submittedAmount)
@@ -365,7 +381,8 @@
         status: "Fully Paid",
         proof: { ...currentPayment.proof, verifiedAt: new Date().toISOString(), rejectionReason: "" }
       };
-      order.status = "To Pay";
+      order.status = "Preparing";
+      order.statusUpdatedAt = new Date().toISOString();
       persistOrder("Payment verified.");
     });
 
@@ -376,6 +393,8 @@
         status: "Rejected",
         proof: { ...payment.proof, rejectedAt: new Date().toISOString() }
       };
+      order.status = "To Pay";
+      order.statusUpdatedAt = new Date().toISOString();
       persistOrder("Payment proof rejected.");
     });
 
@@ -409,6 +428,10 @@
       }
       if (!isCancelled && nextIndex < 0) {
         rejectStatusUpdate("Choose a status that matches the order's fulfillment method.");
+        return;
+      }
+      if (!isCancelled && currentIndex >= 0 && nextIndex < currentIndex) {
+        rejectStatusUpdate("Order status cannot move backwards.");
         return;
       }
       const paymentState = paymentSummary(order);
@@ -767,9 +790,8 @@
           <td>${escapeHtml(isCustomizationOrder(order) && !hasCustomizationConfirmation(order)
             ? "Awaiting seller confirmation"
             : formatAmount(order.amount))}</td>
-          <td><a class="pro-order-view" href="order-details.html?order=${encodeURIComponent(order.reference)}">View</a></td>
         </tr>`).join("")
-      : `<tr><td class="pro-orders-empty" colspan="7">
+      : `<tr><td class="pro-orders-empty" colspan="6">
           <svg class="pro-orders-empty-icon" aria-hidden="true" viewBox="0 0 48 48" fill="none">
             <path d="m6 14 18-9 18 9v20l-18 9-18-9V14Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
             <path d="m6 14 18 9 18-9M24 23v20M15 9l18 9v9" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
@@ -778,7 +800,7 @@
           <span>Orders will appear here once customers place an order.</span>
         </td></tr>`;
     recentOrders.innerHTML = `<div class="pro-orders-table-wrap"><table class="pro-orders-table">
-      <thead><tr><th scope="col">Order ID</th><th scope="col">Customer</th><th scope="col">Product</th><th scope="col">Date</th><th scope="col">Status</th><th scope="col">Amount</th><th scope="col">Actions</th></tr></thead>
+      <thead><tr><th scope="col">Order ID</th><th scope="col">Customer</th><th scope="col">Product</th><th scope="col">Date</th><th scope="col">Status</th><th scope="col">Amount</th></tr></thead>
       <tbody>${rows}</tbody></table></div>`;
   }
 
