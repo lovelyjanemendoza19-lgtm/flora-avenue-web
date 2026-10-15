@@ -18,6 +18,12 @@
     const date = new Date(value || "");
     return Number.isNaN(date.getTime()) ? "—" : date.toLocaleDateString("en-PH");
   };
+  const formatOrderDateTime = value => {
+    const date = new Date(value || "");
+    return Number.isNaN(date.getTime())
+      ? "Date unavailable"
+      : `${date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · ${date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
+  };
   const slug = value => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const normalizeOrderStatus = value => ({
     pending: "To Pay",
@@ -111,15 +117,24 @@
     list.innerHTML = `
       <div class="admin-orders-table-wrap">
         <table class="admin-orders-table">
-          <thead><tr><th scope="col">Order ID</th><th scope="col">Customer</th><th scope="col">Product</th><th scope="col">Payment</th><th scope="col">Order Status</th></tr></thead>
+          <thead><tr><th scope="col">Order ID</th><th scope="col">Customer</th><th scope="col">Product</th><th scope="col">Payment Status</th><th scope="col">Order Status</th><th scope="col">Actions</th></tr></thead>
           <tbody>${orders.map(order => {
             const detailsUrl = `order-details.html?order=${encodeURIComponent(order.reference)}`;
+            const paymentStatus = formatPaymentStatus(order);
+            const orderStatus = paymentStatus === "Pending Verification"
+              ? "To Verify"
+              : paymentStatus === "Rejected"
+                ? "To Pay"
+                : normalizeOrderStatus(order.status);
+            const quantity = Math.max(1, Number(order.qty) || 1);
+            const productName = order.style || (isCustomizationOrder(order) ? "Custom Order" : "Order");
             return `<tr>
-              <td data-label="Order ID"><a class="admin-order-id-link" href="${detailsUrl}">${escapeHtml(order.reference || "—")}</a></td>
+              <td data-label="Order ID"><a class="admin-order-id-link" href="${detailsUrl}">${escapeHtml(order.reference || "—")}</a><small class="admin-order-date">${escapeHtml(formatOrderDateTime(order.createdAt))}</small></td>
               <td data-label="Customer">${escapeHtml(order.customerName || order.contactName || "Customer")}</td>
-              <td data-label="Product">${escapeHtml(order.style || (isCustomizationOrder(order) ? "Custom Order" : "Order"))}</td>
-              <td data-label="Payment">${escapeHtml(formatPaymentStatus(order))}</td>
-              <td data-label="Order Status">${escapeHtml(normalizeOrderStatus(order.status))}</td>
+              <td data-label="Product"><div class="admin-order-list-product"><img src="../../public/images/${encodeURIComponent(order.image || "banner-flower.png")}" alt=""><span class="admin-order-product-copy"><strong>${escapeHtml(productName)}</strong><small>1 item × ${quantity}</small><small class="admin-order-mobile-meta">Order ID: ${escapeHtml(order.reference || "—")}</small><small class="admin-order-mobile-meta">${escapeHtml(order.customerName || order.contactName || "Customer")} · ${escapeHtml(order.fulfil || "Not specified")}</small></span><span class="admin-order-mobile-total">${escapeHtml(formatAmount(paymentSummary(order).total || order.amount))}<span aria-hidden="true">›</span></span></div></td>
+              <td data-label="Payment Status"><span class="admin-order-badge payment-${slug(paymentStatus)}">${escapeHtml(paymentStatus)}</span></td>
+              <td data-label="Order Status"><span class="admin-order-badge order-${slug(orderStatus)}">${escapeHtml(orderStatus)}</span></td>
+              <td data-label="Actions" class="admin-order-actions"><a class="admin-order-view-button" href="${detailsUrl}">View Details</a></td>
             </tr>`;
           }).join("")}</tbody>
         </table>
