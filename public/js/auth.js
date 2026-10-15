@@ -29,13 +29,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const isSameSite = destination.origin === siteRoot.origin
             && destination.pathname.startsWith(siteRootPath);
         const isInquiry = pendingAction?.action === "inquiry"
+            && pendingAction?.intent === "new-inquiry"
             && path.endsWith("/inquiries/inquiries.html");
+        const isOrderDetails = pendingAction?.action === "order"
+            && path.endsWith("/orders/order%20details.html");
         const isOrder = pendingAction?.action === "order"
             && (
                 path.endsWith("/products/product-details.html")
                 || path.endsWith("/products/customization.html")
                 || path.endsWith("/orders/order%20form.html")
-                || path.endsWith("/orders/order%20details.html")
             );
         const isCustomization = pendingAction?.action === "customize"
             && (
@@ -43,9 +45,31 @@ document.addEventListener("DOMContentLoaded", function () {
                 || path.endsWith("/products/customization.html")
             );
 
-        if (!isSameSite || !(isInquiry || isOrder || isCustomization)) {
+        if (!isSameSite || !(isInquiry || isOrder || isCustomization || isOrderDetails)) {
             localStorage.removeItem("floraAvenuePendingAction");
             return null;
+        }
+
+        if (isOrderDetails) {
+            const customerEmail = (localStorage.getItem("floraAvenueUserEmail") || "").trim().toLowerCase();
+            const orderReference = destination.searchParams.get("order");
+            let savedOrders;
+            try {
+                savedOrders = JSON.parse(localStorage.getItem("floraAvenueOrders") || "[]");
+            } catch (error) {
+                console.warn("Unable to check the requested customer order.", error);
+                localStorage.removeItem("floraAvenuePendingAction");
+                return null;
+            }
+            const hasCustomerOrder = Array.isArray(savedOrders) && savedOrders.some(order =>
+                order
+                && order.reference === orderReference
+                && String(order.customerEmail || order.contactEmail || "").trim().toLowerCase() === customerEmail
+            );
+            if (!hasCustomerOrder) {
+                localStorage.removeItem("floraAvenuePendingAction");
+                return null;
+            }
         }
 
         return destination.href;

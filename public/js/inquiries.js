@@ -61,6 +61,7 @@ function startInquiry() {
   if (localStorage.getItem("floraAvenueSignedIn") !== "true" || !getCustomerEmail()) {
     localStorage.setItem("floraAvenuePendingAction", JSON.stringify({
       action: "inquiry",
+      intent: "new-inquiry",
       url: window.location.href
     }));
     window.location.href = "../../pages/login/login.html";
@@ -306,7 +307,11 @@ if (inquiryReference) {
 
 try {
   const pendingAction = JSON.parse(localStorage.getItem("floraAvenuePendingAction"));
-  if (pendingAction?.action === "inquiry" && localStorage.getItem("floraAvenueSignedIn") === "true") {
+  if (
+    pendingAction?.action === "inquiry"
+    && pendingAction?.intent === "new-inquiry"
+    && localStorage.getItem("floraAvenueSignedIn") === "true"
+  ) {
     startInquiry();
   }
 } catch (error) {

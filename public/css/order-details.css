@@ -340,6 +340,15 @@ body:not(.orders-body) {
   font-size: 12px !important;
 }
 
+.payment-rejected-notice {
+  padding: 12px 14px;
+  border: 1px solid #e8b8b8;
+  border-radius: 8px;
+  background: #fff0f0;
+  color: #9b3b43 !important;
+  line-height: 1.5;
+}
+
 .payment-form-feedback:not(:empty) {
   color: #9b3b43 !important;
 }

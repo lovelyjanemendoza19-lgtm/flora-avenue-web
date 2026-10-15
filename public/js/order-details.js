@@ -158,7 +158,7 @@
               <div><span>Payment Method</span><strong>${displayValue(payment.method || proof?.method || "Not provided")}</strong></div>
             </div>
             ${payment.status === "Pending Verification" ? '<p class="payment-notice">Your payment proof has been submitted. Please wait for the seller to verify your payment.</p>' : ""}
-            ${payment.status === "Rejected" && proof?.rejectionReason ? `<p class="payment-notice payment-rejected-notice">Payment rejected: ${displayValue(proof.rejectionReason)}</p>` : ""}
+            ${payment.status === "Rejected" ? `<p class="payment-notice payment-rejected-notice" role="alert" aria-live="assertive">Payment for order ${escapeHtml(order.reference)} was rejected.${proof?.rejectionReason ? ` Reason: ${displayValue(proof.rejectionReason)}` : ""} Please submit new payment proof.</p>` : ""}
             ${proof ? `<div class="customer-proof-card"><h3>Payment Proof</h3><div class="customer-proof-details">
               ${proofPreview}
               <div><span>${displayValue(proof.fileName || "Payment proof")}</span>
