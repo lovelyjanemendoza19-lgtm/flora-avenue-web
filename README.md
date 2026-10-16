@@ -1,50 +1,83 @@
-Web-Based Customer Inquiry and Order Management for Floral Avenue
+**Flora Avenue – Web-Based Customer Inquiry and Order Management**
 
-Team Trailux
+*Flora Avenue is a small business that sells handmade flower bouquets, customized gifts, souvenirs, and other products.*
 
-Project Manager
-- Mendoza, Lovely Jane
+*This project is a frontend website created to help Flora Avenue organize customer inquiries, product customization, orders, and payments.*
 
-Members: 
-- John Patrick Arbo
-- Guiljohn Balisi
-- Jayson Hernandez
-- Kylie Magsalay,
-- Lea Tomacruz
-         
-         
-The proposed system is a web-based application that are designed to showcase handcrafted bouquets and gift items while allowing customers to browse products and submit inquiries for customized orders, place orders for fixed-price products, make the required down payment, and track their order status. It also provides an admin dashboard for managing products, orders, payments, and customer inquiries, creating a centralized platform for efficient order management and communication.
+*The website allows customers to browse products, place orders, submit payment proof, and track their order status. It also includes an admin interface for managing products, inquiries, payments, and orders.*
 
-Technologies Used
-- HTML
+**Technologies Used**
+- HTML5 
 - CSS
-- JavaScript
-- Git
-- GitHub
-- Figma
+- JavaScript 
+- localStorage 
+- Figma 
+- Visual Studio Code
+- GitHub 
+- Netlify 
 
+**Main Features**
 
-Current Progress
-The following parts of the frontend have already been started:
+**Customer Side**
+- Homepage and Product Catalog
+- Product Details and Customization
+- Customer Inquiry
+- Login and Registration
+- Order Form and Order Confirmation
+- 100% Payment Proof Submission
+- Order Tracking (To Pay, To Receive, Completed)
+- Customer Profile
 
-- Homepage
-- Product catalog
-- Product details page
-- Side navigation menu
-- Product cards
-- Back button
-- Responsive layout
+**Admin Side**
+- Admin Dashboard
+- Product Management
+- Inquiry Management
+- Order Management
+- Payment Verification
+- Order Status Updates
+- Customization Price and Preparation Time
 
-Some product information, images, navigation links, and other pages are still under development.
-
-
-Setup Instructions
-
-1. Clone or download the repository.
+**Setup Instructions**
+1. Download or clone the GitHub repository.
 2. Open the project folder in Visual Studio Code.
-3. Open `index.html`.
-4. Run the project using a browser or the Live Server extension in Visual Studio Code.
+3. Open `index.html` in a web browser or use the Live Server extension.
+4. Browse the website and test its features.
 
-No additional installation is required because the project currently uses HTML, CSS, and JavaScript only.
+Some features require using the same browser and website address because the project uses localStorage.
 
-Customer sign-in, profile details, orders, customization requests, inquiries, and responses are currently stored in the browser's local storage. Orders are associated with the signed-in customer, and an inquiry can be continued as a linked customization request and order. Inquiry submissions and admin responses are shared only within the same browser and site origin; this demo is not backed by a server and does not sync across devices.
+
+**Netlify:** (https://flora-avenue.netlify.app)
+
+**GitHub Repository:**  (https://github.com/lovelyjanemendoza19-lgtm/flora-avenue-web)
+
+
+**Project Team**
+
+**Group Name:** Trailux
+
+**Project Manager:**
+- Lovely Jane R. Mendoza
+
+**Team Members:**
+- John Patrick Arbo 
+- Lea Tomacruz 
+- Kylie Magsalay
+- Jayson Hernandez 
+- Guiljohn Balisi 
+
+
+**Project Limitations**
+- The website is a frontend-only project.
+- Data is saved using localStorage.
+- Orders and payment updates do not automatically sync across different devices.
+- Login and registration are for demonstration purposes.
+- Payments are manually verified by the admin.
+- An online database and secure authentication may be added in the future.
+
+
+
+**Project Purpose**
+
+This project was developed as an academic requirement to demonstrate how a frontend website can help a small business manage customer inquiries and orders in a more organized way.
+
+
