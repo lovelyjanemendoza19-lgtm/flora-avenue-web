@@ -1,15 +1,12 @@
- Flora Avenue – Web-Based Customer Inquiry and Order Management
+**Flora Avenue – Web-Based Customer Inquiry and Order Management**
 
-Project Description
+*Flora Avenue is a small business that sells handmade flower bouquets, customized gifts, souvenirs, and other products.*
 
-Flora Avenue is a small business that sells handmade flower bouquets, customized gifts, souvenirs, and other products.
+*This project is a frontend website created to help Flora Avenue organize customer inquiries, product customization, orders, and payments.*
 
-This project is a frontend website created to help Flora Avenue organize customer inquiries, product customization, orders, and payments.
+*The website allows customers to browse products, place orders, submit payment proof, and track their order status. It also includes an admin interface for managing products, inquiries, payments, and orders.*
 
-The website allows customers to browse products, place orders, submit payment proof, and track their order status. It also includes an admin interface for managing products, inquiries, payments, and orders.
-
-Technologies Used
-
+**Technologies Used**
 - HTML5 
 - CSS
 - JavaScript 
@@ -19,10 +16,9 @@ Technologies Used
 - GitHub 
 - Netlify 
 
-Main Features
+**Main Features**
 
-Customer Side
-
+**Customer Side**
 - Homepage and Product Catalog
 - Product Details and Customization
 - Customer Inquiry
@@ -32,8 +28,7 @@ Customer Side
 - Order Tracking (To Pay, To Receive, Completed)
 - Customer Profile
 
-Admin Side
-
+**Admin Side**
 - Admin Dashboard
 - Product Management
 - Inquiry Management
@@ -43,7 +38,6 @@ Admin Side
 - Customization Price and Preparation Time
 
 **Setup Instructions**
-
 1. Download or clone the GitHub repository.
 2. Open the project folder in Visual Studio Code.
 3. Open `index.html` in a web browser or use the Live Server extension.
@@ -52,35 +46,35 @@ Admin Side
 Some features require using the same browser and website address because the project uses localStorage.
 
 
-**Live Website**
+**Netlify:** (https://flora-avenue.netlify.app)
 
-**Netlify:** Flora-avenue.netlify.app
-
-**GitHub Repository:** (https://github.com/lovelyjanemendoza19-lgtm/flora-avenue-web)
+**GitHub Repository:**  (https://github.com/lovelyjanemendoza19-lgtm/flora-avenue-web)
 
 
 **Project Team**
 
 **Group Name:** Trailux
 
-**Project Manager:** Lovely Jane R. Mendoza
+**Project Manager:**
+- Lovely Jane R. Mendoza
 
 **Team Members:**
-
 - John Patrick Arbo 
 - Lea Tomacruz 
 - Kylie Magsalay
 - Jayson Hernandez 
 - Guiljohn Balisi 
 
-**Project Limitations**
 
+**Project Limitations**
 - The website is a frontend-only project.
 - Data is saved using localStorage.
 - Orders and payment updates do not automatically sync across different devices.
 - Login and registration are for demonstration purposes.
 - Payments are manually verified by the admin.
 - An online database and secure authentication may be added in the future.
+
+
 
 **Project Purpose**
 
