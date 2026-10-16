@@ -280,7 +280,7 @@ body.admin-app .admin-topbar{
 .figma-message p{font-size:8px;color:#62575b;line-height:1.65;margin:10px 0 0;padding-left:44px}
 
 .figma-status{display:inline-block;padding:5px 10px;border-radius:999px;background:#eee6e8;font-size:7px;font-weight:700;white-space:nowrap}
-.figma-status.pending{background:#ffe7cc;color:#9b4e00}.figma-status.processing{background:#eee1eb;color:#7e4661}.figma-status.verified{background:#e2f2e4;color:#367041}.figma-status.failed{background:#f6dddd;color:#9b3b43}
+.figma-status.pending{background:#ffe7cc;color:#9b4e00}.figma-status.processing{background:#eee1eb;color:#7e4661}.figma-status.verified,.figma-status.responded{background:#e2f2e4;color:#367041}.figma-status.resolved{background:#eee6e8;color:#62575b}.figma-status.failed{background:#f6dddd;color:#9b3b43}
 
 /* ---------- DETAILS ---------- */
 .figma-detail{max-width:760px;padding:22px}

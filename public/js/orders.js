@@ -122,7 +122,7 @@
                 : payment.total > 0
                 ? formatAmount(payment.total)
                 : formatAmount(order.amount);
-            return `<article class="order-item" data-tracking-status="${trackingStatus}">
+            return `<a class="order-item" data-tracking-status="${trackingStatus}" href="order%20details.html?order=${encodeURIComponent(order.reference)}" aria-label="View details for order ${escapeHtml(order.reference)}">
                 <div class="order-item-product">
                     <img src="../../public/images/${encodeURIComponent(order.image || "banner-flower.png")}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">
                     <div class="order-info">
@@ -138,11 +138,16 @@
                         <span class="order-status-label">Order status</span>
                     <span class="order-status-value tracking-${trackingStatus}">${escapeHtml(orderStatus)}</span>
                     </div>
-                    <a class="order-details-button" href="order%20details.html?order=${encodeURIComponent(order.reference)}">View Details</a>
                 </div>
-            </article>`;
+            </a>`;
         }).join("");
     }
+
+    orderList.addEventListener("keydown", function (event) {
+        if (event.key !== " " || !event.target.closest(".order-item")) return;
+        event.preventDefault();
+        window.location.assign(event.target.closest(".order-item").href);
+    });
 
     filterButtons.forEach(function (button) {
         button.addEventListener("click", function () {

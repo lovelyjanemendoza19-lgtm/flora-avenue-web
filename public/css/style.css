@@ -1333,16 +1333,12 @@ header .logo {
 
 @media (min-width: 600px) {
     body.persistent-sidebar .website {
-        width: calc(100% - 170px);
-        margin-left: 170px;
+        width: 100%;
+        margin-left: 0;
     }
 
     body.persistent-sidebar .side-menu {
-        display: flex;
-        width: 170px;
-        height: 100vh;
-        height: 100dvh;
-        transform: translateX(0);
+        display: none;
     }
 
     body.persistent-sidebar .menu-overlay {

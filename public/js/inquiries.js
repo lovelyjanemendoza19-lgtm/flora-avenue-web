@@ -121,15 +121,20 @@ function submitInquiry() {
       hour: "numeric",
       minute: "2-digit"
     }),
-    status: "New",
+    status: "Pending",
     image: params.get("image")
       ? `../../public/images/${encodeURIComponent(params.get("image"))}`
-      : "../../public/images/custom-bouquet.jpeg",
+      : "",
     product: params.get("product") || "",
     type: type,
     subject: subject,
     message: message,
     response: "",
+    conversation: [{
+      sender: "Customer",
+      message: message,
+      sentAt: now.toISOString()
+    }],
     customerEmail: customerEmail,
     customerName: getCustomerName(customerEmail),
     productId: params.get("id") || "",
@@ -159,9 +164,13 @@ function submitInquiry() {
 
 function showDetails(inquiry = currentInquiry, screenId = "detailsScreen") {
   if (!inquiry) return;
+  if (localStorage.getItem("floraAvenueSignedIn") !== "true"
+      || getCustomerEmail() !== inquiry.customerEmail?.toLowerCase()) {
+    return;
+  }
   currentInquiry = inquiry;
   document.getElementById("detailRef").textContent = inquiry.reference;
-  document.getElementById("detailStatus").textContent = inquiry.status || "New";
+  document.getElementById("detailStatus").textContent = inquiry.status || "Pending";
   document.getElementById("detailProductName").textContent = inquiry.product || "General inquiry";
   document.getElementById("detailInquiryType").textContent = inquiry.type || "Not specified";
   document.getElementById("detailSubject").textContent = inquiry.subject || "Not provided";
@@ -170,15 +179,16 @@ function showDetails(inquiry = currentInquiry, screenId = "detailsScreen") {
   document.getElementById("detailQuantity").textContent = inquiry.quantity || "Not specified";
   document.getElementById("detailAddons").textContent = inquiry.addons || "None";
   document.getElementById("detailDate").textContent = inquiry.date || "";
-  document.getElementById("detailMessage").textContent = inquiry.message;
-  document.getElementById("detailResponseDate").textContent = inquiry.respondedAt || "";
-  document.getElementById("detailResponse").textContent =
-    inquiry.response || "We will respond to your inquiry as soon as possible.";
+  renderCustomerConversation(inquiry);
 
   const imageElement = document.getElementById("detailInquiryProductImage");
   if (imageElement) {
-    imageElement.src = inquiry.image || "../../public/images/custom-bouquet.jpeg";
-    imageElement.alt = inquiry.product || "Inquiry";
+    const hasProductImage = Boolean(inquiry.product && inquiry.image);
+    imageElement.hidden = !hasProductImage;
+    if (hasProductImage) {
+      imageElement.src = inquiry.image;
+      imageElement.alt = inquiry.product;
+    }
   }
   const orderAction = document.getElementById("inquiryOrderAction");
   if (orderAction) {
@@ -212,6 +222,67 @@ function showDetails(inquiry = currentInquiry, screenId = "detailsScreen") {
   }
   showScreen(screenId);
 }
+
+function renderCustomerConversation(inquiry) {
+  const thread = document.getElementById("customerConversation");
+  const input = document.getElementById("customerReplyInput");
+  const sendButton = document.getElementById("customerSendReply");
+  const feedback = document.getElementById("customerReplyFeedback");
+  if (!thread || !input || !sendButton || !feedback) return;
+
+  thread.replaceChildren();
+  inquiry.conversation?.forEach(function (message) {
+    const entry = document.createElement("article");
+    entry.className = `conversation-message ${message.sender === "Customer" ? "from-customer" : "from-seller"}`;
+    const header = document.createElement("div");
+    header.className = "conversation-message-header";
+    const sender = document.createElement("strong");
+    sender.textContent = message.sender;
+    const sentAt = document.createElement("time");
+    sentAt.dateTime = message.sentAt;
+    sentAt.textContent = inquiryStore.formatMessageDate(message.sentAt);
+    const body = document.createElement("p");
+    body.textContent = message.message;
+    header.append(sender, sentAt);
+    entry.append(header, body);
+    thread.appendChild(entry);
+  });
+
+  const isResolved = inquiry.status === "Resolved";
+  const canReply = localStorage.getItem("floraAvenueSignedIn") === "true"
+    && getCustomerEmail() === inquiry.customerEmail?.toLowerCase()
+    && !isResolved;
+  input.disabled = !canReply;
+  sendButton.disabled = !canReply;
+  feedback.textContent = isResolved
+    ? "This inquiry is resolved and no longer accepts replies."
+    : "";
+}
+
+document.getElementById("customerSendReply")?.addEventListener("click", function () {
+  const feedback = document.getElementById("customerReplyFeedback");
+  const input = document.getElementById("customerReplyInput");
+  if (!currentInquiry || !feedback || !input) return;
+  if (localStorage.getItem("floraAvenueSignedIn") !== "true"
+      || getCustomerEmail() !== currentInquiry.customerEmail?.toLowerCase()) {
+    feedback.textContent = "Sign in to the customer account that submitted this inquiry to reply.";
+    return;
+  }
+
+  try {
+    currentInquiry = inquiryStore.addMessage(
+      currentInquiry.reference,
+      "Customer",
+      input.value
+    );
+    inquiries = inquiryStore.load();
+    input.value = "";
+    showDetails(currentInquiry);
+    feedback.textContent = "Your reply has been sent.";
+  } catch (error) {
+    feedback.textContent = error.message || "Unable to send your reply. Please try again.";
+  }
+});
 
 function renderInquiries(filter = "All") {
   const list = document.getElementById("inquiryList");
@@ -252,14 +323,17 @@ function renderInquiries(filter = "All") {
       showDetails(inquiry);
     });
 
-    const imageWrap = document.createElement("span");
-    imageWrap.className = "item-img";
-    const image = document.createElement("img");
-    image.src = inquiry.image || "../../public/images/custom-bouquet.jpeg";
-    image.alt = "";
-    image.loading = "lazy";
-    image.decoding = "async";
-    imageWrap.appendChild(image);
+    if (inquiry.product && inquiry.image) {
+      const imageWrap = document.createElement("span");
+      imageWrap.className = "item-img";
+      const image = document.createElement("img");
+      image.src = inquiry.image;
+      image.alt = "";
+      image.loading = "lazy";
+      image.decoding = "async";
+      imageWrap.appendChild(image);
+      item.appendChild(imageWrap);
+    }
 
     const info = document.createElement("span");
     info.className = "item-info";
@@ -277,7 +351,7 @@ function renderInquiries(filter = "All") {
     status.className = `inquiry-status ${String(inquiry.status).toLowerCase()}`;
     status.textContent = inquiry.status;
 
-    item.append(imageWrap, info, status);
+    item.append(info, status);
     list.appendChild(item);
   });
 }
@@ -327,13 +401,22 @@ function refreshInquiries() {
   }
   if (currentInquiry) {
     const updated = inquiries.find(function (inquiry) {
-      return inquiry.reference === currentInquiry.reference;
+      return inquiry.reference === currentInquiry.reference
+        && inquiry.customerEmail?.toLowerCase() === getCustomerEmail()
+        && localStorage.getItem("floraAvenueSignedIn") === "true";
     });
-    if (updated) showDetails(updated);
+    if (updated) {
+      showDetails(updated);
+    } else {
+      currentInquiry = null;
+      showScreen("inquiriesScreen");
+    }
   }
 }
 
 window.addEventListener("storage", function (event) {
-  if (event.key === "floraAvenueInquiries") refreshInquiries();
+  if (["floraAvenueInquiries", "floraAvenueSignedIn", "floraAvenueUserEmail"].includes(event.key)) {
+    refreshInquiries();
+  }
 });
 window.addEventListener("floraAvenueInquiriesChanged", refreshInquiries);

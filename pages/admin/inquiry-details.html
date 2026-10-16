@@ -16,6 +16,21 @@
     .inquiry-admin-section-title { font-family: Poppins, sans-serif; font-size: 14px; }
     .inquiry-admin-message { margin: 10px 0 0; color: #5d5557; line-height: 1.6; white-space: pre-wrap; }
     .inquiry-response-feedback { min-height: 1.5em; margin-top: 10px; }
+    .inquiry-admin-status-control { display: grid; gap: 5px; max-width: 260px; margin-top: 12px; color: #756c6f; font-size: 12px; }
+    .inquiry-admin-status-control select { min-height: 40px; padding: 0 10px; border: 1px solid #e5d9db; border-radius: 8px; background: #fff; color: #332d2f; font: inherit; }
+    .admin-conversation-thread { display: grid; gap: 10px; max-height: 420px; overflow-y: auto; margin-top: 12px; }
+    .admin-conversation-message { max-width: min(88%, 680px); padding: 12px 14px; border: 1px solid #e5d9db; border-radius: 12px; background: #fff; }
+    .admin-conversation-message.from-customer { justify-self: start; }
+    .admin-conversation-message.from-seller { justify-self: end; border-color: #d9bcc2; background: #f3e8ea; }
+    .admin-conversation-message header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; margin-bottom: 6px; color: #7c4a4f; font-size: 11px; }
+    .admin-conversation-message time { color: #756c6f; }
+    .admin-conversation-message p { margin: 0; color: #332d2f; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; white-space: pre-wrap; }
+    .admin-reply-label { display: block; margin: 14px 0 6px; color: #756c6f; font-size: 12px; }
+    .admin-reply-button:disabled { opacity: .6; cursor: not-allowed; }
+    @media (max-width: 600px) {
+      .admin-conversation-message { max-width: 96%; }
+      .inquiry-admin-status-control { max-width: none; }
+    }
   </style>
 </head>
 <body class="admin-app">
@@ -49,23 +64,27 @@
         <p class="figma-muted inquiry-admin-meta" id="adminInquiryCustomer"></p>
         <p class="figma-muted inquiry-admin-meta" id="adminInquiryReceived"></p>
         <p class="figma-muted inquiry-admin-meta" id="adminInquiryProduct"></p>
+        <label class="inquiry-admin-status-control" for="adminInquiryStatusControl">
+          Inquiry status
+          <select id="adminInquiryStatusControl" disabled>
+            <option value="Pending">Pending</option>
+            <option value="Responded">Responded</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </label>
       </article>
       <section class="figma-card inquiry-admin-card">
-        <h2 class="figma-title inquiry-admin-section-title">Customer Message</h2>
-        <p class="inquiry-admin-message" id="adminInquiryMessage"></p>
+        <h2 class="figma-title inquiry-admin-section-title">Conversation</h2>
+        <div class="admin-conversation-thread" id="adminConversation" aria-live="polite"></div>
+        <label class="admin-reply-label" for="adminReplyMessage">Your reply</label>
+        <textarea class="figma-textarea" id="adminReplyMessage" placeholder="Type your reply..." aria-label="Your reply"></textarea>
       </section>
-      <section class="figma-card inquiry-admin-card">
-        <h2 class="figma-title inquiry-admin-section-title">Admin Response</h2>
-        <textarea class="figma-textarea" id="inquiryResponse" placeholder="Type your response..." aria-label="Admin response"></textarea>
-      </section>
-      <button class="figma-btn" id="sendResponse" type="button">Send Response</button>
+      <button class="figma-btn admin-reply-button" id="sendResponse" type="button">Send Reply</button>
       <p class="figma-muted inquiry-response-feedback" id="inquiryResponseFeedback" role="status" aria-live="polite"></p>
     </div>
   </main>
   <script src="../../public/js/inquiry-store.js"></script>
   <script src="../../public/js/admin.js"></script>
-  <script src="../../public/js/admin-inquiry-details.js"></script>
-  <script src="../../public/js/inquiry-store.js"></script>
   <script src="../../public/js/admin-inquiry-details.js"></script>
 </body>
 </html>

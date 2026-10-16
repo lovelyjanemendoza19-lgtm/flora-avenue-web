@@ -534,6 +534,20 @@ textarea:focus {
     line-height: 1.2;
 }
 
+#detailsScreen .inquiry-back-link {
+    display: inline-block;
+    margin: 0 0 14px;
+    color: #7c4a4f;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+#detailsScreen .inquiry-back-link:hover,
+#detailsScreen .inquiry-back-link:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
 #detailsScreen .inquiry-summary-image {
     display: block;
     width: 110px;
@@ -542,6 +556,10 @@ textarea:focus {
     border-radius: 8px;
     background: #e8dfe0;
     object-fit: cover;
+}
+
+#detailsScreen .inquiry-summary-image[hidden] {
+    display: none;
 }
 
 #detailsScreen .details-card > h2 {
@@ -599,6 +617,109 @@ textarea:focus {
     overflow-wrap: anywhere;
 }
 
+#detailsScreen .inquiry-conversation {
+    margin: 0 0 22px;
+}
+
+#detailsScreen .conversation-thread {
+    display: grid;
+    gap: 10px;
+    max-height: 420px;
+    overflow-y: auto;
+    margin-bottom: 16px;
+    padding: 4px;
+}
+
+#detailsScreen .conversation-message {
+    max-width: min(88%, 680px);
+    padding: 12px 14px;
+    border: 1px solid #e5d9db;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+#detailsScreen .conversation-message.from-customer {
+    justify-self: start;
+}
+
+#detailsScreen .conversation-message.from-seller {
+    justify-self: end;
+    border-color: #d9bcc2;
+    background: #f3e8ea;
+}
+
+#detailsScreen .conversation-message-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 12px;
+    margin-bottom: 6px;
+    color: #7c4a4f;
+    font-size: 11px;
+}
+
+#detailsScreen .conversation-message-header time {
+    color: #756c6f;
+    font-weight: 400;
+}
+
+#detailsScreen .conversation-message p {
+    margin: 0;
+    color: #332d2f;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+#detailsScreen .conversation-reply-label {
+    display: block;
+    margin: 0 0 6px;
+    color: #756c6f;
+    font-size: 12px;
+}
+
+#detailsScreen .conversation-reply-input {
+    display: block;
+    width: 100%;
+    min-height: 84px;
+    margin: 0 0 10px;
+    padding: 10px 12px;
+    border: 1px solid #d8cfd0;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #332d2f;
+    font: inherit;
+    font-size: 13px;
+    resize: vertical;
+}
+
+#detailsScreen .conversation-reply-input:focus {
+    border-color: #7c4a4f;
+    outline: 2px solid rgba(124, 74, 79, 0.15);
+}
+
+#detailsScreen .conversation-reply-input:disabled {
+    background: #f0eaeb;
+    cursor: not-allowed;
+}
+
+#detailsScreen .conversation-send-button {
+    margin: 0 8px 0 0;
+}
+
+#detailsScreen .conversation-send-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#detailsScreen .conversation-feedback {
+    min-height: 1.4em;
+    margin: 8px 0 0;
+    color: #756c6f;
+    font-size: 12px;
+}
+
 #detailsScreen .details-card .primary {
     display: inline-flex;
     width: auto;
@@ -608,12 +729,6 @@ textarea:focus {
     margin: 0 8px 20px 0;
     border-radius: 6px;
     text-decoration: none;
-}
-
-#detailsScreen .details-back-button {
-    width: auto;
-    margin: 0 0 20px;
-    border-radius: 6px;
 }
 
 @media (max-width: 599px) {
@@ -631,6 +746,10 @@ textarea:focus {
 
     #detailsScreen .inquiry-summary {
         grid-template-columns: 120px minmax(0, 1fr);
+    }
+
+    #detailsScreen .conversation-message {
+        max-width: 96%;
     }
 }
 
@@ -884,7 +1003,13 @@ textarea:focus {
     color: #1f8a4c;
 }
 
+.inquiry-status.resolved {
+    background-color: #eee6e8;
+    color: #62575b;
+}
+
 .inquiry-status.new,
+.inquiry-status.pending,
 .item-info .new {
     background-color: #fbe3c2;
 

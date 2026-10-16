@@ -49,9 +49,9 @@
       customer.append(name, time);
 
       const status = document.createElement("span");
-      status.className = `figma-status ${inquiry.response ? "verified" : "pending"}`;
+      status.className = `figma-status ${String(inquiry.status || "Pending").toLowerCase()}`;
       status.style.marginLeft = "auto";
-      status.textContent = inquiry.response ? "Responded" : inquiry.status || "New";
+      status.textContent = inquiry.status || "Pending";
       header.append(avatar, customer, status);
 
       const summary = document.createElement("p");
