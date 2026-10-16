@@ -1,8 +1,31 @@
 (function () {
   const storageKey = "floraAvenueOrders";
+  const automaticCompletionDelay = 3 * 24 * 60 * 60 * 1000;
 
   function notifyOrdersChanged() {
     window.dispatchEvent(new Event("floraAvenueOrdersChanged"));
+  }
+
+  function completeOverdueOrders(orders) {
+    const now = Date.now();
+    const updatedOrders = orders.map(order => ({ ...order }));
+    let changed = false;
+    updatedOrders.forEach(order => {
+      const status = String(order.status || "").trim().toLowerCase();
+      if (!["to ship/pickup", "ready for pickup", "ready for delivery", "shipped", "shipped out", "on the way"].includes(status)) {
+        return;
+      }
+      const enteredShippingAt = order.toShipPickupAt || order.statusUpdatedAt || order.shippedAt;
+      const timestamp = new Date(enteredShippingAt || "").getTime();
+      if (!Number.isFinite(timestamp) || now - timestamp < automaticCompletionDelay) return;
+
+      const completedAt = new Date(now).toISOString();
+      order.status = "Completed";
+      order.completedAt = completedAt;
+      order.statusUpdatedAt = completedAt;
+      changed = true;
+    });
+    return { orders: updatedOrders, changed };
   }
 
   function getCustomerEmail() {
@@ -78,7 +101,19 @@
 
   function load() {
     try {
-      return readStoredOrders();
+      const orders = readStoredOrders();
+      const completion = completeOverdueOrders(orders);
+      if (completion.changed) {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(completion.orders));
+        } catch (error) {
+          console.error("Unable to save automatically completed orders.", error);
+          return orders;
+        }
+        window.setTimeout(notifyOrdersChanged, 0);
+        return completion.orders;
+      }
+      return orders;
     } catch (error) {
       console.error("Unable to load saved orders.", error);
       return [];
@@ -164,4 +199,6 @@
     save,
     update
   };
+
+  window.setInterval(load, 60 * 1000);
 })();

@@ -11,10 +11,10 @@
     if (title) title.textContent = "Unable to load inquiry";
     const thread = document.getElementById("adminConversation");
     if (thread) thread.textContent = "An error occurred while loading this inquiry. Please refresh the page or return to Manage Inquiries.";
-    const statusControl = document.getElementById("adminInquiryStatusControl");
+    const doneButton = document.getElementById("markInquiryDone");
     const response = document.getElementById("adminReplyMessage");
     const sendButton = document.getElementById("sendResponse");
-    if (statusControl) statusControl.disabled = true;
+    if (doneButton) doneButton.disabled = true;
     if (response) response.disabled = true;
     if (sendButton) sendButton.disabled = true;
     const feedback = document.getElementById("inquiryResponseFeedback");
@@ -72,7 +72,7 @@
     const status = document.getElementById("adminInquiryStatus");
     const product = document.getElementById("adminInquiryProduct");
     const conversationThread = document.getElementById("adminConversation");
-    const statusControl = document.getElementById("adminInquiryStatusControl");
+    const doneButton = document.getElementById("markInquiryDone");
     const response = document.getElementById("adminReplyMessage");
     const feedback = document.getElementById("inquiryResponseFeedback");
     const sendButton = document.getElementById("sendResponse");
@@ -80,7 +80,7 @@
     if (!store || typeof store.load !== "function" || typeof store.save !== "function") {
       throw new Error("The shared inquiry store is unavailable.");
     }
-    if (![title, customer, received, status, product, conversationThread, statusControl, response, feedback, sendButton].every(Boolean)) {
+    if (![title, customer, received, status, product, conversationThread, doneButton, response, feedback, sendButton].every(Boolean)) {
       throw new Error("One or more inquiry detail page elements are missing.");
     }
 
@@ -97,7 +97,7 @@
       product.textContent = "";
       conversationThread.textContent = "This inquiry may have been removed or the link is invalid.";
       status.textContent = "";
-      statusControl.disabled = true;
+      doneButton.disabled = true;
       response.disabled = true;
       sendButton.disabled = true;
       return;
@@ -134,12 +134,12 @@
         ? `Product: ${inquiry.product || inquiry.productName}`
         : `Type: ${inquiry.type || inquiry.inquiryType || "General inquiry"}`;
 
-      statusControl.value = currentStatus;
-      statusControl.disabled = false;
       conversationThread.replaceChildren();
       getConversation(inquiry).forEach(appendConversationMessage);
 
       const isResolved = currentStatus === "Resolved";
+      doneButton.hidden = isResolved;
+      doneButton.disabled = false;
       response.disabled = isResolved;
       sendButton.disabled = isResolved;
       feedback.textContent = isResolved
@@ -193,15 +193,15 @@
       }
     });
 
-    statusControl.addEventListener("change", function () {
+    doneButton.addEventListener("click", function () {
       try {
         if (typeof store.setStatus === "function" && inquiry.reference) {
-          inquiry = store.setStatus(inquiry.reference, statusControl.value);
+          inquiry = store.setStatus(inquiry.reference, "Resolved");
         } else {
-          persistUpdatedInquiry({ ...inquiry, status: statusControl.value });
+          persistUpdatedInquiry({ ...inquiry, status: "Resolved" });
         }
         render();
-        feedback.textContent = `Inquiry marked ${inquiry.status.toLowerCase()}.`;
+        feedback.textContent = "Inquiry marked resolved.";
       } catch (error) {
         console.error("Unable to update admin inquiry status.", error);
         feedback.textContent = error.message || "Unable to update inquiry status.";
@@ -221,7 +221,8 @@
           conversationThread.textContent = "This inquiry may have been removed.";
           status.textContent = "";
           status.className = "figma-status";
-          statusControl.disabled = true;
+          doneButton.hidden = true;
+          doneButton.disabled = true;
           response.disabled = true;
           sendButton.disabled = true;
           return;

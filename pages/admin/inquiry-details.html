@@ -16,8 +16,9 @@
     .inquiry-admin-section-title { font-family: Poppins, sans-serif; font-size: 14px; }
     .inquiry-admin-message { margin: 10px 0 0; color: #5d5557; line-height: 1.6; white-space: pre-wrap; }
     .inquiry-response-feedback { min-height: 1.5em; margin-top: 10px; }
-    .inquiry-admin-status-control { display: grid; gap: 5px; max-width: 260px; margin-top: 12px; color: #756c6f; font-size: 12px; }
-    .inquiry-admin-status-control select { min-height: 40px; padding: 0 10px; border: 1px solid #e5d9db; border-radius: 8px; background: #fff; color: #332d2f; font: inherit; }
+    .inquiry-done-button { width: auto; min-width: 140px; margin: 12px 0 0; border: 1px solid #c88491; background: #fff; color: #7c4a4f; }
+    .inquiry-done-button:hover { border-color: #a95f70; background: #fff; color: #633a3e; }
+    .inquiry-done-button[hidden] { display: none; }
     .admin-conversation-thread { display: grid; gap: 10px; max-height: 420px; overflow-y: auto; margin-top: 12px; }
     .admin-conversation-message { max-width: min(88%, 680px); padding: 12px 14px; border: 1px solid #e5d9db; border-radius: 12px; background: #fff; }
     .admin-conversation-message.from-customer { justify-self: start; }
@@ -26,10 +27,15 @@
     .admin-conversation-message time { color: #756c6f; }
     .admin-conversation-message p { margin: 0; color: #332d2f; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; white-space: pre-wrap; }
     .admin-reply-label { display: block; margin: 14px 0 6px; color: #756c6f; font-size: 12px; }
+    .admin-reply-row { display: flex; align-items: center; gap: 10px; }
+    .admin-reply-row #adminReplyMessage { width: 100%; flex: 1 1 auto; min-width: 0; }
+    .admin-reply-row #sendResponse { width: auto; flex: 0 0 auto; margin: 0; }
+    .admin-reply-textarea { height: 38px; min-height: 38px; max-height: 38px; margin-top: 0; padding: 8px 11px; font-size: 12px; line-height: 20px; resize: none; overflow-x: auto; overflow-y: hidden; white-space: pre; }
     .admin-reply-button:disabled { opacity: .6; cursor: not-allowed; }
     @media (max-width: 600px) {
       .admin-conversation-message { max-width: 96%; }
-      .inquiry-admin-status-control { max-width: none; }
+      .admin-reply-row { gap: 7px; }
+      .admin-reply-row .admin-reply-button { padding-right: 10px; padding-left: 10px; }
     }
   </style>
 </head>
@@ -64,22 +70,17 @@
         <p class="figma-muted inquiry-admin-meta" id="adminInquiryCustomer"></p>
         <p class="figma-muted inquiry-admin-meta" id="adminInquiryReceived"></p>
         <p class="figma-muted inquiry-admin-meta" id="adminInquiryProduct"></p>
-        <label class="inquiry-admin-status-control" for="adminInquiryStatusControl">
-          Inquiry status
-          <select id="adminInquiryStatusControl" disabled>
-            <option value="Pending">Pending</option>
-            <option value="Responded">Responded</option>
-            <option value="Resolved">Resolved</option>
-          </select>
-        </label>
       </article>
       <section class="figma-card inquiry-admin-card">
         <h2 class="figma-title inquiry-admin-section-title">Conversation</h2>
         <div class="admin-conversation-thread" id="adminConversation" aria-live="polite"></div>
         <label class="admin-reply-label" for="adminReplyMessage">Your reply</label>
-        <textarea class="figma-textarea" id="adminReplyMessage" placeholder="Type your reply..." aria-label="Your reply"></textarea>
+        <div class="admin-reply-row">
+          <textarea class="figma-textarea admin-reply-textarea" id="adminReplyMessage" rows="1" placeholder="Type your reply..." aria-label="Your reply"></textarea>
+          <button class="figma-btn admin-reply-button" id="sendResponse" type="button">Send Reply</button>
+        </div>
       </section>
-      <button class="figma-btn admin-reply-button" id="sendResponse" type="button">Send Reply</button>
+      <button class="figma-btn inquiry-done-button" id="markInquiryDone" type="button">Mark as Done</button>
       <p class="figma-muted inquiry-response-feedback" id="inquiryResponseFeedback" role="status" aria-live="polite"></p>
     </div>
   </main>

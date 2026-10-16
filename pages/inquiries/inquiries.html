@@ -62,41 +62,50 @@
         </main>
       </section>
 
-      <section id="detailsScreen" class="screen">
+      <section id="detailsScreen" class="screen" aria-hidden="true">
         <main class="content">
+          <nav class="inquiry-details-nav" aria-label="Inquiry navigation">
+            <a class="details-back-link" id="backToInquiries" href="inquiries.html">Back to My Inquiries</a>
+          </nav>
           <div class="card details-card">
-            <a class="details-back-link inquiry-back-link" href="inquiries.html">← Back to My Inquiries</a>
-            <h1>Inquiry Details</h1>
             <img class="inquiry-summary-image" id="detailInquiryProductImage" alt="" loading="lazy" decoding="async" hidden>
             <h2 id="detailRef"></h2>
-            <p class="inquiry-detail-status">Status: <strong id="detailStatus"></strong></p>
-            <h3>Inquiry Summary</h3>
             <dl class="inquiry-summary">
-              <dt>Product</dt>
+              <dt id="detailProductLabel">Product</dt>
               <dd id="detailProductName"></dd>
               <dt>Inquiry type</dt>
               <dd id="detailInquiryType"></dd>
               <dt>Subject</dt>
               <dd id="detailSubject"></dd>
-              <dt>Variation</dt>
-              <dd id="detailVariant"></dd>
-              <dt>Color</dt>
-              <dd id="detailColor"></dd>
-              <dt>Quantity</dt>
-              <dd id="detailQuantity"></dd>
-              <dt>Add-ons</dt>
-              <dd id="detailAddons"></dd>
               <dt>Date submitted</dt>
               <dd id="detailDate"></dd>
             </dl>
+            <div class="inquiry-customization-details" id="inquiryCustomizationDetails" hidden>
+              <dl class="inquiry-summary">
+                <dt>Variation</dt>
+                <dd id="detailVariant"></dd>
+                <dt>Color</dt>
+                <dd id="detailColor"></dd>
+                <dt>Quantity</dt>
+                <dd id="detailQuantity"></dd>
+                <dt>Add-ons</dt>
+                <dd id="detailAddons"></dd>
+              </dl>
+            </div>
+          </div>
+          <div class="card details-card inquiry-conversation-card">
             <section class="inquiry-conversation" aria-labelledby="customerConversationTitle">
               <h3 id="customerConversationTitle">Conversation</h3>
               <div class="conversation-thread" id="customerConversation" aria-live="polite"></div>
               <label class="conversation-reply-label" for="customerReplyInput">Your reply</label>
-              <textarea id="customerReplyInput" class="conversation-reply-input" placeholder="Write a reply..." rows="3"></textarea>
-              <button class="primary conversation-send-button" id="customerSendReply" type="button">Send Reply</button>
+              <div class="conversation-reply-row">
+                <textarea id="customerReplyInput" class="conversation-reply-input" placeholder="Write a reply..." rows="1"></textarea>
+                <button class="primary conversation-send-button" id="customerSendReply" type="button">Send</button>
+              </div>
               <p class="conversation-feedback" id="customerReplyFeedback" role="status" aria-live="polite"></p>
             </section>
+          </div>
+          <div class="inquiry-order-action-row">
             <a class="primary inquiry-order-action" id="inquiryOrderAction" href="#">Proceed With Order</a>
           </div>
         </main>
@@ -107,7 +116,7 @@
           <div class="inquiries-list-header">
             <div class="tabs">
               <button class="tab active" data-status="All">All</button>
-              <button class="tab" data-status="Responded">Responded</button>
+              <button class="tab" data-status="Responded">Responded <span class="inquiry-tab-count" id="respondedInquiryCount" hidden></span></button>
               <button class="tab" data-status="Pending">Pending</button>
               <button class="tab" data-status="Resolved">Resolved</button>
             </div>

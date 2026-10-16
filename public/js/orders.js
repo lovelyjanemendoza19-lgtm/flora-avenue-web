@@ -22,13 +22,16 @@
         return {
             pending: "To Pay",
             "awaiting customer": "Awaiting Approval",
+            "cancellation requested": "To Pay",
             confirmed: "Confirmed",
             processing: "Preparing",
             preparing: "Preparing",
-            "ready for pickup": "Ready for Pickup",
-            "ready for delivery": "Ready for Delivery",
-            shipped: "On the Way",
-            "shipped out": "On the Way",
+            "to ship/pickup": "To Ship/Pickup",
+            "ready for pickup": "To Ship/Pickup",
+            "ready for delivery": "To Ship/Pickup",
+            shipped: "To Ship/Pickup",
+            "shipped out": "To Ship/Pickup",
+            "on the way": "To Ship/Pickup",
             delivered: "Completed",
             completed: "Completed",
             declined: "Cancelled",
@@ -36,47 +39,18 @@
         }[String(status || "").toLowerCase()] || status || "To Pay";
     }
 
-    function isAwaitingApproval(order) {
-        if (order.type !== "Customization Request" || order.customizationVoidedAt) return false;
-        const status = normalizeOrderStatus(order.status);
-        const payment = orderStore.getPaymentSummary(order);
-        const customizationConfirmed = Boolean(
-            order.customizationConfirmedAt
-            || order.sellerProposal
-            || payment.amountPaid > 0
-            || ["Confirmed", "Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(status)
-        );
-        const customizationAccepted = Boolean(
-            order.customizationAcceptedAt
-            || order.sellerProposal?.acceptedAt
-            || payment.amountPaid > 0
-            || ["Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(status)
-        );
-        return !customizationConfirmed || !customizationAccepted;
-    }
-
     function getCustomerStatus(order) {
         const status = normalizeOrderStatus(order.status);
-        if (order.cancellationRequest?.status === "Pending") return "Cancellation Requested";
-        if (isAwaitingApproval(order)) return "Awaiting Approval";
         if (status === "Cancelled" || status === "Completed") return status;
-
-        const payment = orderStore.getPaymentSummary(order);
-        if (payment.status !== "Fully Paid") return "Pending Payment";
-        if (status === "To Pay" || status === "Pending") return "Confirmed";
-        return status;
+        if (status === "Preparing" || status === "To Ship/Pickup") return status;
+        return "To Pay";
     }
 
     function getTrackingStatus(order) {
         const status = normalizeOrderStatus(order.status);
         if (status === "Completed") return "completed";
         if (status === "Cancelled") return "cancelled";
-        if (order.cancellationRequest?.status === "Pending") return "cancellation-requested";
-        if (isAwaitingApproval(order)) return "awaiting-approval";
-
-        const payment = orderStore.getPaymentSummary(order);
-        if (payment.status !== "Fully Paid") return "to-pay";
-        return "to-receive";
+        return status === "To Pay" ? "to-pay" : "to-receive";
     }
 
     function formatAmount(value) {
@@ -144,12 +118,6 @@
             </a>`;
         }).join("");
     }
-
-    orderList.addEventListener("keydown", function (event) {
-        if (event.key !== " " || !event.target.closest(".order-item")) return;
-        event.preventDefault();
-        window.location.assign(event.target.closest(".order-item").href);
-    });
 
     filterButtons.forEach(function (button) {
         button.addEventListener("click", function () {

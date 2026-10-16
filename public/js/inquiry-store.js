@@ -89,6 +89,19 @@
     };
   }
 
+  function countReplies(inquiry) {
+    const conversation = normalizeConversation(inquiry);
+    const customerMessageCount = conversation.filter(function (message) {
+      return message.sender === "Customer";
+    }).length;
+    return {
+      seller: conversation.filter(function (message) {
+        return message.sender === "Seller";
+      }).length,
+      customer: Math.max(0, customerMessageCount - 1)
+    };
+  }
+
   function load() {
     let inquiries;
     try {
@@ -189,6 +202,7 @@
     save: save,
     addMessage: addMessage,
     setStatus: setStatus,
+    countReplies: countReplies,
     formatMessageDate: formatMessageDate
   };
 })();

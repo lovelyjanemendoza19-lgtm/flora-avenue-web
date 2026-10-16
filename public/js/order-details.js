@@ -1,6 +1,7 @@
 (function () {
   const customerOrderStore = window.floraAvenueCustomerOrders;
-  const orderReference = new URLSearchParams(location.search).get("order");
+  const pageParams = new URLSearchParams(location.search);
+  const orderReference = pageParams.get("order");
   const root = document.getElementById("details");
   const maxProofBytes = 2 * 1024 * 1024;
   const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, character => ({
@@ -20,27 +21,23 @@
   const normalizeOrderStatus = value => ({
     pending: "To Pay",
     "awaiting customer": "Awaiting Approval",
+    "cancellation requested": "To Pay",
     confirmed: "Confirmed",
     processing: "Preparing",
     preparing: "Preparing",
-    "ready for pickup": "Ready for Pickup",
-    "ready for delivery": "Ready for Delivery",
-    "shipped out": "On the Way",
-    shipped: "On the Way",
+    "to ship/pickup": "To Ship/Pickup",
+    "ready for pickup": "To Ship/Pickup",
+    "ready for delivery": "To Ship/Pickup",
+    "shipped out": "To Ship/Pickup",
+    "on the way": "To Ship/Pickup",
+    shipped: "To Ship/Pickup",
     delivered: "Completed",
     declined: "Cancelled"
   }[String(value || "").toLowerCase()] || value || "To Pay");
-  const getCustomerOrderStatus = (paymentStatus, adminStatus, awaitingApproval, cancellationRequested) => {
-    if (cancellationRequested) return "Cancellation Requested";
-    if (awaitingApproval) return "Awaiting Approval";
+  const getCustomerOrderStatus = adminStatus => {
     if (["Cancelled", "Completed"].includes(adminStatus)) return adminStatus;
-    if (paymentStatus === "Pending Verification") return "Payment Verification";
-    if (paymentStatus !== "Fully Paid") return "Pending Payment";
-    if (["To Pay", "Confirmed"].includes(adminStatus)) return "Confirmed";
-    if (["Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way"].includes(adminStatus)) {
-      return "Processing";
-    }
-    return adminStatus;
+    if (["Preparing", "To Ship/Pickup"].includes(adminStatus)) return adminStatus;
+    return "To Pay";
   };
   const getCustomerPaymentStatus = status => ({
     Unpaid: "Pending Payment",
@@ -140,7 +137,7 @@
     const cancellationRequestPending = order.cancellationRequest?.status === "Pending";
     const customizationConfirmed = Boolean(
       order.customizationConfirmedAt
-      || ["Confirmed", "Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(adminStatus)
+      || ["Confirmed", "Preparing", "To Ship/Pickup", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(adminStatus)
       || (!order.customizationConfirmedAt && (
         order.sellerProposal?.acceptedAt || payment.amountPaid > 0
       ))
@@ -150,7 +147,7 @@
       || order.sellerProposal?.acceptedAt
       || (!order.customizationConfirmedAt && (
         payment.amountPaid > 0
-        || ["Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(adminStatus)
+        || ["Preparing", "To Ship/Pickup", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(adminStatus)
       ))
     ) && hasFinalPreparationTime(order);
     const awaitingCustomerDecision = isCustomized
@@ -162,14 +159,10 @@
       && !customizationConfirmed
       && !order.customizationVoidedAt
       && !cancellationRequestPending;
-    const status = getCustomerOrderStatus(
-      payment.status,
-      adminStatus,
-      awaitingCustomerDecision || awaitingSellerOffer,
-      cancellationRequestPending
-    );
+    const status = getCustomerOrderStatus(adminStatus);
     const displayStatus = status;
-    const isTerminal = ["Completed", "Cancelled", "Cancellation Requested"].includes(status);
+    const isTerminal = ["Completed", "Cancelled"].includes(status);
+    const canConfirmReceived = adminStatus === "To Ship/Pickup" && !cancellationRequestPending;
     const amountDue = Math.max(0, payment.total - payment.amountPaid);
     const canSubmitProof = amountDue > 0
       && (!isCustomized || (customizationConfirmed && customizationAccepted))
@@ -231,11 +224,15 @@
       <section class="customer-order-main-card">
       <div class="customer-order-status-card" aria-label="Order status">
         <div class="customer-order-status-heading">
-          <h1>Order Details</h1>
           <p>Order ID: ${escapeHtml(order.reference)}</p>
         </div>
         <strong class="order-status-${displayStatus.toLowerCase().replace(/\s+/g, "-")}">${displayValue(displayStatus)}</strong>
       </div>
+      ${hasFinalPreparationTime(order) ? `<div class="customer-preparation-notice" role="status" aria-live="polite">
+        <span>Seller's preparation estimate</span>
+        <strong>${displayValue(order.preparationTime)}</strong>
+        <p>Please allow this time for the seller to prepare your order.</p>
+      </div>` : ""}
       <article class="customer-order-product-card">
         <img class="order-image" src="../../public/images/${encodeURIComponent(order.image || "banner-flower.png")}" alt="${escapeHtml(order.style || "Order")}">
         <div class="customer-order-product-description">
@@ -249,11 +246,11 @@
             ${order.fulfil === "Delivery" && order.address ? `<span>Delivery address:</span><span>${displayValue(order.address)}</span>` : ""}
             ${order.date ? `<span>Preferred date:</span><span>${displayValue(order.date)}</span>` : ""}
             ${!isCustomized ? `<span>Seller response:</span><span>${order.sellerAcceptedAt ? "Order accepted" : "Awaiting seller acceptance"}</span>` : ""}
-            ${order.preparationTime ? `<span>Estimated preparation:</span><span>${displayValue(order.preparationTime)}</span>` : ""}
             <span>Customer notes:</span><span>${displayValue(order.notes || "None")}</span>
           </div>
         </div>
       </article>
+      ${canConfirmReceived ? `<button id="confirmOrderReceived" class="confirm-order-received" type="button">I've Received My Order</button>` : ""}
       <section class="customer-order-additional-details${hasAdditionalDetails ? "" : " is-empty"}">
           ${isCustomized ? `<section class="customer-order-extra"><h3>Customization status</h3>
             <p>Seller confirmation: ${!customizationConfirmed ? "Awaiting review" : awaitingCustomerDecision ? "Awaiting your decision" : order.customizationVoidedAt ? "Voided" : "Confirmed and accepted"}</p></section>` : ""}
@@ -262,7 +259,6 @@
               <h3 id="custom-offer-title">Seller's Customized Offer</h3>
               <p>Review the seller's edited design, final price, and preparation time. Choose whether to continue to payment or cancel the order.</p>
               <p><strong>Final price: ${formatAmount(payment.total)}</strong></p>
-              <p><strong>Estimated preparation: ${hasFinalPreparationTime(order) ? displayValue(order.preparationTime) : "Awaiting seller confirmation"}</strong></p>
               <div class="custom-offer-actions">
                 ${hasFinalPreparationTime(order) ? '<button id="acceptCustomizedOffer" type="button">Accept &amp; Continue to Payment</button>' : ""}
               </div>
@@ -346,6 +342,19 @@
       order.status = "Pending";
       updateOrder(order, "Unable to accept the seller's customized order. Please try again.");
     });
+    document.getElementById("confirmOrderReceived")?.addEventListener("click", () => {
+      const latestOrder = findCustomerOrder();
+      if (!latestOrder || normalizeOrderStatus(latestOrder.status) !== "To Ship/Pickup") {
+        render();
+        return;
+      }
+      const receivedAt = new Date().toISOString();
+      latestOrder.customerReceivedAt = receivedAt;
+      latestOrder.completedAt = receivedAt;
+      latestOrder.status = "Completed";
+      latestOrder.statusUpdatedAt = receivedAt;
+      updateOrder(latestOrder, "Unable to confirm receipt. Please try again.");
+    });
     document.getElementById("cancelOrder")?.addEventListener("click", () => {
       showConfirmDialog(
         "Cancel Order",
@@ -366,6 +375,8 @@
         }
         latestOrder.status = "Cancelled";
         latestOrder.cancelledAt = new Date().toISOString();
+        latestOrder.statusUpdatedAt = latestOrder.cancelledAt;
+        latestOrder.payment = { ...(latestOrder.payment || {}), status: "Cancelled" };
         if (latestOrder.type === "Customization Request" && !latestOrder.customizationAcceptedAt) {
           latestOrder.customizationVoidedAt = latestOrder.cancelledAt;
         }
@@ -387,7 +398,6 @@
         requestedAt: new Date().toISOString(),
         previousOrderStatus: latestOrder.status
       };
-      latestOrder.status = "Cancellation Requested";
       updateOrder(latestOrder, "Unable to request cancellation. Please try again.");
       });
     });

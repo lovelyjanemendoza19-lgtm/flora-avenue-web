@@ -30,7 +30,7 @@ body.admin-app .admin-shell{
   min-height:100vh;
   display:grid;
   grid-template-columns:255px minmax(0,1fr);
-  grid-template-rows:auto 1fr;
+  grid-template-rows:auto minmax(0,1fr);
   background:var(--fx-bg);
 }
 body.admin-app .admin-shell > .admin-sidebar-fx{
@@ -41,6 +41,8 @@ body.admin-app .admin-shell > .admin-topbar,
 body.admin-app .admin-shell > .figma-page{
   grid-column:2;
 }
+body.admin-app .admin-shell > .admin-topbar{grid-row:1}
+body.admin-app .admin-shell > .figma-page{grid-row:2;align-self:start}
 
 .admin-sidebar-fx{
   position:sticky;
@@ -275,6 +277,9 @@ body.admin-app .admin-topbar{
 }
 .figma-message:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(70,45,51,.10)}
 .figma-message .msg-head{display:flex;align-items:center;gap:10px}
+.admin-inquiry-status-group{display:grid;flex:0 0 auto;justify-items:center;gap:3px;margin-left:auto}
+.admin-inquiry-status-group .figma-status{margin-left:0!important}
+.admin-inquiry-reply-count{display:inline-grid;min-width:18px;height:18px;padding:0 4px;place-items:center;border-radius:999px;background:#c44c64;color:#fff;font-size:10px;font-weight:700;line-height:1}
 .figma-avatar-sm{width:34px;height:34px;border-radius:50%;background:#b98d97;color:#fff;display:grid;place-items:center;font-size:8px;font-weight:700}
 .figma-message strong{font-size:10px}.figma-message .msg-time{font-size:7px;color:var(--fx-muted);margin-top:2px}
 .figma-message p{font-size:8px;color:#62575b;line-height:1.65;margin:10px 0 0;padding-left:44px}

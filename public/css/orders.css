@@ -300,11 +300,12 @@
  .mobile-header {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
 
         height: 64px;
 
-        padding: 0 56px;
+        padding: 0 16px 0 56px;
+        gap: 10px;
 
         background-color: #f5eff0;
         position: relative;

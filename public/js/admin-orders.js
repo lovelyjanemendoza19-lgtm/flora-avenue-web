@@ -2,8 +2,7 @@
   const store = window.floraAvenueCustomerOrders;
   if (!store) return;
 
-  const orderStages = ["To Pay", "Preparing", "Ready for Pickup", "Completed"];
-  const deliveryStages = ["To Pay", "Preparing", "Ready for Delivery", "Shipped Out", "Completed"];
+  const orderStages = ["To Pay", "Preparing", "To Ship/Pickup"];
   const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, character => ({
     "&": "&amp;",
     "<": "&lt;",
@@ -18,6 +17,17 @@
     const date = new Date(value || "");
     return Number.isNaN(date.getTime()) ? "—" : date.toLocaleDateString("en-PH");
   };
+  const formatOrderDueDate = order => {
+    const preparationDays = Number(order.preparationDays);
+    const estimateDate = new Date(
+      order.preparationTimeUpdatedAt || order.sellerAcceptedAt || order.createdAt || ""
+    );
+    if (!Number.isInteger(preparationDays) || preparationDays < 1 || Number.isNaN(estimateDate.getTime())) {
+      return "To be confirmed";
+    }
+    estimateDate.setDate(estimateDate.getDate() + preparationDays);
+    return estimateDate.toLocaleDateString("en-PH");
+  };
   const formatOrderDateTime = value => {
     const date = new Date(value || "");
     return Number.isNaN(date.getTime())
@@ -29,12 +39,16 @@
     pending: "To Pay",
     confirmed: "To Pay",
     "awaiting customer": "To Pay",
+    "awaiting approval": "To Pay",
+    "cancellation requested": "To Pay",
     processing: "Preparing",
     preparing: "Preparing",
-    "ready for pickup": "Ready for Pickup",
-    "ready for delivery": "Ready for Delivery",
-    shipped: "Shipped Out",
-    "shipped out": "Shipped Out",
+    "to ship/pickup": "To Ship/Pickup",
+    "ready for pickup": "To Ship/Pickup",
+    "ready for delivery": "To Ship/Pickup",
+    "on the way": "To Ship/Pickup",
+    shipped: "To Ship/Pickup",
+    "shipped out": "To Ship/Pickup",
     delivered: "Completed",
     completed: "Completed",
     declined: "Cancelled",
@@ -53,7 +67,7 @@
     order.customizationConfirmedAt
     || order.sellerProposal?.acceptedAt
     || Number(order.payment?.amountPaid) > 0
-    || ["Confirmed", "Preparing", "Ready for Pickup", "Ready for Delivery", "Shipped Out", "Completed"]
+    || ["Confirmed", "Preparing", "To Ship/Pickup", "Ready for Pickup", "Ready for Delivery", "Shipped Out", "Completed"]
       .includes(normalizeOrderStatus(order.status))
   );
   const hasCustomizationAcceptance = order => Boolean(
@@ -61,14 +75,14 @@
     || (!order.customizationConfirmedAt && (
       order.sellerProposal?.acceptedAt
       || Number(order.payment?.amountPaid) > 0
-      || ["Confirmed", "Preparing", "Ready for Pickup", "Ready for Delivery", "Shipped Out", "Completed"]
+      || ["Confirmed", "Preparing", "To Ship/Pickup", "Ready for Pickup", "Ready for Delivery", "Shipped Out", "Completed"]
         .includes(normalizeOrderStatus(order.status))
     ))
   );
   const fulfillmentType = order => order.fulfil === "Pickup" || order.fulfil === "Delivery"
     ? order.fulfil
     : "Not specified";
-  const getStages = order => order.fulfil === "Delivery" ? deliveryStages : orderStages;
+  const getStages = () => orderStages;
 
   function matchesFilter(order, filter) {
     const orderStatus = normalizeOrderStatus(order.status);
@@ -79,7 +93,7 @@
       return paymentStatus === "Fully Paid" && ["To Pay", "Preparing"].includes(orderStatus);
     }
     if (filter === "to-ship") {
-      return ["Ready for Pickup", "Ready for Delivery", "Shipped Out"].includes(orderStatus);
+      return orderStatus === "To Ship/Pickup";
     }
     if (filter === "completed") return orderStatus === "Completed";
     if (filter === "cancelled") return orderStatus === "Cancelled";
@@ -117,7 +131,7 @@
     list.innerHTML = `
       <div class="pro-orders-table-wrap">
         <table class="pro-orders-table">
-          <thead><tr><th scope="col">Order ID</th><th scope="col">Customer</th><th scope="col">Product</th><th scope="col">Date</th><th scope="col">Status</th><th scope="col">Amount</th></tr></thead>
+          <thead><tr><th scope="col">Order ID</th><th scope="col">Customer</th><th scope="col">Product</th><th scope="col">Due</th><th scope="col">Status</th><th scope="col">Amount</th></tr></thead>
           <tbody>${orders.map(order => {
             const detailsUrl = `order-details.html?order=${encodeURIComponent(order.reference)}`;
             const status = normalizeOrderStatus(order.status);
@@ -128,7 +142,7 @@
               <td data-label="Order ID">${escapeHtml(order.reference || "—")}</td>
               <td data-label="Customer">${escapeHtml(order.customerName || order.contactName || order.customerEmail || "Customer")}</td>
               <td data-label="Product">${escapeHtml(order.style || "Order")}</td>
-              <td data-label="Date">${escapeHtml(formatOrderDate(order.createdAt))}</td>
+              <td data-label="Due">${escapeHtml(formatOrderDueDate(order))}</td>
               <td data-label="Status"><span class="pro-badge">${escapeHtml(status)}</span></td>
               <td data-label="Amount">${escapeHtml(amount)}</td>
             </tr>`;
@@ -230,9 +244,8 @@
     const canAcceptOrder = !isCustomized && !cancellationRequestPending
       && ["To Pay", "Preparing"].includes(status);
     const stages = getStages(order);
-    const options = [...stages];
-    if (cancellationRequestPending) options.unshift("Cancellation Requested");
-    options.push("Cancelled");
+    const terminalStatus = ["Completed", "Cancelled"].includes(status);
+    const options = terminalStatus ? [status] : stages;
 
     root.innerHTML = `
       <div class="admin-order-detail-heading">
@@ -329,7 +342,7 @@
           <div class="admin-order-section-heading"><div><span>03</span><h2 id="order-progress-title">Order Status</h2></div>
             <strong class="admin-order-badge order-${slug(status)}">${escapeHtml(status)}</strong></div>
           <label class="admin-order-form admin-status-control">Order status
-              <select class="figma-select" id="orderStatus" name="status">
+              <select class="figma-select" id="orderStatus" name="status"${terminalStatus ? " disabled" : ""}>
                 ${options.map(stage => `<option value="${escapeHtml(stage)}"${stage === status ? " selected" : ""}>${escapeHtml(stage)}</option>`).join("")}
               </select>
           </label>
@@ -393,7 +406,7 @@
         status: "Declined",
         reviewedAt: new Date().toISOString()
       };
-      order.status = order.cancellationRequest.previousOrderStatus || "To Pay";
+      order.status = normalizeOrderStatus(order.cancellationRequest.previousOrderStatus || order.status);
       order.statusUpdatedAt = new Date().toISOString();
       persistOrder("Cancellation request declined. The payment can be reviewed.");
     });
@@ -522,67 +535,55 @@
       const nextIndex = stages.indexOf(nextStatus);
       const currentIndex = currentStages.indexOf(currentStatus);
       const feedback = document.getElementById("orderAdminFeedback");
-      const isCancelled = nextStatus === "Cancelled";
       const rejectStatusUpdate = message => {
         feedback.textContent = message;
         feedback.dataset.error = "true";
         statusSelect.value = currentStatus;
       };
 
-      if (cancellationRequestPending && !isCancelled) {
+      if (cancellationRequestPending) {
         rejectStatusUpdate("Resolve the customer's cancellation request before changing order progress.");
         return;
       }
 
-      if (isCustomized && !hasCustomizationConfirmation(order) && !isCancelled && nextIndex > 0) {
+      if (isCustomized && !hasCustomizationConfirmation(order) && nextIndex > 0) {
         rejectStatusUpdate("Confirm the customized order details and final price before progressing the order.");
         return;
       }
       if (isCustomized && hasCustomizationConfirmation(order) && !hasCustomizationAcceptance(order)
-        && !isCancelled && nextStatus !== "To Pay") {
+        && nextStatus !== "To Pay") {
         rejectStatusUpdate("Wait for the customer to accept the customized order before progressing it.");
         return;
       }
-      if (!isCancelled && nextIndex < 0) {
-        rejectStatusUpdate("Choose a status that matches the order's fulfillment method.");
+      if (nextIndex < 0) {
+        rejectStatusUpdate("Choose To Pay, Preparing, or To Ship/Pickup.");
         return;
       }
       if (nextStatus === "Preparing" && !isCustomized && !order.sellerAcceptedAt) {
         rejectStatusUpdate("Accept the order and set its preparation time before marking it as preparing.");
         return;
       }
-      if (!isCancelled && currentIndex >= 0 && nextIndex < currentIndex) {
+      if (currentIndex >= 0 && nextIndex < currentIndex) {
         rejectStatusUpdate("Order status cannot move backwards.");
         return;
       }
       const paymentState = paymentSummary(order);
-      if (!isCancelled && nextIndex > 0 && paymentState.status !== "Fully Paid") {
+      if (nextIndex > 0 && paymentState.status !== "Fully Paid") {
         rejectStatusUpdate("Verify the full payment before preparing this order.");
         return;
       }
       if (
-        !isCancelled
-        && nextStatus !== currentStatus
+        nextStatus !== currentStatus
         && currentIndex >= 0
         && nextIndex > currentIndex + 1
       ) {
         rejectStatusUpdate("Move the order through each status in sequence.");
         return;
       }
-      if (nextStatus === "Completed" && paymentSummary(order).status !== "Fully Paid") {
-        rejectStatusUpdate("Verify full payment before completing this order.");
-        return;
-      }
       order.status = nextStatus;
       order.statusUpdatedAt = new Date().toISOString();
-      if (isCancelled) order.payment = { ...(order.payment || {}), status: "Cancelled" };
-      if (isCancelled && cancellationRequestPending) {
-        order.cancellationRequest = {
-          ...order.cancellationRequest,
-          status: "Approved",
-          reviewedAt: order.statusUpdatedAt
-        };
-        order.cancelledAt = order.statusUpdatedAt;
+      if (nextStatus === "To Ship/Pickup" && currentStatus !== "To Ship/Pickup") {
+        order.toShipPickupAt = order.statusUpdatedAt;
       }
       persistOrder("Order status updated.");
     });
@@ -604,7 +605,9 @@
     const proof = payment.proof;
     const status = normalizeOrderStatus(order.status);
     const stages = getStages(order);
-    const selectedStatus = stages.includes(status) || status === "Cancelled" ? status : "Pending";
+    const selectedStatus = stages.includes(status) || ["Completed", "Cancelled"].includes(status)
+      ? status
+      : "To Pay";
     const proposal = order.sellerProposal;
     const fulfillment = order.fulfil === "Delivery" ? "Delivery" : "Pickup";
 
@@ -676,8 +679,8 @@
           <form id="orderProgressForm" class="admin-order-form">
             <p>Fulfillment selected by customer: ${escapeHtml(fulfillment)}</p>
             <label>Estimated preparation time<input class="figma-input" name="preparationTime" type="text" maxlength="100" value="${escapeHtml(order.preparationTime || "")}" placeholder="e.g. 2–3 days"></label>
-            <label>Order status<select class="figma-select" name="status">
-              ${[...new Set([...orderStages, ...deliveryStages, "Cancelled"])].map(stage => `<option value="${escapeHtml(stage)}"${stage === selectedStatus ? " selected" : ""}>${escapeHtml(stage)}</option>`).join("")}
+            <label>Order status<select class="figma-select" name="status"${selectedStatus === "Completed" || selectedStatus === "Cancelled" ? " disabled" : ""}>
+              ${[...new Set([...orderStages, ...(selectedStatus === "Completed" || selectedStatus === "Cancelled" ? [selectedStatus] : [])])].map(stage => `<option value="${escapeHtml(stage)}"${stage === selectedStatus ? " selected" : ""}>${escapeHtml(stage)}</option>`).join("")}
             </select></label>
             <button class="figma-btn" type="submit">Update Order Progress</button>
           </form>
@@ -811,12 +814,12 @@
       const cashArrangement = (order.payment?.arrangement === "Cash on Pickup" && order.fulfil === "Pickup")
         || (order.payment?.arrangement === "Cash on Delivery" && order.fulfil === "Delivery");
       const paymentIsVerified = ["Verified (Down Payment)", "Fully Paid"].includes(paymentInfo.status);
-      if (nextStatus !== "Cancelled" && nextIndex > 0 && !paymentIsVerified && !cashArrangement) {
+      if (nextIndex > 0 && !paymentIsVerified && !cashArrangement) {
         feedback.textContent = "Verify the required down payment before confirming or preparing this order, or authorize a matching cash-at-pickup/delivery arrangement.";
         feedback.dataset.error = "true";
         return;
       }
-      if (nextStatus !== "Cancelled" && nextIndex < 0) {
+      if (nextIndex < 0) {
         feedback.textContent = "Choose an order stage that matches the customer's pickup or delivery method.";
         feedback.dataset.error = "true";
         return;
@@ -826,20 +829,18 @@
         feedback.dataset.error = "true";
         return;
       }
-      if (nextStatus !== "Cancelled" && nextStatus !== currentStatus
+      if (nextStatus !== currentStatus
         && currentStatus !== "Cancelled" && currentIndex >= 0 && nextIndex > currentIndex + 1) {
         feedback.textContent = "Move the order through each preparation stage in sequence.";
-        feedback.dataset.error = "true";
-        return;
-      }
-      if (nextStatus === "Completed" && paymentInfo.status !== "Fully Paid" && !cashArrangement) {
-        feedback.textContent = "This order cannot be completed until the remaining balance is paid, unless a matching cash arrangement is authorized.";
         feedback.dataset.error = "true";
         return;
       }
       order.preparationTime = form.elements.preparationTime.value.trim() || "To be confirmed";
       order.status = nextStatus;
       order.statusUpdatedAt = new Date().toISOString();
+      if (nextStatus === "To Ship/Pickup" && currentStatus !== "To Ship/Pickup") {
+        order.toShipPickupAt = order.statusUpdatedAt;
+      }
       persistOrder("Order progress updated.");
     });
 
@@ -863,12 +864,12 @@
     const recentOrders = document.getElementById("recentOrders");
     const orders = getOrders();
     const normalized = orders.map(order => ({ order, status: normalizeOrderStatus(order.status) }));
-    const pendingCount = normalized.filter(item => ["Pending", "Awaiting Customer"].includes(item.status)).length;
+    const pendingCount = normalized.filter(item => item.status === "To Pay").length;
     const verificationCount = orders.filter(order => formatPaymentStatus(order) === "Pending Verification").length;
     const preparingCount = normalized.filter(item => item.status === "Preparing").length;
-    const readyCount = normalized.filter(item => ["Ready for Pickup", "Shipped Out"].includes(item.status)).length;
+    const readyCount = normalized.filter(item => item.status === "To Ship/Pickup").length;
     const revenue = orders
-      .filter(order => !["Pending", "Cancelled"].includes(normalizeOrderStatus(order.status)))
+      .filter(order => !["To Pay", "Cancelled"].includes(normalizeOrderStatus(order.status)))
       .reduce((total, order) => total + paymentSummary(order).amountPaid, 0);
     const metrics = {
       pendingOrderCount: pendingCount,

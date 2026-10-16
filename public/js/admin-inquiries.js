@@ -57,7 +57,18 @@
       status.className = `figma-status ${String(inquiry.status || "Pending").toLowerCase()}`;
       status.style.marginLeft = "auto";
       status.textContent = inquiry.status || "Pending";
-      header.append(avatar, customer, status);
+      const statusGroup = document.createElement("span");
+      statusGroup.className = "admin-inquiry-status-group";
+      const customerReplyCount = window.floraAvenueInquiryStore.countReplies(inquiry).customer;
+      if (customerReplyCount) {
+        const replyCount = document.createElement("span");
+        replyCount.className = "admin-inquiry-reply-count";
+        replyCount.textContent = String(customerReplyCount);
+        replyCount.setAttribute("aria-label", `${customerReplyCount} customer replies`);
+        statusGroup.appendChild(replyCount);
+      }
+      statusGroup.appendChild(status);
+      header.append(avatar, customer, statusGroup);
 
       const summary = document.createElement("p");
       summary.textContent = `${inquiry.subject || inquiry.type || "Customer inquiry"}\n${inquiry.message || ""}`;

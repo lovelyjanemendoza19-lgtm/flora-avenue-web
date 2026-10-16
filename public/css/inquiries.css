@@ -483,9 +483,20 @@ textarea:focus {
 }
 
 #detailsScreen.active {
-    display: flex !important;
-    flex-direction: column;
-    justify-content: center;
+    display: block !important;
+}
+
+#detailsScreen .inquiry-details-nav {
+    display: flex;
+    width: min(100%, 760px);
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    margin: 0 auto 14px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
 }
 
 #detailsScreen .topbar {
@@ -521,12 +532,27 @@ textarea:focus {
     padding: 0;
 }
 
+#detailsScreen .content,
+#detailsScreen .inquiry-details-nav {
+    position: relative;
+}
+
 #detailsScreen .details-card {
     max-width: none;
     padding: 22px 24px 28px;
     border: 1px solid #d8cfd0;
     border-radius: 14px;
     background-color: #ffffff;
+}
+
+#detailsScreen .details-card + .details-card {
+    margin-top: 14px;
+}
+
+#detailsScreen .inquiry-customization-details {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #eadcdf;
 }
 
 #detailsScreen .details-card > h1 {
@@ -540,7 +566,7 @@ textarea:focus {
 
 #detailsScreen .details-back-link {
     display: inline-block;
-    margin: 0 0 14px;
+    margin: 0;
     color: #7c4a4f;
     font-size: 13px;
     text-decoration: none;
@@ -572,12 +598,6 @@ textarea:focus {
     font-size: 20px;
     font-weight: 600;
     overflow-wrap: anywhere;
-}
-
-#detailsScreen .inquiry-detail-status {
-    margin: 0 0 18px;
-    color: #7c4a4f;
-    font-size: 13px;
 }
 
 #detailsScreen .details-card > h3 {
@@ -683,19 +703,33 @@ textarea:focus {
     font-size: 12px;
 }
 
+#detailsScreen .conversation-reply-row {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+}
+
 #detailsScreen .conversation-reply-input {
     display: block;
     width: 100%;
-    min-height: 84px;
-    margin: 0 0 10px;
-    padding: 10px 12px;
+    min-width: 0;
+    flex: 1 1 auto;
+    height: 38px;
+    min-height: 38px;
+    max-height: 38px;
+    margin: 0;
+    padding: 8px 11px;
     border: 1px solid #d8cfd0;
     border-radius: 8px;
     background: #ffffff;
     color: #332d2f;
     font: inherit;
     font-size: 13px;
-    resize: vertical;
+    line-height: 20px;
+    resize: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: pre;
 }
 
 #detailsScreen .conversation-reply-input:focus {
@@ -709,7 +743,11 @@ textarea:focus {
 }
 
 #detailsScreen .conversation-send-button {
-    margin: 0 8px 0 0;
+    flex: 0 0 auto;
+    min-height: 38px;
+    margin: 0;
+    padding: 8px 14px;
+    white-space: nowrap;
 }
 
 #detailsScreen .conversation-send-button:disabled {
@@ -735,13 +773,76 @@ textarea:focus {
     text-decoration: none;
 }
 
+#detailsScreen .inquiry-order-action-row {
+    display: flex;
+    width: 100%;
+    max-width: 760px;
+    justify-content: flex-end;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+#detailsScreen .inquiry-order-action {
+    display: inline-flex;
+    width: auto;
+    min-height: 38px;
+    align-items: center;
+    justify-content: center;
+    margin: 14px 0 20px;
+    padding: 10px 20px;
+    border: 1px solid #7c4a4f;
+    border-radius: 8px;
+    color: #fff;
+    text-decoration: none;
+}
+
+#detailsScreen .details-card .conversation-send-button {
+    height: 38px;
+    min-height: 38px;
+}
+
+body.persistent-sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+body.persistent-sidebar .website {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    min-height: 0;
+}
+
+body.persistent-sidebar .website > .phone {
+    flex: 1 0 auto;
+    min-height: 0;
+}
+
+body.persistent-sidebar .phone .screen.active {
+    min-height: 0;
+}
+
+body.persistent-sidebar .site-footer {
+    flex: 0 0 auto;
+    margin-top: auto;
+}
+
 @media (max-width: 599px) {
     #detailsScreen {
-        padding: 12px 10px 22px;
+        padding: 18px 10px 20px;
+    }
+
+    #detailsScreen .inquiry-details-nav .details-back-link {
+        text-decoration: underline;
+        text-underline-offset: 2px;
     }
 
     #detailsScreen .details-card {
         padding: 20px 22px 24px;
+    }
+
+    #detailsScreen .inquiry-order-action-row {
+        padding: 0 22px;
     }
 
     #detailsScreen .details-card > h1 {
@@ -843,6 +944,24 @@ textarea:focus {
     background-color: #7c4a4f;
 
     color: #ffffff;
+}
+
+.inquiry-tab-count {
+    display: inline-grid;
+    min-width: 18px;
+    height: 18px;
+    margin-left: 4px;
+    padding: 0 4px;
+    place-items: center;
+    border-radius: 999px;
+    background: #c44c64;
+    color: #fff;
+    font-size: 10px;
+    line-height: 1;
+}
+
+.inquiry-tab-count[hidden] {
+    display: none;
 }
 
 .new-inquiry-button {
@@ -996,6 +1115,7 @@ textarea:focus {
 }
 
 .item-info > span {
+    display: block;
     color: #756c6f;
 
     font-size: 12px;
@@ -1034,6 +1154,27 @@ textarea:focus {
 .inquiry-status.resolved {
     background-color: #eee6e8;
     color: #62575b;
+}
+
+.inquiry-status-group {
+    display: grid;
+    flex: 0 0 auto;
+    justify-items: center;
+    gap: 3px;
+}
+
+.inquiry-response-count {
+    display: inline-grid;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    place-items: center;
+    border-radius: 999px;
+    background: #c44c64;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
 }
 
 .inquiry-status.new,
@@ -1266,7 +1407,7 @@ textarea:focus {
 @media (max-width: 360px) {
 
     .mobile-header {
-        padding: 0 12px;
+        padding: 0 12px 0 56px;
     }
 
     .mobile-header h1 {
