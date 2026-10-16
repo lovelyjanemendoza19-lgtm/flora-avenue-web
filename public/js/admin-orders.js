@@ -143,7 +143,7 @@
               <td data-label="Customer">${escapeHtml(order.customerName || order.contactName || order.customerEmail || "Customer")}</td>
               <td data-label="Product">${escapeHtml(order.style || "Order")}</td>
               <td data-label="Due">${escapeHtml(formatOrderDueDate(order))}</td>
-              <td data-label="Status"><span class="pro-badge">${escapeHtml(status)}</span></td>
+              <td data-label="Status"><span class="pro-badge status-${slug(status)}">${escapeHtml(status)}</span></td>
               <td data-label="Amount">${escapeHtml(amount)}</td>
             </tr>`;
           }).join("")}</tbody>

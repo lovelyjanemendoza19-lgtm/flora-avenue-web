@@ -65,6 +65,13 @@
 .order-admin-detail .order-empty{padding:22px;border:1px solid #e1d2d5;border-radius:10px;background:#fff}
 .admin-order-id-link{color:#7c4a4f;font-weight:700;text-decoration:underline}
 .admin-orders-table-wrap{overflow-x:auto}
+.manage-orders-page .pro-orders-table tbody td{background:#fff}
+.manage-orders-page .pro-orders-table .admin-order-row:hover td{background:#fcf9fa}
+.manage-orders-page .pro-orders-table .pro-badge.status-to-pay{background:#fff0cf;color:#805015}
+.manage-orders-page .pro-orders-table .pro-badge.status-preparing{background:#f4e5e9;color:#71383f}
+.manage-orders-page .pro-orders-table .pro-badge.status-to-ship-pickup,
+.manage-orders-page .pro-orders-table .pro-badge.status-completed{background:#e2f2e4;color:#28613b}
+.manage-orders-page .pro-orders-table .pro-badge.status-cancelled{background:#f6dddd;color:#9b3b43}
 .pro-orders-table .admin-order-row{display:table-row;cursor:pointer;transition:background-color .16s ease}
 .pro-orders-table .admin-order-row:hover{background:#fcf9fa}
 .pro-orders-table .admin-order-row:focus-visible{outline:3px solid #c88491;outline-offset:-3px}
