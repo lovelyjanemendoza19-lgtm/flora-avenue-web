@@ -6,6 +6,11 @@ function getCustomerEmail() {
   return (localStorage.getItem("floraAvenueUserEmail") || "").trim().toLowerCase();
 }
 
+function hasUnreadSellerReply(inquiry) {
+  const conversation = Array.isArray(inquiry.conversation) ? inquiry.conversation : [];
+  return conversation[conversation.length - 1]?.sender === "Seller";
+}
+
 function imageFileName(imagePath) {
   const imageName = String(imagePath || "").split(/[\\/]/).pop() || "";
   try {
@@ -321,9 +326,7 @@ function renderInquiries(filter = "All") {
   const allCustomerInquiries = inquiries.filter(function (inquiry) {
     return inquiry.customerEmail?.toLowerCase() === customerEmail;
   });
-  const respondedCount = allCustomerInquiries.reduce(function (total, inquiry) {
-    return total + inquiryStore.countReplies(inquiry).seller;
-  }, 0);
+  const respondedCount = allCustomerInquiries.filter(hasUnreadSellerReply).length;
   const respondedBadge = document.getElementById("respondedInquiryCount");
   if (respondedBadge) {
     respondedBadge.textContent = respondedCount ? String(respondedCount) : "";
@@ -385,12 +388,11 @@ function renderInquiries(filter = "All") {
 
     const statusGroup = document.createElement("span");
     statusGroup.className = "inquiry-status-group";
-    const sellerReplyCount = inquiryStore.countReplies(inquiry).seller;
-    if (sellerReplyCount) {
+    if (hasUnreadSellerReply(inquiry)) {
       const replyCount = document.createElement("span");
       replyCount.className = "inquiry-response-count";
-      replyCount.textContent = String(sellerReplyCount);
-      replyCount.setAttribute("aria-label", `${sellerReplyCount} seller replies`);
+      replyCount.textContent = "1";
+      replyCount.setAttribute("aria-label", "New seller reply");
       statusGroup.appendChild(replyCount);
     }
     const status = document.createElement("span");

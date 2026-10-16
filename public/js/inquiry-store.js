@@ -6,6 +6,7 @@
     "INQ-2026-0515-0001",
     "INQ-2026-0510-0001"
   ]);
+  const duplicateMessageWindowMs = 2000;
 
   function notifyInquiriesChanged() {
     window.dispatchEvent(new Event("floraAvenueInquiriesChanged"));
@@ -74,7 +75,16 @@
       const rightTime = parseMessageDate(right.sentAt)?.getTime() || 0;
       return leftTime - rightTime;
     });
-    return conversation;
+    return conversation.filter(function (message, index) {
+      const previous = conversation[index - 1];
+      if (!previous || previous.sender !== message.sender || previous.message !== message.message) {
+        return true;
+      }
+      const previousTime = parseMessageDate(previous.sentAt)?.getTime();
+      const messageTime = parseMessageDate(message.sentAt)?.getTime();
+      return previousTime === null || messageTime === null
+        || Math.abs(messageTime - previousTime) >= duplicateMessageWindowMs;
+    });
   }
 
   function normalizeInquiry(inquiry) {
@@ -163,8 +173,18 @@
       if (inquiry.status === "Resolved") {
         throw new Error("This inquiry is resolved and no longer accepts replies.");
       }
-      const sentAt = new Date().toISOString();
       const conversation = normalizeConversation(inquiry);
+      const lastMessage = conversation[conversation.length - 1];
+      const lastMessageTime = parseMessageDate(lastMessage?.sentAt)?.getTime();
+      const now = Date.now();
+      if (lastMessage
+          && lastMessage.sender === sender
+          && lastMessage.message === trimmedMessage
+          && lastMessageTime !== null
+          && Math.abs(now - lastMessageTime) < duplicateMessageWindowMs) {
+        return inquiry;
+      }
+      const sentAt = new Date(now).toISOString();
       conversation.push({ sender: sender, message: trimmedMessage, sentAt: sentAt });
       const updatedInquiry = {
         ...inquiry,
