@@ -20,10 +20,17 @@ function imageFileName(imagePath) {
 function loadProductInquiryDetails() {
   const params = new URLSearchParams(window.location.search);
   const productName = params.get("product");
+  const productId = params.get("id");
   const productRow = document.querySelector("#formScreen .product-row");
   if (!productName) {
     if (productRow) productRow.hidden = true;
     return;
+  }
+
+  const backLink = document.getElementById("backToProductDetails");
+  if (backLink && productId) {
+    backLink.href = `../products/product-details.html?id=${encodeURIComponent(productId)}`;
+    backLink.hidden = false;
   }
 
   const imageName = params.get("image");
@@ -45,12 +52,7 @@ function loadProductInquiryDetails() {
   const subject = document.getElementById("subject");
   const message = document.getElementById("message");
   if (subject) subject.value = `Inquiry about ${productName}`;
-  if (message) {
-    message.value = [
-      params.get("notes"),
-      params.get("addons") ? `Add-ons: ${params.get("addons")}` : ""
-    ].filter(Boolean).join("\n");
-  }
+  if (message) message.value = params.get("notes") || "";
 
   if (params.get("new") === "1" && localStorage.getItem("floraAvenueSignedIn") === "true") {
     startInquiry();

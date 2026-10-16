@@ -143,8 +143,7 @@
     padding-top: 2px;
 }
 
-.order-item-total > span,
-.order-status-label {
+.order-item-total > span {
     color: #756c6f;
     font-size: 11px;
 }
@@ -196,8 +195,6 @@
     color: #a52e2e;
 }
 
-<<<<<<< HEAD
-=======
 .tracking-cancellation-requested {
     background: #fff0cf;
     color: #805015;
@@ -221,15 +218,13 @@
     color: #ffffff;
 }
 
->>>>>>> c7b1bff56b366454db02bf6abf1b51471f8c8d1b
 @media (min-width: 761px) {
     .order-item {
-        grid-template-columns: 76px minmax(0, 1fr) auto auto;
+        grid-template-columns: 76px minmax(0, 1fr) max-content;
         column-gap: 28px;
     }
 
-    .order-item-product,
-    .order-item-actions {
+    .order-item-product {
         display: contents;
     }
 
@@ -243,26 +238,17 @@
         grid-row: 1;
     }
 
-    .order-item-total {
+    .order-item-actions {
         grid-column: 3;
         grid-row: 1;
-        align-self: center;
-        justify-items: start;
-        padding-top: 0;
+        display: grid;
+        align-content: center;
+        justify-items: end;
+        gap: 8px;
     }
 
     .order-status-group {
-        grid-column: 4;
-        grid-row: 1;
-    }
-
-    .order-status-label {
-        position: relative;
-        top: -3px;
-    }
-
-    .order-item-total > span {
-        transform: translateY(-9px);
+        justify-items: end;
     }
 
 }
@@ -370,7 +356,7 @@
 
     .order-item-product {
         display: grid;
-        grid-template-columns: 58px minmax(0, 1fr) max-content;
+        grid-template-columns: 58px minmax(0, 1fr);
         align-items: start;
         gap: 8px 12px;
     }
@@ -398,14 +384,15 @@
 
     .order-item-actions {
         display: flex;
-        justify-content: space-between;
-        gap: 8px;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
         padding-top: 12px;
         border-top: 1px solid #eee3e4;
     }
 
     .order-status-group {
-        justify-items: start;
+        justify-items: end;
     }
 }
 
@@ -415,7 +402,7 @@
     }
 
     .order-item-product {
-        grid-template-columns: 52px minmax(0, 1fr) max-content;
+        grid-template-columns: 52px minmax(0, 1fr);
         gap: 8px;
     }
 
