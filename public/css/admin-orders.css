@@ -20,6 +20,10 @@
 .admin-customization-confirmation>h3{margin:0}
 .admin-customization-confirmation>p{margin:0;color:#756c6f;font-size:12px}
 .admin-customization-confirmation .figma-btn:disabled{cursor:not-allowed;opacity:.55}
+.admin-order-acceptance{display:grid;gap:8px;margin-top:14px;padding:14px;border:1px solid #e9d8db;border-radius:9px;background:#fbf7f8}
+.admin-order-acceptance>h3{margin:0}
+.admin-order-acceptance>p{margin:0;color:#756c6f;font-size:12px}
+.admin-order-acceptance .admin-order-form{margin-top:4px}
 .admin-customization-locked{color:#9b3b43!important}
 .admin-customization-reference{display:grid;justify-items:start;gap:7px;padding:10px;border:1px solid #e9d8db;border-radius:8px;background:#fff}
 .admin-customization-reference strong{color:#71383f;font-size:12px}
@@ -61,6 +65,12 @@
 .order-admin-detail .order-empty{padding:22px;border:1px solid #e1d2d5;border-radius:10px;background:#fff}
 .admin-order-id-link{color:#7c4a4f;font-weight:700;text-decoration:underline}
 .admin-orders-table-wrap{overflow-x:auto}
+.pro-orders-table .admin-order-row{display:table-row;cursor:pointer;transition:background-color .16s ease}
+.pro-orders-table .admin-order-row:hover{background:#fcf9fa}
+.pro-orders-table .admin-order-row:focus-visible{outline:3px solid #c88491;outline-offset:-3px}
+@media(max-width:760px){
+  .pro-orders-table tbody .admin-order-row{display:grid}
+}
 .admin-order-meta{margin-bottom:12px}
 .admin-order-type-error{margin:0 0 12px;padding:10px 12px;border:1px solid #e5b8bd;border-radius:7px;background:#fff1f1;color:#9b3b43;font-size:12px}
 .admin-order-type-control{margin:0 0 14px}

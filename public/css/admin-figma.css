@@ -391,13 +391,16 @@ body.admin-menu-open{overflow:hidden}
 .admin-orders-table{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse;text-align:left}
 .admin-orders-table th{padding:12px 14px;background:#fbf7f8;color:var(--fx-muted);font-size:11px;font-weight:600;text-align:left;white-space:nowrap}
 .admin-orders-table td{padding:12px 14px;border-top:1px solid #eee6e8;color:var(--fx-text);font-size:12px;vertical-align:middle;overflow-wrap:anywhere}
-.admin-orders-table th:nth-child(1){width:18%}
-.admin-orders-table th:nth-child(2){width:14%}
-.admin-orders-table th:nth-child(3){width:28%}
-.admin-orders-table th:nth-child(4){width:15%}
-.admin-orders-table th:nth-child(5){width:14%}
-.admin-orders-table th:nth-child(6){width:11%}
+.admin-orders-table th:nth-child(1){width:20%}
+.admin-orders-table th:nth-child(2){width:16%}
+.admin-orders-table th:nth-child(3){width:30%}
+.admin-orders-table th:nth-child(4){width:17%}
+.admin-orders-table th:nth-child(5){width:17%}
+.admin-orders-table .admin-order-row{cursor:pointer;transition:background-color .16s ease}
+.admin-orders-table .admin-order-row:hover{background:#fbf6f7}
+.admin-orders-table .admin-order-row:focus-visible{outline:3px solid #c88491;outline-offset:-3px}
 .admin-order-date,.admin-order-list-product small{display:block;margin-top:4px;color:var(--fx-muted);font-size:10px;font-weight:400}
+.admin-order-id{color:var(--fx-maroon);font-weight:700}
 .admin-order-list-product{display:flex;align-items:center;gap:12px;min-width:0}
 .admin-order-list-product img{width:70px;height:66px;flex:0 0 auto;border-radius:8px;object-fit:cover;background:#f7eff1}
 .admin-order-list-product>span{display:block;min-width:0}
@@ -410,9 +413,6 @@ body.admin-menu-open{overflow:hidden}
 .admin-order-badge.payment-fully-paid,.admin-order-badge.order-confirmed,.admin-order-badge.order-ready-for-pickup,.admin-order-badge.order-ready-for-delivery,.admin-order-badge.order-shipped-out,.admin-order-badge.order-completed{background:#e5f1e6;color:#367041}
 .admin-order-badge.payment-rejected,.admin-order-badge.order-cancelled{background:#f6dddd;color:#9b3b43}
 .admin-order-badge.order-to-verify,.admin-order-badge.order-to-pay,.admin-order-badge.order-ready-for-pickup,.admin-order-badge.order-ready-for-delivery{background:#f7e0e8;color:#923e59}
-.admin-order-actions{min-width:0}
-.admin-order-view-button{display:inline-flex;min-height:42px;align-items:center;justify-content:center;padding:0 14px;border:1px solid #c88491;border-radius:9px;background:#fff;color:var(--fx-maroon);font-size:11px;font-weight:600;text-decoration:none;white-space:nowrap}
-.admin-order-view-button:hover{background:#fbf3f5;border-color:var(--fx-maroon)}
 
 @media(max-width:900px){
   .admin-orders-table-wrap{overflow:visible;border:0;background:transparent}
@@ -434,19 +434,15 @@ body.admin-menu-open{overflow:hidden}
   .admin-order-list-product .admin-order-mobile-total{display:flex!important;flex:0 0 auto;align-items:center;gap:10px;color:#923e59;font-size:17px;font-weight:700}
   .admin-order-mobile-total>span{color:#a77f8b;font-size:28px;font-weight:400;line-height:1}
   .admin-orders-table td[data-label="Payment Status"],
-  .admin-orders-table td[data-label="Order Status"],
-  .admin-orders-table .admin-order-actions{justify-content:center;padding:9px 10px 11px}
+  .admin-orders-table td[data-label="Order Status"]{justify-content:center;padding:9px 10px 11px}
   .admin-orders-table td[data-label="Payment Status"]:before,
   .admin-orders-table td[data-label="Order Status"]:before{font-size:10px;font-weight:500}
-  .admin-orders-table .admin-order-actions:before{content:none}
   .admin-orders-table .admin-order-badge{max-width:100%;padding:6px 9px;font-size:10px;white-space:nowrap}
-  .admin-orders-table .admin-order-actions .admin-order-view-button{align-self:stretch;min-height:40px;padding:0 10px}
 }
 @media(max-width:460px), (min-width:701px) and (max-width:760px){
   .admin-orders-table tr{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .admin-orders-table td[data-label="Payment Status"],
   .admin-orders-table td[data-label="Order Status"]{padding-right:6px;padding-left:6px}
-  .admin-orders-table .admin-order-actions{grid-column:1/-1;padding-top:0}
 }
 @media(max-width:420px){
   .admin-orders-table .admin-order-badge{padding:5px 6px;font-size:9px}
@@ -454,6 +450,16 @@ body.admin-menu-open{overflow:hidden}
   .admin-order-list-product img{width:68px;height:68px}
   .admin-order-list-product .admin-order-mobile-total{gap:4px;font-size:15px}
   .admin-order-mobile-total>span{font-size:22px}
+}
+@media(min-width:901px){
+  .admin-orders-table{display:table}
+  .admin-orders-table tbody{display:table-row-group}
+  .admin-orders-table tr{display:table-row;overflow:visible;border:0;border-radius:0;background:transparent;box-shadow:none}
+  .admin-orders-table td,
+  .admin-orders-table td[data-label="Order ID"],
+  .admin-orders-table td[data-label="Customer"],
+  .admin-orders-table td[data-label="Product"]{display:table-cell;min-width:0;padding:12px 14px;border-top:1px solid #eee6e8}
+  .admin-orders-table td:before{content:none}
 }
 .admin-product-catalog .category-list .category-button{
   min-height:32px;
@@ -463,6 +469,13 @@ body.admin-menu-open{overflow:hidden}
   white-space:nowrap;
 }
 .admin-product-catalog .add-product-button{width:auto;flex:0 0 auto;padding:0 16px}
+
+.admin-logout-modal{z-index:120}
+.admin-logout-modal .admin-modal-card{width:min(100%,420px);padding:32px 28px 26px}
+.admin-logout-modal .admin-modal-icon{background:var(--fx-rose-soft);color:var(--fx-maroon)}
+.admin-logout-modal .admin-modal-card h2{color:var(--fx-text);font-size:24px}
+.admin-logout-modal .admin-modal-card p{font-size:13px;line-height:1.6}
+.admin-logout-modal .admin-modal-actions button{min-height:44px;font:600 12px "Poppins",sans-serif;cursor:pointer}
 
 @media(max-width:900px){
   .admin-product-catalog .admin-catalog-heading{align-items:stretch;flex-direction:column}

@@ -211,6 +211,64 @@ body {
         cardAppear .75s ease .2s both;
 }
 
+.auth-success-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(51, 45, 47, .42);
+    animation: authSuccessFadeIn .2s ease both;
+}
+
+.auth-success-card {
+    width: min(100%, 360px);
+    padding: 32px 28px;
+    border: 1px solid #eadcdf;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(72, 42, 51, .2);
+    text-align: center;
+    animation: authSuccessAppear .28s ease both;
+}
+
+.auth-success-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: #e5f1e6;
+    color: #367041;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.auth-success-card h2 {
+    margin: 0;
+    color: #633a3e;
+    font: 700 24px/1.25 "Playfair Display", Georgia, serif;
+}
+
+.auth-success-card p {
+    margin: 8px 0 0;
+    color: #756c6f;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+@keyframes authSuccessFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes authSuccessAppear {
+    from { opacity: 0; transform: translateY(8px) scale(.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 
 /* =========================================
    MOBILE BRAND

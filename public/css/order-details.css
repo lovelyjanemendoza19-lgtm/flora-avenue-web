@@ -11,12 +11,16 @@ body:not(.orders-body) {
   font-family: Poppins, sans-serif;
 }
 
+body.customer-payment-modal-open {
+  overflow: hidden;
+}
+
 .order-details-page {
-  width: min(100%, 1400px);
+  width: min(100%, 640px);
   margin: 0 auto;
 }
 
-.back-link {
+.details-back-link {
   display: inline-block;
   margin: 0 0 14px;
   color: #7c4a4f;
@@ -24,61 +28,39 @@ body:not(.orders-body) {
   text-decoration: none;
 }
 
-.back-link:hover {
+.details-back-link:hover,
+.details-back-link:focus-visible {
   text-decoration: underline;
-}
-
-.order-details-card {
-  padding: 22px 24px 28px;
-  border: 1px solid #d8cfd0;
-  border-radius: 14px;
-  background: #f8f1f1;
-}
-
-.order-details-page > .order-details-card {
-  padding: 28px;
+  text-underline-offset: 2px;
 }
 
 #details {
   min-width: 0;
 }
 
-#details .customer-order-detail-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-  align-items: start;
-  gap: 24px;
+#details .customer-order-main-card {
+  padding: 16px;
+  border: 1px solid #eadcdf;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
 }
 
-#details .customer-order-information,
-#details .customer-order-payment {
-  display: grid;
-  min-width: 0;
-  gap: 16px;
-}
-
-@media (min-width: 761px) {
-  #details .customer-order-payment {
-    margin-top: 0;
-  }
-}
-
-#details .customer-order-detail-heading {
-  display: grid;
-  justify-items: start;
-  gap: 8px;
-}
-
-#details .customer-order-detail-heading h1 {
+#details .customer-order-status-heading h1 {
   margin: 0;
-  color: #332d2f;
+  color: #211c1d;
   font-family: "Playfair Display", serif;
-  font-size: 28px;
+  font-size: 23px;
   font-weight: 700;
   line-height: 1.2;
 }
 
-#details .customer-order-detail-heading p,
+#details .customer-order-status-heading {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+#details .customer-order-status-heading p,
 #details .customer-order-product-description p,
 #details .customer-message-card p,
 #details .customer-order-extra p {
@@ -94,17 +76,44 @@ body:not(.orders-body) {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 16px;
-  border: 1px solid #e1d2d5;
-  border-radius: 10px;
-  background: #ffffff;
+  margin-bottom: 14px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid #eadcdf;
   color: #756c6f;
   font-size: 13px;
 }
 
 #details .customer-order-status-card strong {
-  color: #7c4a4f;
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #fff0e8;
+  color: #ed5b1c;
+  font-weight: 600;
   text-align: right;
+}
+
+#details .customer-order-status-card .order-status-payment-verification,
+#details .customer-order-status-card .order-status-awaiting-approval {
+  background: #fff0d7;
+  color: #805015;
+}
+
+#details .customer-order-status-card .order-status-confirmed,
+#details .customer-order-status-card .order-status-processing,
+#details .customer-order-status-card .order-status-completed {
+  background: #d4f2df;
+  color: #1f7041;
+}
+
+#details .customer-order-status-card .order-status-cancelled {
+  background: #f9d6d6;
+  color: #a52e2e;
+}
+
+#details .customer-order-status-card .order-status-cancellation-requested {
+  background: #fff0d7;
+  color: #805015;
 }
 
 #details .customer-order-product-card,
@@ -112,22 +121,20 @@ body:not(.orders-body) {
 #details .customer-order-extra,
 #details .customer-payment-card {
   min-width: 0;
-  padding: 18px;
-  border: 1px solid #e1d2d5;
-  border-radius: 12px;
-  background: #ffffff;
 }
 
 #details .customer-order-product-card {
   display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
+  grid-template-columns: 112px minmax(0, 1fr);
   align-items: start;
-  gap: 14px;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
 }
 
 #details .customer-order-product-card .order-image {
-  width: 88px;
-  height: 88px;
+  width: 112px;
+  height: 112px;
   margin: 0;
   border-radius: 8px;
   background: #e8dfe0;
@@ -137,15 +144,46 @@ body:not(.orders-body) {
 #details .customer-order-product-description {
   display: grid;
   min-width: 0;
-  gap: 5px;
+  align-content: start;
+  gap: 7px;
 }
 
-#details .customer-order-product-description h2,
-#details .customer-payment-card h2 {
-  margin: 0 0 4px;
+#details .customer-order-product-description h2 {
+  margin: 0 0 1px;
   color: #7c4a4f;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
+}
+
+#details .customer-order-product-attributes {
+  display: grid;
+  grid-template-columns: minmax(86px, auto) minmax(0, 1fr);
+  gap: 4px 8px;
+  color: #5f5558;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+#details .customer-order-product-attributes span:nth-child(odd) {
+  color: #756c6f;
+}
+
+#details .customer-order-product-attributes span:nth-child(even) {
+  overflow-wrap: anywhere;
+}
+
+#details .customer-order-additional-details {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+#details .customer-order-additional-details:empty {
+  display: none;
+}
+
+#details .customer-order-additional-details.is-empty {
+  display: none;
 }
 
 #details .customer-order-total {
@@ -247,9 +285,7 @@ body:not(.orders-body) {
   align-items: center;
   gap: 12px;
   min-width: 0;
-  padding: 12px;
-  border: 1px solid #eee3e4;
-  border-radius: 8px;
+  padding: 0;
   font-size: 12px;
 }
 
@@ -324,35 +360,109 @@ body:not(.orders-body) {
   margin: 0 !important;
 }
 
-.customer-payment-section {
-  margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px solid #d8cfd0;
+.customer-payment-modal {
+  position: fixed;
+  width: min(480px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  padding: 26px;
+  overflow-y: auto;
+  border: 1px solid #e1d2d5;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #332d2f;
+  box-shadow: 0 18px 55px rgba(51, 45, 47, 0.2);
+}
+
+.customer-payment-modal::backdrop {
+  background: rgba(51, 45, 47, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.customer-payment-modal-heading {
+  display: grid;
+  gap: 7px;
+  padding-right: 30px;
+}
+
+.customer-payment-modal-heading h2 {
+  margin: 0;
+  color: #211c1d;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.customer-payment-modal-heading p,
+.payment-modal-total,
+.payment-modal-due {
+  margin: 0;
+  color: #756c6f;
+  font-size: 13px;
+}
+
+.customer-payment-modal-heading p strong,
+.payment-modal-total strong,
+.payment-modal-due strong {
+  color: #7c4a4f;
+}
+
+.payment-modal-total,
+.payment-modal-due {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid #eee3e4;
+  border-radius: 7px;
+  background: #fbf6f6;
+  color: #332d2f;
+  font-weight: 600;
+}
+
+.payment-modal-total strong,
+.payment-modal-due strong {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.payment-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  padding: 0 !important;
+  border: 0;
+  border-radius: 50% !important;
+  background: transparent !important;
+  color: #7c4a4f !important;
+  font-size: 24px !important;
+  line-height: 1;
+}
+
+.payment-modal-close:hover {
+  background: #f4eaeb !important;
 }
 
 .customer-payment-form {
   display: grid;
-  gap: 12px;
-  margin-top: 18px;
-  padding: 16px;
-  border: 1px solid #e1d2d5;
-  border-radius: 10px;
-  background: #ffffff;
-}
-
-.customer-payment-form[hidden] {
-  display: none;
-}
-
-.customer-payment-form h3 {
-  margin-bottom: 2px !important;
+  gap: 11px;
+  margin: 16px 0 0;
+  padding: 0;
+  border: 0;
 }
 
 .customer-payment-form label {
   display: grid;
   gap: 5px;
   color: #4e4447;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
 }
 
@@ -380,48 +490,75 @@ body:not(.orders-body) {
   font-weight: 400;
 }
 
-#details .customer-payment-form button {
+.customer-payment-form button {
   width: 100%;
-  margin: 2px 0 0;
+  min-height: 42px;
+  margin: 3px 0 0;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 7px;
+  background: #7c4a4f;
+  color: #ffffff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.customer-payment-form button:disabled {
+  opacity: 0.65;
+  cursor: wait;
 }
 
 #details .pay-now-button {
   width: 100%;
-  min-height: 44px;
-  margin: 4px 0 0;
-  background: #7c4a4f;
-}
-
-#details .customer-payment-card #cancelOrder,
-#details .customer-payment-card #requestCancellation,
-#details .custom-offer-actions #voidCustomizedOffer {
-  width: auto;
-  min-height: 38px;
+  min-height: 46px;
   margin: 12px 0 0;
-  padding: 6px 0;
+  padding: 10px 14px;
   border: 0;
-  background: transparent;
-  color: #7c4a4f;
-  font-size: 12px;
+  border-radius: 7px;
+  background: #7c4a4f;
+  color: #ffffff;
+  font: inherit;
+  font-size: 14px;
   font-weight: 600;
-  text-align: left;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  cursor: pointer;
 }
 
-#details .customer-payment-card #cancelOrder:hover,
-#details .customer-payment-card #requestCancellation:hover,
+#details .customer-order-cancel-action #cancelOrder,
+#details .customer-order-cancel-action #requestCancellation,
+#details .custom-offer-actions #voidCustomizedOffer {
+  width: 100%;
+  min-height: 46px;
+  margin: 10px 0 0;
+  padding: 10px 14px;
+  border: 1px solid #7c4a4f;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #7c4a4f;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+#details .customer-order-cancel-action #cancelOrder:hover,
+#details .customer-order-cancel-action #requestCancellation:hover,
 #details .custom-offer-actions #voidCustomizedOffer:hover {
-  background: transparent;
+  background: #fbf6f6;
   color: #633a3e;
 }
 
 .customer-confirm-dialog {
+  position: fixed;
   width: min(420px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
   max-width: none;
-  padding: 24px;
+  margin: auto;
+  padding: 30px 24px 24px;
+  overflow-y: auto;
   border: 1px solid #e1d2d5;
-  border-radius: 12px;
+  border-radius: 10px;
   background: #ffffff;
   color: #332d2f;
   box-shadow: 0 18px 55px rgba(51, 45, 47, 0.2);
@@ -434,21 +571,53 @@ body:not(.orders-body) {
 
 .customer-confirm-dialog h2 {
   margin: 0 0 8px;
-  color: #7c4a4f;
+  color: #211c1d;
   font-size: 18px;
   font-weight: 600;
+  text-align: center;
 }
 
 .customer-confirm-dialog p {
-  margin: 0;
+  max-width: 260px;
+  margin: 0 auto;
   color: #756c6f;
   font-size: 13px;
   line-height: 1.5;
+  text-align: center;
+}
+
+.customer-confirm-icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: #fde7e8;
+  color: #dc5360;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.customer-confirm-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #756c6f;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .customer-confirm-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 22px;
@@ -506,51 +675,50 @@ body:not(.orders-body) {
     padding: 12px 16px 22px;
   }
 
-  .order-details-card {
-    padding: 16px;
+  #details .customer-order-status-heading h1 {
+    font-size: 21px;
   }
 
-  .order-details-page > .order-details-card {
-    padding: 18px 16px;
+  #details .customer-order-status-card {
+    padding-bottom: 10px;
   }
 
-  #details .customer-order-detail-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  #details .customer-order-payment {
-    grid-row: 2;
-  }
-
-  #details .customer-order-product-card,
-  #details .customer-payment-card {
-    padding: 14px;
+  #details .customer-order-status-card strong {
+    max-width: 52%;
+    white-space: normal;
   }
 
   #details .customer-order-product-card {
-    grid-template-columns: 72px minmax(0, 1fr);
-    gap: 12px;
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 11px;
   }
 
   #details .customer-order-product-card .order-image {
     grid-row: auto;
-    width: 72px;
-    height: 72px;
+    width: 80px;
+    height: 80px;
   }
 
-  #details .customer-order-status-card {
-    padding: 11px 13px;
+  #details .customer-order-product-attributes {
+    grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
+    gap: 4px 6px;
+    font-size: 11px;
   }
 
-  #details .customer-order-payment button,
-  #details .customer-payment-card #cancelOrder,
-  #details .customer-payment-card #requestCancellation {
+  .customer-payment-modal {
+    width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    padding: 22px 16px;
+  }
+
+  .customer-confirm-dialog {
+    width: min(360px, calc(100vw - 24px));
+    padding: 30px 18px 20px;
+  }
+
+  .customer-payment-modal .customer-payment-form button {
     width: 100%;
-  }
-
-  #details .customer-payment-card #cancelOrder,
-  #details .customer-payment-card #requestCancellation {
-    text-align: center;
   }
 }
 

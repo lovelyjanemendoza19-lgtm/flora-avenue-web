@@ -1295,11 +1295,21 @@ header .logo {
     }
 
     .side-menu nav .nav-sign-in {
-        margin-top: 8px;
-        justify-content: center;
-        background: #7c4a4f;
-        color: #ffffff;
-        font-weight: 600;
+        margin-top: auto;
+        padding-top: 16px;
+        border-top: 1px solid rgba(51, 45, 47, 0.15);
+        border-radius: 0;
+        justify-content: flex-start;
+        background: transparent;
+        color: #332d2f;
+        font-weight: 500;
+    }
+
+    .side-menu nav .nav-sign-in:hover,
+    .side-menu nav .nav-sign-in:focus-visible,
+    .side-menu nav > button.menu-action:hover,
+    .side-menu nav > button.menu-action:focus-visible {
+        border-radius: 6px;
     }
 
     .side-menu .profile-toggle:hover,
@@ -1319,6 +1329,13 @@ header .logo {
 
     .side-menu .menu-divider {
         width: auto;
+    }
+
+    .side-menu nav > button.menu-action {
+        margin-top: auto;
+        padding-top: 16px;
+        border-top: 1px solid rgba(51, 45, 47, 0.15);
+        border-radius: 0;
     }
 
     .side-menu .menu-text {

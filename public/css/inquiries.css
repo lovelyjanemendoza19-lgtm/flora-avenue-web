@@ -538,7 +538,7 @@ textarea:focus {
     line-height: 1.2;
 }
 
-#detailsScreen .inquiry-back-link {
+#detailsScreen .details-back-link {
     display: inline-block;
     margin: 0 0 14px;
     color: #7c4a4f;
@@ -546,8 +546,8 @@ textarea:focus {
     text-decoration: none;
 }
 
-#detailsScreen .inquiry-back-link:hover,
-#detailsScreen .inquiry-back-link:focus-visible {
+#detailsScreen .details-back-link:hover,
+#detailsScreen .details-back-link:focus-visible {
     text-decoration: underline;
     text-underline-offset: 2px;
 }

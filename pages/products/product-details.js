@@ -483,6 +483,10 @@ if (productOverride) {
   if (productOverride.image) product.images = [productOverride.image];
 }
 
+if (product.category === "Flowers & Bouquets" && !product.customizable && !product.colors?.length) {
+  product.colors = ["Pink", "Red", "Blue", "Purple", "Yellow"];
+}
+
 const imageElement = document.getElementById("productImage");
 const thumbnailsElement = document.getElementById("productThumbnails");
 const categoryElement = document.getElementById("productCategory");
@@ -508,6 +512,7 @@ const selectedProductSummary = document.getElementById("selectedProductSummary")
 
 
 let selectedAddOns = new Set();
+let addOnQuantities = {};
 let selectedColor = "";
 
 function money(amount) {
@@ -523,8 +528,19 @@ function getSelectedVariant() {
 
 function getAddOnTotal() {
   return addOnOptions.reduce((sum, addOn) => {
-    return sum + (selectedAddOns.has(addOn.id) ? addOn.price : 0);
+    const quantity = Number(addOnQuantities[addOn.id] ?? 0);
+    return sum + addOn.price * quantity;
   }, 0);
+}
+
+function getSelectedAddOnDetails() {
+  return addOnOptions
+    .filter(addOn => Number(addOnQuantities[addOn.id]) > 0)
+    .map(addOn => {
+      const quantity = Number(addOnQuantities[addOn.id]);
+      return `${addOn.label} × ${quantity}`;
+    })
+    .join(", ");
 }
 
 function savePendingProductAction(action) {
@@ -539,7 +555,10 @@ function savePendingProductAction(action) {
     selection: {
       variantIndex: variantSelect.value,
       color: selectedColor,
-      addOns: Array.from(selectedAddOns),
+      addOns: Array.from(selectedAddOns, id => ({
+        id,
+        quantity: Number(addOnQuantities[id]) || 0
+      })),
       quantity: quantityInput.value,
       notes: document.getElementById("specialInstructions").value
     }
@@ -577,11 +596,18 @@ function restorePendingProductSelection(pendingAction) {
       ?.click();
   }
 
-  selectedAddOns = new Set(
-    Array.isArray(selection.addOns)
-      ? selection.addOns.filter(id => addOnOptions.some(addOn => addOn.id === id))
-      : []
-  );
+  const savedAddOns = Array.isArray(selection.addOns) ? selection.addOns : [];
+  selectedAddOns = new Set();
+  addOnQuantities = {};
+  savedAddOns.forEach(savedAddOn => {
+    const id = typeof savedAddOn === "string" ? savedAddOn : savedAddOn?.id;
+    if (!addOnOptions.some(addOn => addOn.id === id)) return;
+    const quantity = typeof savedAddOn === "string" ? 1 : Number(savedAddOn.quantity);
+    addOnQuantities[id] = Number.isFinite(quantity) && quantity >= 0
+      ? Math.min(99, Math.floor(quantity))
+      : 0;
+    if (addOnQuantities[id] > 0) selectedAddOns.add(id);
+  });
   renderAddOns();
 
   const quantity = Number(selection.quantity);
@@ -724,25 +750,49 @@ function renderAddOns() {
   addOnsElement.innerHTML = "";
 
   addOnOptions.forEach(addOn => {
-    const label = document.createElement("label");
-    label.className = "addon-option";
+    const option = document.createElement("div");
+    option.className = "addon-option";
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.value = addOn.id;
-    checkbox.checked = selectedAddOns.has(addOn.id);
+    const text = document.createElement("span");
+    text.className = "addon-name";
+    text.textContent = addOn.label;
 
-    checkbox.addEventListener("change", () => {
-      if (checkbox.checked) selectedAddOns.add(addOn.id);
+    const quantityLabel = document.createElement("label");
+    quantityLabel.className = "addon-quantity";
+    quantityLabel.textContent = "Qty";
+    const quantityInputElement = document.createElement("input");
+    quantityInputElement.type = "number";
+    quantityInputElement.min = "0";
+    quantityInputElement.max = "99";
+    quantityInputElement.step = "1";
+    quantityInputElement.value = String(addOnQuantities[addOn.id] ?? 0);
+    quantityInputElement.setAttribute("aria-label", `${addOn.label} quantity`);
+    quantityInputElement.addEventListener("input", () => {
+      if (quantityInputElement.value === "") return;
+      const quantity = Number(quantityInputElement.value);
+      if (!Number.isFinite(quantity) || quantity < 0) return;
+      addOnQuantities[addOn.id] = Math.min(99, Math.floor(quantity));
+      quantityInputElement.value = String(addOnQuantities[addOn.id]);
+      if (addOnQuantities[addOn.id] > 0) selectedAddOns.add(addOn.id);
+      else selectedAddOns.delete(addOn.id);
+      updateTotal();
+    });
+    quantityInputElement.addEventListener("change", () => {
+      const quantity = Number(quantityInputElement.value);
+      addOnQuantities[addOn.id] = quantityInputElement.value !== ""
+        && Number.isFinite(quantity)
+        && quantity >= 0
+        ? Math.min(99, Math.floor(quantity))
+        : 0;
+      quantityInputElement.value = String(addOnQuantities[addOn.id]);
+      if (addOnQuantities[addOn.id] > 0) selectedAddOns.add(addOn.id);
       else selectedAddOns.delete(addOn.id);
       updateTotal();
     });
 
-    const text = document.createElement("span");
-    text.textContent = addOn.label;
-
-    label.append(checkbox, text);
-    addOnsElement.appendChild(label);
+    quantityLabel.appendChild(quantityInputElement);
+    option.append(text, quantityLabel);
+    addOnsElement.appendChild(option);
   });
 }
 
@@ -768,9 +818,7 @@ function renderSelectedProductSummary() {
   if (!selectedProductSummary) return;
   const variant = getSelectedVariant();
   const quantity = Math.max(1, Number(quantityInput.value) || 1);
-  const addOns = Array.from(selectedAddOns)
-    .map(id => addOnOptions.find(addOn => addOn.id === id)?.label || id)
-    .join(", ") || "None";
+  const addOns = getSelectedAddOnDetails() || "None";
   const amount = (Number(variant.price ?? product.price ?? 0) + getAddOnTotal()) * quantity;
   const colorDisplay = selectedColor
     ? `<span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${colorPalette[selectedColor] || '#d9d9d9'}; border:1px solid rgba(51,45,47,0.2); vertical-align:middle; margin-right:8px;"></span>${selectedColor}`
@@ -816,7 +864,7 @@ function saveProductOrder() {
     size: variant.label || "Standard",
     qty: quantity,
     colors: selectedColor,
-    addons: Array.from(selectedAddOns).map(id => addOnOptions.find(item => item.id === id)?.label || id).join(", "),
+    addons: getSelectedAddOnDetails(),
     notes: document.getElementById("specialInstructions").value.trim() + (document.getElementById("orderNotes").value.trim() ? ` ${document.getElementById("orderNotes").value.trim()}` : ""),
     contactName: document.getElementById("orderContactName").value.trim(),
     contactNumber: document.getElementById("orderContactNumber").value.trim(),
@@ -846,9 +894,7 @@ function getProductActionUrl(page) {
   const variant = getSelectedVariant();
   const quantity = Math.max(1, Number(quantityInput.value) || 1);
   const notes = document.getElementById("specialInstructions")?.value.trim() || "";
-  const addOns = Array.from(selectedAddOns)
-    .map(id => addOnOptions.find(addOn => addOn.id === id)?.label || id)
-    .join(", ");
+  const addOns = getSelectedAddOnDetails();
 
   if (page === "order-form") {
     const orderQuery = new URLSearchParams({
@@ -893,9 +939,7 @@ function goToInquiry() {
     variant: getSelectedVariant().label || "Standard",
     quantity: String(Math.max(1, Number(quantityInput.value) || 1)),
     color: selectedColor,
-    addons: Array.from(selectedAddOns)
-      .map(id => addOnOptions.find(addOn => addOn.id === id)?.label || id)
-      .join(", "),
+    addons: getSelectedAddOnDetails(),
     notes: document.getElementById("specialInstructions")?.value.trim() || ""
   });
   const inquiryUrl = `../inquiries/inquiries.html?${inquiryQuery.toString()}`;

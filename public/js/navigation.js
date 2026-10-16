@@ -31,7 +31,6 @@ function createAccountNavigation(mobile) {
             : `<a class="menu-link nav-sign-in mobile-nav-sign-in" href="${navigationBase}pages/login/login.html">Sign In</a>`;
 
         return `
-            <span class="menu-divider" role="separator" aria-hidden="true"></span>
             <a class="menu-link" href="${navigationBase}pages/inquiries/inquiries.html">
                 <span class="menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/inquiry-icon.png" alt=""></span>
                 <span class="menu-text">${inquiryLabel}</span>

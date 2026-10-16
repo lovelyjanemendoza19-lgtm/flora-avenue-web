@@ -91,6 +91,21 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = destination || "../../index.html";
     }
 
+    function showLoginSuccess() {
+        const overlay = document.createElement("div");
+        overlay.className = "auth-success-overlay";
+        overlay.setAttribute("role", "status");
+        overlay.setAttribute("aria-live", "polite");
+        overlay.innerHTML = `
+            <section class="auth-success-card" aria-label="Login successful">
+                <span class="auth-success-icon" aria-hidden="true">✓</span>
+                <h2>Login successful!</h2>
+                <p>Welcome back to Flora Avenue.</p>
+            </section>
+        `;
+        document.body.appendChild(overlay);
+    }
+
 
     const passwordToggles =
         document.querySelectorAll(".password-toggle");
@@ -156,6 +171,8 @@ document.addEventListener("DOMContentLoaded", function () {
         loginForm.addEventListener("submit", function (event) {
 
             event.preventDefault();
+            const submitButton = loginForm.querySelector('button[type="submit"]');
+            if (submitButton?.disabled) return;
 
 
             const email =
@@ -195,9 +212,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("Unable to sign in on this device. Please check your browser storage settings.");
                 return;
             }
-            alert("Login successful!");
-
-            redirectAfterSignIn();
+            if (submitButton) submitButton.disabled = true;
+            showLoginSuccess();
+            window.setTimeout(redirectAfterSignIn, 1200);
 
         });
 

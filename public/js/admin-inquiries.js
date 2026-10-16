@@ -23,9 +23,14 @@
     }
 
     inquiries.forEach(function (inquiry) {
+      const inquiryIdentifier = inquiry.reference || inquiry.inquiryId || inquiry.id;
+      if (!inquiryIdentifier) {
+        console.warn("Skipping an inquiry without a reference or ID.", inquiry);
+        return;
+      }
       const link = document.createElement("a");
       link.className = "figma-message";
-      link.href = `inquiry-details.html?reference=${encodeURIComponent(inquiry.reference)}`;
+      link.href = `inquiry-details.html?reference=${encodeURIComponent(inquiryIdentifier)}`;
 
       const header = document.createElement("div");
       header.className = "msg-head";

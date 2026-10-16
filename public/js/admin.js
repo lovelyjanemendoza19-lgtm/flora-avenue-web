@@ -53,6 +53,69 @@ function setupMobileAdminNavigation(shell, sidebar, header, buttonId) {
   });
 }
 
+function setupAdminLogoutConfirmation() {
+  const logoutButtons = document.querySelectorAll("#logoutButton, #fxLogoutButton");
+  if (!logoutButtons.length) return;
+
+  let modal = document.getElementById("logoutModal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "logoutModal";
+    modal.className = "admin-modal";
+    modal.setAttribute("aria-hidden", "true");
+    document.body.appendChild(modal);
+  }
+  modal.classList.add("admin-logout-modal");
+  modal.setAttribute("role", "presentation");
+  modal.innerHTML = `
+    <section class="admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="adminLogoutTitle" aria-describedby="adminLogoutDescription">
+      <span class="admin-modal-icon" aria-hidden="true">↪</span>
+      <h2 id="adminLogoutTitle">Log out?</h2>
+      <p id="adminLogoutDescription">Are you sure you want to log out?</p>
+      <div class="admin-modal-actions">
+        <button class="admin-btn secondary" id="adminLogoutCancel" type="button">Cancel</button>
+        <button class="admin-btn" id="adminLogoutConfirm" type="button">Log Out</button>
+      </div>
+    </section>`;
+
+  const cancelButton = modal.querySelector("#adminLogoutCancel");
+  const confirmButton = modal.querySelector("#adminLogoutConfirm");
+  let previousFocus = null;
+
+  function closeModal() {
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden", "true");
+    previousFocus?.focus();
+  }
+
+  function openModal(event) {
+    event.preventDefault();
+    previousFocus = event.currentTarget;
+    event.currentTarget.closest(".admin-sidebar-fx, .pro-sidebar")
+      ?.classList.remove("open");
+    document.querySelector(".fx-mobile-overlay, .admin-overlay")?.classList.remove("show");
+    document.body.classList.remove("admin-menu-open");
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden", "false");
+    cancelButton.focus();
+  }
+
+  logoutButtons.forEach(button => button.addEventListener("click", openModal));
+  cancelButton.addEventListener("click", closeModal);
+  modal.addEventListener("click", event => {
+    if (event.target === modal) closeModal();
+  });
+  confirmButton.addEventListener("click", () => {
+    sessionStorage.removeItem("floraAdminLoggedIn");
+    window.location.href = "login.html";
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && modal.classList.contains("show")) {
+      closeModal();
+    }
+  });
+}
+
 function buildAdminSidebar() {
   if (!document.body.classList.contains("admin-app")) return;
   const shell = document.querySelector(".admin-shell");
@@ -84,12 +147,6 @@ function buildAdminSidebar() {
     </div>`;
   if (!sidebar.isConnected) shell.prepend(sidebar);
 
-  sidebar.querySelector("#fxLogoutButton")?.addEventListener("click", () => {
-    if (confirm("Are you sure you want to log out?")) {
-      sessionStorage.removeItem("floraAdminLoggedIn");
-      window.location.href = "login.html";
-    }
-  });
   setupMobileAdminNavigation(
     shell,
     sidebar,
@@ -100,6 +157,7 @@ function buildAdminSidebar() {
 
 document.addEventListener("DOMContentLoaded", () => {
   buildAdminSidebar();
+  setupAdminLogoutConfirmation();
   const dashboardShell = document.querySelector(".pro-dash-shell");
   if (dashboardShell) {
     setupMobileAdminNavigation(
@@ -153,26 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   overlay?.addEventListener("click", closeMenu);
   sidebar?.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
-
-  // Logout confirmation
-  const logoutButton = document.getElementById("logoutButton");
-  const modal = document.getElementById("logoutModal");
-  const cancelLogout = document.getElementById("logoutCancel");
-  const confirmLogout = document.getElementById("logoutConfirm");
-
-  logoutButton?.addEventListener("click", () => {
-    modal?.classList.add("show");
-    modal?.setAttribute("aria-hidden", "false");
-  });
-
-  cancelLogout?.addEventListener("click", () => {
-    modal?.classList.remove("show");
-    modal?.setAttribute("aria-hidden", "true");
-  });
-
-  confirmLogout?.addEventListener("click", () => {
-    sessionStorage.removeItem("floraAdminLoggedIn");
-  });
 
   // Profile edit
   const editButton = document.getElementById("editProfileButton");

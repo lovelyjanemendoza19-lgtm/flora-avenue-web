@@ -115,32 +115,38 @@
     }
 
     list.innerHTML = `
-      <div class="admin-orders-table-wrap">
-        <table class="admin-orders-table">
-          <thead><tr><th scope="col">Order ID</th><th scope="col">Customer</th><th scope="col">Product</th><th scope="col">Payment Status</th><th scope="col">Order Status</th><th scope="col">Actions</th></tr></thead>
+      <div class="pro-orders-table-wrap">
+        <table class="pro-orders-table">
+          <thead><tr><th scope="col">Order ID</th><th scope="col">Customer</th><th scope="col">Product</th><th scope="col">Date</th><th scope="col">Status</th><th scope="col">Amount</th></tr></thead>
           <tbody>${orders.map(order => {
             const detailsUrl = `order-details.html?order=${encodeURIComponent(order.reference)}`;
-            const paymentStatus = formatPaymentStatus(order);
-            const orderStatus = order.cancellationRequest?.status === "Pending"
-              ? "Cancellation Requested"
-              : paymentStatus === "Pending Verification"
-              ? "To Verify"
-              : paymentStatus === "Rejected"
-                ? "To Pay"
-                : normalizeOrderStatus(order.status);
-            const quantity = Math.max(1, Number(order.qty) || 1);
-            const productName = order.style || (isCustomizationOrder(order) ? "Custom Order" : "Order");
-            return `<tr>
-              <td data-label="Order ID"><a class="admin-order-id-link" href="${detailsUrl}">${escapeHtml(order.reference || "—")}</a><small class="admin-order-date">${escapeHtml(formatOrderDateTime(order.createdAt))}</small></td>
-              <td data-label="Customer">${escapeHtml(order.customerName || order.contactName || "Customer")}</td>
-              <td data-label="Product"><div class="admin-order-list-product"><img src="../../public/images/${encodeURIComponent(order.image || "banner-flower.png")}" alt=""><span class="admin-order-product-copy"><strong>${escapeHtml(productName)}</strong><small>1 item × ${quantity}</small><small class="admin-order-mobile-meta">Order ID: ${escapeHtml(order.reference || "—")}</small><small class="admin-order-mobile-meta">${escapeHtml(order.customerName || order.contactName || "Customer")} · ${escapeHtml(order.fulfil || "Not specified")}</small></span><span class="admin-order-mobile-total">${escapeHtml(formatAmount(paymentSummary(order).total || order.amount))}</span></div></td>
-              <td data-label="Payment Status"><span class="admin-order-badge payment-${slug(paymentStatus)}">${escapeHtml(paymentStatus)}</span></td>
-              <td data-label="Order Status"><span class="admin-order-badge order-${slug(orderStatus)}">${escapeHtml(orderStatus)}</span></td>
-              <td data-label="Actions" class="admin-order-actions"><a class="admin-order-view-button" href="${detailsUrl}">View Details</a></td>
+            const status = normalizeOrderStatus(order.status);
+            const amount = isCustomizationOrder(order) && !hasCustomizationConfirmation(order)
+              ? "Awaiting seller confirmation"
+              : formatAmount(paymentSummary(order).total || order.amount);
+            return `<tr class="admin-order-row" data-details-url="${detailsUrl}" tabindex="0" aria-label="Open order details for ${escapeHtml(order.reference || "order")}">
+              <td data-label="Order ID">${escapeHtml(order.reference || "—")}</td>
+              <td data-label="Customer">${escapeHtml(order.customerName || order.contactName || order.customerEmail || "Customer")}</td>
+              <td data-label="Product">${escapeHtml(order.style || "Order")}</td>
+              <td data-label="Date">${escapeHtml(formatOrderDate(order.createdAt))}</td>
+              <td data-label="Status"><span class="pro-badge">${escapeHtml(status)}</span></td>
+              <td data-label="Amount">${escapeHtml(amount)}</td>
             </tr>`;
           }).join("")}</tbody>
         </table>
       </div>`;
+
+    list.querySelectorAll(".admin-order-row").forEach(row => {
+      const openOrderDetails = () => {
+        window.location.href = row.dataset.detailsUrl;
+      };
+      row.addEventListener("click", openOrderDetails);
+      row.addEventListener("keydown", event => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        openOrderDetails();
+      });
+    });
   }
 
   function proofMarkup(proof) {
@@ -216,7 +222,13 @@
     const paymentStarted = payment.amountPaid > 0 || (Boolean(payment.proof) && payment.status !== "Rejected");
     const customizationLocked = customizationConfirmed && paymentStarted;
     const fulfillment = fulfillmentType(order);
-    const fulfillmentMissing = fulfillment === "Not specified";
+    const sellerAccepted = Boolean(order.sellerAcceptedAt);
+    const preparationDays = Number.isInteger(Number(order.preparationDays))
+      && Number(order.preparationDays) > 0
+      ? Number(order.preparationDays)
+      : "";
+    const canAcceptOrder = !isCustomized && !cancellationRequestPending
+      && ["To Pay", "Preparing"].includes(status);
     const stages = getStages(order);
     const options = [...stages];
     if (cancellationRequestPending) options.unshift("Cancellation Requested");
@@ -270,17 +282,18 @@
             <dt>Delivery Address</dt><dd>${escapeHtml(order.fulfil === "Delivery" ? order.address || "Not provided" : "Not applicable")}</dd>
             <dt>Estimated Preparation</dt><dd>${escapeHtml(order.preparationTime || "To be confirmed")}</dd>
           </dl>
-          ${fulfillmentMissing
-            ? `<p class="admin-order-type-error" role="alert">Select Pickup or Delivery before updating order status.</p>`
-            : ""}
-          <label class="admin-order-form admin-order-type-control">
-            Fulfillment
-            <select class="figma-select" id="orderFulfillment" required aria-invalid="${fulfillmentMissing}">
-              <option value=""${fulfillmentMissing ? " selected" : ""} disabled>Select Pickup or Delivery</option>
-              <option value="Pickup"${order.fulfil === "Pickup" ? " selected" : ""}>Pickup</option>
-              <option value="Delivery"${order.fulfil === "Delivery" ? " selected" : ""}>Delivery</option>
-            </select>
-          </label>
+          ${!isCustomized ? `<div class="admin-order-acceptance">
+            <h3>Seller acceptance</h3>
+            <p>${sellerAccepted
+              ? `Accepted${order.sellerAcceptedAt ? ` on ${escapeHtml(new Date(order.sellerAcceptedAt).toLocaleString())}` : ""}.`
+              : "Accept this order and let the customer know how many days preparation will take."}</p>
+            ${canAcceptOrder ? `<form id="sellerOrderAcceptanceForm" class="admin-order-form">
+              <label>Estimated preparation time (days)
+                <input class="figma-input" name="preparationDays" type="number" min="1" max="365" step="1" value="${preparationDays}" required>
+              </label>
+              <button class="figma-btn" type="submit">${sellerAccepted ? "Update Estimate" : "Accept Order"}</button>
+            </form>` : ""}
+          </div>` : ""}
         </section>
         <section class="admin-order-section" aria-labelledby="payment-section-title">
           <div class="admin-order-section-heading"><div><span>02</span><h2 id="payment-section-title">Payment Verification</h2></div>
@@ -425,6 +438,32 @@
       persistOrder("Customized order details and final price confirmed.");
     });
 
+    document.getElementById("sellerOrderAcceptanceForm")?.addEventListener("submit", event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const days = Number(form.elements.preparationDays.value);
+      if (!form.reportValidity() || !Number.isInteger(days) || days < 1 || days > 365) return;
+      if (cancellationRequestPending || !["To Pay", "Preparing"].includes(normalizeOrderStatus(order.status))) {
+        const feedback = document.getElementById("orderAdminFeedback");
+        feedback.textContent = "This order can no longer be accepted or have its preparation estimate changed.";
+        feedback.dataset.error = "true";
+        return;
+      }
+
+      const updatedAt = new Date().toISOString();
+      order.preparationDays = days;
+      order.preparationTime = `${days} day${days === 1 ? "" : "s"}`;
+      order.preparationTimeUpdatedAt = updatedAt;
+      if (!order.sellerAcceptedAt) order.sellerAcceptedAt = updatedAt;
+      if (normalizeOrderStatus(order.status) === "To Pay" && paymentSummary(order).status === "Fully Paid") {
+        order.status = "Preparing";
+        order.statusUpdatedAt = updatedAt;
+      }
+      persistOrder(sellerAccepted
+        ? `Preparation estimate updated to ${order.preparationTime}.`
+        : `Order accepted. Estimated preparation: ${order.preparationTime}.`);
+    });
+
     document.getElementById("verifyPayment")?.addEventListener("click", () => {
       if (order.cancellationRequest?.status === "Pending") {
         const feedback = document.getElementById("orderAdminFeedback");
@@ -454,9 +493,13 @@
         status: "Fully Paid",
         proof: { ...currentPayment.proof, verifiedAt: new Date().toISOString(), rejectionReason: "" }
       };
-      order.status = "Preparing";
-      order.statusUpdatedAt = new Date().toISOString();
-      persistOrder("Payment verified.");
+      if (isCustomized || order.sellerAcceptedAt) {
+        order.status = "Preparing";
+        order.statusUpdatedAt = new Date().toISOString();
+      }
+      persistOrder(isCustomized || order.sellerAcceptedAt
+        ? "Payment verified. The order is being prepared."
+        : "Payment verified. Accept the order and set its preparation time to begin preparing it.");
     });
 
     document.getElementById("rejectPayment")?.addEventListener("click", () => {
@@ -491,10 +534,6 @@
         return;
       }
 
-      if (!["Pickup", "Delivery"].includes(order.fulfil) && !isCancelled) {
-        rejectStatusUpdate("Select Pickup or Delivery as the order type before updating the order status.");
-        return;
-      }
       if (isCustomized && !hasCustomizationConfirmation(order) && !isCancelled && nextIndex > 0) {
         rejectStatusUpdate("Confirm the customized order details and final price before progressing the order.");
         return;
@@ -506,6 +545,10 @@
       }
       if (!isCancelled && nextIndex < 0) {
         rejectStatusUpdate("Choose a status that matches the order's fulfillment method.");
+        return;
+      }
+      if (nextStatus === "Preparing" && !isCustomized && !order.sellerAcceptedAt) {
+        rejectStatusUpdate("Accept the order and set its preparation time before marking it as preparing.");
         return;
       }
       if (!isCancelled && currentIndex >= 0 && nextIndex < currentIndex) {
@@ -542,20 +585,6 @@
         order.cancelledAt = order.statusUpdatedAt;
       }
       persistOrder("Order status updated.");
-    });
-
-    document.getElementById("orderFulfillment").addEventListener("change", event => {
-      const nextFulfillment = event.currentTarget.value;
-      if (!["Pickup", "Delivery"].includes(nextFulfillment)) {
-        event.currentTarget.setAttribute("aria-invalid", "true");
-        const feedback = document.getElementById("orderAdminFeedback");
-        feedback.textContent = "Choose Pickup or Delivery as the order type.";
-        feedback.dataset.error = "true";
-        return;
-      }
-      order.fulfil = nextFulfillment;
-      order.fulfilmentUpdatedAt = new Date().toISOString();
-      persistOrder("Order type saved.");
     });
 
   }
@@ -645,10 +674,7 @@
           </dl>
           ${proposal ? `<div class="admin-seller-proposal"><strong>Seller suggestion</strong><p>${escapeHtml(proposal.notes || "")}</p><span>Customer response: ${proposal.acceptedAt ? "Accepted" : proposal.declinedAt ? "Declined" : "Awaiting response"}</span></div>` : ""}
           <form id="orderProgressForm" class="admin-order-form">
-            <label>Fulfillment type<select class="figma-select" name="fulfil">
-              <option value="Pickup"${fulfillment === "Pickup" ? " selected" : ""}>Pickup</option>
-              <option value="Delivery"${fulfillment === "Delivery" ? " selected" : ""}>Delivery</option>
-            </select></label>
+            <p>Fulfillment selected by customer: ${escapeHtml(fulfillment)}</p>
             <label>Estimated preparation time<input class="figma-input" name="preparationTime" type="text" maxlength="100" value="${escapeHtml(order.preparationTime || "")}" placeholder="e.g. 2–3 days"></label>
             <label>Order status<select class="figma-select" name="status">
               ${[...new Set([...orderStages, ...deliveryStages, "Cancelled"])].map(stage => `<option value="${escapeHtml(stage)}"${stage === selectedStatus ? " selected" : ""}>${escapeHtml(stage)}</option>`).join("")}
@@ -775,16 +801,15 @@
     document.getElementById("orderProgressForm").addEventListener("submit", event => {
       event.preventDefault();
       const form = event.currentTarget;
-      const nextFulfillment = form.elements.fulfil.value;
       const nextStatus = form.elements.status.value;
-      const nextStages = nextFulfillment === "Delivery" ? deliveryStages : orderStages;
+      const nextStages = getStages(order);
       const currentStatus = normalizeOrderStatus(order.status);
       const currentStages = getStages(order);
       const currentIndex = currentStages.indexOf(currentStatus);
       const nextIndex = nextStages.indexOf(nextStatus);
       const paymentInfo = paymentSummary(order);
-      const cashArrangement = (order.payment?.arrangement === "Cash on Pickup" && nextFulfillment === "Pickup")
-        || (order.payment?.arrangement === "Cash on Delivery" && nextFulfillment === "Delivery");
+      const cashArrangement = (order.payment?.arrangement === "Cash on Pickup" && order.fulfil === "Pickup")
+        || (order.payment?.arrangement === "Cash on Delivery" && order.fulfil === "Delivery");
       const paymentIsVerified = ["Verified (Down Payment)", "Fully Paid"].includes(paymentInfo.status);
       if (nextStatus !== "Cancelled" && nextIndex > 0 && !paymentIsVerified && !cashArrangement) {
         feedback.textContent = "Verify the required down payment before confirming or preparing this order, or authorize a matching cash-at-pickup/delivery arrangement.";
@@ -792,13 +817,12 @@
         return;
       }
       if (nextStatus !== "Cancelled" && nextIndex < 0) {
-        feedback.textContent = "Choose an order stage that matches the selected pickup or delivery method.";
+        feedback.textContent = "Choose an order stage that matches the customer's pickup or delivery method.";
         feedback.dataset.error = "true";
         return;
       }
-      if (nextFulfillment !== order.fulfil
-        && !["Pending", "Confirmed", "Preparing", "Cancelled"].includes(currentStatus)) {
-        feedback.textContent = "Pickup or delivery cannot be changed after the order is ready.";
+      if (nextStatus === "Preparing" && !isCustomized && !order.sellerAcceptedAt) {
+        feedback.textContent = "Accept the order and set its preparation time before marking it as preparing.";
         feedback.dataset.error = "true";
         return;
       }
@@ -813,7 +837,6 @@
         feedback.dataset.error = "true";
         return;
       }
-      order.fulfil = nextFulfillment;
       order.preparationTime = form.elements.preparationTime.value.trim() || "To be confirmed";
       order.status = nextStatus;
       order.statusUpdatedAt = new Date().toISOString();

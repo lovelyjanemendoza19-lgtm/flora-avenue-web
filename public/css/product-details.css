@@ -217,16 +217,38 @@ body {
 .addon-option {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
+  min-width: 0;
   color: #444444;
   font-size: 14px;
-  cursor: pointer;
 }
 
-.addon-option input {
-  width: 16px;
-  height: 16px;
-  accent-color: #b5687c;
+.addon-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.addon-quantity {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #665a5d;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.addon-quantity input {
+  width: 54px;
+  min-height: 34px;
+  padding: 5px 6px;
+  border: 1px solid #d8d0ca;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #332d2f;
+  font: inherit;
+  text-align: center;
 }
 
 .quantity-row {

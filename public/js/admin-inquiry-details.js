@@ -1,172 +1,257 @@
 (function () {
-  const store = window.floraAvenueInquiryStore;
   const params = new URLSearchParams(window.location.search);
-  const reference = params.get("reference");
-  const title = document.getElementById("adminInquiryTitle");
-  const customer = document.getElementById("adminInquiryCustomer");
-  const received = document.getElementById("adminInquiryReceived");
-  const status = document.getElementById("adminInquiryStatus");
-  const product = document.getElementById("adminInquiryProduct");
-  const conversationThread = document.getElementById("adminConversation");
-  const statusControl = document.getElementById("adminInquiryStatusControl");
-  const response = document.getElementById("adminReplyMessage");
-  const feedback = document.getElementById("inquiryResponseFeedback");
-  const sendButton = document.getElementById("sendResponse");
-<<<<<<< HEAD
-  let inquiry = store.load().find(function (item) {
-=======
-  let isEditingResponse = false;
-  let inquiries = store.load();
-  let inquiry = inquiries.find(function (item) {
->>>>>>> c7b1bff56b366454db02bf6abf1b51471f8c8d1b
-    return item.reference === reference;
-  });
+  const inquiryIdentifier = params.get("reference")
+    || params.get("inquiryId")
+    || params.get("id")
+    || "";
 
-  function appendConversationMessage(message) {
-    const entry = document.createElement("article");
-    entry.className = `admin-conversation-message from-${message.sender.toLowerCase()}`;
-    const header = document.createElement("header");
-    const sender = document.createElement("strong");
-    sender.textContent = message.sender;
-    const sentAt = document.createElement("time");
-    sentAt.dateTime = message.sentAt;
-    sentAt.textContent = store.formatMessageDate(message.sentAt);
-    const body = document.createElement("p");
-    body.textContent = message.message;
-    header.append(sender, sentAt);
-    entry.append(header, body);
-    conversationThread.appendChild(entry);
+  function showError(error) {
+    console.error("Unable to initialize admin inquiry details.", error);
+    const title = document.getElementById("adminInquiryTitle");
+    if (title) title.textContent = "Unable to load inquiry";
+    const thread = document.getElementById("adminConversation");
+    if (thread) thread.textContent = "An error occurred while loading this inquiry. Please refresh the page or return to Manage Inquiries.";
+    const statusControl = document.getElementById("adminInquiryStatusControl");
+    const response = document.getElementById("adminReplyMessage");
+    const sendButton = document.getElementById("sendResponse");
+    if (statusControl) statusControl.disabled = true;
+    if (response) response.disabled = true;
+    if (sendButton) sendButton.disabled = true;
+    const feedback = document.getElementById("inquiryResponseFeedback");
+    if (feedback) feedback.textContent = "The inquiry could not be loaded.";
   }
 
-  function render() {
-    if (!inquiry) return;
-    title.textContent = inquiry.subject || inquiry.type || "Customer Inquiry";
-    customer.textContent = `Customer: ${inquiry.customerName || "Customer"} (${inquiry.customerEmail || "Email unavailable"})`;
-    received.textContent = `Received: ${inquiry.date || ""}`;
-    status.textContent = inquiry.status;
-    status.className = `figma-status ${inquiry.status.toLowerCase()}`;
-    product.textContent = inquiry.product
-      ? `Product: ${inquiry.product}`
-      : `Type: ${inquiry.type || "General inquiry"}`;
-
-    statusControl.value = inquiry.status;
-    statusControl.disabled = false;
-    conversationThread.replaceChildren();
-    inquiry.conversation.forEach(appendConversationMessage);
-
-    const isResolved = inquiry.status === "Resolved";
-    response.disabled = isResolved;
-    sendButton.disabled = isResolved;
-    if (isResolved) {
-      feedback.textContent = "This inquiry is resolved and no longer accepts replies.";
-    } else if (feedback.textContent === "This inquiry is resolved and no longer accepts replies.") {
-      feedback.textContent = "";
-    }
+  function getIdentifier(inquiry) {
+    return String(inquiry.reference || inquiry.inquiryId || inquiry.id || "");
   }
 
-  if (!inquiry) {
-    title.textContent = "Inquiry not found";
-    customer.textContent = "";
-    received.textContent = "";
-    product.textContent = "";
-    conversationThread.textContent = "This inquiry may have been removed.";
-    statusControl.disabled = true;
-    response.disabled = true;
-    sendButton.disabled = true;
-    return;
-  }
-
-<<<<<<< HEAD
-  sendButton.addEventListener("click", function () {
-    try {
-      inquiry = store.addMessage(inquiry.reference, "Seller", response.value);
-      response.value = "";
-      render();
-      feedback.textContent = "Reply sent.";
-=======
-  function render() {
-    title.textContent = inquiry.subject || inquiry.type || "Customer Inquiry";
-    customer.textContent = `Customer: ${inquiry.customerName || "Customer"} (${inquiry.customerEmail || "Email unavailable"})`;
-    received.textContent = `Received: ${inquiry.date || ""}`;
-    status.textContent = inquiry.response ? "Responded" : inquiry.status || "New";
-    status.className = `figma-status ${inquiry.response ? "verified" : "pending"}`;
-    product.textContent = inquiry.product ? `Product: ${inquiry.product}` : `Type: ${inquiry.type || "General inquiry"}`;
-    message.textContent = inquiry.message || "";
-    response.value = inquiry.response || "";
-    response.readOnly = Boolean(inquiry.response) && !isEditingResponse;
-    sendButton.textContent = inquiry.response
-      ? isEditingResponse ? "Save Changes" : "Edit Response"
-      : "Send Response";
-  }
-
-  sendButton.addEventListener("click", function () {
-    if (inquiry.response && !isEditingResponse) {
-      isEditingResponse = true;
-      render();
-      response.focus();
-      feedback.textContent = "Edit the response, then save your changes.";
-      return;
-    }
-
-    const reply = response.value.trim();
-    if (!reply) {
-      feedback.textContent = "Please enter a response before sending.";
-      return;
-    }
-
-    const isUpdatingResponse = Boolean(inquiry.response);
-    const updatedInquiry = {
-      ...inquiry,
-      response: reply,
-      status: "Responded",
-      respondedAt: new Date().toLocaleString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-        hour: "numeric",
-        minute: "2-digit"
+  function getConversation(inquiry) {
+    const source = Array.isArray(inquiry.conversation) && inquiry.conversation.length
+      ? inquiry.conversation
+      : Array.isArray(inquiry.messages)
+        ? inquiry.messages
+        : Array.isArray(inquiry.conversation)
+          ? inquiry.conversation
+          : [];
+    const conversation = source
+      .filter(message => message && typeof (message.message || message.text) === "string")
+      .map(message => {
+        const senderValue = String(message.sender || message.author || message.from || "Customer");
+        const sender = /seller|admin|flora avenue/i.test(senderValue) ? "Seller" : "Customer";
+        return {
+          sender,
+          message: String(message.message || message.text).trim(),
+          sentAt: message.sentAt || message.createdAt || message.date || ""
+        };
       })
-    };
-    inquiries = store.load().map(function (item) {
-      return item.reference === reference ? updatedInquiry : item;
+      .filter(message => message.message);
+
+    const initialMessages = [
+      { sender: "Customer", message: inquiry.message || inquiry.initialMessage || "", sentAt: inquiry.createdAt || inquiry.date || "" },
+      { sender: "Seller", message: inquiry.response || inquiry.reply || "", sentAt: inquiry.respondedAt || inquiry.updatedAt || inquiry.date || "" }
+    ];
+    initialMessages.forEach(initial => {
+      if (typeof initial.message !== "string" || !initial.message.trim()) return;
+      if (!conversation.some(message => message.sender === initial.sender && message.message === initial.message.trim())) {
+        conversation.push({ ...initial, message: initial.message.trim() });
+      }
     });
 
-    try {
+    return conversation.sort((left, right) => {
+      const leftDate = new Date(left.sentAt).getTime();
+      const rightDate = new Date(right.sentAt).getTime();
+      return (Number.isNaN(leftDate) ? 0 : leftDate) - (Number.isNaN(rightDate) ? 0 : rightDate);
+    });
+  }
+
+  function initialize() {
+    const store = window.floraAvenueInquiryStore;
+    const title = document.getElementById("adminInquiryTitle");
+    const customer = document.getElementById("adminInquiryCustomer");
+    const received = document.getElementById("adminInquiryReceived");
+    const status = document.getElementById("adminInquiryStatus");
+    const product = document.getElementById("adminInquiryProduct");
+    const conversationThread = document.getElementById("adminConversation");
+    const statusControl = document.getElementById("adminInquiryStatusControl");
+    const response = document.getElementById("adminReplyMessage");
+    const feedback = document.getElementById("inquiryResponseFeedback");
+    const sendButton = document.getElementById("sendResponse");
+
+    if (!store || typeof store.load !== "function" || typeof store.save !== "function") {
+      throw new Error("The shared inquiry store is unavailable.");
+    }
+    if (![title, customer, received, status, product, conversationThread, statusControl, response, feedback, sendButton].every(Boolean)) {
+      throw new Error("One or more inquiry detail page elements are missing.");
+    }
+
+    let inquiries = store.load();
+    if (!Array.isArray(inquiries)) {
+      throw new Error("The saved inquiry data is not a list.");
+    }
+    let inquiry = inquiries.find(item => getIdentifier(item) === inquiryIdentifier);
+
+    if (!inquiryIdentifier || !inquiry) {
+      title.textContent = "Inquiry not found";
+      customer.textContent = "";
+      received.textContent = "";
+      product.textContent = "";
+      conversationThread.textContent = "This inquiry may have been removed or the link is invalid.";
+      status.textContent = "";
+      statusControl.disabled = true;
+      response.disabled = true;
+      sendButton.disabled = true;
+      return;
+    }
+
+    function appendConversationMessage(message) {
+      const entry = document.createElement("article");
+      entry.className = `admin-conversation-message from-${message.sender.toLowerCase()}`;
+      const header = document.createElement("header");
+      const sender = document.createElement("strong");
+      sender.textContent = message.sender;
+      const sentAt = document.createElement("time");
+      sentAt.dateTime = message.sentAt;
+      sentAt.textContent = store.formatMessageDate
+        ? store.formatMessageDate(message.sentAt)
+        : message.sentAt || "Date unavailable";
+      const body = document.createElement("p");
+      body.textContent = message.message;
+      header.append(sender, sentAt);
+      entry.append(header, body);
+      conversationThread.appendChild(entry);
+    }
+
+    function render() {
+      const currentStatus = ["Pending", "Responded", "Resolved"].includes(inquiry.status)
+        ? inquiry.status
+        : (getConversation(inquiry).some(message => message.sender === "Seller") ? "Responded" : "Pending");
+      title.textContent = inquiry.subject || inquiry.title || inquiry.type || "Customer Inquiry";
+      customer.textContent = `Customer: ${inquiry.customerName || inquiry.name || "Customer"} (${inquiry.customerEmail || inquiry.email || "Email unavailable"})`;
+      received.textContent = `Received: ${inquiry.date || inquiry.createdAt || inquiry.timestamp || "Date unavailable"}`;
+      status.textContent = currentStatus;
+      status.className = `figma-status ${currentStatus.toLowerCase()}`;
+      product.textContent = inquiry.product || inquiry.productName
+        ? `Product: ${inquiry.product || inquiry.productName}`
+        : `Type: ${inquiry.type || inquiry.inquiryType || "General inquiry"}`;
+
+      statusControl.value = currentStatus;
+      statusControl.disabled = false;
+      conversationThread.replaceChildren();
+      getConversation(inquiry).forEach(appendConversationMessage);
+
+      const isResolved = currentStatus === "Resolved";
+      response.disabled = isResolved;
+      sendButton.disabled = isResolved;
+      feedback.textContent = isResolved
+        ? "This inquiry is resolved and no longer accepts replies."
+        : "";
+    }
+
+    function persistUpdatedInquiry(updatedInquiry) {
+      inquiries = inquiries.map(item =>
+        getIdentifier(item) === inquiryIdentifier ? updatedInquiry : item
+      );
       store.save(inquiries);
       inquiry = updatedInquiry;
-      isEditingResponse = false;
-      render();
-      feedback.textContent = isUpdatingResponse
-        ? "Response updated. The customer can see the changes in My Inquiries."
-        : "Response sent. The customer can now see it in My Inquiries.";
->>>>>>> c7b1bff56b366454db02bf6abf1b51471f8c8d1b
-    } catch (error) {
-      feedback.textContent = error.message || "Unable to send the reply. Please try again.";
     }
-  });
 
-  statusControl.addEventListener("change", function () {
-    try {
-      inquiry = store.setStatus(inquiry.reference, statusControl.value);
-      render();
-      feedback.textContent = `Inquiry marked ${inquiry.status.toLowerCase()}.`;
-    } catch (error) {
-      feedback.textContent = error.message || "Unable to update inquiry status.";
-      render();
-    }
-  });
-
-  function refreshInquiry() {
-    inquiry = store.load().find(function (item) {
-      return item.reference === reference;
+    sendButton.addEventListener("click", function () {
+      try {
+        const conversationIsCanonical = Array.isArray(inquiry.conversation)
+          && inquiry.conversation.every(message =>
+            message
+            && ["Customer", "Seller"].includes(message.sender)
+            && typeof message.message === "string"
+          );
+        if (
+          typeof store.addMessage === "function"
+          && inquiry.reference
+          && conversationIsCanonical
+          && !(Array.isArray(inquiry.messages) && !inquiry.conversation.length)
+        ) {
+          inquiry = store.addMessage(inquiry.reference, "Seller", response.value);
+        } else {
+          const message = response.value.trim();
+          if (!message) throw new Error("Enter a message before sending.");
+          if (inquiry.status === "Resolved") throw new Error("This inquiry is resolved and no longer accepts replies.");
+          const sentAt = new Date().toISOString();
+          const updatedInquiry = {
+            ...inquiry,
+            conversation: [...getConversation(inquiry), { sender: "Seller", message, sentAt }],
+            response: message,
+            respondedAt: sentAt,
+            status: "Responded"
+          };
+          persistUpdatedInquiry(updatedInquiry);
+        }
+        response.value = "";
+        render();
+        feedback.textContent = "Reply sent.";
+      } catch (error) {
+        console.error("Unable to send admin inquiry reply.", error);
+        feedback.textContent = error.message || "Unable to send the reply. Please try again.";
+      }
     });
+
+    statusControl.addEventListener("change", function () {
+      try {
+        if (typeof store.setStatus === "function" && inquiry.reference) {
+          inquiry = store.setStatus(inquiry.reference, statusControl.value);
+        } else {
+          persistUpdatedInquiry({ ...inquiry, status: statusControl.value });
+        }
+        render();
+        feedback.textContent = `Inquiry marked ${inquiry.status.toLowerCase()}.`;
+      } catch (error) {
+        console.error("Unable to update admin inquiry status.", error);
+        feedback.textContent = error.message || "Unable to update inquiry status.";
+        render();
+      }
+    });
+
+    function refreshInquiry() {
+      try {
+        inquiries = store.load();
+        inquiry = inquiries.find(item => getIdentifier(item) === inquiryIdentifier);
+        if (!inquiry) {
+          title.textContent = "Inquiry not found";
+          customer.textContent = "";
+          received.textContent = "";
+          product.textContent = "";
+          conversationThread.textContent = "This inquiry may have been removed.";
+          status.textContent = "";
+          status.className = "figma-status";
+          statusControl.disabled = true;
+          response.disabled = true;
+          sendButton.disabled = true;
+          return;
+        }
+        render();
+      } catch (error) {
+        showError(error);
+      }
+    }
+
+    window.addEventListener("storage", event => {
+      if (event.key === "floraAvenueInquiries") refreshInquiry();
+    });
+    window.addEventListener("floraAvenueInquiriesChanged", refreshInquiry);
     render();
   }
 
-  window.addEventListener("storage", function (event) {
-    if (event.key === "floraAvenueInquiries") refreshInquiry();
-  });
-  window.addEventListener("floraAvenueInquiriesChanged", refreshInquiry);
-
-  render();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      try {
+        initialize();
+      } catch (error) {
+        showError(error);
+      }
+    }, { once: true });
+  } else {
+    try {
+      initialize();
+    } catch (error) {
+      showError(error);
+    }
+  }
 })();
