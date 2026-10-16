@@ -36,11 +36,61 @@
     return;
   }
 
-  function render() {
-    if (!orderReference) return;
-    const order = customerOrderStore.load().find(item =>
+  function findCustomerOrder() {
+    return customerOrderStore.load().find(item =>
       item.reference === orderReference && customerOrderStore.belongsToCustomer(item)
     );
+  }
+
+  function showConfirmDialog(title, message, confirmLabel) {
+    return new Promise(resolve => {
+      const dialog = document.createElement("dialog");
+      const heading = document.createElement("h2");
+      const description = document.createElement("p");
+      const actions = document.createElement("div");
+      const cancelButton = document.createElement("button");
+      const confirmButton = document.createElement("button");
+
+      dialog.className = "customer-confirm-dialog";
+      dialog.setAttribute("aria-labelledby", "customer-confirm-title");
+      heading.id = "customer-confirm-title";
+      heading.textContent = title;
+      description.textContent = message;
+      actions.className = "customer-confirm-actions";
+      cancelButton.className = "customer-confirm-dismiss";
+      cancelButton.type = "button";
+      cancelButton.textContent = "Keep Order";
+      confirmButton.className = "customer-confirm-accept";
+      confirmButton.type = "button";
+      confirmButton.textContent = confirmLabel;
+      actions.append(cancelButton, confirmButton);
+      dialog.append(heading, description, actions);
+
+      const finish = confirmed => {
+        if (!dialog.open) return;
+        dialog.close();
+        dialog.remove();
+        resolve(confirmed);
+      };
+
+      cancelButton.addEventListener("click", () => finish(false));
+      confirmButton.addEventListener("click", () => finish(true));
+      dialog.addEventListener("cancel", event => {
+        event.preventDefault();
+        finish(false);
+      });
+      dialog.addEventListener("click", event => {
+        if (event.target === dialog) finish(false);
+      });
+      document.body.append(dialog);
+      dialog.showModal();
+      cancelButton.focus();
+    });
+  }
+
+  function render() {
+    if (!orderReference) return;
+    const order = findCustomerOrder();
     if (!order) {
       root.innerHTML = "<h1>Order not found</h1><p>This order is unavailable for the signed-in account.</p>";
       return;
@@ -49,6 +99,7 @@
     const payment = customerOrderStore.getPaymentSummary(order);
     const adminStatus = normalizeOrderStatus(order.status);
     const isCustomized = order.type === "Customization Request";
+    const cancellationRequestPending = order.cancellationRequest?.status === "Pending";
     const customizationConfirmed = Boolean(
       order.customizationConfirmedAt
       || ["Confirmed", "Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(adminStatus)
@@ -67,21 +118,26 @@
     const awaitingCustomerDecision = isCustomized
       && customizationConfirmed
       && !customizationAccepted
-      && !order.customizationVoidedAt;
+      && !order.customizationVoidedAt
+      && !cancellationRequestPending;
     const awaitingSellerOffer = isCustomized
       && !customizationConfirmed
-      && !order.customizationVoidedAt;
-    const status = awaitingCustomerDecision || awaitingSellerOffer
+      && !order.customizationVoidedAt
+      && !cancellationRequestPending;
+    const status = cancellationRequestPending
+      ? "Cancellation Requested"
+      : awaitingCustomerDecision || awaitingSellerOffer
       ? "Awaiting Approval"
       : payment.status === "Fully Paid" && adminStatus === "To Pay"
         ? "Confirmed"
         : adminStatus;
-    const isTerminal = ["Completed", "Cancelled"].includes(status);
+    const displayStatus = status === "To Pay" ? "Pending Payment" : status;
+    const isTerminal = ["Completed", "Cancelled", "Cancellation Requested"].includes(status);
     const amountDue = Math.max(0, payment.total - payment.amountPaid);
     const canSubmitProof = amountDue > 0
       && (!isCustomized || (customizationConfirmed && customizationAccepted))
       && payment.status !== "Pending Verification"
-      && !["Cancelled", "Completed"].includes(status)
+      && !isTerminal
       && payment.status !== "Fully Paid";
     const proof = payment.proof;
     const sourceInquiry = order.sourceInquiryReference
@@ -106,6 +162,18 @@
       ? proof.dataUrl
       : "";
     const customerMessage = order.customerMessage || "";
+    const cancellationNotice = cancellationRequestPending
+      ? '<p class="payment-notice" role="status">Your cancellation request has been sent. The administrator will review it before payment verification.</p>'
+      : order.cancellationRequest?.status === "Declined"
+        ? '<p class="payment-notice payment-rejected-notice" role="status">Your cancellation request was declined. You can request cancellation again or continue with payment.</p>'
+        : "";
+    const cancellationAction = payment.amountPaid === 0 && payment.status === "Pending Verification" && !isTerminal
+      ? cancellationRequestPending
+        ? ""
+        : '<button id="requestCancellation" type="button">Request Cancellation</button>'
+      : payment.amountPaid === 0 && ["Unpaid", "Rejected"].includes(payment.status) && !isTerminal && !awaitingCustomerDecision
+        ? '<button id="cancelOrder" type="button">Cancel Order</button>'
+        : "";
 
     root.innerHTML = `
       <div class="customer-order-detail-layout">
@@ -127,9 +195,10 @@
               ${order.date ? `<p>Preferred date: ${displayValue(order.date)}</p>` : ""}
             </div>
             <div class="customer-order-total customer-current-order-status">
-              <span>Order Status</span><strong>${displayValue(status)}</strong>
+              <span>Order Status</span><strong>${displayValue(displayStatus)}</strong>
             </div>
             <div class="customer-order-total"><span>Total Amount</span><strong>${isCustomized && !customizationConfirmed ? "Awaiting final price" : payment.total > 0 ? formatAmount(payment.total) : "To be discussed"}</strong></div>
+            ${cancellationAction}
           </article>
           <section class="customer-message-card" aria-labelledby="order-notes-title">
             <h3 id="order-notes-title">${isCustomized ? "Customization Details" : "Customer Special Instructions / Notes"}</h3>
@@ -162,6 +231,7 @@
               <div><span>Total Amount</span><strong>${isCustomized && !customizationConfirmed ? "Awaiting final price" : formatAmount(payment.total)}</strong></div>
               <div><span>Payment Method</span><strong>${displayValue(payment.method || proof?.method || "Not provided")}</strong></div>
             </div>
+            ${cancellationNotice}
             ${payment.status === "Pending Verification" ? '<p class="payment-notice">Your payment proof has been submitted. Please wait for the seller to verify your payment.</p>' : ""}
             ${payment.status === "Rejected" ? `<p class="payment-notice payment-rejected-notice" role="alert" aria-live="assertive">Payment for order ${escapeHtml(order.reference)} was rejected.${proof?.rejectionReason ? ` Reason: ${displayValue(proof.rejectionReason)}` : ""} Please submit new payment proof.</p>` : ""}
             ${proof ? `<div class="customer-proof-card"><h3>Payment Proof</h3><div class="customer-proof-details">
@@ -198,10 +268,55 @@
       updateOrder(order, "Unable to accept the seller's customized order. Please try again.");
     });
     document.getElementById("voidCustomizedOffer")?.addEventListener("click", () => {
-      if (!window.confirm("Cancel this customized order? It cannot be paid after cancellation.")) return;
-      order.customizationVoidedAt = new Date().toISOString();
-      order.status = "Cancelled";
-      updateOrder(order, "Unable to void the customized order. Please try again.");
+      showConfirmDialog("Cancel customized order?", "This order cannot be paid after cancellation.", "Cancel Order").then(confirmed => {
+        if (!confirmed) return;
+      const latestOrder = findCustomerOrder();
+      if (!latestOrder || customerOrderStore.getPaymentSummary(latestOrder).amountPaid > 0) {
+        window.alert("Payment was updated while this page was open. Refresh the order before continuing.");
+        render();
+        return;
+      }
+      latestOrder.customizationVoidedAt = new Date().toISOString();
+      latestOrder.status = "Cancelled";
+      latestOrder.cancelledAt = new Date().toISOString();
+      latestOrder.payment = { ...(latestOrder.payment || {}), status: "Cancelled" };
+      updateOrder(latestOrder, "Unable to void the customized order. Please try again.");
+      });
+    });
+    document.getElementById("cancelOrder")?.addEventListener("click", () => {
+      showConfirmDialog("Cancel this order?", "This action cannot be undone.", "Cancel Order").then(confirmed => {
+        if (!confirmed) return;
+      const latestOrder = findCustomerOrder();
+      const latestPayment = latestOrder && customerOrderStore.getPaymentSummary(latestOrder);
+      if (!latestOrder || latestPayment.amountPaid > 0 || !["Unpaid", "Rejected"].includes(latestPayment.status)) {
+        window.alert("Payment was updated while this page was open. Refresh the order before continuing.");
+        render();
+        return;
+      }
+      latestOrder.status = "Cancelled";
+      latestOrder.cancelledAt = new Date().toISOString();
+      latestOrder.payment = { ...(latestOrder.payment || {}), status: "Cancelled" };
+      updateOrder(latestOrder, "Unable to cancel the order. Please try again.");
+      });
+    });
+    document.getElementById("requestCancellation")?.addEventListener("click", () => {
+      showConfirmDialog("Request cancellation?", "The administrator will review your request.", "Request Cancellation").then(confirmed => {
+        if (!confirmed) return;
+      const latestOrder = findCustomerOrder();
+      const latestPayment = latestOrder && customerOrderStore.getPaymentSummary(latestOrder);
+      if (!latestOrder || latestPayment.amountPaid > 0 || latestPayment.status !== "Pending Verification") {
+        window.alert("Payment was updated while this page was open. Refresh the order before continuing.");
+        render();
+        return;
+      }
+      latestOrder.cancellationRequest = {
+        status: "Pending",
+        requestedAt: new Date().toISOString(),
+        previousOrderStatus: latestOrder.status
+      };
+      latestOrder.status = "Cancellation Requested";
+      updateOrder(latestOrder, "Unable to request cancellation. Please try again.");
+      });
     });
 
     document.getElementById("acceptProposal")?.addEventListener("click", () => {
@@ -289,6 +404,7 @@
   function updateOrder(order, errorMessage) {
     try {
       customerOrderStore.update(order);
+      render();
     } catch (error) {
       console.error("Unable to update the customer order.", error);
       const feedback = document.querySelector(".payment-form-feedback");

@@ -99,14 +99,17 @@
     const remainingBalance = Math.max(0, total - amountPaid);
     let status = "Unpaid";
 
-    if (
+    if (payment.status === "Cancelled") status = "Cancelled";
+    else if (
       payment.proof
       && typeof payment.proof === "object"
       && !payment.proof.verifiedAt
       && payment.status !== "Rejected"
+      && payment.status !== "Cancelled"
     ) status = "Pending Verification";
     else if (payment.status === "Rejected") status = "Rejected";
     else if (payment.status === "Fully Paid" && total > 0 && amountPaid >= total) status = "Fully Paid";
+    else if (amountPaid > 0 || payment.status === "Verified (Down Payment)") status = "Partially Paid";
 
     return {
       total,

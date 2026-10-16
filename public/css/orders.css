@@ -183,6 +183,11 @@
     color: #a52e2e;
 }
 
+.tracking-cancellation-requested {
+    background: #fff0cf;
+    color: #805015;
+}
+
 .order-details-button {
     justify-self: end;
     padding: 8px 13px;

@@ -83,7 +83,7 @@
     }
     if (filter === "completed") return orderStatus === "Completed";
     if (filter === "cancelled") return orderStatus === "Cancelled";
-    if (filter === "payment-unpaid") return paymentStatus === "Unpaid";
+    if (filter === "payment-unpaid") return paymentStatus === "Unpaid" && orderStatus !== "Cancelled";
     return orderStatus.toLowerCase() === filter.replace(/-/g, " ").toLowerCase();
   }
 
@@ -121,7 +121,9 @@
           <tbody>${orders.map(order => {
             const detailsUrl = `order-details.html?order=${encodeURIComponent(order.reference)}`;
             const paymentStatus = formatPaymentStatus(order);
-            const orderStatus = paymentStatus === "Pending Verification"
+            const orderStatus = order.cancellationRequest?.status === "Pending"
+              ? "Cancellation Requested"
+              : paymentStatus === "Pending Verification"
               ? "To Verify"
               : paymentStatus === "Rejected"
                 ? "To Pay"
@@ -202,6 +204,7 @@
     const payment = paymentSummary(order);
     const proof = payment.proof;
     const status = normalizeOrderStatus(order.status);
+    const cancellationRequestPending = order.cancellationRequest?.status === "Pending";
     const isCustomized = isCustomizationOrder(order);
     const customizationConfirmed = hasCustomizationConfirmation(order);
     const preparationTimeConfirmed = hasFinalPreparationTime(order);
@@ -216,6 +219,7 @@
     const fulfillmentMissing = fulfillment === "Not specified";
     const stages = getStages(order);
     const options = [...stages];
+    if (cancellationRequestPending) options.unshift("Cancellation Requested");
     options.push("Cancelled");
 
     root.innerHTML = `
@@ -281,6 +285,13 @@
         <section class="admin-order-section" aria-labelledby="payment-section-title">
           <div class="admin-order-section-heading"><div><span>02</span><h2 id="payment-section-title">Payment Verification</h2></div>
             <strong class="admin-order-badge payment-${slug(payment.status)}">${escapeHtml(payment.status)}</strong></div>
+          ${cancellationRequestPending ? `<div class="admin-cancellation-request" role="group" aria-label="Cancellation request review">
+            <p><strong>Customer requested cancellation</strong> · ${escapeHtml(new Date(order.cancellationRequest.requestedAt || "").toLocaleString())}</p>
+            <div class="admin-payment-review-actions">
+              <button class="figma-btn" id="approveCancellation" type="button">Approve Cancellation</button>
+              <button class="figma-btn secondary" id="declineCancellation" type="button">Decline Request</button>
+            </div>
+          </div>` : ""}
           <dl class="admin-order-summary">
             <dt>Total Price</dt><dd>${escapeHtml(isCustomized && !customizationConfirmed ? "Awaiting seller confirmation" : payment.total > 0 ? formatAmount(payment.total) : "To be discussed")}</dd>
             <dt>Amount Paid</dt><dd>${escapeHtml(formatAmount(payment.amountPaid))}</dd>
@@ -290,7 +301,7 @@
             <h3>Customer Payment Proof</h3>
             ${proofMarkup(proof)}
             ${proof ? `<p class="admin-payment-method">Payment method: ${escapeHtml(proof.method || payment.method || "Not provided")}</p>` : ""}
-            ${payment.status === "Pending Verification" && proof
+            ${payment.status === "Pending Verification" && proof && !cancellationRequestPending
               ? `<div class="admin-payment-review-actions">
                   <button class="figma-btn" id="verifyPayment" type="button"${isCustomized && (!customizationConfirmed || !customizationAccepted) ? " disabled" : ""}>Verify</button>
                   <button class="figma-btn secondary" id="rejectPayment" type="button">Reject</button>
@@ -334,6 +345,46 @@
       }
     }
 
+    document.getElementById("approveCancellation")?.addEventListener("click", () => {
+      if (!window.confirm("Approve the cancellation request and cancel this order?")) return;
+      const latestOrder = getOrders().find(item => item.reference === order.reference);
+      if (!latestOrder || latestOrder.cancellationRequest?.status !== "Pending"
+        || paymentSummary(latestOrder).amountPaid > 0) {
+        renderOrderDetails();
+        const feedback = document.getElementById("orderAdminFeedback");
+        feedback.textContent = "Payment or cancellation status changed. Review the latest order before approving.";
+        feedback.dataset.error = "true";
+        return;
+      }
+      latestOrder.cancellationRequest = {
+        ...latestOrder.cancellationRequest,
+        status: "Approved",
+        reviewedAt: new Date().toISOString()
+      };
+      latestOrder.status = "Cancelled";
+      latestOrder.cancelledAt = new Date().toISOString();
+      latestOrder.statusUpdatedAt = latestOrder.cancelledAt;
+      latestOrder.payment = { ...(latestOrder.payment || {}), status: "Cancelled" };
+      order.status = latestOrder.status;
+      order.cancellationRequest = latestOrder.cancellationRequest;
+      order.cancelledAt = latestOrder.cancelledAt;
+      order.statusUpdatedAt = latestOrder.statusUpdatedAt;
+      order.payment = latestOrder.payment;
+      persistOrder("Cancellation request approved. The order is cancelled.");
+    });
+
+    document.getElementById("declineCancellation")?.addEventListener("click", () => {
+      if (!cancellationRequestPending) return;
+      order.cancellationRequest = {
+        ...order.cancellationRequest,
+        status: "Declined",
+        reviewedAt: new Date().toISOString()
+      };
+      order.status = order.cancellationRequest.previousOrderStatus || "To Pay";
+      order.statusUpdatedAt = new Date().toISOString();
+      persistOrder("Cancellation request declined. The payment can be reviewed.");
+    });
+
     document.getElementById("customizationConfirmationForm")?.addEventListener("submit", event => {
       event.preventDefault();
       const form = event.currentTarget;
@@ -375,6 +426,12 @@
     });
 
     document.getElementById("verifyPayment")?.addEventListener("click", () => {
+      if (order.cancellationRequest?.status === "Pending") {
+        const feedback = document.getElementById("orderAdminFeedback");
+        feedback.textContent = "Resolve the customer's cancellation request before verifying payment.";
+        feedback.dataset.error = "true";
+        return;
+      }
       const currentPayment = paymentSummary(order);
       const submittedAmount = Number(currentPayment.proof?.amount);
       const validProof = (!isCustomized || (hasCustomizationConfirmation(order) && hasCustomizationAcceptance(order)))
@@ -429,6 +486,11 @@
         statusSelect.value = currentStatus;
       };
 
+      if (cancellationRequestPending && !isCancelled) {
+        rejectStatusUpdate("Resolve the customer's cancellation request before changing order progress.");
+        return;
+      }
+
       if (!["Pickup", "Delivery"].includes(order.fulfil) && !isCancelled) {
         rejectStatusUpdate("Select Pickup or Delivery as the order type before updating the order status.");
         return;
@@ -470,6 +532,15 @@
       }
       order.status = nextStatus;
       order.statusUpdatedAt = new Date().toISOString();
+      if (isCancelled) order.payment = { ...(order.payment || {}), status: "Cancelled" };
+      if (isCancelled && cancellationRequestPending) {
+        order.cancellationRequest = {
+          ...order.cancellationRequest,
+          status: "Approved",
+          reviewedAt: order.statusUpdatedAt
+        };
+        order.cancelledAt = order.statusUpdatedAt;
+      }
       persistOrder("Order status updated.");
     });
 

@@ -11,6 +11,7 @@
   const response = document.getElementById("inquiryResponse");
   const feedback = document.getElementById("inquiryResponseFeedback");
   const sendButton = document.getElementById("sendResponse");
+  let isEditingResponse = false;
   let inquiries = store.load();
   let inquiry = inquiries.find(function (item) {
     return item.reference === reference;
@@ -37,15 +38,28 @@
     product.textContent = inquiry.product ? `Product: ${inquiry.product}` : `Type: ${inquiry.type || "General inquiry"}`;
     message.textContent = inquiry.message || "";
     response.value = inquiry.response || "";
+    response.readOnly = Boolean(inquiry.response) && !isEditingResponse;
+    sendButton.textContent = inquiry.response
+      ? isEditingResponse ? "Save Changes" : "Edit Response"
+      : "Send Response";
   }
 
   sendButton.addEventListener("click", function () {
+    if (inquiry.response && !isEditingResponse) {
+      isEditingResponse = true;
+      render();
+      response.focus();
+      feedback.textContent = "Edit the response, then save your changes.";
+      return;
+    }
+
     const reply = response.value.trim();
     if (!reply) {
       feedback.textContent = "Please enter a response before sending.";
       return;
     }
 
+    const isUpdatingResponse = Boolean(inquiry.response);
     const updatedInquiry = {
       ...inquiry,
       response: reply,
@@ -65,8 +79,11 @@
     try {
       store.save(inquiries);
       inquiry = updatedInquiry;
+      isEditingResponse = false;
       render();
-      feedback.textContent = "Response sent. The customer can now see it in My Inquiries.";
+      feedback.textContent = isUpdatingResponse
+        ? "Response updated. The customer can see the changes in My Inquiries."
+        : "Response sent. The customer can now see it in My Inquiries.";
     } catch (error) {
       feedback.textContent = "Unable to send the response. Please try again.";
     }

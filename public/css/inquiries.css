@@ -322,6 +322,10 @@ textarea:focus {
 
     padding: 30px 24px;
 
+    border: 1px solid #e6d9db;
+
+    background-color: #ffffff;
+
     text-align: center;
 }
 
@@ -475,7 +479,7 @@ textarea:focus {
 #detailsScreen {
     min-height: 100vh;
     padding: 14px 16px 28px;
-    background-color: #e8dfe0;
+    background-color: #f5eff0;
 }
 
 #detailsScreen.active {
@@ -522,7 +526,7 @@ textarea:focus {
     padding: 22px 24px 28px;
     border: 1px solid #d8cfd0;
     border-radius: 14px;
-    background-color: #f8f1f1;
+    background-color: #ffffff;
 }
 
 #detailsScreen .details-card > h1 {
@@ -669,7 +673,31 @@ textarea:focus {
     display: flex;
     flex-wrap: wrap;
 
+#submittedScreen.active {
+    min-height: calc(100vh - 62px);
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+#submittedScreen .content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+}
+
     gap: 10px;
+    #submittedScreen.active {
+        min-height: calc(100vh - 64px);
+    }
+
+    #submittedScreen .content {
+        padding: 16px;
+    }
+
 
     margin: 0;
 }
