@@ -59,12 +59,14 @@
       status.textContent = inquiry.status || "Pending";
       const statusGroup = document.createElement("span");
       statusGroup.className = "admin-inquiry-status-group";
-      const customerReplyCount = window.floraAvenueInquiryStore.countReplies(inquiry).customer;
-      if (customerReplyCount) {
+      const conversation = Array.isArray(inquiry.conversation) ? inquiry.conversation : [];
+      const hasUnreadCustomerReply = window.floraAvenueInquiryStore.countReplies(inquiry).customer > 0
+        && conversation[conversation.length - 1]?.sender === "Customer";
+      if (hasUnreadCustomerReply) {
         const replyCount = document.createElement("span");
         replyCount.className = "admin-inquiry-reply-count";
-        replyCount.textContent = String(customerReplyCount);
-        replyCount.setAttribute("aria-label", `${customerReplyCount} customer replies`);
+        replyCount.textContent = "1";
+        replyCount.setAttribute("aria-label", "New customer reply");
         statusGroup.appendChild(replyCount);
       }
       statusGroup.appendChild(status);

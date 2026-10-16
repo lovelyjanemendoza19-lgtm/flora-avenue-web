@@ -29,13 +29,13 @@
     .admin-reply-label { display: block; margin: 14px 0 6px; color: #756c6f; font-size: 12px; }
     .admin-reply-row { display: flex; align-items: center; gap: 10px; }
     .admin-reply-row #adminReplyMessage { width: 100%; flex: 1 1 auto; min-width: 0; }
-    .admin-reply-row #sendResponse { width: auto; flex: 0 0 auto; margin: 0; }
+    .admin-reply-row #sendResponse { width: auto; min-width: 100px; min-height: 42px; flex: 0 0 auto; margin: 0; padding: 0 14px; font-size: 11px; white-space: nowrap; }
     .admin-reply-textarea { height: 38px; min-height: 38px; max-height: 38px; margin-top: 0; padding: 8px 11px; font-size: 12px; line-height: 20px; resize: none; overflow-x: auto; overflow-y: hidden; white-space: pre; }
     .admin-reply-button:disabled { opacity: .6; cursor: not-allowed; }
     @media (max-width: 600px) {
       .admin-conversation-message { max-width: 96%; }
       .admin-reply-row { gap: 7px; }
-      .admin-reply-row .admin-reply-button { padding-right: 10px; padding-left: 10px; }
+      .admin-reply-row .admin-reply-button { min-width: 94px; padding-right: 10px; padding-left: 10px; }
     }
   </style>
 </head>

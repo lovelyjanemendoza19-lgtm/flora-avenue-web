@@ -952,7 +952,10 @@ body.persistent-sidebar .site-footer {
 }
 
 .tab {
+    display: inline-flex;
     flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
 
     padding: 10px 20px;
 
@@ -976,17 +979,19 @@ body.persistent-sidebar .site-footer {
 }
 
 .inquiry-tab-count {
-    display: inline-grid;
-    min-width: 18px;
-    height: 18px;
+    display: grid;
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
     margin-left: 4px;
-    padding: 0 4px;
+    padding: 0;
     place-items: center;
     border-radius: 999px;
     background: #c44c64;
     color: #fff;
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1;
+    text-align: center;
 }
 
 .inquiry-tab-count[hidden] {
@@ -1193,17 +1198,19 @@ body.persistent-sidebar .site-footer {
 }
 
 .inquiry-response-count {
-    display: inline-grid;
-    min-width: 18px;
-    height: 18px;
-    padding: 0 4px;
+    display: grid;
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0;
     place-items: center;
     border-radius: 999px;
     background: #c44c64;
     color: #fff;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     line-height: 1;
+    text-align: center;
 }
 
 .inquiry-status.new,
