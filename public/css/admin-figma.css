@@ -324,6 +324,7 @@ body.admin-app .admin-topbar{
 .figma-form label{display:block;font-size:8px;font-weight:700;color:#4e4447}
 .figma-form small{display:block;color:var(--fx-muted);font-size:7px;font-weight:400;margin-top:3px}
 .figma-input,.figma-select{width:100%;height:42px;border:1px solid var(--fx-border);border-radius:8px;background:#fff;padding:0 11px;font-size:9px;outline:0;margin-top:6px;color:var(--fx-text)}
+#adminProfileForm .figma-input:disabled{background:#fbf7f8;color:var(--fx-text);opacity:1;cursor:default}
 .figma-textarea{width:100%;min-height:115px;border:1px solid var(--fx-border);border-radius:8px;padding:10px;font-size:9px;resize:vertical;outline:0;margin-top:6px;font-family:Poppins,sans-serif}
 .figma-input:focus,.figma-textarea:focus,.figma-select:focus{border-color:#b47a86;box-shadow:0 0 0 3px rgba(168,91,112,.08)}
 body.admin-app select:not([multiple]){padding-right:42px;appearance:none;-webkit-appearance:none;-moz-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' fill='none' stroke='%234f4a4d' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-position:right 18px center;background-repeat:no-repeat;background-size:12px 8px}
@@ -333,7 +334,7 @@ body.admin-app select:not([multiple]){padding-right:42px;appearance:none;-webkit
 
 /* ---------- PROFILE ---------- */
 .figma-profile{max-width:760px;text-align:left;padding:23px;background:#fff;border:1px solid var(--fx-border);border-radius:12px;box-shadow:var(--fx-shadow);display:flex;align-items:center;gap:17px}
-.admin-profile-edit-button{max-width:900px}
+.admin-profile-edit-button{max-width:900px;margin-top:6px}
 .figma-avatar{width:78px;height:78px;border-radius:50%;background:#dcecff;display:grid;place-items:center;font-size:40px;flex:0 0 auto}
 .figma-profile h2{font:700 21px "Playfair Display",serif}.figma-profile p{font-size:8px;color:var(--fx-muted);margin-top:3px}
 .figma-profile-copy{min-width:0}

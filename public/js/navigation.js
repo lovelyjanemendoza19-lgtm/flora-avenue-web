@@ -20,7 +20,7 @@ function createAccountNavigation(mobile) {
         const inquiryLabel = "Inquiries";
         const ordersLabel = "Orders";
         const accountAction = isSignedIn
-            ? `<a class="menu-link" href="${navigationBase}pages/profile/profile.html?edit=1">
+            ? `<a class="menu-link" href="${navigationBase}pages/profile/profile.html">
                     <span class="menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/profile-icon.png" alt=""></span>
                     <span class="menu-text">My Profile</span>
                 </a>
@@ -54,14 +54,14 @@ function createAccountNavigation(mobile) {
 
 function createProfileMenu(mobile) {
     const menuId = mobile ? "mobileProfileSubmenu" : "desktopProfileSubmenu";
-    const profileUrl = `${navigationBase}pages/profile/profile.html?edit=1`;
+    const profileUrl = `${navigationBase}pages/profile/profile.html`;
     const trigger = `<button class="menu-link profile-toggle" type="button" aria-label="My Profile and account menu" title="My Profile" aria-haspopup="true" aria-expanded="false" aria-controls="${menuId}"><span class="menu-icon profile-menu-icon" aria-hidden="true"><img src="${navigationBase}public/images/profile-icon.png" alt=""></span><span class="profile-chevron" aria-hidden="true"></span></button>`;
 
     return `
         <div class="profile-menu${mobile ? " mobile-profile-menu" : " desktop-profile-menu"}">
             ${trigger}
             <div class="profile-submenu" id="${menuId}" hidden>
-                <a class="menu-link" href="${profileUrl}">Edit Profile</a>
+                <a class="menu-link" href="${profileUrl}">My Profile</a>
                 <a class="menu-link" href="${navigationBase}pages/orders/orders.html"><span>My Orders</span><span class="customer-nav-badge" data-count-for="orders" hidden></span></a>
                 <a class="menu-link" href="${navigationBase}pages/inquiries/inquiries.html"><span>My Inquiries</span><span class="customer-nav-badge" data-count-for="inquiries" hidden></span></a>
                 <button class="menu-link menu-action" data-logout-button type="button">Log Out</button>

@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailInput = document.getElementById("profileEmail");
     const saveButton = form.querySelector('button[type="submit"]');
     let editButton = document.getElementById("editProfileButton");
-    let cancelEdit = document.getElementById("cancelProfileEdit");
+    let isEditing = false;
 
     if (!editButton) {
       editButton = document.createElement("button");
@@ -227,15 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
       editButton.className = "figma-btn secondary admin-profile-edit-button";
       editButton.type = "button";
       editButton.textContent = "Edit Profile";
-      form.before(editButton);
-    }
-    if (!cancelEdit) {
-      cancelEdit = document.createElement("button");
-      cancelEdit.id = "cancelProfileEdit";
-      cancelEdit.className = "figma-btn secondary";
-      cancelEdit.type = "button";
-      cancelEdit.textContent = "Cancel";
-      saveButton?.before(cancelEdit);
+      form.after(editButton);
     }
 
     try {
@@ -256,31 +248,38 @@ document.addEventListener("DOMContentLoaded", () => {
     let originalEmail = emailInput?.value.trim() || "";
     const displayName = document.getElementById("profileDisplayName");
     if (displayName) displayName.textContent = originalName;
-    form.style.display = "none";
+    form.style.display = "grid";
+    if (nameInput) nameInput.disabled = true;
+    if (emailInput) emailInput.disabled = true;
     if (saveButton) saveButton.style.display = "none";
 
     const updateSaveButton = () => {
       if (!saveButton) return;
       const hasChanges = nameInput?.value.trim() !== originalName
         || emailInput?.value.trim() !== originalEmail;
-      saveButton.style.display = hasChanges ? "" : "none";
+      saveButton.style.display = isEditing && hasChanges ? "" : "none";
     };
 
     editButton.addEventListener("click", () => {
-      form.style.display = "grid";
-      editButton.style.display = "none";
+      if (isEditing) {
+        if (nameInput) nameInput.value = originalName;
+        if (emailInput) emailInput.value = originalEmail;
+        isEditing = false;
+        if (nameInput) nameInput.disabled = true;
+        if (emailInput) emailInput.disabled = true;
+        editButton.textContent = "Edit Profile";
+        updateSaveButton();
+        return;
+      }
+
+      isEditing = true;
+      if (nameInput) nameInput.disabled = false;
+      if (emailInput) emailInput.disabled = false;
+      editButton.textContent = "Cancel";
       nameInput?.focus();
     });
     nameInput?.addEventListener("input", updateSaveButton);
     emailInput?.addEventListener("input", updateSaveButton);
-
-    cancelEdit.addEventListener("click", () => {
-      if (nameInput) nameInput.value = originalName;
-      if (emailInput) emailInput.value = originalEmail;
-      form.style.display = "none";
-      editButton.style.display = "";
-      updateSaveButton();
-    });
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -309,8 +308,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       originalName = name;
       originalEmail = email;
-      form.style.display = "none";
-      editButton.style.display = "";
+      isEditing = false;
+      if (nameInput) nameInput.disabled = true;
+      if (emailInput) emailInput.disabled = true;
+      editButton.textContent = "Edit Profile";
       updateSaveButton();
     });
   }
