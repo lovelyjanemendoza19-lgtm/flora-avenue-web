@@ -133,13 +133,12 @@
                         <span>Order ID: ${escapeHtml(order.reference)}</span>
                         <span>Fulfillment: ${escapeHtml(order.fulfil || "Not specified")}</span>
                     </div>
-                    <div class="order-item-total"><span>Total</span><strong>${escapeHtml(total)}</strong></div>
                 </div>
                 <div class="order-item-actions">
                     <div class="order-status-group">
-                        <span class="order-status-label">Order status</span>
-                    <span class="order-status-value tracking-${trackingStatus}">${escapeHtml(orderStatus)}</span>
+                        <span class="order-status-value tracking-${trackingStatus}">${escapeHtml(orderStatus)}</span>
                     </div>
+                    ${orderStatus === "Cancelled" ? "" : `<div class="order-item-total"><span>Total</span><strong>${escapeHtml(total)}</strong></div>`}
                 </div>
             </a>`;
         }).join("");
