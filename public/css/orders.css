@@ -196,6 +196,32 @@
     color: #a52e2e;
 }
 
+<<<<<<< HEAD
+=======
+.tracking-cancellation-requested {
+    background: #fff0cf;
+    color: #805015;
+}
+
+.order-details-button {
+    justify-self: end;
+    padding: 8px 13px;
+    border: 1px solid #7c4a4f;
+    border-radius: 7px;
+    color: #7c4a4f;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.order-details-button:hover,
+.order-details-button:focus-visible {
+    background: #7c4a4f;
+    color: #ffffff;
+}
+
+>>>>>>> c7b1bff56b366454db02bf6abf1b51471f8c8d1b
 @media (min-width: 761px) {
     .order-item {
         grid-template-columns: 76px minmax(0, 1fr) auto auto;

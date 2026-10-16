@@ -12,7 +12,13 @@
   const response = document.getElementById("adminReplyMessage");
   const feedback = document.getElementById("inquiryResponseFeedback");
   const sendButton = document.getElementById("sendResponse");
+<<<<<<< HEAD
   let inquiry = store.load().find(function (item) {
+=======
+  let isEditingResponse = false;
+  let inquiries = store.load();
+  let inquiry = inquiries.find(function (item) {
+>>>>>>> c7b1bff56b366454db02bf6abf1b51471f8c8d1b
     return item.reference === reference;
   });
 
@@ -70,12 +76,70 @@
     return;
   }
 
+<<<<<<< HEAD
   sendButton.addEventListener("click", function () {
     try {
       inquiry = store.addMessage(inquiry.reference, "Seller", response.value);
       response.value = "";
       render();
       feedback.textContent = "Reply sent.";
+=======
+  function render() {
+    title.textContent = inquiry.subject || inquiry.type || "Customer Inquiry";
+    customer.textContent = `Customer: ${inquiry.customerName || "Customer"} (${inquiry.customerEmail || "Email unavailable"})`;
+    received.textContent = `Received: ${inquiry.date || ""}`;
+    status.textContent = inquiry.response ? "Responded" : inquiry.status || "New";
+    status.className = `figma-status ${inquiry.response ? "verified" : "pending"}`;
+    product.textContent = inquiry.product ? `Product: ${inquiry.product}` : `Type: ${inquiry.type || "General inquiry"}`;
+    message.textContent = inquiry.message || "";
+    response.value = inquiry.response || "";
+    response.readOnly = Boolean(inquiry.response) && !isEditingResponse;
+    sendButton.textContent = inquiry.response
+      ? isEditingResponse ? "Save Changes" : "Edit Response"
+      : "Send Response";
+  }
+
+  sendButton.addEventListener("click", function () {
+    if (inquiry.response && !isEditingResponse) {
+      isEditingResponse = true;
+      render();
+      response.focus();
+      feedback.textContent = "Edit the response, then save your changes.";
+      return;
+    }
+
+    const reply = response.value.trim();
+    if (!reply) {
+      feedback.textContent = "Please enter a response before sending.";
+      return;
+    }
+
+    const isUpdatingResponse = Boolean(inquiry.response);
+    const updatedInquiry = {
+      ...inquiry,
+      response: reply,
+      status: "Responded",
+      respondedAt: new Date().toLocaleString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+      })
+    };
+    inquiries = store.load().map(function (item) {
+      return item.reference === reference ? updatedInquiry : item;
+    });
+
+    try {
+      store.save(inquiries);
+      inquiry = updatedInquiry;
+      isEditingResponse = false;
+      render();
+      feedback.textContent = isUpdatingResponse
+        ? "Response updated. The customer can see the changes in My Inquiries."
+        : "Response sent. The customer can now see it in My Inquiries.";
+>>>>>>> c7b1bff56b366454db02bf6abf1b51471f8c8d1b
     } catch (error) {
       feedback.textContent = error.message || "Unable to send the reply. Please try again.";
     }

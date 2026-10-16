@@ -57,11 +57,12 @@
 
     function getCustomerStatus(order) {
         const status = normalizeOrderStatus(order.status);
+        if (order.cancellationRequest?.status === "Pending") return "Cancellation Requested";
         if (isAwaitingApproval(order)) return "Awaiting Approval";
         if (status === "Cancelled" || status === "Completed") return status;
 
         const payment = orderStore.getPaymentSummary(order);
-        if (payment.status !== "Fully Paid") return "To Pay";
+        if (payment.status !== "Fully Paid") return "Pending Payment";
         if (status === "To Pay" || status === "Pending") return "Confirmed";
         return status;
     }
@@ -70,6 +71,7 @@
         const status = normalizeOrderStatus(order.status);
         if (status === "Completed") return "completed";
         if (status === "Cancelled") return "cancelled";
+        if (order.cancellationRequest?.status === "Pending") return "cancellation-requested";
         if (isAwaitingApproval(order)) return "awaiting-approval";
 
         const payment = orderStore.getPaymentSummary(order);

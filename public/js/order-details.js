@@ -30,17 +30,85 @@
     delivered: "Completed",
     declined: "Cancelled"
   }[String(value || "").toLowerCase()] || value || "To Pay");
+  const getCustomerOrderStatus = (paymentStatus, adminStatus, awaitingApproval, cancellationRequested) => {
+    if (cancellationRequested) return "Cancellation Requested";
+    if (awaitingApproval) return "Awaiting Approval";
+    if (["Cancelled", "Completed"].includes(adminStatus)) return adminStatus;
+    if (paymentStatus === "Pending Verification") return "Payment Verification";
+    if (paymentStatus !== "Fully Paid") return "Pending Payment";
+    if (["To Pay", "Confirmed"].includes(adminStatus)) return "Confirmed";
+    if (["Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way"].includes(adminStatus)) {
+      return "Processing";
+    }
+    return adminStatus;
+  };
+  const getCustomerPaymentStatus = status => ({
+    Unpaid: "Pending Payment",
+    "Pending Verification": "Payment Under Review",
+    Rejected: "Payment Rejected",
+    "Fully Paid": "Paid"
+  }[status] || status);
 
   if (!customerOrderStore.requireSignIn()) {
     root.textContent = "Sign in to view your order.";
     return;
   }
 
-  function render() {
-    if (!orderReference) return;
-    const order = customerOrderStore.load().find(item =>
+  function findCustomerOrder() {
+    return customerOrderStore.load().find(item =>
       item.reference === orderReference && customerOrderStore.belongsToCustomer(item)
     );
+  }
+
+  function showConfirmDialog(title, message, confirmLabel) {
+    return new Promise(resolve => {
+      const dialog = document.createElement("dialog");
+      const heading = document.createElement("h2");
+      const description = document.createElement("p");
+      const actions = document.createElement("div");
+      const cancelButton = document.createElement("button");
+      const confirmButton = document.createElement("button");
+
+      dialog.className = "customer-confirm-dialog";
+      dialog.setAttribute("aria-labelledby", "customer-confirm-title");
+      heading.id = "customer-confirm-title";
+      heading.textContent = title;
+      description.textContent = message;
+      actions.className = "customer-confirm-actions";
+      cancelButton.className = "customer-confirm-dismiss";
+      cancelButton.type = "button";
+      cancelButton.textContent = "Keep Order";
+      confirmButton.className = "customer-confirm-accept";
+      confirmButton.type = "button";
+      confirmButton.textContent = confirmLabel;
+      actions.append(cancelButton, confirmButton);
+      dialog.append(heading, description, actions);
+
+      const finish = confirmed => {
+        if (!dialog.open) return;
+        dialog.close();
+        dialog.remove();
+        resolve(confirmed);
+      };
+
+      cancelButton.addEventListener("click", () => finish(false));
+      confirmButton.addEventListener("click", () => finish(true));
+      dialog.addEventListener("cancel", event => {
+        event.preventDefault();
+        finish(false);
+      });
+      dialog.addEventListener("click", event => {
+        if (event.target === dialog) finish(false);
+      });
+      document.body.append(dialog);
+      dialog.showModal();
+      cancelButton.focus();
+    });
+  }
+
+  function render() {
+    if (!orderReference) return;
+    const order = findCustomerOrder();
     if (!order) {
       root.innerHTML = "<h1>Order not found</h1><p>This order is unavailable for the signed-in account.</p>";
       return;
@@ -49,6 +117,7 @@
     const payment = customerOrderStore.getPaymentSummary(order);
     const adminStatus = normalizeOrderStatus(order.status);
     const isCustomized = order.type === "Customization Request";
+    const cancellationRequestPending = order.cancellationRequest?.status === "Pending";
     const customizationConfirmed = Boolean(
       order.customizationConfirmedAt
       || ["Confirmed", "Preparing", "Ready for Pickup", "Ready for Delivery", "On the Way", "Completed"].includes(adminStatus)
@@ -67,21 +136,25 @@
     const awaitingCustomerDecision = isCustomized
       && customizationConfirmed
       && !customizationAccepted
-      && !order.customizationVoidedAt;
+      && !order.customizationVoidedAt
+      && !cancellationRequestPending;
     const awaitingSellerOffer = isCustomized
       && !customizationConfirmed
-      && !order.customizationVoidedAt;
-    const status = awaitingCustomerDecision || awaitingSellerOffer
-      ? "Awaiting Approval"
-      : payment.status === "Fully Paid" && adminStatus === "To Pay"
-        ? "Confirmed"
-        : adminStatus;
-    const isTerminal = ["Completed", "Cancelled"].includes(status);
+      && !order.customizationVoidedAt
+      && !cancellationRequestPending;
+    const status = getCustomerOrderStatus(
+      payment.status,
+      adminStatus,
+      awaitingCustomerDecision || awaitingSellerOffer,
+      cancellationRequestPending
+    );
+    const displayStatus = status;
+    const isTerminal = ["Completed", "Cancelled", "Cancellation Requested"].includes(status);
     const amountDue = Math.max(0, payment.total - payment.amountPaid);
     const canSubmitProof = amountDue > 0
       && (!isCustomized || (customizationConfirmed && customizationAccepted))
       && payment.status !== "Pending Verification"
-      && !["Cancelled", "Completed"].includes(status)
+      && !isTerminal
       && payment.status !== "Fully Paid";
     const proof = payment.proof;
     const sourceInquiry = order.sourceInquiryReference
@@ -106,6 +179,26 @@
       ? proof.dataUrl
       : "";
     const customerMessage = order.customerMessage || "";
+    const cancellationNotice = cancellationRequestPending
+      ? '<p class="payment-notice" role="status">Your cancellation request has been sent. The administrator will review it before payment verification.</p>'
+      : order.cancellationRequest?.status === "Declined"
+        ? '<p class="payment-notice payment-rejected-notice" role="status">Your cancellation request was declined. You can request cancellation again or continue with payment.</p>'
+        : "";
+    const isFullyPaid = payment.status === "Fully Paid"
+      && payment.total > 0
+      && payment.amountPaid >= payment.total;
+    const cancellationAction = payment.status === "Pending Verification"
+      && payment.amountPaid === 0
+      && !isTerminal
+      ? cancellationRequestPending
+        ? ""
+        : '<button id="requestCancellation" type="button">Request Cancellation</button>'
+      : !isFullyPaid && !["Cancelled", "Completed", "Cancellation Requested"].includes(status)
+        ? '<button id="cancelOrder" type="button">Cancel Order</button>'
+        : "";
+    const paymentMethod = payment.method || proof?.method || "";
+    const canPay = canSubmitProof && !cancellationRequestPending;
+    const paymentFormOpen = payment.status === "Rejected";
 
     root.innerHTML = `
       <div class="customer-order-detail-layout">
@@ -114,27 +207,24 @@
             <h1>Order Details</h1>
             <p>Order ID: ${escapeHtml(order.reference)}</p>
           </div>
+          <section class="customer-order-status-card" aria-label="Order status">
+            <span>Order Status</span>
+            <strong class="order-status-${displayStatus.toLowerCase().replace(/\s+/g, "-")}">${displayValue(displayStatus)}</strong>
+          </section>
           <article class="customer-order-product-card">
             <img class="order-image" src="../../public/images/${encodeURIComponent(order.image || "banner-flower.png")}" alt="${escapeHtml(order.style || "Order")}">
             <div class="customer-order-product-description">
               <h2>${displayValue(order.style || (isCustomized ? "Custom order" : "Order"))}</h2>
-              <p>${displayValue(order.size || "Standard")} · Qty ${displayValue(order.qty || 1)}</p>
+              <p>Variation: ${displayValue(order.size || "Standard")}</p>
+              <p>Quantity: ${displayValue(order.qty || 1)}</p>
               ${order.colors ? `<p>Color: ${displayValue(order.colors)}</p>` : ""}
               ${order.addons ? `<p>Add-ons: ${displayValue(order.addons)}</p>` : ""}
-              <p>Fulfillment: ${displayValue(order.fulfil || "To be confirmed")}</p>
+              <p>Fulfillment method: ${displayValue(order.fulfil || "To be confirmed")}</p>
               ${order.fulfil === "Delivery" && order.address ? `<p>Delivery address: ${displayValue(order.address)}</p>` : ""}
               ${order.preparationTime ? `<p>Estimated preparation: ${displayValue(order.preparationTime)}</p>` : ""}
               ${order.date ? `<p>Preferred date: ${displayValue(order.date)}</p>` : ""}
             </div>
-            <div class="customer-order-total customer-current-order-status">
-              <span>Order Status</span><strong>${displayValue(status)}</strong>
-            </div>
-            <div class="customer-order-total"><span>Total Amount</span><strong>${isCustomized && !customizationConfirmed ? "Awaiting final price" : payment.total > 0 ? formatAmount(payment.total) : "To be discussed"}</strong></div>
           </article>
-          <section class="customer-message-card" aria-labelledby="order-notes-title">
-            <h3 id="order-notes-title">${isCustomized ? "Customization Details" : "Customer Special Instructions / Notes"}</h3>
-            <p>${displayValue(order.notes || "None")}</p>
-          </section>
           ${isCustomized ? `<section class="customer-order-extra"><h3>Customization status</h3>
             <p>Seller confirmation: ${!customizationConfirmed ? "Awaiting review" : awaitingCustomerDecision ? "Awaiting your decision" : order.customizationVoidedAt ? "Voided" : "Confirmed and accepted"}</p></section>` : ""}
           ${awaitingCustomerDecision ? `
@@ -145,7 +235,6 @@
               <p><strong>Estimated preparation: ${hasFinalPreparationTime(order) ? displayValue(order.preparationTime) : "Awaiting seller confirmation"}</strong></p>
               <div class="custom-offer-actions">
                 ${hasFinalPreparationTime(order) ? '<button id="acceptCustomizedOffer" type="button">Accept &amp; Continue to Payment</button>' : ""}
-                <button id="voidCustomizedOffer" class="secondary" type="button">Cancel Order</button>
               </div>
               ${hasFinalPreparationTime(order) ? "" : '<p class="payment-notice">Please wait while the seller confirms the estimated preparation time.</p>'}
               <p id="customOfferFeedback" class="payment-form-feedback" role="status" aria-live="polite"></p>
@@ -153,16 +242,23 @@
           ${sourceInquiry ? `<section class="customer-order-extra"><h3>Related Inquiry</h3><p><a class="related-inquiry-link" href="../inquiries/inquiries.html?reference=${encodeURIComponent(sourceInquiry.reference)}">${escapeHtml(sourceInquiry.subject || sourceInquiry.reference)} · ${escapeHtml(sourceInquiry.reference)}</a></p></section>` : ""}
           ${proposalMessage ? `<section class="customer-order-extra">${proposalMessage}</section>` : ""}
           ${customerMessage ? `<p class="payment-notice customer-update-note">Update from Flora Avenue: ${displayValue(customerMessage)}</p>` : ""}
+          <section class="customer-message-card" aria-labelledby="order-notes-title">
+            <h3 id="order-notes-title">${isCustomized ? "Customization Details / Customer Notes" : "Customer Special Instructions / Notes"}</h3>
+            <p>${displayValue(order.notes || "None")}</p>
+          </section>
         </section>
         <div class="customer-order-payment">
           <section class="customer-payment-card" aria-labelledby="customer-payment-title">
-            <h2 id="customer-payment-title">Payment</h2>
+            <h2 id="customer-payment-title">Payment Summary</h2>
             <div class="customer-payment-summary">
-              <div><span>Payment Status</span><strong class="customer-payment-status payment-status-${payment.status.toLowerCase().replace(/\s+/g, "-")}">${displayValue(payment.status)}</strong></div>
-              <div><span>Total Amount</span><strong>${isCustomized && !customizationConfirmed ? "Awaiting final price" : formatAmount(payment.total)}</strong></div>
-              <div><span>Payment Method</span><strong>${displayValue(payment.method || proof?.method || "Not provided")}</strong></div>
+              <div><span>Total Amount</span><strong>${isCustomized && !customizationConfirmed ? "Awaiting final price" : payment.total > 0 ? formatAmount(payment.total) : "To be discussed"}</strong></div>
+              <div><span>Payment Status</span><strong class="customer-payment-status payment-status-${payment.status.toLowerCase().replace(/\s+/g, "-")}">${displayValue(getCustomerPaymentStatus(payment.status))}</strong></div>
+              ${paymentMethod ? `<div><span>Payment Method</span><strong>${displayValue(paymentMethod)}</strong></div>` : ""}
+              ${payment.amountPaid > 0 && payment.status !== "Fully Paid" ? `<div><span>Amount Paid</span><strong>${formatAmount(payment.amountPaid)}</strong></div>` : ""}
+              ${payment.amountPaid > 0 && payment.status !== "Fully Paid" ? `<div><span>Remaining Balance</span><strong>${formatAmount(amountDue)}</strong></div>` : ""}
             </div>
-            ${payment.status === "Pending Verification" ? '<p class="payment-notice">Your payment proof has been submitted. Please wait for the seller to verify your payment.</p>' : ""}
+            ${cancellationNotice}
+            ${payment.status === "Pending Verification" ? '<p class="payment-notice">Payment Under Review. Your payment proof is awaiting manual verification.</p>' : ""}
             ${payment.status === "Rejected" ? `<p class="payment-notice payment-rejected-notice" role="alert" aria-live="assertive">Payment for order ${escapeHtml(order.reference)} was rejected.${proof?.rejectionReason ? ` Reason: ${displayValue(proof.rejectionReason)}` : ""} Please submit new payment proof.</p>` : ""}
             ${proof ? `<div class="customer-proof-card"><h3>Payment Proof</h3><div class="customer-proof-details">
               ${proofPreview}
@@ -178,30 +274,86 @@
             ${awaitingCustomerDecision
               ? '<p class="payment-notice">Accept the seller-edited order above before submitting any payment.</p>'
               : ""}
-            ${canSubmitProof ? `
-              <form id="customerPaymentForm" class="customer-payment-form" novalidate>
+            ${canPay || cancellationAction ? '<h3 class="payment-actions-heading">Payment Actions</h3>' : ""}
+            ${canPay ? `
+              <button id="payNowButton" class="pay-now-button" type="button" aria-expanded="${paymentFormOpen}" aria-controls="customerPaymentForm">${payment.status === "Rejected" ? "Submit New Payment Proof" : "Pay Now"}</button>
+              <form id="customerPaymentForm" class="customer-payment-form" novalidate${paymentFormOpen ? "" : " hidden"}>
                 <h3>${payment.status === "Rejected" ? "Submit New Payment Proof" : "Pay Total Price"}</h3>
                 <p>Amount due now: <strong>${formatAmount(amountDue)}</strong></p>
-                <label>Payment method<input name="method" type="text" maxlength="80" required placeholder="e.g. GCash, bank transfer"></label>
+                <label>Payment method
+                  <select name="method" required>
+                    <option value="">Select a payment method</option>
+                    <option value="GCash"${paymentMethod.toLowerCase() === "gcash" ? " selected" : ""}>GCash</option>
+                    <option value="Bank Transfer"${paymentMethod.toLowerCase() === "bank transfer" ? " selected" : ""}>Bank Transfer</option>
+                  </select>
+                </label>
                 <label>Payment reference number<input name="referenceNumber" type="text" maxlength="120" required></label>
                 <label>Upload payment proof<input name="proofFile" type="file" accept="image/png,image/jpeg,image/webp,application/pdf" required><small>PNG, JPG, WebP, or PDF up to 2 MB.</small></label>
                 <button type="submit">Submit Payment for Verification</button>
                 <p class="payment-form-feedback" role="alert" aria-live="assertive"></p>
               </form>` : ""}
+            ${cancellationAction}
           </section>
         </div>
       </div>`;
+    document.getElementById("payNowButton")?.addEventListener("click", event => {
+      const button = event.currentTarget;
+      const form = document.getElementById("customerPaymentForm");
+      const isExpanded = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!isExpanded));
+      form.hidden = isExpanded;
+      if (!isExpanded) form.elements.method.focus();
+    });
     document.getElementById("acceptCustomizedOffer")?.addEventListener("click", () => {
       if (!hasFinalPreparationTime(order)) return;
       order.customizationAcceptedAt = new Date().toISOString();
       order.status = "Pending";
       updateOrder(order, "Unable to accept the seller's customized order. Please try again.");
     });
-    document.getElementById("voidCustomizedOffer")?.addEventListener("click", () => {
-      if (!window.confirm("Cancel this customized order? It cannot be paid after cancellation.")) return;
-      order.customizationVoidedAt = new Date().toISOString();
-      order.status = "Cancelled";
-      updateOrder(order, "Unable to void the customized order. Please try again.");
+    document.getElementById("cancelOrder")?.addEventListener("click", () => {
+      showConfirmDialog(
+        "Cancel this order?",
+        "Are you sure you want to cancel this order? This action cannot be undone.",
+        "Yes, Cancel Order"
+      ).then(confirmed => {
+        if (!confirmed) return;
+        const latestOrder = findCustomerOrder();
+        const latestPayment = latestOrder && customerOrderStore.getPaymentSummary(latestOrder);
+        const fullPaymentVerified = latestPayment
+          && latestPayment.status === "Fully Paid"
+          && latestPayment.total > 0
+          && latestPayment.amountPaid >= latestPayment.total;
+        if (!latestOrder || fullPaymentVerified) {
+          window.alert("Full payment was verified while this page was open. This order can no longer be cancelled.");
+          render();
+          return;
+        }
+        latestOrder.status = "Cancelled";
+        latestOrder.cancelledAt = new Date().toISOString();
+        if (latestOrder.type === "Customization Request" && !latestOrder.customizationAcceptedAt) {
+          latestOrder.customizationVoidedAt = latestOrder.cancelledAt;
+        }
+        updateOrder(latestOrder, "Unable to cancel the order. Please try again.");
+      });
+    });
+    document.getElementById("requestCancellation")?.addEventListener("click", () => {
+      showConfirmDialog("Request cancellation?", "The administrator will review your request.", "Request Cancellation").then(confirmed => {
+        if (!confirmed) return;
+      const latestOrder = findCustomerOrder();
+      const latestPayment = latestOrder && customerOrderStore.getPaymentSummary(latestOrder);
+      if (!latestOrder || latestPayment.amountPaid > 0 || latestPayment.status !== "Pending Verification") {
+        window.alert("Payment was updated while this page was open. Refresh the order before continuing.");
+        render();
+        return;
+      }
+      latestOrder.cancellationRequest = {
+        status: "Pending",
+        requestedAt: new Date().toISOString(),
+        previousOrderStatus: latestOrder.status
+      };
+      latestOrder.status = "Cancellation Requested";
+      updateOrder(latestOrder, "Unable to request cancellation. Please try again.");
+      });
     });
 
     document.getElementById("acceptProposal")?.addEventListener("click", () => {
@@ -289,6 +441,7 @@
   function updateOrder(order, errorMessage) {
     try {
       customerOrderStore.update(order);
+      render();
     } catch (error) {
       console.error("Unable to update the customer order.", error);
       const feedback = document.querySelector(".payment-form-feedback");
