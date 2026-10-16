@@ -897,7 +897,7 @@
           <td>${escapeHtml(order.customerName || order.contactName || order.customerEmail || "Customer")}</td>
           <td>${escapeHtml(order.style || "Order")}</td>
           <td>${escapeHtml(formatOrderDate(order.createdAt))}</td>
-          <td><span class="pro-badge">${escapeHtml(normalizeOrderStatus(order.status))}</span></td>
+          <td><span class="pro-badge status-${slug(normalizeOrderStatus(order.status))}">${escapeHtml(normalizeOrderStatus(order.status))}</span></td>
           <td>${escapeHtml(isCustomizationOrder(order) && !hasCustomizationConfirmation(order)
             ? "Awaiting seller confirmation"
             : formatAmount(order.amount))}</td>

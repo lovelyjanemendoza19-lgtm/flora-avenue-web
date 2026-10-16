@@ -213,38 +213,106 @@ document.addEventListener("DOMContentLoaded", () => {
   sidebar?.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
 
   // Profile edit
-  const editButton = document.getElementById("editProfileButton");
   const form = document.getElementById("adminProfileForm");
-  const cancelEdit = document.getElementById("cancelProfileEdit");
+  if (form) {
+    const nameInput = document.getElementById("profileName");
+    const emailInput = document.getElementById("profileEmail");
+    const saveButton = form.querySelector('button[type="submit"]');
+    let editButton = document.getElementById("editProfileButton");
+    let cancelEdit = document.getElementById("cancelProfileEdit");
 
-  editButton?.addEventListener("click", () => {
-    if (form) form.hidden = false;
-    document.getElementById("profileName")?.focus();
-  });
+    if (!editButton) {
+      editButton = document.createElement("button");
+      editButton.id = "editProfileButton";
+      editButton.className = "figma-btn secondary admin-profile-edit-button";
+      editButton.type = "button";
+      editButton.textContent = "Edit Profile";
+      form.before(editButton);
+    }
+    if (!cancelEdit) {
+      cancelEdit = document.createElement("button");
+      cancelEdit.id = "cancelProfileEdit";
+      cancelEdit.className = "figma-btn secondary";
+      cancelEdit.type = "button";
+      cancelEdit.textContent = "Cancel";
+      saveButton?.before(cancelEdit);
+    }
 
-  cancelEdit?.addEventListener("click", () => {
-    if (form) form.hidden = true;
-  });
+    try {
+      const savedProfile = JSON.parse(localStorage.getItem("floraAdminProfile") || "null");
+      if (savedProfile && typeof savedProfile === "object") {
+        if (typeof savedProfile.name === "string" && savedProfile.name.trim() && nameInput) {
+          nameInput.value = savedProfile.name;
+        }
+        if (typeof savedProfile.email === "string" && savedProfile.email.trim() && emailInput) {
+          emailInput.value = savedProfile.email;
+        }
+      }
+    } catch (error) {
+      console.warn("Unable to load the admin profile.", error);
+    }
 
-  form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const name = document.getElementById("profileName").value.trim();
-    const email = document.getElementById("profileEmail").value.trim();
-
-    if (!name || !email) return;
-
+    let originalName = nameInput?.value.trim() || "";
+    let originalEmail = emailInput?.value.trim() || "";
     const displayName = document.getElementById("profileDisplayName");
-    const displayEmail = document.getElementById("profileDisplayEmail");
-    const infoName = document.getElementById("infoName");
-    const infoEmail = document.getElementById("infoEmail");
+    if (displayName) displayName.textContent = originalName;
+    form.style.display = "none";
+    if (saveButton) saveButton.style.display = "none";
 
-    if (displayName) displayName.textContent = name;
-    if (displayEmail) displayEmail.textContent = email;
-    if (infoName) infoName.textContent = name;
-    if (infoEmail) infoEmail.textContent = email;
+    const updateSaveButton = () => {
+      if (!saveButton) return;
+      const hasChanges = nameInput?.value.trim() !== originalName
+        || emailInput?.value.trim() !== originalEmail;
+      saveButton.style.display = hasChanges ? "" : "none";
+    };
 
-    if (form) form.hidden = true;
-  });
+    editButton.addEventListener("click", () => {
+      form.style.display = "grid";
+      editButton.style.display = "none";
+      nameInput?.focus();
+    });
+    nameInput?.addEventListener("input", updateSaveButton);
+    emailInput?.addEventListener("input", updateSaveButton);
+
+    cancelEdit.addEventListener("click", () => {
+      if (nameInput) nameInput.value = originalName;
+      if (emailInput) emailInput.value = originalEmail;
+      form.style.display = "none";
+      editButton.style.display = "";
+      updateSaveButton();
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const name = nameInput?.value.trim() || "";
+      const email = emailInput?.value.trim() || "";
+
+      if (!name || !email) return;
+
+      try {
+        localStorage.setItem("floraAdminProfile", JSON.stringify({ name, email }));
+      } catch (error) {
+        console.error("Unable to save the admin profile.", error);
+        alert("Unable to save your profile. Please try again.");
+        return;
+      }
+
+      const displayEmail = document.getElementById("profileDisplayEmail");
+      const infoName = document.getElementById("infoName");
+      const infoEmail = document.getElementById("infoEmail");
+
+      if (displayName) displayName.textContent = name;
+      if (displayEmail) displayEmail.textContent = email;
+      if (infoName) infoName.textContent = name;
+      if (infoEmail) infoEmail.textContent = email;
+
+      originalName = name;
+      originalEmail = email;
+      form.style.display = "none";
+      editButton.style.display = "";
+      updateSaveButton();
+    });
+  }
 
 });
